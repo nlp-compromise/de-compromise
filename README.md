@@ -2,7 +2,7 @@
   <img src="https://cloud.githubusercontent.com/assets/399657/21955696/46e882d4-da3e-11e6-94a6-720c34e27df7.jpg" />
   <div>Computerlinguistik Im Browser!</div>
   <a href="https://npmjs.org/package/kompromiss">
-    <img src="https://img.shields.io/npm/v/compromise.svg?style=flat-square" />
+    <img src="https://img.shields.io/npm/v/kompromiss.svg?style=flat-square" />
   </a>
   <a href="https://nodejs.org/api/documentation.html#documentation_stability_index">
     <img src="https://img.shields.io/badge/stability-experimental-orange.svg?style=flat-square" />

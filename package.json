@@ -1,7 +1,7 @@
 {
   "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
   "name": "kompromiss",
-  "description": "natural language processing in the browser",
+  "description": "Computerlinguistik im browser",
   "version": "0.0.1",
   "main": "./builds/kompromiss.js",
   "repository": {

@@ -9,5 +9,5 @@ var nlp = require('./src/index');
 
 
 
-var r = nlp('it is + politic');
-r.match('is \\+', true).debug();
+var r = nlp('Ich, ich bin dann König. Und du, du Königin');
+console.log(r.out());
