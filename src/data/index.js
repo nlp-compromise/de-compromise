@@ -1,3 +1,6 @@
 module.exports = {
-  abbreviations: require('./abbreviations')
+  abbreviations: require('./abbreviations'),
+  maleNouns: require('./maleNouns'),
+  femaleNouns: require('./femaleNouns'),
+  pronouns: require('./pronouns'),
 };

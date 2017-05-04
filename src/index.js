@@ -4,7 +4,7 @@ const pkg = require('../package.json');
 const log = require('./log');
 
 //the main thing
-const nlp = function (str, lexicon) {
+const ldv = function (str, lexicon) {
   // this.tagset = tagset;
   let r = buildResult(str, lexicon);
   r.tagger();
@@ -12,31 +12,31 @@ const nlp = function (str, lexicon) {
 };
 
 //same as main method, except with no POS-tagging.
-nlp.tokenize = function(str) {
+ldv.tokenize = function(str) {
   return buildResult(str);
 };
 
 //this is useful
-nlp.version = pkg.version;
+ldv.version = pkg.version;
 
 //turn-on some debugging
-nlp.verbose = function(str) {
+ldv.verbose = function(str) {
   log.enable(str);
 };
 
 //and then all-the-exports...
 if (typeof self !== 'undefined') {
-  self.nlp = nlp; // Web Worker
+  self.ldv = ldv; // Web Worker
 } else if (typeof window !== 'undefined') {
-  window.nlp = nlp; // Browser
+  window.ldv = ldv; // Browser
 } else if (typeof global !== 'undefined') {
-  global.nlp = nlp; // NodeJS
+  global.ldv = ldv; // NodeJS
 }
 //don't forget amd!
 if (typeof define === 'function' && define.amd) {
-  define(nlp);
+  define(ldv);
 }
 //then for some reason, do this too!
 if (typeof module !== 'undefined') {
-  module.exports = nlp;
+  module.exports = ldv;
 }

@@ -13,6 +13,14 @@
 
 The goal of this project is to provide a small, basic, rule-based POS-tagger, with a german-language api.
 
+```
+git clone https://github.com/nlp-compromise/de-compromise.git
+cd de-compromise
+npm install
+npm test
+npm watch
+```
+
 ```js
 var ldv = require('kompromiss')
 var dok= ldv('Ich, ich bin dann König. Und du, du Königin. Werden wir Helden für einen Tag.')

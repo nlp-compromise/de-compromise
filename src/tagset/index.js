@@ -1,37 +1,43 @@
 module.exports = {
   Substantiv: { //noun
-    enemy: ['Verb', 'Adjektiv', 'Adverb', 'Artikel', 'Bindewort', 'Präposition']
+    enemy: ['Verb', 'Adjektiv', 'Adverb', 'Artikel', 'Bindewort', 'Praposition']
   },
-  Männlich: { //masculine noun
-    downward: ['substantiv']
+  Mannlich: { //masculine noun
+    is: 'Substantiv',
+    enemy: ['Feminin', 'Sachlich']
   },
   Feminin: { //feminine noun
-    downward: ['substantiv']
+    is: 'Substantiv',
+    enemy: ['Mannlich', 'Sachlich']
   },
-  Sächlich: { //neuter noun
-    downward: ['substantiv']
+  Sachlich: { //neuter noun
+    is: 'Substantiv',
+    enemy: []
   },
   Pronomen: { //pronoun
-    downward: ['substantiv']
+    is: 'Substantiv',
+    enemy: []
   },
 
   Verb: { //verb
-    enemy: ['Substantiv', 'Adjektiv', 'Adverb', 'Artikel', 'Bindewort', 'Präposition']
+    enemy: ['Substantiv', 'Adjektiv', 'Adverb', 'Artikel', 'Bindewort', 'Praposition']
   },
   Adjektiv: { //adjective
-    enemy: ['Substantiv', 'Verb', 'Adverb', 'Artikel', 'Bindewort', 'Präposition']
+    enemy: ['Substantiv', 'Verb', 'Adverb', 'Artikel', 'Bindewort', 'Praposition']
   },
   Adverb: { //adverb
-    enemy: ['Substantiv', 'Verb', 'Adjektiv', 'Artikel', 'Bindewort', 'Präposition']
+    enemy: ['Substantiv', 'Verb', 'Adjektiv', 'Artikel', 'Bindewort', 'Praposition']
   },
   Artikel: { //article
-    enemy: ['Substantiv', 'Verb', 'Adjektiv', 'Adverb', 'Bindewort', 'Präposition']
+    enemy: ['Substantiv', 'Verb', 'Adjektiv', 'Adverb', 'Bindewort', 'Praposition']
   },
   Bindewort: { //conjunction
-    enemy: ['Substantiv', 'Verb', 'Adjektiv', 'Adverb', 'Artikel', 'Präposition']
+    enemy: ['Substantiv', 'Verb', 'Adjektiv', 'Adverb', 'Artikel', 'Praposition']
   },
-  Präposition: { //preposition
+  Praposition: { //preposition
     enemy: ['Substantiv', 'Verb', 'Adjektiv', 'Adverb', 'Artikel', 'Bindewort']
   },
-  Url: {},
+  Url: {
+    enemy: [],
+  },
 };

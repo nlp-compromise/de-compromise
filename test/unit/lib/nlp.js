@@ -1,11 +1,11 @@
-var nlp;
+var ldv;
 if (typeof window !== undefined) {
-  nlp = require('../../../src/index');
+  ldv = require('../../../src/index');
 // nlp = require('../../../builds/compromise');
 // nlp = require('../../../builds/compromise.min');
 } else {
-  nlp = window.nlp;
+  ldv = window.ldv;
   alert('browser');
 }
 
-module.exports = nlp;
+module.exports = ldv;

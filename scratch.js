@@ -10,4 +10,4 @@ var nlp = require('./src/index');
 
 
 var r = nlp('Ich, ich bin dann König. Und du, du Königin');
-console.log(r.out());
+r.debug();
