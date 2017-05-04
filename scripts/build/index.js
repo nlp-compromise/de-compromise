@@ -1,10 +1,5 @@
 require('shelljs/global');
 config.silent = true;
-const path = require('path');
-
-
-//pack the tries
-require('./pack');
 
 //cleanup. remove old builds
 exec('rm -rf ./builds && mkdir builds');
