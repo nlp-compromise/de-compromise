@@ -1,23 +1,18 @@
 {
   "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
-  "name": "compromise",
+  "name": "kompromiss",
   "description": "natural language processing in the browser",
-  "version": "10.1.0",
-  "main": "./builds/compromise.js",
+  "version": "0.0.1",
+  "main": "./builds/kompromiss.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/nlp-compromise/compromise.git"
+    "url": "git://github.com/nlp-compromise/de-compromise.git"
   },
   "scripts": {
     "test": "node ./scripts/test.js",
-    "test:types": "tsc --project test/types",
-    "browsertest": "node ./scripts/browserTest.js",
     "build": "node ./scripts/build/index.js",
     "demo": "node ./scripts/demo.js",
-    "watch": "node ./scripts/watch.js",
-    "filesize": "node ./scripts/filesize.js",
-    "coverage": "node ./scripts/coverage.js",
-    "lint": "node ./scripts/prepublish/linter.js"
+    "watch": "node ./scripts/watch.js"
   },
   "files": [
     "builds/",
