@@ -3,7 +3,7 @@ const fns = require('./paths').fns;
 const build_whitespace = require('./whitespace');
 const makeUID = require('./makeUID');
 //normalization
-const normalize = require('./normalize');
+const normalize = require('./methods/normalize').normalize;
 
 const Term = function(str) {
   this._text = fns.ensureString(str);
@@ -44,6 +44,11 @@ const Term = function(str) {
     }
   });
 };
+Term.prototype.normalize = function() {
+  return normalize(this.text);
+};
 
+require('./methods/tag')(Term);
 require('./methods/out')(Term);
+require('./methods/case')(Term);
 module.exports = Term;

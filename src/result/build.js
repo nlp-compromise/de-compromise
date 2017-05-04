@@ -4,7 +4,7 @@ const tokenize = require('./tokenize');
 const p = require('./paths');
 const Terms = p.Terms;
 const fns = p.fns;
-const normalize = require('../term/normalize');
+const normalize = require('../term/methods/normalize').normalize;
 
 //basically really dirty and stupid.
 const normalizeLex = function(lex) {

@@ -1,15 +1,15 @@
 'use strict';
 //this methods are simply loops around each termList object.
 const methods = [
-  // 'toTitleCase',
-  // 'toUpperCase',
-  // 'toLowerCase',
+  'toTitleCase',
+  'toUpperCase',
+  'toLowerCase',
   // 'toCamelCase',
   //
   // 'hyphenate',
   // 'dehyphenate',
   // 'trim',
-  // 
+  //
   // 'insertBefore',
   // 'insertAfter',
   // 'insertAt',

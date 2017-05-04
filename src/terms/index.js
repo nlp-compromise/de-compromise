@@ -26,6 +26,7 @@ Terms.prototype.tagger = function() {
 };
 
 require('./methods/out')(Terms);
+require('./methods/loops')(Terms);
 
 Terms.fromString = function(str, lexicon) {
   let termArr = build(str);
