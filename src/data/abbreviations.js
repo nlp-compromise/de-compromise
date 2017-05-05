@@ -48,6 +48,7 @@ let compact = {
   ],
 
   Place: [
+    'Str',
     'rd',
     'st',
     'dist',
