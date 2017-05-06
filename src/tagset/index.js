@@ -26,6 +26,11 @@ module.exports = {
     enemy: []
   },
 
+  Zahl: { //value
+    is: [],
+    enemy: ['Substantiv', 'Adjektiv', 'Adverb', 'Artikel', 'Bindewort', 'Praposition']
+  },
+
   Verb: { //verb
     is: [],
     enemy: ['Substantiv', 'Adjektiv', 'Adverb', 'Artikel', 'Bindewort', 'Praposition']

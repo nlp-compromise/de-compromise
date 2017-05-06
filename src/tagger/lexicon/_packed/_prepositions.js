@@ -1,0 +1,1 @@
+module.exports="a7beim,durchs,fuers,i6u3vo2z0;!u0;m,r;m,r2;eb0ms,nt0;er0;m,s;m,ns;!ns,ufs"

@@ -1,17 +1,16 @@
 module.exports = {
-  //comprehensive
+  adjectives: require('./adjectives'),
   adverbs: require('./adverbs'),
   auxiliaries: require('./auxiliaries'),
   conjunctions: require('./conjunctions'),
   determiners: require('./determiners'),
-  infinitives: require('./infinitives'),
-  pronouns: require('./pronouns'),
-
-  //exceptions to suffix-rules
-  adjectives: require('./adjectives'),
-  verbs: require('./verbs'),
-
-  maleNouns: require('./male-nouns'),
   femaleNouns: require('./female-nouns'),
+  infinitives: require('./infinitives'),
+  maleNouns: require('./male-nouns'),
   neuterNouns: require('./neuter-nouns'),
+  nouns: require('./nouns'),
+  prepositions: require('./prepositions'),
+  pronouns: require('./pronouns'),
+  values: require('./values'),
+  verbs: require('./verbs'),
 };
