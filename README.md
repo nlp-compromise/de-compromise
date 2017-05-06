@@ -15,6 +15,7 @@ The goal of this project is to provide a small, basic, rule-based POS-tagger, wi
 <h2 align="center">
   <a href="https://rawgit.com/nlp-compromise/de-compromise/master/demo/basic/index.html">Demo</a>
 </h2>
+
 ```
 git clone https://github.com/nlp-compromise/de-compromise.git
 cd de-compromise
