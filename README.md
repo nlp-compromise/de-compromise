@@ -12,7 +12,9 @@
 `kompromiss` is a **work-in-progress** port of [compromise](https://github.com/nlp-compromise/compromise) in german.
 
 The goal of this project is to provide a small, basic, rule-based POS-tagger, with a german-language api.
-
+<h2 align="center">
+  <a href="https://rawgit.com/nlp-compromise/de-compromise/master/demo/basic/index.html">Demo</a>
+</h2>
 ```
 git clone https://github.com/nlp-compromise/de-compromise.git
 cd de-compromise
