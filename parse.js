@@ -35,6 +35,6 @@ xml.on('endElement: terminals', function(term) {
     }
     sentence.push(res);
   });
-  console.log(sentence);
-// console.log(JSON.stringify(sentence));
+  // console.log(sentence);
+  console.log(JSON.stringify(sentence));
 });
