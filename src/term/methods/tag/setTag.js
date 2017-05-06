@@ -27,10 +27,11 @@ const putTag = (term, tag, reason) => {
     }
     //apply implicit tags
     if (tagset[tag].is) {
-      let doAlso = tagset[tag].is;
-      if (term.tags[doAlso] !== true) {
-        putTag(term, doAlso, ' --> ' + tag); //recursive
-      }
+      tagset[tag].is.forEach((doAlso) => {
+        if (term.tags[doAlso] !== true) {
+          putTag(term, doAlso, ' --> ' + tag); //recursive
+        }
+      });
     }
   }
 };

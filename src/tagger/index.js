@@ -6,10 +6,10 @@ const nounFallback = require('./noun-fallback');
 const genderStep = require('./gender-step');
 //
 const tagger = (ts) => {
-  // look at titlecase terms
-  ts = capitalStep(ts);
   // look against known-words
   ts = lexStep(ts);
+  // look at titlecase terms
+  ts = capitalStep(ts);
   // look at known-suffixes
   ts = suffixStep(ts);
   // assume nouns, otherwise

@@ -38,4 +38,16 @@ test('=Tagger=', function(T) {
     });
     t.end();
   });
+
+  T.test('titlecase-test:', function(t) {
+    [
+      ['Bevorstehe', ['Verb']],
+      ['Esse die Kuh', ['Verb', 'Determinativ', 'Substantiv']],
+      ['Esse die Bevorstehe', ['Verb', 'Determinativ', 'Substantiv']],
+    ].forEach(function (a) {
+      var terms = nlp(a[0]).terms();
+      pos_test(terms, a[1], t);
+    });
+    t.end();
+  });
 });
