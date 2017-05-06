@@ -18,10 +18,20 @@ module.exports = {
     is: 'Substantiv',
     enemy: []
   },
+  Determinativ: { //determiner
+    enemy: []
+  },
 
   Verb: { //verb
     enemy: ['Substantiv', 'Adjektiv', 'Adverb', 'Artikel', 'Bindewort', 'Praposition']
   },
+  Infinitiv: { //infinitive verb
+    is: 'Verb'
+  },
+  Hilfsverb: { //Auxiliary Verb
+    enemy: ['Substantiv', 'Adjektiv', 'Adverb', 'Artikel', 'Bindewort', 'Praposition']
+  },
+
   Adjektiv: { //adjective
     enemy: ['Substantiv', 'Verb', 'Adverb', 'Artikel', 'Bindewort', 'Praposition']
   },

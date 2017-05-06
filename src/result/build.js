@@ -1,6 +1,6 @@
 'use strict';
 const Text = require('./index');
-const tokenize = require('./tokenize');
+const tokenize = require('./lib/tokenize');
 const p = require('./paths');
 const Terms = p.Terms;
 const fns = p.fns;

@@ -2,8 +2,7 @@
 // Ignore periods/questions/exclamations used in acronyms/abbreviations/numbers, etc.
 // @spencermountain 2017 MIT
 'use strict';
-const data = require('../data');
-const abbreviations = Object.keys(data.abbreviations);
+const abbreviations = Object.keys(require('./abbreviations'));
 //regs-
 const abbrev_reg = new RegExp('\\b(' + abbreviations.join('|') + ')[.!?] ?$', 'i');
 const acronym_reg = new RegExp('[ |\.][A-Z]\.?( *)?$', 'i');
