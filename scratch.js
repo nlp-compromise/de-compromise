@@ -1,7 +1,7 @@
 'use strict';
 var nlp = require('./src/index');
 // nlp.verbose(true);
-// nlp.verbose('tagger');
+nlp.verbose('tagger');
 // const corpus = require('nlp-corpus');
 // let text = corpus.sotu.parsed()[0];
 // const fresh = require('./test/unit/lib/freshPrince.js');
@@ -10,6 +10,7 @@ var nlp = require('./src/index');
 
 
 
-var r = nlp('Zwar so argumentierten die Richter könnten diese Regeln unmittelbar nur auf den organisierten Verbandssport angewandt werden.');
-console.log(r.out('normal'));
+// var r = nlp('Zwar so argumentierten die Richter könnten diese Regeln unmittelbar nur auf den organisierten Verbandssport angewandt werden.');
+var r = nlp('fukt');
+console.log(r.terms().out('array'));
 r.debug();

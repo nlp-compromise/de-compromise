@@ -1,33 +1,16 @@
 'use strict';
 const lex = require('./lexicon');
 
-
 const lexStep = (ts) => {
   const reason = 'lexicon-match';
-  ts.terms.forEach((t) => {
-    if (lex.adverbs[t.normal] !== undefined) {
-      t.tag('Adverb', reason);
-    }
-    if (lex.auxiliaries[t.normal] !== undefined) {
-      t.tag('Hilfsverb', reason);
-    }
-    if (lex.conjunctions[t.normal] !== undefined) {
-      t.tag('Bindewort', reason);
-    }
-    if (lex.determiners[t.normal] !== undefined) {
-      t.tag('Determinativ', reason);
-    }
-    if (lex.infinitives[t.normal] !== undefined) {
-      t.tag('Infinitiv', reason);
-    }
-    if (lex.pronouns[t.normal] !== undefined) {
-      t.tag('Pronomen', reason);
-    }
-    if (lex.verbs[t.normal] !== undefined) {
-      t.tag('Verb', reason);
-    }
-    if (lex.adjectives[t.normal] !== undefined) {
-      t.tag('Adjektiv', reason);
+  //each lexicon:
+  Object.keys(lex).forEach((k) => {
+    //each term
+    for(let i = 0; i < ts.terms.length; i++) {
+      let t = ts.terms[i];
+      if (lex[k].obj[t.normal] !== undefined) {
+        t.tag(lex[k].tag, reason);
+      }
     }
   });
   return ts;

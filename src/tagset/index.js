@@ -2,18 +2,20 @@ module.exports = {
   Substantiv: { //noun
     enemy: ['Verb', 'Adjektiv', 'Adverb', 'Artikel', 'Bindewort', 'Praposition']
   },
-  Mannlich: { //masculine noun
+  MannlichSubst: { //masculine noun
     is: 'Substantiv',
     enemy: ['Feminin', 'Sachlich']
   },
-  Feminin: { //feminine noun
+  FemininSubst: { //feminine noun
     is: 'Substantiv',
     enemy: ['Mannlich', 'Sachlich']
   },
-  Sachlich: { //neuter noun
+  SachlichSubst: { //neuter noun
     is: 'Substantiv',
     enemy: []
   },
+
+
   Pronomen: { //pronoun
     is: 'Substantiv',
     enemy: []

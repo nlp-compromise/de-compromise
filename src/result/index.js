@@ -16,5 +16,6 @@ function Text(arr, lexicon, reference) {
 }
 require('./methods/loops')(Text);
 require('./methods/out')(Text);
+require('./methods/misc')(Text);
 
 module.exports = Text;

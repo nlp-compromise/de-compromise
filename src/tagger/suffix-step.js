@@ -1,7 +1,10 @@
 'use strict';
-const adjPatterns = require('./patterns/adj');
-const verbPatterns = require('./patterns/verbs');
-const nounPatterns = require('./patterns/nouns');
+//basic POS-tags (gender done afterwards)
+const patterns = {
+  adjectives: [require('./patterns/adjectives'), 'Adjektiv'],
+  nouns: [require('./patterns/nouns'), 'Substantiv'],
+  verbs: [require('./patterns/verbs'), 'Verb'],
+};
 
 const testSuffixes = (t, list) => {
   let len = t.normal.length;
@@ -19,21 +22,17 @@ const testSuffixes = (t, list) => {
 //
 const suffixStep = (ts) => {
   const reason = 'suffix-match';
+  const keys = Object.keys(patterns);
   ts.terms.forEach((t) => {
+    //skip already-tagged terms
     if (Object.keys(t.tags).length > 0) {
       return;
     }
-    if (testSuffixes(t, adjPatterns) === true) {
-      t.tag('Adjektiv', reason);
-      return;
-    }
-    if (testSuffixes(t, verbPatterns) === true) {
-      t.tag('Verb', reason);
-      return;
-    }
-    if (testSuffixes(t, nounPatterns) === true) {
-      t.tag('Substantiv', reason);
-      return;
+    for(let i = 0; i < keys.length; i++) {
+      if (testSuffixes(t, patterns[keys[i]][0]) === true) {
+        t.tag(patterns[keys[i]][1], reason);
+        return;
+      }
     }
   });
   return ts;
