@@ -1,5 +1,6 @@
 'use strict';
 var nlp = require('./src/index');
+// nlp.verbose(true);
 // nlp.verbose('tagger');
 // const corpus = require('nlp-corpus');
 // let text = corpus.sotu.parsed()[0];
@@ -9,6 +10,6 @@ var nlp = require('./src/index');
 
 
 
-var r = nlp('abcdefghiöjklmne zurueck');
+var r = nlp('Zwar so argumentierten die Richter könnten diese Regeln unmittelbar nur auf den organisierten Verbandssport angewandt werden.');
 console.log(r.out('normal'));
 r.debug();
