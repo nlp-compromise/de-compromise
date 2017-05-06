@@ -26,7 +26,8 @@ module.exports = {
     enemy: ['Substantiv', 'Adjektiv', 'Adverb', 'Artikel', 'Bindewort', 'Praposition']
   },
   Infinitiv: { //infinitive verb
-    is: 'Verb'
+    is: 'Verb',
+    enemy: []
   },
   Hilfsverb: { //Auxiliary Verb
     enemy: ['Substantiv', 'Adjektiv', 'Adverb', 'Artikel', 'Bindewort', 'Praposition']

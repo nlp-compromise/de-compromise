@@ -15,5 +15,4 @@ Object.keys(data).forEach((k) => {
   data[k].cache();
   data[k] = data[k].toObject();
 });
-console.log(data);
 module.exports = data;
