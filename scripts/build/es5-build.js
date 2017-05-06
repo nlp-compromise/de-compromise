@@ -9,8 +9,8 @@ var browserify = '"node_modules/.bin/browserify"';
 var derequire = '"node_modules/.bin/derequire"';
 // var uglify = '"node_modules/.bin/uglifyjs"';
 
-var es5 = './builds/compromise.js';
-var es5min = './builds/compromise.min.js';
+var es5 = './builds/kompromiss.js';
+var es5min = './builds/kompromiss.min.js';
 
 
 console.log(chalk.yellow(' 🕑 creating es5 build..'));
@@ -21,7 +21,7 @@ exec('rm ' + es5min);
 
 
 //es5 main (browserify + derequire)
-cmd = browserify + ' "./src/index.js" --standalone nlp';
+cmd = browserify + ' "./src/index.js" --standalone ldv';
 // cmd += ' -p bundle-collapser/plugin';
 cmd += ' -t [ babelify --presets [ es2015 ] ]';
 cmd += ' | ' + derequire;

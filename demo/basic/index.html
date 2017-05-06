@@ -2,52 +2,117 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>compromise Demo</title>
+    <title>de-compromise Demo</title>
     <style>
-      input {
-        font-size: 30px;
-        height: 40px;
-        color: 'grey';
+      textarea {
+        width:50%;
+        margin-top:5%;
+        margin-left:25%;
+        padding:10px;
+        font-size: 15px;
+        color: grey;
+        min-height:200px;
+        border-radius:5px;
       }
-      #past-verb-result {
+      #result {
         color: steelblue;
-        font-size: 50px;
-      }
-      #nothing{
-        color:darkred
+        font-size: 16px;
+        margin:20px;
+        margin-left:15%;
       }
       h3 {
         color: grey;
       }
+      .nl-Satz{
+        display:block;
+      }
+      .nl-Substantiv{
+        color:#6393b9;
+      }
+      .nl-MannlichSubst{
+        color:#81acce;
+      }
+      .nl-FemininSubst{
+        color:steelblue;
+      }
+      .nl-Verb{
+        color:palevioletred;
+      }
+      .nl-Determinativ{
+        color:#d3c0b3;
+      }
+      .nl-Adjektiv{
+        color:#b3d3c6;
+      }
+      .nl-Bindewort{
+        color:#c8c9cf;
+      }
+      .nl-Hilfsverb{
+        color:#b3d3c6;
+      }
+      .nl-Praposition{
+        color:#9794a8;
+      }
+      .nl-Adverb{
+        color:#f39c73;
+      }
+      .nl-Zahl{
+        color:grey;
+      }
     </style>
   </head>
-  <body style="position:relative; width:100%; height:100%; padding:20%;">
+  <body style="">
     <div id="past-verb-test">
-      <h3>verb.to_past()</h3>
-      <input type="text" id="verb" onKeyPress="toPast()" onKeyUp="toPast()" value="i conjugate the verbs"/>
-      <div id="nothing"></div>
-      <div id="past-verb-result"></div>
+      <h3>Teil-of-Speech-Tagging auf Deutsch!</h3>
+      <div style="color:cornflowerblue;">(part-of-speech tagging in german)</div>
+      <textarea type="text" id="text" onKeyPress="tagger()" onKeyUp="tagger()" >
+Du, könntest du schwimmen.
+Wie Delphine, Delphine es tun.
+Niemand gibt uns eine Chance.
+Doch können wir siegen für immer und immer.
+Und wir sind dann Helden für einen Tag.
+Ich, ich bin dann König.
+Und du, du Königin.
+Obwohl sie unschlagbar scheinen.
+Werden wir Helden für einen Tag.
+Wir sind dann wir an diesem Tag.
+Ich, ich glaubte zu träumen (zu träumen).
+Die Mauer im Rücken war kalt (so kalt).
+Schüsse reißen die Luft (reißen die Luft).
+Doch wir küssen, als ob nichts geschieht (nichts geschieht).
+Und die Scham fiel auf ihrer Seite.
+Oh, wir können sie schlagen für alle Zeiten.
+Dann sind wir Helden für diesen Tag.
+Dann sind wir Helden.
+      </textarea>
+      <table style="width:50%; margin-left:25%; text-align:center;">
+        <tr>
+          <td class="nl-Substantiv">Substantiv</td>
+          <td class="nl-Verb">Verb</td>
+          <td class="nl-Adjektiv">Adjektiv</td>
+          <td class="nl-Determinativ">Determinativ</td>
+          <td class="nl-Bindewort">Bindewort</td>
+          <td class="nl-Hilfsverb">Hilfsverb</td>
+          <td class="nl-Praposition">Praposition</td>
+          <td class="nl-Adverb">Adverb</td>
+          <td class="nl-Zahl">Zahl</td>
+        </tr>
+      </table>
+      <div id="result">asdf</div>
     </div>
 
-    <!-- <script type="text/javascript" src="https://unpkg.com/compromise@latest/builds/compromise.min.js"></script> -->
-    <script type="text/javascript" src="../../builds/compromise.min.js"></script>
+    <!-- <script type="text/javascript" src="https://unpkg.com/de-compromise@latest/builds/kompromiss.min.js"></script> -->
+    <script type="text/javascript" src="../../builds/kompromiss.min.js"></script>
     <script type="text/javascript" language="javascript">
-    var nlp = window.nlp;
-    function toPast() {
-      var present = document.getElementById('verb').value || '';
-      var verbs=nlp(present).verbs()
-      console.log(verbs.out('text'))
-      if(!verbs.found){
-        document.getElementById('nothing').innerText = '(no verbs)';
-        document.getElementById('past-verb-result').innerText = '';
-        return
-      }
-      var obj = verbs.data()[0]
-      var past=obj.conjugations.PastTense    ||''
-      document.getElementById('nothing').innerText = '';
-      document.getElementById('past-verb-result').innerText = past;
+    var ldv = window.ldv;
+    function tagger() {
+      var present = document.getElementById('text').value || '';
+      var r=ldv(present)
+      r.debug()
+      var html=r.out('html')
+      document.getElementById('result').innerHTML = html
     }
-    toPast();//fire!
+    tagger();//fire!
     </script>
 
   </body>

@@ -82,7 +82,7 @@ const methods = {
         sen += '\n    ' + t.out('html');
         return sen;
       }, '');
-      return str += '\n  <span>' + sentence + '\n  </span>';
+      return str += '\n  <span class="nl-Satz">' + sentence + '\n  </span>';
     }, '');
     return '<span> ' + html + '\n</span>';
   },

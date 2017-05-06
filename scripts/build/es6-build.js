@@ -7,8 +7,8 @@ var browserify = '"node_modules/.bin/browserify"';
 var derequire = '"node_modules/.bin/derequire"';
 var babili = '"node_modules/.bin/babili"';
 
-var es6 = './builds/compromise.es6.js';
-var es6min = './builds/compromise.es6.min.js';
+var es6 = './builds/kompromiss.es6.js';
+var es6min = './builds/kompromiss.es6.min.js';
 
 var banner = '/* compromise v' + pkg.version + '\n   github.com/nlp-compromise\n   MIT\n*/\n';
 exec('echo ' + banner + ' > ' + es6);
@@ -18,7 +18,7 @@ exec('rm ' + es6);
 exec('rm ' + es6min);
 
 //es6 main (browserify)
-var cmd = browserify + ' "./src/index.js" --standalone nlp';
+var cmd = browserify + ' "./src/index.js" --standalone ldv';
 // cmd += ' -p bundle-collapser/plugin';
 cmd += ' | ' + derequire;
 cmd += ' >> ' + es6;
