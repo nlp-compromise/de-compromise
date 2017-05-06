@@ -25,6 +25,7 @@ Terms.prototype.tagger = function() {
   return tagger(this);
 };
 
+require('./methods/misc')(Terms);
 require('./methods/out')(Terms);
 require('./methods/loops')(Terms);
 

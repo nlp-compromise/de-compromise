@@ -9,5 +9,6 @@ var nlp = require('./src/index');
 
 
 
-var r = nlp('Ich, ich bin dann König. Und du, du Königin');
+var r = nlp('abcdefghiöjklmne zurueck');
+console.log(r.out('normal'));
 r.debug();

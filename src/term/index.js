@@ -51,4 +51,5 @@ Term.prototype.normalize = function() {
 require('./methods/tag')(Term);
 require('./methods/out')(Term);
 require('./methods/case')(Term);
+require('./methods/punctuation')(Term);
 module.exports = Term;
