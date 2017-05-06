@@ -1,0 +1,1 @@
+module.exports="&,+,aJbHdEeDfalls,inCnachCo8respektive,so5u4w0zumal;aehre3e1ie0ohingegen;!wo8;dHil,nn0;!g7;nd;bald,f1lange,nd1w0;eit,ie,o3;ern;b0dB;!g1wo0;hl;lei3;dem;he,ntwed6;a1enn,o0;ch;!ss;e0zw;vor,ziehungsweise;b0ls,nstatt;er"
