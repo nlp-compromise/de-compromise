@@ -9,7 +9,7 @@ Object.keys(rules).forEach((tag) => {
     suffixes[str.length][str] = tag;
   }
 });
-// console.log(suffixes[3]);
+
 //
 const suffixStep = (ts) => {
   const reason = 'suffix-match';
@@ -30,7 +30,6 @@ const suffixStep = (ts) => {
         break;
       }
     }
-
   });
   return ts;
 };
