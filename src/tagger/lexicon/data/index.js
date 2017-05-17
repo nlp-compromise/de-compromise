@@ -4,15 +4,16 @@ module.exports = {
   auxiliaries: require('./auxiliaries'),
   conjunctions: require('./conjunctions'),
   determiners: require('./determiners'),
-  femaleNouns: require('./female-nouns'),
   infinitives: require('./infinitives'),
-  maleNouns: require('./male-nouns'),
-  neuterNouns: require('./neuter-nouns'),
   nouns: require('./nouns'),
   prepositions: require('./prepositions'),
   pronouns: require('./pronouns'),
   values: require('./values'),
   verbs: require('./verbs'),
+
+  femaleNouns: require('./female-nouns'),
+  maleNouns: require('./male-nouns'),
+  neuterNouns: require('./neuter-nouns'),
 };
 
 

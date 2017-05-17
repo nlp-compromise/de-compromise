@@ -6,7 +6,6 @@ const patterns = {
   maleNouns: [require('./patterns/maleNouns'), 'MannlichSubst'],
   neuterNouns: [require('./patterns/neuterNouns'), 'SachlichSubst'],
 };
-
 //
 const genderStep = (ts) => {
   const reason = 'suffix-match';

@@ -11,6 +11,6 @@ nlp.verbose('tagger');
 
 
 // var r = nlp('Zwar so argumentierten die Richter könnten diese Regeln unmittelbar nur auf den organisierten Verbandssport angewandt werden.');
-var r = nlp('lkjljkuld');
+var r = nlp('foone');
 // console.log(r.terms().out('array'));
 r.debug();

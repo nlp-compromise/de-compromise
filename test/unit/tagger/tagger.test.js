@@ -7,7 +7,7 @@ test('=Tagger=', function(T) {
   T.test('lexicon-test:', function(t) {
     [
       ['die Muenchen', ['Determinativ', 'SachlichSubst']],
-      ['empoert', ['Adjektiv']],
+      ['alten', ['Adjektiv']],
       ['zwischen', ['Adverb']],
       ['und', ['Bindewort']],
       ['claudia und wohnungsnot', ['FemininSubst', 'Bindewort', 'FemininSubst']],
@@ -26,12 +26,12 @@ test('=Tagger=', function(T) {
 
   T.test('rules-test:', function(t) {
     [
-      ['foone', ['Adjektiv']],
+      ['footem', ['Adjektiv']],
       ['foong', ['FemininSubst']],
       ['footz', ['MannlichSubst']],
       ['fooms', ['SachlichSubst']],
       ['fooie', ['Substantiv']],
-      ['fookt', ['Verb']],
+      ['foogab', ['Verb']],
     ].forEach(function (a) {
       var terms = nlp(a[0]).terms();
       pos_test(terms, a[1], t);
