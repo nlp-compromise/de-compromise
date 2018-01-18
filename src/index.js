@@ -1,24 +1,26 @@
 'use strict';
 const pkg = require('../package.json');
 const core = require('compromise-core');
-var jsonFn = require('json-fn')
+var jsonFn = require('json-fn');
 // const core = require('/Users/spencer/nlp/core/src/index.js');
-const russian = require('./_data')
-const fns = require('./_fns')
+const russian = require('./_data');
+const fns = require('./_fns');
+const tagger = require('./tagger');
 
 //apply our russian plugin..
-core.plugin(russian)
+core.plugin(russian);
 
 //parse our pre/post code back into fns
 if (fns.preProcess) {
-  core.addPreProcess(jsonFn.parse(fns.preProcess))
+  // core.addPreProcess(jsonFn.parse(fns.preProcess))
+  core.addPreProcess(tagger);
 }
 if (fns.postProcess) {
-  core.addPostProcess(jsonFn.parse(fns.postProcess))
+  core.addPostProcess(jsonFn.parse(fns.postProcess));
 }
 //the main function
 const nlp = function(str, lex) {
-  return core(str, lex)
+  return core(str, lex);
 };
 
 //this is handy
