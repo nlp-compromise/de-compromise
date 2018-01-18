@@ -9,56 +9,19 @@
   </a>
 </div>
 
-`kompromiss` is a **work-in-progress** port of [compromise](https://github.com/nlp-compromise/compromise) in german.
+`de-compromise` is a **work-in-progress** port of [compromise](https://github.com/nlp-compromise/compromise) in german.
 
-The goal of this project is to provide a small, basic, rule-based POS-tagger, with a german-language api.
-<h2 align="center">
-  <a href="https://rawgit.com/nlp-compromise/de-compromise/master/demo/basic/index.html">Demo</a>
-</h2>
+### 🇷 🎆
+this is a work-in-progress version of a non-english version of compromise, using [nlp-core](https://github.com/nlp-compromise/nlp-core) to do the most work.
 
-```
-git clone https://github.com/nlp-compromise/de-compromise.git
-cd de-compromise
-npm install
-npm test
-npm watch
-```
+to run it, clone this repo:
+`git clone https://github.com/nlp-compromise/de-compromise.git && cd de-compromise`
 
-```js
-var ldv = require('kompromiss')
-var dok= ldv('Ich, ich bin dann König. Und du, du Königin. Werden wir Helden für einen Tag.')
-dok.substantive().out('liste')
-// ['Ich', 'König', 'du', 'Königin', 'Werden', 'Helden']
-```
+`npm install`
 
-please join to help! - Bitte beitreten, um zu helfen!
-[slack group](https://slackin-riqrccilrs.now.sh)
+and then `node ./scratch.js` (or `npm run watch`).
 
-<table>
-  <tr align="center">
-    <td>
-      <a href="https://www.twitter.com/compromisejs">
-        <img src="https://cloud.githubusercontent.com/assets/399657/21956672/a30cf206-da53-11e6-8c6c-0995cf2aef62.jpg"/>
-        <div>&nbsp; &nbsp; &nbsp; Twitter &nbsp; &nbsp; &nbsp; </div>
-      </a>
-    </td>
-    <td>
-      <a href="http://slack.compromise.cool/">
-        <img src="https://cloud.githubusercontent.com/assets/399657/21956671/a30cbc82-da53-11e6-82d6-aaaaebc0bc93.jpg"/>
-        <div>&nbsp; &nbsp; &nbsp; Slack group &nbsp; &nbsp; &nbsp; </div>
-      </a>
-    </td>
-    <td>
-      <a href="http://nlpcompromise.us12.list-manage2.com/subscribe?u=d5bd9bcc36c4bef0fd5f6e75f&id=8738c1f5ef">
-        <img src="https://cloud.githubusercontent.com/assets/399657/21956670/a30be6e0-da53-11e6-9aaf-52a10b8c3195.jpg"/>
-        <div>&nbsp; &nbsp; &nbsp; Mailing-list &nbsp; &nbsp; &nbsp; </div>
-      </a>
-    </td>
-    <td>
-      <a href="https://github.com/nlp-compromise/compromise/wiki/Contributing">
-        <img src="https://cloud.githubusercontent.com/assets/399657/21956742/5985a89c-da55-11e6-87bc-4f0f1549d202.jpg"/>
-        <div>&nbsp; &nbsp; &nbsp; Pull-requests &nbsp; &nbsp; &nbsp; </div>
-      </a>
-    </td>
-  </tr>
-</table>
+to change the data, edit the ./data/index.js file, and then run `npm run pack`
+
+# 🚣 to help,
+join the [slack group](http://slack.compromise.cool/) or make an issue.
