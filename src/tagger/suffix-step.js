@@ -20,7 +20,7 @@ const suffixStep = function(ts) {
       let suffix = str.slice(len - num, len);
       if (suffixes[num][suffix]) {
         let tag = mapping[suffixes[num][suffix]];
-        console.log(suffix, tag);
+        // console.log(suffix, tag);
         t.tag(tag, 'suffix-' + suffix);
       }
     });
