@@ -1,7 +1,6 @@
 'use strict';
 const endPunct = /([a-z])([,:;\/.(\.\.\.)\!\?]+)$/i;
-const addMethods = (Term) => {
-
+const addMethods = Term => {
   const methods = {
     /** the punctuation at the end of this term*/
     endPunctuation: function() {
@@ -29,20 +28,20 @@ const addMethods = (Term) => {
     },
 
     /** check if the term ends with a comma */
-    hasComma: function () {
+    hasComma: function() {
       if (this.endPunctuation() === 'comma') {
         return true;
       }
       return false;
     },
 
-    killPunctuation: function () {
+    killPunctuation: function() {
       this.text = this._text.replace(endPunct, '$1');
       return this;
-    },
+    }
   };
   //hook them into result.proto
-  Object.keys(methods).forEach((k) => {
+  Object.keys(methods).forEach(k => {
     Term.prototype[k] = methods[k];
   });
   return Term;

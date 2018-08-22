@@ -4,7 +4,6 @@ config.silent = true;
 //cleanup. remove old builds
 exec('rm -rf ./builds && mkdir builds');
 
-
 require('./es6-build');
 require('./es5-build');
 

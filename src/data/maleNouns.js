@@ -108,5 +108,5 @@ module.exports = [
   'Zeiger',
   'Zucker',
   'Zug',
-  'Zuschauer',
+  'Zuschauer'
 ];

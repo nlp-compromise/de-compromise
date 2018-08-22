@@ -37,11 +37,11 @@ const fromString = (str, lexicon) => {
   }
   //make sure lexicon obeys standards
   lexicon = normalizeLex(lexicon);
-  let list = sentences.map((s) => Terms.fromString(s, lexicon));
+  let list = sentences.map(s => Terms.fromString(s, lexicon));
 
   let r = new Text(list, lexicon);
   //give each ts a ref to the result
-  r.list.forEach((ts) => {
+  r.list.forEach(ts => {
     ts.refText = r;
   });
   return r;

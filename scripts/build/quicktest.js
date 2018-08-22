@@ -7,7 +7,7 @@ console.log(chalk.green('\n==sanity-test builds=='));
 var libs = [
   require('../../builds/kompromiss.js'),
   require('../../builds/kompromiss.min.js'),
-  require('../../builds/kompromiss.es6.min.js'),
+  require('../../builds/kompromiss.es6.min.js')
 ];
 libs.forEach((nlp, i) => {
   console.log(chalk.green('  - - #' + i));

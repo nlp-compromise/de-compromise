@@ -4,7 +4,7 @@ const pkg = require('../package.json');
 const log = require('./log');
 
 //the main thing
-const ldv = function (str, lexicon) {
+const ldv = function(str, lexicon) {
   // this.tagset = tagset;
   let r = buildResult(str, lexicon);
   r.tagger();

@@ -8,7 +8,7 @@ function Text(arr, lexicon, reference) {
   this.reference = reference;
   //apply getters
   let keys = Object.keys(getters);
-  for(let i = 0; i < keys.length; i++) {
+  for (let i = 0; i < keys.length; i++) {
     Object.defineProperty(this, keys[i], {
       get: getters[keys[i]]
     });

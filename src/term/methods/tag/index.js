@@ -8,8 +8,7 @@ const canBe = require('./canBe');
 const ignore = {
   '.': true
 };
-const addMethods = (Term) => {
-
+const addMethods = Term => {
   const methods = {
     /** set the term as this part-of-speech */
     tag: function(tag, reason) {
@@ -24,7 +23,7 @@ const addMethods = (Term) => {
       }
     },
     /** is this tag compatible with this word */
-    canBe: function (tag) {
+    canBe: function(tag) {
       tag = tag || '';
       if (typeof tag === 'string') {
         //everything can be '.'
@@ -38,7 +37,7 @@ const addMethods = (Term) => {
   };
 
   //hook them into term.prototype
-  Object.keys(methods).forEach((k) => {
+  Object.keys(methods).forEach(k => {
     Term.prototype[k] = methods[k];
   });
   return Term;

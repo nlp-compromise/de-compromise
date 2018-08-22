@@ -27,7 +27,7 @@ const putTag = (term, tag, reason) => {
     }
     //apply implicit tags
     if (tagset[tag].is) {
-      tagset[tag].is.forEach((doAlso) => {
+      tagset[tag].is.forEach(doAlso => {
         if (term.tags[doAlso] !== true) {
           putTag(term, doAlso, ' --> ' + tag); //recursive
         }
@@ -37,13 +37,13 @@ const putTag = (term, tag, reason) => {
 };
 
 //give term this tag
-const wrap = function (term, tag, reason) {
+const wrap = function(term, tag, reason) {
   if (!term || !tag) {
     return;
   }
   //handle multiple tags
   if (fns.isArray(tag)) {
-    tag.forEach((t) => putTag(term, t, reason)); //recursive
+    tag.forEach(t => putTag(term, t, reason)); //recursive
     return;
   }
   putTag(term, tag, reason);

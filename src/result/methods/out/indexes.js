@@ -1,10 +1,10 @@
 'use strict';
 //find where in the original text this match is found, by term-counts
-const termIndex = (r) => {
+const termIndex = r => {
   let result = [];
   //find the ones we want
   let want = {};
-  r.terms().list.forEach((ts) => {
+  r.terms().list.forEach(ts => {
     want[ts.terms[0].uid] = true;
   });
 

@@ -20,16 +20,16 @@ const methods = [
   // 'delete',
   // 'lump',
 
-  'tagger',
+  'tagger'
 
-// 'tag',
-// 'unTag',
+  // 'tag',
+  // 'unTag',
 ];
 
-const addMethods = (Text) => {
-  methods.forEach((k) => {
-    Text.prototype[k] = function () {
-      for(let i = 0; i < this.list.length; i++) {
+const addMethods = Text => {
+  methods.forEach(k => {
+    Text.prototype[k] = function() {
+      for (let i = 0; i < this.list.length; i++) {
         this.list[i][k].apply(this.list[i], arguments);
       }
       return this;
@@ -42,7 +42,7 @@ const addMethods = (Text) => {
     if (this.list.length === 0) {
       return this;
     }
-    for(let i = 0; i < this.list.length; i++) {
+    for (let i = 0; i < this.list.length; i++) {
       this.list[i].tag.apply(this.list[i], arguments);
     }
     return this;

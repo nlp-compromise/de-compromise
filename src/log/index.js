@@ -5,7 +5,7 @@ const server = require('./server');
 let enable = false;
 
 module.exports = {
-  enable: (str) => {
+  enable: str => {
     if (str === undefined) {
       str = true;
     }

@@ -1,7 +1,7 @@
 'use strict';
 
 //thanks germany!
-const capitalStep = (ts) => {
+const capitalStep = ts => {
   const reason = 'titlecase-noun';
   ts.terms.forEach((t, i) => {
     if (i === 0) {

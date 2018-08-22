@@ -2,7 +2,7 @@
 
 const suffixTest = (t, list) => {
   let len = t.normal.length;
-  for(let i = 1; i < list.length; i++) {
+  for (let i = 1; i < list.length; i++) {
     if (t.normal.length <= i) {
       return false;
     }

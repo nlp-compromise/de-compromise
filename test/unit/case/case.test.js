@@ -1,7 +1,7 @@
 var test = require('tape');
 var nlp = require('../lib/nlp');
 
-test('sanity-check case:', function (t) {
+test('sanity-check case:', function(t) {
   var str = 'John xoo, John fredman';
   var r = nlp(str);
   str = r.toUpperCase().out('text');

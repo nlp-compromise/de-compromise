@@ -3,13 +3,16 @@
 
 const findOffset = (parent, term) => {
   let sum = 0;
-  for(let i = 0; i < parent.list.length; i++) {
-    for(let o = 0; o < parent.list[i].terms.length; o++) {
+  for (let i = 0; i < parent.list.length; i++) {
+    for (let o = 0; o < parent.list[i].terms.length; o++) {
       let t = parent.list[i].terms[o];
       if (t.uid === term.uid) {
         return sum;
       } else {
-        sum += t.whitespace.before.length + t._text.length + t.whitespace.after.length;
+        sum +=
+          t.whitespace.before.length +
+          t._text.length +
+          t.whitespace.after.length;
       }
     }
   }
@@ -26,7 +29,7 @@ const trimEnds = function(ts) {
   //the start
   let str = terms[0].normal;
   //the middle
-  for(let i = 1; i < terms.length - 1; i++) {
+  for (let i = 1; i < terms.length - 1; i++) {
     let t = terms[i];
     str += t.whitespace.before + t.text + t.whitespace.after;
   }
@@ -36,11 +39,11 @@ const trimEnds = function(ts) {
 };
 
 //map over all-dem-results
-const allOffset = (r) => {
+const allOffset = r => {
   let parent = r.all();
-  return r.list.map((ts) => {
+  return r.list.map(ts => {
     let words = [];
-    for(let i = 0; i < ts.terms.length; i++) {
+    for (let i = 0; i < ts.terms.length; i++) {
       words.push(ts.terms[i].normal);
     }
     let nrml = trimEnds(ts);
@@ -55,8 +58,8 @@ const allOffset = (r) => {
       offset: startAt,
       length: txt.length,
       wordStart: wordStart,
-      wordEnd: wordStart + nrml.length,
-    // wordLength: words.join(' ').length
+      wordEnd: wordStart + nrml.length
+      // wordLength: words.join(' ').length
     };
   });
 };

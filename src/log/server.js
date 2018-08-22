@@ -5,7 +5,7 @@ const fns = require('../fns');
 const tag = (t, pos, reason) => {
   let title = t.normal || '[' + t.silent_term + ']';
   title = fns.yellow(title);
-  title = fns.leftPad('\'' + title + '\'', 20);
+  title = fns.leftPad("'" + title + "'", 20);
   title += '  ->   ' + fns.printTag(pos);
   title = fns.leftPad(title, 54);
   console.log('       ' + title + '(' + fns.cyan(reason || '') + ')');
@@ -22,5 +22,5 @@ const untag = function(t, pos, reason) {
 
 module.exports = {
   tag: tag,
-  untag: untag,
+  untag: untag
 };

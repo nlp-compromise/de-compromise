@@ -11,7 +11,7 @@ console.log(chalk.yellow('\n 🕑 packing trie-data..'));
 exec('rm -rf ./src/tagger/lexicon/_packed/');
 exec('mkdir ./src/tagger/lexicon/_packed/');
 
-Object.keys(data).forEach((k) => {
+Object.keys(data).forEach(k => {
   console.log('       -' + k);
   let packed = efrt.pack(data[k]);
   let src = './src/tagger/lexicon/_packed/_' + k + '.js';

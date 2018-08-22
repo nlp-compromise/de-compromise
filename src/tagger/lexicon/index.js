@@ -16,9 +16,9 @@ const data = {
   prepositions: [require('./_packed/_prepositions'), 'Praposition'],
   pronouns: [require('./_packed/_pronouns'), 'Pronomen'],
   values: [require('./_packed/_values'), 'Zahl'],
-  verbs: [require('./_packed/_verbs'), 'Verb'],
+  verbs: [require('./_packed/_verbs'), 'Verb']
 };
-Object.keys(data).forEach((k) => {
+Object.keys(data).forEach(k => {
   let tag = data[k][1];
   data[k] = {
     obj: unpack(data[k][0]).toObject(),

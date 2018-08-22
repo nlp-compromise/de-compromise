@@ -10,7 +10,10 @@ var babili = '"node_modules/.bin/babili"';
 var es6 = './builds/kompromiss.es6.js';
 var es6min = './builds/kompromiss.es6.min.js';
 
-var banner = '/* compromise v' + pkg.version + '\n   github.com/nlp-compromise\n   MIT\n*/\n';
+var banner =
+  '/* compromise v' +
+  pkg.version +
+  '\n   github.com/nlp-compromise\n   MIT\n*/\n';
 exec('echo ' + banner + ' > ' + es6);
 
 console.log(chalk.yellow(' 🕑 creating es6 build..'));
