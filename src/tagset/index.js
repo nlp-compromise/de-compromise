@@ -1,71 +1,134 @@
 module.exports = {
-  Substantiv: { //noun
+  Substantiv: {
+    //noun
     is: [],
     enemy: ['Verb', 'Adjektiv', 'Adverb', 'Artikel', 'Bindewort', 'Praposition']
   },
-  MannlichSubst: { //masculine noun
+  MannlichSubst: {
+    //masculine noun
     is: ['Substantiv'],
     enemy: ['Feminin', 'Sachlich']
   },
-  FemininSubst: { //feminine noun
+  FemininSubst: {
+    //feminine noun
     is: ['Substantiv'],
     enemy: ['Mannlich', 'Sachlich']
   },
-  SachlichSubst: { //neuter noun
+  SachlichSubst: {
+    //neuter noun
     is: ['Substantiv'],
     enemy: []
   },
 
-
-  Pronomen: { //pronoun
+  Pronomen: {
+    //pronoun
     is: ['Substantiv'],
     enemy: []
   },
-  Determinativ: { //determiner
+  Determinativ: {
+    //determiner
     is: [],
     enemy: []
   },
 
-  Zahl: { //value
+  Zahl: {
+    //value
     is: [],
-    enemy: ['Substantiv', 'Adjektiv', 'Adverb', 'Artikel', 'Bindewort', 'Praposition']
+    enemy: [
+      'Substantiv',
+      'Adjektiv',
+      'Adverb',
+      'Artikel',
+      'Bindewort',
+      'Praposition'
+    ]
   },
 
-  Verb: { //verb
+  Verb: {
+    //verb
     is: [],
-    enemy: ['Substantiv', 'Adjektiv', 'Adverb', 'Artikel', 'Bindewort', 'Praposition']
+    enemy: [
+      'Substantiv',
+      'Adjektiv',
+      'Adverb',
+      'Artikel',
+      'Bindewort',
+      'Praposition'
+    ]
   },
-  Infinitiv: { //infinitive verb
+  Infinitiv: {
+    //infinitive verb
     is: ['Verb'],
     enemy: []
   },
-  Hilfsverb: { //Auxiliary Verb
+  Hilfsverb: {
+    //Auxiliary Verb
     is: [],
-    enemy: ['Substantiv', 'Adjektiv', 'Adverb', 'Artikel', 'Bindewort', 'Praposition']
+    enemy: [
+      'Substantiv',
+      'Adjektiv',
+      'Adverb',
+      'Artikel',
+      'Bindewort',
+      'Praposition'
+    ]
   },
 
-  Adjektiv: { //adjective
+  Adjektiv: {
+    //adjective
     is: [],
-    enemy: ['Substantiv', 'Verb', 'Adverb', 'Artikel', 'Bindewort', 'Praposition']
+    enemy: [
+      'Substantiv',
+      'Verb',
+      'Adverb',
+      'Artikel',
+      'Bindewort',
+      'Praposition'
+    ]
   },
-  Adverb: { //adverb
+  Adverb: {
+    //adverb
     is: [],
-    enemy: ['Substantiv', 'Verb', 'Adjektiv', 'Artikel', 'Bindewort', 'Praposition']
+    enemy: [
+      'Substantiv',
+      'Verb',
+      'Adjektiv',
+      'Artikel',
+      'Bindewort',
+      'Praposition'
+    ]
   },
-  Artikel: { //article
+  Artikel: {
+    //article
     is: [],
-    enemy: ['Substantiv', 'Verb', 'Adjektiv', 'Adverb', 'Bindewort', 'Praposition']
+    enemy: [
+      'Substantiv',
+      'Verb',
+      'Adjektiv',
+      'Adverb',
+      'Bindewort',
+      'Praposition'
+    ]
   },
-  Bindewort: { //conjunction
+  Bindewort: {
+    //conjunction
     is: [],
-    enemy: ['Substantiv', 'Verb', 'Adjektiv', 'Adverb', 'Artikel', 'Praposition']
+    enemy: [
+      'Substantiv',
+      'Verb',
+      'Adjektiv',
+      'Adverb',
+      'Artikel',
+      'Praposition'
+    ]
   },
-  Praposition: { //preposition
+  Praposition: {
+    //preposition
     is: [],
     enemy: ['Substantiv', 'Verb', 'Adjektiv', 'Adverb', 'Artikel', 'Bindewort']
   },
   Url: {
     is: [],
-    enemy: [],
-  },
+    enemy: []
+  }
 };

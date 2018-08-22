@@ -3,21 +3,22 @@ var nlp = require('../lib/nlp');
 var pos_test = require('../lib/fns').pos_test;
 
 test('=Tagger=', function(T) {
-
   T.test('lexicon-test:', function(t) {
     [
       ['die Muenchen', ['Determinativ', 'SachlichSubst']],
       ['alten', ['Adjektiv']],
       ['zwischen', ['Adverb']],
       ['und', ['Bindewort']],
-      ['claudia und wohnungsnot', ['FemininSubst', 'Bindewort', 'FemininSubst']],
+      [
+        'claudia und wohnungsnot',
+        ['FemininSubst', 'Bindewort', 'FemininSubst']
+      ],
       ['dresden', ['SachlichSubst']],
       ['konzerns', ['MannlichSubst']],
       ['spreche', ['Verb']],
       ['uebernehmen', ['Verb']],
-      ['seiner', ['Pronomen']],
-
-    ].forEach(function (a) {
+      ['seiner', ['Pronomen']]
+    ].forEach(function(a) {
       var terms = nlp(a[0]).terms();
       pos_test(terms, a[1], t);
     });
@@ -31,8 +32,8 @@ test('=Tagger=', function(T) {
       ['footz', ['MannlichSubst']],
       ['fooms', ['SachlichSubst']],
       ['fooie', ['Substantiv']],
-      ['foogab', ['Verb']],
-    ].forEach(function (a) {
+      ['foogab', ['Verb']]
+    ].forEach(function(a) {
       var terms = nlp(a[0]).terms();
       pos_test(terms, a[1], t);
     });
@@ -43,8 +44,8 @@ test('=Tagger=', function(T) {
     [
       ['Bevorstehe', ['Verb']],
       ['Esse die Kuh', ['Verb', 'Determinativ', 'Substantiv']],
-      ['Esse die Bevorstehe', ['Verb', 'Determinativ', 'Substantiv']],
-    ].forEach(function (a) {
+      ['Esse die Bevorstehe', ['Verb', 'Determinativ', 'Substantiv']]
+    ].forEach(function(a) {
       var terms = nlp(a[0]).terms();
       pos_test(terms, a[1], t);
     });

@@ -2,7 +2,6 @@
 const killUnicode = require('./unicode');
 const isAcronym = require('./isAcronym');
 
-
 //some basic operations on a string to reduce noise
 exports.normalize = function(str) {
   str = str || '';
@@ -14,7 +13,7 @@ exports.normalize = function(str) {
   //hashtags, atmentions
   str = str.replace(/^[#@]/, '');
   // coerce single curly quotes
-  str = str.replace(/[\u2018\u2019\u201A\u201B\u2032\u2035]+/g, '\'');
+  str = str.replace(/[\u2018\u2019\u201A\u201B\u2032\u2035]+/g, "'");
   // coerce double curly quotes
   str = str.replace(/[\u201C\u201D\u201E\u201F\u2033\u2036"]+/g, '');
   //coerce unicode elipses
@@ -35,7 +34,7 @@ exports.normalize = function(str) {
   return str;
 };
 
-exports.addNormal = function (term) {
+exports.addNormal = function(term) {
   let str = term._text || '';
   str = exports.normalize(str);
   //compact acronyms
@@ -46,6 +45,5 @@ exports.addNormal = function (term) {
   str = str.replace(/([0-9]),([0-9])/g, '$1$2');
   term.normal = str;
 };
-
 
 // console.log(normalize('Dr. V Cooper'));

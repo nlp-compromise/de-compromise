@@ -3,19 +3,18 @@ var nlp = require('../lib/nlp');
 var pos_test = require('../lib/fns').pos_test;
 
 test('=Infinitves=', function(T) {
-
   T.test('conjugate-infinitives-test:', function(t) {
     var infinitiv = 'werden';
     var expected = [
-      [ 'ich', 'Singular', 'Neutrum',  'werde' ],
-      [ 'du',  'Singular', 'Neutrum',  'wirst' ],
-      [ 'er',  'Singular', 'Masculin', 'wird' ],
-      [ 'sie', 'Singular', 'Feminin',  'wird' ],
-      [ 'es',  'Singular', 'Neutrum',  'wird' ],
-      [ 'wir', 'Plural',   'Neutrum',  'werden' ],
-      [ 'ihr', 'Plural',   'Neutrum',  'werdet' ],
-      [ 'sie', 'Plural',   'Neutrum',  'werden' ],
-    ]
+      ['ich', 'Singular', 'Neutrum', 'werde'],
+      ['du', 'Singular', 'Neutrum', 'wirst'],
+      ['er', 'Singular', 'Masculin', 'wird'],
+      ['sie', 'Singular', 'Feminin', 'wird'],
+      ['es', 'Singular', 'Neutrum', 'wird'],
+      ['wir', 'Plural', 'Neutrum', 'werden'],
+      ['ihr', 'Plural', 'Neutrum', 'werdet'],
+      ['sie', 'Plural', 'Neutrum', 'werden']
+    ];
 
     var actual = conjugate(infinitiv);
     t.deepEqual(expected, actual);
@@ -24,15 +23,15 @@ test('=Infinitves=', function(T) {
   function conjugate(infinitiv) {
     const list = [
       ['ich', 'Singular', 'Neutrum'],
-      ['du',  'Singular', 'Neutrum'],
-      ['er',  'Singular', 'Masculin'],
+      ['du', 'Singular', 'Neutrum'],
+      ['er', 'Singular', 'Masculin'],
       ['sie', 'Singular', 'Feminin'],
-      ['es',  'Singular', 'Neutrum'],
-      ['wir', 'Plural',   'Neutrum'],
-      ['ihr', 'Plural',   'Neutrum'],
-      ['sie', 'Plural',   'Neutrum'],
+      ['es', 'Singular', 'Neutrum'],
+      ['wir', 'Plural', 'Neutrum'],
+      ['ihr', 'Plural', 'Neutrum'],
+      ['sie', 'Plural', 'Neutrum']
     ];
-    const result = list.map(function ([pronomen, form, modifier]) {
+    const result = list.map(function([pronomen, form, modifier]) {
       let conjugated;
       switch (pronomen) {
         case 'ich':

@@ -161,10 +161,9 @@ let compact = {
     'sr',
     'supt',
     'surg'
-  //miss
-  //misses
+    //miss
+    //misses
   ]
-
 };
 
 //unpack the compact terms into the misc lexicon..

@@ -56,5 +56,5 @@ module.exports = [
   'Warenhaus',
   'Wasser',
   'Wetter',
-  'Wunder',
+  'Wunder'
 ];

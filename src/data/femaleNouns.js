@@ -101,5 +101,5 @@ module.exports = [
   'Wirtschaft',
   'Woche',
   'Wurst',
-  'Zeitung',
+  'Zeitung'
 ];

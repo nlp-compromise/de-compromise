@@ -4,11 +4,13 @@ const fns = require('../../paths').fns;
 const clientDebug = require('./client');
 
 const serverDebug = function(t) {
-  let tags = Object.keys(t.tags).map((tag) => {
-    return fns.printTag(tag);
-  }).join(', ');
+  let tags = Object.keys(t.tags)
+    .map(tag => {
+      return fns.printTag(tag);
+    })
+    .join(', ');
   let word = t.text;
-  word = '\'' + fns.yellow(word || '-') + '\'';
+  word = "'" + fns.yellow(word || '-') + "'";
   let silent = '';
   if (t.silent_term) {
     silent = '[' + t.silent_term + ']';
@@ -53,7 +55,7 @@ const methods = {
   }
 };
 
-const addMethods = (Term) => {
+const addMethods = Term => {
   //hook them into result.proto
   Term.prototype.out = function(fn) {
     if (!methods[fn]) {

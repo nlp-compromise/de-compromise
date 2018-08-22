@@ -2,7 +2,6 @@
 
 //getters/setters for the Terms class
 module.exports = {
-
   parent: {
     get: function() {
       return this.refText || this;
@@ -25,7 +24,7 @@ module.exports = {
 
   dirty: {
     get: function() {
-      for(let i = 0; i < this.terms.length; i++) {
+      for (let i = 0; i < this.terms.length; i++) {
         if (this.terms[i].dirty === true) {
           return true;
         }
@@ -33,7 +32,7 @@ module.exports = {
       return false;
     },
     set: function(dirt) {
-      this.terms.forEach((t) => {
+      this.terms.forEach(t => {
         t.dirty = dirt;
       });
     }
@@ -66,17 +65,15 @@ module.exports = {
   whitespace: {
     get: function() {
       return {
-        before: (str) => {
+        before: str => {
           this.firstTerm().whitespace.before = str;
           return this;
         },
-        after: (str) => {
+        after: str => {
           this.lastTerm().whitespace.after = str;
           return this;
-        },
+        }
       };
     }
-  },
-
-
+  }
 };

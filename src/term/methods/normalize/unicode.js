@@ -1,4 +1,4 @@
-const noUmlaut = (str) => {
+const noUmlaut = str => {
   // ä, ö and ü, ß
   str = str.replace(/ä/u, 'ae');
   str = str.replace(/ö/u, 'oe');

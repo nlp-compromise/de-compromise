@@ -3,24 +3,24 @@
 const rules = require('./patterns/patterns');
 //pivot it by str length
 let suffixes = [{}, {}, {}, {}, {}];
-Object.keys(rules).forEach((tag) => {
-  for(let i = 0; i < rules[tag].length; i++) {
+Object.keys(rules).forEach(tag => {
+  for (let i = 0; i < rules[tag].length; i++) {
     let str = rules[tag][i];
     suffixes[str.length][str] = tag;
   }
 });
 
 //
-const suffixStep = (ts) => {
+const suffixStep = ts => {
   const reason = 'suffix-match';
-  ts.terms.forEach((t) => {
+  ts.terms.forEach(t => {
     //skip already-tagged terms
     if (Object.keys(t.tags).length > 0) {
       return;
     }
     let len = t.normal.length;
     //each suffix step
-    for(let i = 3; i >= 2; i--) {
+    for (let i = 3; i >= 2; i--) {
       if (len <= i) {
         continue;
       }

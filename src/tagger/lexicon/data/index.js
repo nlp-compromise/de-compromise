@@ -13,9 +13,8 @@ module.exports = {
 
   femaleNouns: require('./female-nouns'),
   maleNouns: require('./male-nouns'),
-  neuterNouns: require('./neuter-nouns'),
+  neuterNouns: require('./neuter-nouns')
 };
-
 
 // function uniq(a) {
 //   var seen = {};

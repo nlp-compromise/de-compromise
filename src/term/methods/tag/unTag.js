@@ -13,7 +13,7 @@ const unTag = (term, tag, reason) => {
     //delete downstream tags too
     if (tagset[tag]) {
       let also = tagset[tag].is;
-      for(let i = 0; i < also.length; i++) {
+      for (let i = 0; i < also.length; i++) {
         unTag(term, also[i], ' - -   - ');
       }
     }

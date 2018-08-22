@@ -21,8 +21,7 @@ const toAlphaCode = function(n) {
   let range = BASE;
   let s = '';
 
-  for (; n >= range; n -= range, places++, range *= BASE) {
-  }
+  for (; n >= range; n -= range, places++, range *= BASE) {}
   while (places--) {
     const d = n % BASE;
     s = String.fromCharCode((d < 10 ? 48 : 55) + d) + s;
@@ -30,7 +29,6 @@ const toAlphaCode = function(n) {
   }
   return s;
 };
-
 
 const fromAlphaCode = function(s) {
   if (cache[s] !== undefined) {
@@ -41,8 +39,7 @@ const fromAlphaCode = function(s) {
   let range = BASE;
   let pow = 1;
 
-  for (; places < s.length; n += range, places++, range *= BASE) {
-  }
+  for (; places < s.length; n += range, places++, range *= BASE) {}
   for (let i = s.length - 1; i >= 0; i--, pow *= BASE) {
     let d = s.charCodeAt(i) - 48;
     if (d > 10) {
@@ -62,7 +59,7 @@ var encoding = {
 var symbols = function(t) {
   //... process these lines
   const reSymbol = new RegExp('([0-9A-Z]+):([0-9A-Z]+)');
-  for(let i = 0; i < t.nodes.length; i++) {
+  for (let i = 0; i < t.nodes.length; i++) {
     const m = reSymbol.exec(t.nodes[i]);
     if (!m) {
       t.symCount = i;
