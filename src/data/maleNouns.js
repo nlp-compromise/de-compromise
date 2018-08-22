@@ -55,7 +55,6 @@ module.exports = [
   'Kognak',
   'Kuchen',
   'Kugelschreiber',
-  'Kuchen',
   'Kunde',
   'Laden',
   'Lehrer',
