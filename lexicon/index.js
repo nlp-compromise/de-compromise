@@ -22,6 +22,7 @@ const data = [
   [conjunctions, 'Conjunction'],
   [determiners, 'Determiner'],
   [female, 'FemaleNoun'],
+  [verbs, 'Verb'],
   [infinitives, 'Infinitive'],
   [male, 'MaleNoun'],
   [neuter, 'NeuterNoun'],
@@ -29,7 +30,6 @@ const data = [
   [prepositions, 'Preposition'],
   [pronouns, 'Pronoun'],
   [values, 'Value'],
-  [verbs, 'Verb'],
 ]
 
 let lex = {}
