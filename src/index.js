@@ -1,11 +1,15 @@
 import nlp from 'compromise/one'
 import lexicon from './lexicon/plugin.js'
 import tagger from './tagger/plugin.js'
+import tagset from './tagset/plugin.js'
+nlp.plugin(tagset)
 nlp.plugin(lexicon)
 nlp.plugin(tagger)
 
+// enable some helpful logging
+nlp.verbose('tagger')
+
 const de = function (txt, lex) {
-  console.log(nlp.model())
   let dok = nlp(txt, lex)
   return dok
 }

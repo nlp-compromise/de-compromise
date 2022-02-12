@@ -1,5 +1,4 @@
 import { terser } from 'rollup-plugin-terser'
-import sizeCheck from 'rollup-plugin-filesize-check'
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 const opts = {
@@ -12,12 +11,12 @@ export default [
   {
     input: 'src/index.js',
     output: [{ file: 'builds/de-compromise.js', format: 'umd', name: 'nlp' }],
-    plugins: [nodeResolve(), terser(opts), sizeCheck({ expect: 180, warn: 15 })],
+    plugins: [nodeResolve(), terser(opts)],
   },
   {
     input: 'src/index.js',
     output: [{ file: 'builds/de-compromise.mjs', format: 'esm' }],
-    plugins: [nodeResolve(), terser(opts), sizeCheck({ expect: 180, warn: 15 })],
+    plugins: [nodeResolve(), terser(opts)],
   }
 
 ]
