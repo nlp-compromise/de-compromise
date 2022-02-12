@@ -1,0 +1,19 @@
+export default [
+  "a",
+  "am",
+  "ans",
+  "aufs",
+  "beim",
+  "fürs",
+  "im",
+  "ins",
+  "übers",
+  "ums",
+  "unters",
+  "vom",
+  "vorm",
+  "vors",
+  "z",
+  "zum",
+  "zur"
+]
