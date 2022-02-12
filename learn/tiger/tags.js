@@ -1,21 +1,22 @@
+// https://www.linguistik.hu-berlin.de/de/institut/professuren/korpuslinguistik/mitarbeiter-innen/hagen/STTS_Tagset_Tiger
 export default {
   ADJA: 'JJ', // adjective, //attributive [das] große [Haus]
   ADJD: 'JJ', //adjective, //adverbial or predicative [er fahrt] ¨ schnell, //[er ist] schnell
-  ADV: 'RB', //adverb schon, //bald, //doch
-  APPR: 'RB', //preposition; circumposition left in [der Stadt], //ohne [mich]
-  APPRART: 'Prep', //preposition with article im [Haus], //zur [Sache]
+  ADV: 'Adverb', //adverb schon, //bald, //doch
+  APPR: 'Adverb', //preposition; circumposition left in [der Stadt], //ohne [mich]
+  APPRART: 'Preposition', //preposition with article im [Haus], //zur [Sache]
   APPO: '', //postposition [ihm] zufolge, //[der Sache] wegen
   APZR: '', //circumposition right [von jetzt] an
-  ART: 'Det', //definite or indefinite article der, //die, //das, //ein, //eine, //...
+  ART: 'Determiner', //definite or indefinite article der, //die, //das, //ein, //eine, //...
   CARD: 'Value', //cardinal number zwei [Mann ¨ er], //[im Jahre] 1994
-  FM: 'Expr', //foreign language material [Er hat das mit “] A big fish [”uber ¨ setzt]
-  ITJ: 'Int', //interjection mhm, //ach, //tja
-  KOUI: 'CC', //subordinate conjunction with zuand infinitiveum [zu leben], //anstatt [zu fragen]
-  KOUS: 'CC', //subordinate conjunction with sentence weil, //daß, //damit, //wenn, //ob
-  KON: 'CC', //coordinate conjunction und, //oder, //aber
-  KOKOM: 'CC', //comparative conjunction als, //wie
-  NN: 'NN', //common noun Tisch, //Herr, //[das] Reisen
-  NE: 'NN', //proper noun Hans, //Hamburg, //HSV
+  FM: 'Expression', //foreign language material [Er hat das mit “] A big fish [”uber ¨ setzt]
+  ITJ: 'Interjection', //interjection mhm, //ach, //tja
+  KOUI: 'Conjunction', //subordinate conjunction with zuand infinitiveum [zu leben], //anstatt [zu fragen]
+  KOUS: 'Conjunction', //subordinate conjunction with sentence weil, //daß, //damit, //wenn, //ob
+  KON: 'Conjunction', //coordinate conjunction und, //oder, //aber
+  KOKOM: 'Conjunction', //comparative conjunction als, //wie
+  NN: 'Noun', //common noun Tisch, //Herr, //[das] Reisen
+  NE: 'Noun', //proper noun Hans, //Hamburg, //HSV
   PDS: 'Pronoun', //substituting demonstrative pronoun dieser, //jener
   PDAT: 'Pronoun', //attributive demonstrative pronoun jener [Mensch]
   PIS: 'Pronoun', //substituting indefinite pronoun keiner, //viele, //man, //niemand
@@ -31,25 +32,26 @@ export default {
   PWAT: 'Pronoun', //attributive interrogative pronoun welche [Farbe], //wessen [Hut]
   PWAV: 'Pronoun', //adverbial interrogative or relative pronoun warum, //wo, //wann, //woruber ¨ , //wobei
   PAV: 'Pronoun', //pronominal adverb dafur¨ , //dabei, //deswegen, //trotzdem
-  PTKZU: 'Aux', //zu before infinitive zu [gehen]
-  PTKNEG: 'Aux', //negative particle nicht
-  PTKVZ: 'Aux', //separable verbal particle [er kommt] an, //[er fahrt] ¨ rad
-  PTKANT: 'Aux', //answer particle ja, //nein, //danke, //bitte
-  PTKA: 'Aux', //particle with adjective or adverb am [schonste ¨ n], //zu [schnell]
+  PTKZU: 'Auxiliary', //zu before infinitive zu [gehen]
+  PTKNEG: 'Particle', //negative particle nicht
+  PTKVZ: 'Particle', //separable verbal particle [er kommt] an, //[er fahrt] ¨ rad
+  PTKANT: 'Particle', //answer particle ja, //nein, //danke, //bitte
+  PTKA: 'Particle', //particle with adjective or adverb am [schonste ¨ n], //zu [schnell]
   SGM: '', // SGML markup  turnid=n022k TS2004
   SPELL: '', //letter sequence S-C-H-W-E-I-K-L
   TRUNC: '', //word remnant An- [und Abreise]
-  VVFIN: 'VB', //finite verb, //full [du] gehst, //[wir] kommen [an]
-  VVIMP: 'VB', //imperative, //full komm [!]
-  VVINF: 'Inf', //infinitive, //full gehen, //ankommen
-  VVIZU: 'Inf', //Infinitive with zu, //full anzukommen, //loszulassen
-  VVPP: 'VB', //perfect participle, //full gegangen, //angekommen
-  VAFIN: 'VB', //finite verb, //auxiliary [du] bist, //[wir] werden
-  VAIMP: 'VB', //imperative, //auxiliary sei [ruhig !]
+
+  VVFIN: 'Verb', //finite verb, //full [du] gehst, //[wir] kommen [an]
+  VVIMP: 'Verb', //imperative, //full komm [!]
+  VVINF: 'Infinitive', //infinitive, //full gehen, //ankommen
+  VVIZU: 'Infinitive', //Infinitive with zu, //full anzukommen, //loszulassen
+  VVPP: 'Verb', //perfect participle, //full gegangen, //angekommen
+  VAFIN: 'Copula', //finite verb, //auxiliary [du] bist, //[wir] werden
+  VAIMP: 'Verb', //imperative, //auxiliary sei [ruhig !]
   VAINF: 'Inf', //infinitive, //auxiliary werden, //sein
-  VAPP: 'VB', //perfect participle, //auxiliary gewesen
-  VMFIN: 'VB', //finite verb, //modal dur¨ fen
-  VMINF: 'Inf', //infinitive, //modal wollen
-  VMPP: 'VB', //perfect participle, //modal gekonnt, //[er hat gehen] kon¨ nen
+  VAPP: 'Verb', //perfect participle, //auxiliary gewesen
+  VMFIN: 'Modal', //finite verb, //modal dur¨ fen
+  VMINF: 'Infinitive', //infinitive, //modal wollen
+  VMPP: 'Verb', //perfect participle, //modal gekonnt, //[er hat gehen] kon¨ nen
   XY: '', //non-word containing non-letter 3:7, //H2O, //D2XW3
 };

@@ -1,5 +1,7 @@
 import lexData from './_data.js'
 import { unpack } from 'efrt'
+import conjugate from './methods/conjugate.js'
+
 
 let lexicon = {}
 
@@ -11,6 +13,13 @@ Object.keys(lexData).forEach(tag => {
 })
 
 export default {
+  methods: {
+    one: {
+      transform: {
+        conjugate
+      }
+    }
+  },
   model: {
     one: {
       lexicon

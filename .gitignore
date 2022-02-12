@@ -4,6 +4,7 @@ scripts/bower/bower-*
 bower_components/
 tmp/
 viz/
+learn/tiger/conjugate/results
 
 .DS_Store
 .jshintrc

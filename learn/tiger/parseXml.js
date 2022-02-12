@@ -11,6 +11,7 @@ const parseXml = function (file, cb) {
   xml.on('endElement: terminals', function (term) {
     let terms = term.t;
     let sentence = [];
+    // console.dir(term, { depth: 5 })
     terms.forEach((t) => {
       let obj = t['$'];
       if (!obj.word || obj.pos[0] === '$') {
@@ -20,19 +21,26 @@ const parseXml = function (file, cb) {
         w: obj.word,
         tag: tags[obj.pos] || obj.pos,
       };
+      if (obj.lemma !== '--') {
+        res.lemma = obj.lemma;
+      }
       //nouns
       if (obj.number !== '--') {
-        obj.num = obj.number;
+        if (obj.number === 'Sg') {
+          res.plural = false
+        } else if (obj.number === 'Pl') {
+          res.plural = true
+        }
       }
       if (obj.gender !== '--') {
-        obj.g = obj.gender;
+        res.g = obj.gender;
       }
       //verbs
       if (obj.tense !== '--') {
-        obj.tense = obj.tense;
+        res.tense = obj.tense;
       }
       if (obj.mood !== '--') {
-        obj.mood = obj.mood;
+        res.mood = obj.mood;
       }
       sentence.push(res);
     });
