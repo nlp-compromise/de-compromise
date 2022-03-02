@@ -17,9 +17,9 @@
     <a href="https://npmjs.org/package/de-compromise">
     <img src="https://img.shields.io/npm/v/de-compromise.svg?style=flat-square" />
   </a>
-  <a href="https://codecov.io/gh/spencermountain/de-compromise">
+  <!-- <a href="https://codecov.io/gh/spencermountain/de-compromise">
     <img src="https://codecov.io/gh/spencermountain/de-compromise/branch/master/graph/badge.svg" />
-  </a>
+  </a> -->
   <a href="https://bundlephobia.com/result?p=de-compromise">
     <img src="https://badge-size.herokuapp.com/spencermountain/de-compromise/master/builds/de-compromise.min.js" />
   </a>
@@ -42,9 +42,20 @@ Das Ziel dieses Projekts ist es, einen kleinen, einfachen, regelbasierten POS-Ta
 
 ```js
 import ldv from 'de-compromise'
-var dok= ldv('Werden wir Helden für einen Tag.')
+
+let dok = ldv('Werden wir Helden für einen Tag.')
 dok.match('#Noun').out('array')
 // [ 'wir', 'Helden', 'Tag.' ]
+```
+
+```html
+<script type="text/javascript" src="https://unpkg.com/de-compromise"></script>
+<script>
+  let txt = 'Hast du etwas Zeit für mich? Dann singe ich ein Lied für dich'
+  let doc = deCompromise(txt) //globalen Namensraum
+  console.log(doc.sentences(1).json())
+  // { text:'Dann singe...', terms:[...] }
+</script>
 ```
 
 Bitte beitreten, um zu helfen! - please join to help!

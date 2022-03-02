@@ -10,7 +10,12 @@ export default [
   // === Main ==
   {
     input: 'src/index.js',
-    output: [{ file: 'builds/de-compromise.js', format: 'umd', name: 'nlp' }],
+    output: [{ file: 'builds/de-compromise.cjs', format: 'umd', name: 'deCompromise' }],
+    plugins: [nodeResolve()],
+  },
+  {
+    input: 'src/index.js',
+    output: [{ file: 'builds/de-compromise.min.js', format: 'umd', name: 'deCompromise' }],
     plugins: [nodeResolve(), terser(opts)],
   },
   {

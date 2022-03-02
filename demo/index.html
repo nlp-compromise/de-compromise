@@ -21,6 +21,8 @@
       font-size: 16px;
       margin: 20px;
       margin-left: 15%;
+      line-height: 1.2rem;
+      margin-top: 3rem;
     }
 
     h3 {
@@ -105,19 +107,17 @@ Dann sind wir Helden.
         <td class="num">Zahl</td>
       </tr>
     </table>
-    <pre id="result">asdf</pre>
+    <pre id="result">-</pre>
   </div>
 
-  <!-- <script type="text/javascript" src="https://unpkg.com/de-compromise@latest/builds/kompromiss.min.js"></script> -->
-  <script type="text/javascript" src="../builds/de-compromise.js"></script>
+  <!-- <script type="text/javascript" src="https://unpkg.com/de-compromise"></script> -->
+  <script type="text/javascript" src="../builds/de-compromise.min.js"></script>
   <script type="text/javascript" language="javascript">
-    var nlp = window.nlp;
+    var nlp = window.deCompromise;
     function tagger() {
       var present = document.getElementById('text').value || '';
       var doc = nlp(present)
-      console.log(doc.json())
-      // r.debug()
-      // var html = JSON.stringify(r.json(), null, 2)
+      doc.debug()
       let highlight = {
         nouns: doc.match('#Noun'),
         verbs: doc.match('#Verb'),

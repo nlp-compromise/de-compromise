@@ -2,15 +2,15 @@
   "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
   "name": "de-compromise",
   "description": "Computerlinguistik im browser",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "./src/index.js",
-  "unpkg": "./builds/compromise.js",
+  "unpkg": "./builds/de-compromise.min.js",
   "type": "module",
   "types": "builds/types.d.ts",
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": "./src/index.js",
+      "import": "./builds/de-compromise.mjs",
       "require": "./builds/de-compromise.cjs"
     }
   },
