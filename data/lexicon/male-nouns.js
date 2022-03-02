@@ -663,7 +663,6 @@ export default [
   "ruehe",
   "bereiche",
   "mosche",
-  "versuche",
   "fische",
   "schuhe",
   "tierversuche",
