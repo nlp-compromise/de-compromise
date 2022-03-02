@@ -222,5 +222,35 @@ export default [
   "zuvor",
   "zwar",
   "zweimal",
-  "zwischen"
+  "zwischen",
+
+  // suffix exceptions
+  'wenig',
+
+  'als', 'damals',
+  'ebenfalls', 'erstmals',
+  'jeweils', 'jedenfalls',
+  'niemals', 'allenfalls',
+  'notfalls', 'ehemals',
+  'nochmals', 'mittels',
+  'andernfalls', 'mehrmals',
+  'keinesfalls', 'oftmals',
+  'abermals', 'jemals',
+  'bestenfalls',
+
+  'viel',
+
+  'ausgerechnet', 'ungeachtet',
+
+  'unbedingt',
+
+  'bewußt',
+
+  'entsprechend', 'während',
+
+  'weiter', 'unter', 'hinter', 'mitunter',
+
+  'ungeachtet',
+
+  'jetzt', 'zuletzt'
 ]

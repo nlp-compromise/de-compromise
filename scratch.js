@@ -2,7 +2,7 @@ import nlp from './src/index.js'
 
 nlp.verbose('tagger')
 
-let text = 'asdftens'
+let text = 'versuche'
 var dok = nlp(text)
 dok.debug()
 

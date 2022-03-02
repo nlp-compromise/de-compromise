@@ -31,16 +31,16 @@ const steps = [
       return packed
     },
   },
-  {
-    label: 'models',
-    path: './src/tagger/methods/_data.js',
-    compress: function () {
-      Object.keys(models).forEach(k => {
-        models[k] = compress(models[k])
-      })
-      return models
-    },
-  }
+  // {
+  //   label: 'models',
+  //   path: './src/lexicon/methods/_data.js',
+  //   compress: function () {
+  //     Object.keys(models).forEach(k => {
+  //       models[k] = compress(models[k])
+  //     })
+  //     return models
+  //   },
+  // }
 ]
 
 // run through all our steps
