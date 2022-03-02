@@ -10,10 +10,8 @@ nlp.verbose('tagger')
 // dürfen (may, to be allowed to), 
 // mögen (to like, to like to).
 
-let text = 'Doch'
-var dok = nlp(text)
-dok.debug()
-
+var dok = nlp('Werden wir Helden für einen Tag.')
+console.log(dok.match('#Noun').out('array'))
 
 // proof-of-concept verb-conjugation
 // let conjugate = dok.methods.one.transform.conjugate

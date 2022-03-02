@@ -1,13 +1,39 @@
 <div align="center">
-  <img src="https://cloud.githubusercontent.com/assets/399657/21955696/46e882d4-da3e-11e6-94a6-720c34e27df7.jpg" />
-  <div>Computerlinguistik Im Browser!</div>
-  <a href="https://npmjs.org/package/kompromiss">
-    <img src="https://img.shields.io/npm/v/kompromiss.svg?style=flat-square" />
-  </a>
-  <a href="https://nodejs.org/api/documentation.html#documentation_stability_index">
-    <img src="https://img.shields.io/badge/stability-experimental-orange.svg?style=flat-square" />
-  </a>
+  <img height="15px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
+  <div><b>de-compromise</b></div>
+  <img src="https://user-images.githubusercontent.com/399657/68222691-6597f180-ffb9-11e9-8a32-a7f38aa8bded.png"/>
+  <div>bescheidene Computerlinguistik im Browser</div>
+  <div><code>npm install de-compromise</code></div>
+  <div align="center">
+    <sub>
+      work-in-progress!
+    </sub>
+  </div>
+  <div align="center">
+    <sub>
+     in Arbeit!
+    </sub>
+  </div>
+  <img height="25px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 </div>
+
+<div align="center">
+  <div>
+    <a href="https://npmjs.org/package/de-compromise">
+    <img src="https://img.shields.io/npm/v/de-compromise.svg?style=flat-square" />
+  </a>
+  <a href="https://codecov.io/gh/spencermountain/de-compromise">
+    <img src="https://codecov.io/gh/spencermountain/de-compromise/branch/master/graph/badge.svg" />
+  </a>
+  <a href="https://bundlephobia.com/result?p=de-compromise">
+    <img src="https://badge-size.herokuapp.com/spencermountain/de-compromise/master/builds/de-compromise.min.js" />
+  </a>
+  </div>
+</div>
+
+<!-- spacer -->
+<img height="85px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
+
 
 `de-compromise` (kompromiss) is a **work-in-progress** port of [compromise](https://github.com/nlp-compromise/compromise) in german.
 
@@ -26,9 +52,9 @@ npm watch
 
 ```js
 import ldv from 'de-compromise'
-var dok= ldv('Ich, ich bin dann König. Und du, du Königin. Werden wir Helden für einen Tag.')
+var dok= ldv('Werden wir Helden für einen Tag.')
 dok.match('#Noun').out('array')
-// ['Ich', 'König', 'du', 'Königin', 'Werden', 'Helden']
+// [ 'wir', 'Helden', 'Tag.' ]
 ```
 
 please join to help! - Bitte beitreten, um zu helfen!
@@ -42,18 +68,6 @@ please join to help! - Bitte beitreten, um zu helfen!
       </a>
     </td>
     <td>
-      <a href="http://slack.compromise.cool/">
-        <img src="https://cloud.githubusercontent.com/assets/399657/21956671/a30cbc82-da53-11e6-82d6-aaaaebc0bc93.jpg"/>
-        <div>&nbsp; &nbsp; &nbsp; Slack group &nbsp; &nbsp; &nbsp; </div>
-      </a>
-    </td>
-    <td>
-      <a href="http://nlpcompromise.us12.list-manage2.com/subscribe?u=d5bd9bcc36c4bef0fd5f6e75f&id=8738c1f5ef">
-        <img src="https://cloud.githubusercontent.com/assets/399657/21956670/a30be6e0-da53-11e6-9aaf-52a10b8c3195.jpg"/>
-        <div>&nbsp; &nbsp; &nbsp; Mailing-list &nbsp; &nbsp; &nbsp; </div>
-      </a>
-    </td>
-    <td>
       <a href="https://github.com/nlp-compromise/compromise/wiki/Contributing">
         <img src="https://cloud.githubusercontent.com/assets/399657/21956742/5985a89c-da55-11e6-87bc-4f0f1549d202.jpg"/>
         <div>&nbsp; &nbsp; &nbsp; Pull-requests &nbsp; &nbsp; &nbsp; </div>
@@ -61,3 +75,5 @@ please join to help! - Bitte beitreten, um zu helfen!
     </td>
   </tr>
 </table>
+
+MIT
