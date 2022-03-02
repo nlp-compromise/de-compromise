@@ -36,13 +36,13 @@ const tagYear = function (terms, i, world) {
     if (num && !isNaN(num)) {
       if (num > min && num < max) {
         if (seemsGood(terms[i - 1]) || seemsGood(terms[i + 1])) {
-          setTag([term], 'Year', world, false, '2-tagYear')
+          setTag([term], 'Year', world, false, '1-tagYear')
           return true
         }
         // or is it really-close to a year?
         if (num > 1950 && num < 2025) {
           if (seemsOkay(terms[i - 1]) || seemsOkay(terms[i + 1])) {
-            setTag([term], 'Year', world, false, '2-tagYear-close')
+            setTag([term], 'Year', world, false, '1-tagYear-close')
             return true
           }
         }

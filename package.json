@@ -22,7 +22,7 @@
     "test": "tape \"./tests/**/*.test.js\" | tap-dancer",
     "build": "rollup -c --silent",
     "pack": "node ./scripts/pack.js",
-    "score": " node learn/tiger/test.js",
+    "score": " node ./learn/test/index.js",
     "watch": "amble ./scratch.js"
   },
   "files": [

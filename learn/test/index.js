@@ -1,5 +1,5 @@
 const file = '/Users/spencer/data/tiger-de/tiger_release_aug07.corrected.16012013.xml'
-import parseXml from './parseXml.js'
+import parseXml from '../parseXml.js'
 import nlp from '../../src/index.js'
 
 const normalize = function (str) {

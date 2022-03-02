@@ -1,3 +1,7 @@
+import normal from './normal/index.js'
 export default {
-  one: { contractions: {} }
+  compute: {
+    normal // replace this
+  },
+  hooks: ['normal']
 }

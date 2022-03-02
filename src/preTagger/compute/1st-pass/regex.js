@@ -26,7 +26,7 @@ const checkRegex = function (terms, i, world) {
     arr = doRegs(normal, regexNumbers)
   }
   if (arr) {
-    setTag([term], arr[1], world, false, `2-regex- '${arr[2] || arr[0]}'`)
+    setTag([term], arr[1], world, false, `1-regex- '${arr[2] || arr[0]}'`)
     term.confidence = 0.6
     return true
   }
