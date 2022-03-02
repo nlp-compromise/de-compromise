@@ -48,15 +48,21 @@ dok.match('#Noun').out('array')
 // [ 'wir', 'Helden', 'Tag.' ]
 ```
 
+<!-- spacer -->
+<img height="15px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
+
+oder im Browser:
 ```html
-<script type="text/javascript" src="https://unpkg.com/de-compromise"></script>
+<script src="https://unpkg.com/de-compromise"></script>
 <script>
   let txt = 'Hast du etwas Zeit für mich? Dann singe ich ein Lied für dich'
   let doc = deCompromise(txt) //globalen Namensraum
   console.log(doc.sentences(1).json())
-  // { text:'Dann singe...', terms:[...] }
+  // { text:'Dann singe...', terms:[ ... ] }
 </script>
 ```
+
+see [en-compromise/api](https://github.com/spencermountain/compromise#api) for full API documentation.
 
 Bitte beitreten, um zu helfen! - please join to help!
 
