@@ -17,6 +17,12 @@ import neuter from './nouns/neuter-nouns.js'
 import nouns from './nouns/nouns.js'
 import pronouns from './nouns/pronouns.js'
 
+import femaleNames from './people/femaleNames.js'
+import maleNames from './people/maleNames.js'
+import firstNames from './people/firstNames.js'
+import lastNames from './people/lastNames.js'
+import people from './people/people.js'
+
 // numbers
 import cardinal from './numbers/cardinal.js'
 import ordinal from './numbers/ordinal.js'
@@ -28,6 +34,12 @@ const data = [
   [adverbs, 'Adverb'],
   [conjunctions, 'Conjunction'],
   [determiners, 'Determiner'],
+
+  [femaleNames, 'FemaleName'],
+  [maleNames, 'MaleName'],
+  [firstNames, 'FirstName'],
+  [lastNames, 'LastName'],
+  [people, 'Person'],
 
   [verbs, 'Verb'],
   [modals, 'Modal'],

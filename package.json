@@ -20,6 +20,7 @@
   },
   "scripts": {
     "test": "tape \"./tests/**/*.test.js\" | tap-dancer",
+    "testb": "TESTENV=prod npm run test",
     "build": "rollup -c --silent",
     "pack": "node ./scripts/pack.js",
     "score": " node ./learn/test/index.js",
