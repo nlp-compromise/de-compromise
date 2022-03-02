@@ -68,16 +68,16 @@ export default [
     eben: vb,
     ehen: vb,
     mmen: vb,
-    lten: vb,
-    ssen: vb
+    // lten: vb,
+    // ssen: vb
   },
   {
     // five-letter suffixes
     ische: jj,
     liche: jj,
-    enden: jj,
+    // enden: jj,
     tlich: jj,
-    tigen: jj,
+    // tigen: jj,
     stens: rb,
     falls: rb,
     weise: rb,

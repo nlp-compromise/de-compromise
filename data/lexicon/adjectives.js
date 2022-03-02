@@ -44,7 +44,6 @@ export default [
   "bestimmten",
   "bestürzt",
   "bewaffneter",
-  "bewußt",
   "bielefelder",
   "billigeren",
   "bisherigen",
@@ -484,26 +483,18 @@ export default [
   "zweiten",
   "zweiter",
 
-  // suffix exceptions
-  'parallel', 'plausibel', 'akzeptabel',
-
-  'umgerechnet',
-  'konkret',
-  'unerwartet',
-  'unbegründet',
-  'unbeschadet',
-
-  'besorgt', 'bedingt',
-
-  'alt', 'doppelt', 'gezielt', 'verzweifelt', 'vereinzelt', 'kalt',
-
-  'jung',
-
-  'unverändert', 'begeistert', 'bemerkenswert', 'preiswert',
-
-  'unerwartet',
-
-  'doppelt', 'gezielt', 'verzweifelt', 'vereinzelt',
-
-  'konkrete', 'gegründete', 'geeignete', 'bewaffnete'
+  // exceptions by suffix
+  "plausibel",
+  "akzeptabel",
+  "unbeschadet",
+  "besorgt",
+  "bedingt",
+  "verzweifelt",
+  "vereinzelt",
+  "kalt",
+  "bemerkenswert",
+  "preiswert",
+  "gegründete",
+  "geeignete",
+  "bewaffnete"
 ]

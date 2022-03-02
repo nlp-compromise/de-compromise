@@ -444,8 +444,13 @@ export default [
   "reiche",
   "versuche",
   "wünsche",
-  "mache",
-  "brauche",
-  "zeige",
-  "steige"
+  "reichen",
+  "weichen",
+  "versprechen",
+  "sprachen",
+  "schweigen",
+  "bewältigen",
+  "benötigen",
+  "berücksichtigen",
+  "kündigen"
 ]

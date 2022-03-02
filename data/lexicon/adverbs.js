@@ -1,5 +1,4 @@
 export default [
-  "abend",
   "allein",
   "allerdings",
   "also",
@@ -223,34 +222,30 @@ export default [
   "zwar",
   "zweimal",
   "zwischen",
+  "wenig",
 
-  // suffix exceptions
-  'wenig',
-
-  'als', 'damals',
-  'ebenfalls', 'erstmals',
-  'jeweils', 'jedenfalls',
-  'niemals', 'allenfalls',
-  'notfalls', 'ehemals',
-  'nochmals', 'mittels',
-  'andernfalls', 'mehrmals',
-  'keinesfalls', 'oftmals',
-  'abermals', 'jemals',
-  'bestenfalls',
-
-  'viel',
-
-  'ausgerechnet', 'ungeachtet',
-
-  'unbedingt',
-
-  'bewußt',
-
-  'entsprechend', 'während',
-
-  'weiter', 'unter', 'hinter', 'mitunter',
-
-  'ungeachtet',
-
-  'jetzt', 'zuletzt'
+  // exceptions by suffix
+  "als",
+  "damals",
+  "ebenfalls",
+  "erstmals",
+  "jedenfalls",
+  "niemals",
+  "allenfalls",
+  "notfalls",
+  "ehemals",
+  "nochmals",
+  "andernfalls",
+  "mehrmals",
+  "keinesfalls",
+  "oftmals",
+  "abermals",
+  "jemals",
+  "bestenfalls",
+  "viel",
+  "bewußt",
+  "entsprechend",
+  "während",
+  "mitunter",
+  "zusammen"
 ]
