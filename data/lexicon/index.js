@@ -1,24 +1,31 @@
 import adjectives from './adjectives.js'
 import adverbs from './adverbs.js'
-import auxiliaries from './auxiliaries.js'
 import conjunctions from './conjunctions.js'
 import determiners from './determiners.js'
-import female from './female-nouns.js'
-import infinitives from './infinitives.js'
-import male from './male-nouns.js'
-import neuter from './neuter-nouns.js'
-import nouns from './nouns.js'
 import prepositions from './prepositions.js'
-import pronouns from './pronouns.js'
-import values from './values.js'
-import verbs from './verbs.js'
+
+// verbs
+import infinitives from './verbs/infinitives.js'
+import verbs from './verbs/verbs.js'
+import auxiliary from './verbs/auxiliary.js'
+
+// nouns
+import female from './nouns/female-nouns.js'
+import male from './nouns/male-nouns.js'
+import neuter from './nouns/neuter-nouns.js'
+import nouns from './nouns/nouns.js'
+import pronouns from './nouns/pronouns.js'
+
+// numbers
+import cardinal from './numbers/cardinal.js'
+import ordinal from './numbers/ordinal.js'
 
 
 const data = [
   // nouns
   [adjectives, 'Adjective'],
   [adverbs, 'Adverb'],
-  [auxiliaries, 'Auxiliarie'],
+  // [auxiliary, 'Auxiliary'],
   [conjunctions, 'Conjunction'],
   [determiners, 'Determiner'],
   [female, 'FemaleNoun'],
@@ -29,7 +36,8 @@ const data = [
   [nouns, 'Noun'],
   [prepositions, 'Preposition'],
   [pronouns, 'Pronoun'],
-  [values, 'Value'],
+  [cardinal, 'TextCardinal'],
+  [ordinal, 'TextOrdinal'],
 ]
 
 let lex = {}

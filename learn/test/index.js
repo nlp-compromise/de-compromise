@@ -27,7 +27,7 @@ const callback = function (sentence) {
   doc.terms().forEach(t => {
     let str = normalize(t.text())
     let tag = want[str]
-    if (tag) {
+    if (tag && !t.has('@hasContraction')) {
       if (t.has(`#${tag}`)) {
         right += 1
       } else {

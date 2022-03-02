@@ -1,8 +1,10 @@
-const oneLetterAcronym = /^[A-Z]('s|,)?$/
-const isUpperCase = /^[A-Z-]+$/
-const periodAcronym = /([A-Z]\.)+[A-Z]?,?$/
-const noPeriodAcronym = /[A-Z]{2,}('s|,)?$/
-const lowerCaseAcronym = /([a-z]\.)+[a-z]\.?$/
+const oneLetterAcronym = /^[A-ZÄÖÜ]('s|,)?$/
+const isUpperCase = /^[A-Z-ÄÖÜ]+$/
+const periodAcronym = /([A-ZÄÖÜ]\.)+[A-ZÄÖÜ]?,?$/
+const noPeriodAcronym = /[A-ZÄÖÜ]{2,}('s|,)?$/
+const lowerCaseAcronym = /([a-zäöü]\.)+[a-zäöü]\.?$/
+
+
 
 const oneLetterWord = {
   I: true,

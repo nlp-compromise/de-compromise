@@ -1,5 +1,5 @@
-// import nlp from 'compromise/one'
-import nlp from '/Users/spencer/mountain/compromise/src/one.js'
+import nlp from 'compromise/one'
+// import nlp from '/Users/spencer/mountain/compromise/src/one.js'
 import lexicon from './lexicon/plugin.js'
 import tagger from './preTagger/plugin.js'
 import tagset from './tagset/plugin.js'
@@ -9,18 +9,6 @@ nlp.plugin(tagset)
 nlp.plugin(lexicon)
 nlp.plugin(tagger)
 
-let world = nlp.world()
-// make sure our 'normal' function runs before the tagger
-world.hooks = world.hooks.sort((a, b) => {
-  if (a === 'normal') {
-    return -1
-  }
-  return 1
-})
-world.model.one.contractions = []
-
-// enable some helpful logging
-// nlp.verbose('tagger')
 
 const de = function (txt, lex) {
   let dok = nlp(txt, lex)

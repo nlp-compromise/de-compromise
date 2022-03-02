@@ -51,13 +51,4 @@ Object.keys(compact).forEach(function (k) {
     unicode[s] = k
   })
 })
-const killUnicode = str => {
-  let chars = str.split('')
-  chars.forEach((s, i) => {
-    if (unicode[s]) {
-      chars[i] = unicode[s]
-    }
-  })
-  return chars.join('')
-}
-export default killUnicode
+export default unicode
