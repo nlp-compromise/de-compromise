@@ -7,7 +7,8 @@ import prepositions from './prepositions.js'
 // verbs
 import infinitives from './verbs/infinitives.js'
 import verbs from './verbs/verbs.js'
-import auxiliary from './verbs/auxiliary.js'
+import modals from './verbs/modals.js'
+// import auxiliary from './verbs/auxiliary.js'
 
 // nouns
 import female from './nouns/female-nouns.js'
@@ -25,15 +26,19 @@ const data = [
   // nouns
   [adjectives, 'Adjective'],
   [adverbs, 'Adverb'],
-  // [auxiliary, 'Auxiliary'],
   [conjunctions, 'Conjunction'],
   [determiners, 'Determiner'],
-  [female, 'FemaleNoun'],
+
   [verbs, 'Verb'],
+  [modals, 'Modal'],
   [infinitives, 'Infinitive'],
+  // [auxiliary, 'Auxiliary'],
+
   [male, 'MaleNoun'],
+  [female, 'FemaleNoun'],
   [neuter, 'NeuterNoun'],
   [nouns, 'Noun'],
+
   [prepositions, 'Preposition'],
   [pronouns, 'Pronoun'],
   [cardinal, 'TextCardinal'],

@@ -2,7 +2,15 @@ import nlp from './src/index.js'
 
 nlp.verbose('tagger')
 
-let text = 'SPÖ '
+
+// können (can, to be able to), 
+// müssen (must, to have to), 
+// wollen (will, to want to), 
+// sollen (should, am to, ought to, to be supposed to), 
+// dürfen (may, to be allowed to), 
+// mögen (to like, to like to).
+
+let text = 'Doch'
 var dok = nlp(text)
 dok.debug()
 

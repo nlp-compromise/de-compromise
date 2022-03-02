@@ -31,48 +31,36 @@
       display: block;
     }
 
-    .nl-Substantiv {
+    .nouns {
       color: #6393b9;
     }
 
-    .nl-MannlichSubst {
-      color: #81acce;
-    }
-
-    .nl-FemininSubst {
-      color: steelblue;
-    }
-
-    .nl-Verb {
+    .verbs {
       color: palevioletred;
     }
 
-    .nl-Determinativ {
+    .det {
       color: #d3c0b3;
     }
 
-    .nl-Adjektiv {
+    .adj {
       color: #b3d3c6;
     }
 
-    .nl-Bindewort {
+    .conj {
       color: #c8c9cf;
     }
 
-    .nl-Hilfsverb {
-      color: #b3d3c6;
-    }
-
-    .nl-Praposition {
+    .adv {
       color: #9794a8;
     }
 
-    .nl-Adverb {
-      color: #f39c73;
+    .prep {
+      color: grey;
     }
 
-    .nl-Zahl {
-      color: grey;
+    .num {
+      color: #f39c73;
     }
   </style>
 </head>
@@ -107,15 +95,14 @@ Dann sind wir Helden.
       </textarea>
     <table style="width:50%; margin-left:25%; text-align:center;">
       <tr>
-        <td class="nl-Substantiv">Substantiv</td>
-        <td class="nl-Verb">Verb</td>
-        <td class="nl-Adjektiv">Adjektiv</td>
-        <td class="nl-Determinativ">Determinativ</td>
-        <td class="nl-Bindewort">Bindewort</td>
-        <td class="nl-Hilfsverb">Hilfsverb</td>
-        <td class="nl-Praposition">Praposition</td>
-        <td class="nl-Adverb">Adverb</td>
-        <td class="nl-Zahl">Zahl</td>
+        <td class="nouns">Substantiv</td>
+        <td class="verbs">Verb</td>
+        <td class="adj">Adjektiv</td>
+        <td class="adv">Adverb</td>
+        <td class="det">Determinativ</td>
+        <td class="conj">Bindewort</td>
+        <td class="prep">Praposition</td>
+        <td class="num">Zahl</td>
       </tr>
     </table>
     <pre id="result">asdf</pre>
@@ -127,12 +114,21 @@ Dann sind wir Helden.
     var nlp = window.nlp;
     function tagger() {
       var present = document.getElementById('text').value || '';
-      var r = nlp(present)
-      console.log(r.json())
+      var doc = nlp(present)
+      console.log(doc.json())
       // r.debug()
-      var html = JSON.stringify(r.json(), null, 2)
-      console.log(html)
-      document.getElementById('result').innerHTML = html
+      // var html = JSON.stringify(r.json(), null, 2)
+      let highlight = {
+        nouns: doc.match('#Noun'),
+        verbs: doc.match('#Verb'),
+        adj: doc.match('#Adjective'),
+        adv: doc.match('#Adverb'),
+        det: doc.match('#Determiner'),
+        conj: doc.match('#Conjunction'),
+        prep: doc.match('#Preposition'),
+        num: doc.match('#Value'),
+      }
+      document.getElementById('result').innerHTML = doc.html(highlight)
     }
     tagger();//fire!
   </script>

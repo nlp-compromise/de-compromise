@@ -21,5 +21,6 @@ export default [
   "wenn",
   "wenngleich",
   "wohingegen",
-  "zumal"
+  "zumal",
+  "doch"
 ]
