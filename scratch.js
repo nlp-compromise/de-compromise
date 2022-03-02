@@ -1,16 +1,25 @@
-'use strict';
-var nlp = require('./src/index');
-// nlp.verbose(true);
-nlp.verbose('tagger');
-// const corpus = require('nlp-corpus');
-// let text = corpus.sotu.parsed()[0];
-// const fresh = require('./test/unit/lib/freshPrince.js');
+import nlp from './src/index.js'
 
-// console.log(nlp('I\'m going to the shops').sentences().toPastTense().out());
+nlp.verbose('tagger')
 
 
+// können (can, to be able to), 
+// müssen (must, to have to), 
+// wollen (will, to want to), 
+// sollen (should, am to, ought to, to be supposed to), 
+// dürfen (may, to be allowed to), 
+// mögen (to like, to like to).
 
-// var r = nlp('Zwar so argumentierten die Richter könnten diese Regeln unmittelbar nur auf den organisierten Verbandssport angewandt werden.');
-var r = nlp('foone');
-// console.log(r.terms().out('array'));
-r.debug();
+let text = 'Doch'
+var dok = nlp(text)
+dok.debug()
+
+
+// proof-of-concept verb-conjugation
+// let conjugate = dok.methods.one.transform.conjugate
+// console.log(conjugate.toPast('verabschieden'))
+// console.log(conjugate.fromPast('verabschiedete'))
+// // ["verabschieden", "verabschiedete"]
+// console.log(conjugate.toPresent('wissen'))
+// console.log(conjugate.fromPresent('weiß'))
+// // ["wissen","weiß"]

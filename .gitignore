@@ -4,6 +4,8 @@ scripts/bower/bower-*
 bower_components/
 tmp/
 viz/
+learn/conjugate/results
+learn/dictionary/results
 
 .DS_Store
 .jshintrc

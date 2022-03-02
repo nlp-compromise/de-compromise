@@ -1,42 +1,27 @@
-'use strict';
-const buildResult = require('./result/build');
-const pkg = require('../package.json');
-const log = require('./log');
+import nlp from 'compromise/one'
+// import nlp from '/Users/spencer/mountain/compromise/src/one.js'
+import lexicon from './lexicon/plugin.js'
+import tagger from './preTagger/plugin.js'
+import tagset from './tagset/plugin.js'
+import tokenizer from './tokenizer/plugin.js'
+nlp.plugin(tokenizer)
+nlp.plugin(tagset)
+nlp.plugin(lexicon)
+nlp.plugin(tagger)
 
-//the main thing
-const ldv = function(str, lexicon) {
-  // this.tagset = tagset;
-  let r = buildResult(str, lexicon);
-  r.tagger();
-  return r;
-};
 
-//same as main method, except with no POS-tagging.
-ldv.tokenize = function(str) {
-  return buildResult(str);
-};
-
-//this is useful
-ldv.version = pkg.version;
-
-//turn-on some debugging
-ldv.verbose = function(str) {
-  log.enable(str);
-};
-
-//and then all-the-exports...
-if (typeof self !== 'undefined') {
-  self.ldv = ldv; // Web Worker
-} else if (typeof window !== 'undefined') {
-  window.ldv = ldv; // Browser
-} else if (typeof global !== 'undefined') {
-  global.ldv = ldv; // NodeJS
+const de = function (txt, lex) {
+  let dok = nlp(txt, lex)
+  return dok
 }
-//don't forget amd!
-if (typeof define === 'function' && define.amd) {
-  define(ldv);
+
+/** log the decision-making to console */
+de.verbose = function (set) {
+  let env = typeof process === 'undefined' ? self.env || {} : process.env //use window, in browser
+  env.DEBUG_TAGS = set === 'tagger' || set === true ? true : ''
+  env.DEBUG_MATCH = set === 'match' || set === true ? true : ''
+  env.DEBUG_CHUNKS = set === 'chunker' || set === true ? true : ''
+  return this
 }
-//then for some reason, do this too!
-if (typeof module !== 'undefined') {
-  module.exports = ldv;
-}
+
+export default de

@@ -9,9 +9,9 @@
   </a>
 </div>
 
-`kompromiss` is a **work-in-progress** port of [compromise](https://github.com/nlp-compromise/compromise) in german.
+`de-compromise` (kompromiss) is a **work-in-progress** port of [compromise](https://github.com/nlp-compromise/compromise) in german.
 
-The goal of this project is to provide a small, basic, rule-based POS-tagger, with a german-language api.
+The goal of this project is to provide a small, basic, rule-based POS-tagger.
 <h2 align="center">
   <a href="https://rawgit.com/nlp-compromise/de-compromise/master/demo/basic/index.html">Demo</a>
 </h2>
@@ -25,14 +25,13 @@ npm watch
 ```
 
 ```js
-var ldv = require('kompromiss')
+import ldv from 'de-compromise'
 var dok= ldv('Ich, ich bin dann König. Und du, du Königin. Werden wir Helden für einen Tag.')
-dok.substantive().out('liste')
+dok.match('#Noun').out('array')
 // ['Ich', 'König', 'du', 'Königin', 'Werden', 'Helden']
 ```
 
 please join to help! - Bitte beitreten, um zu helfen!
-[slack group](https://slackin-riqrccilrs.now.sh)
 
 <table>
   <tr align="center">

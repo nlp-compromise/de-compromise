@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>de-compromise Demo</title>
+  <style>
+    textarea {
+      width: 50%;
+      margin-top: 5%;
+      margin-left: 25%;
+      padding: 10px;
+      font-size: 15px;
+      color: grey;
+      min-height: 200px;
+      border-radius: 5px;
+    }
+
+    #result {
+      color: steelblue;
+      font-size: 16px;
+      margin: 20px;
+      margin-left: 15%;
+    }
+
+    h3 {
+      color: grey;
+    }
+
+    .nl-Satz {
+      display: block;
+    }
+
+    .nouns {
+      color: #6393b9;
+    }
+
+    .verbs {
+      color: palevioletred;
+    }
+
+    .det {
+      color: #d3c0b3;
+    }
+
+    .adj {
+      color: #b3d3c6;
+    }
+
+    .conj {
+      color: #c8c9cf;
+    }
+
+    .adv {
+      color: #9794a8;
+    }
+
+    .prep {
+      color: grey;
+    }
+
+    .num {
+      color: #f39c73;
+    }
+  </style>
+</head>
+
+<body style="">
+  <div id="past-verb-test">
+    <h3>Teil-of-Speech-Tagging auf Deutsch!</h3>
+    <div style="color:cornflowerblue;">
+      (part-of-speech tagging in german)
+      <a href="https://github.com/nlp-compromise/de-compromise" style="margin-left:100px; color:steelblue;">mit
+        de-compromise</a>
+    </div>
+    <textarea type="text" id="text" onKeyPress="tagger()" onKeyUp="tagger()">
+Du, könntest du schwimmen.
+Wie Delphine, Delphine es tun.
+Niemand gibt uns eine Chance.
+Doch können wir siegen für immer und immer.
+Und wir sind dann Helden für einen Tag.
+Ich, ich bin dann König.
+Und du, du Königin.
+Obwohl sie unschlagbar scheinen.
+Werden wir Helden für einen Tag.
+Wir sind dann wir an diesem Tag.
+Ich, ich glaubte zu träumen (zu träumen).
+Die Mauer im Rücken war kalt (so kalt).
+Schüsse reißen die Luft (reißen die Luft).
+Doch wir küssen, als ob nichts geschieht (nichts geschieht).
+Und die Scham fiel auf ihrer Seite.
+Oh, wir können sie schlagen für alle Zeiten.
+Dann sind wir Helden für diesen Tag.
+Dann sind wir Helden.
+      </textarea>
+    <table style="width:50%; margin-left:25%; text-align:center;">
+      <tr>
+        <td class="nouns">Substantiv</td>
+        <td class="verbs">Verb</td>
+        <td class="adj">Adjektiv</td>
+        <td class="adv">Adverb</td>
+        <td class="det">Determinativ</td>
+        <td class="conj">Bindewort</td>
+        <td class="prep">Praposition</td>
+        <td class="num">Zahl</td>
+      </tr>
+    </table>
+    <pre id="result">asdf</pre>
+  </div>
+
+  <!-- <script type="text/javascript" src="https://unpkg.com/de-compromise@latest/builds/kompromiss.min.js"></script> -->
+  <script type="text/javascript" src="../builds/de-compromise.js"></script>
+  <script type="text/javascript" language="javascript">
+    var nlp = window.nlp;
+    function tagger() {
+      var present = document.getElementById('text').value || '';
+      var doc = nlp(present)
+      console.log(doc.json())
+      // r.debug()
+      // var html = JSON.stringify(r.json(), null, 2)
+      let highlight = {
+        nouns: doc.match('#Noun'),
+        verbs: doc.match('#Verb'),
+        adj: doc.match('#Adjective'),
+        adv: doc.match('#Adverb'),
+        det: doc.match('#Determiner'),
+        conj: doc.match('#Conjunction'),
+        prep: doc.match('#Preposition'),
+        num: doc.match('#Value'),
+      }
+      document.getElementById('result').innerHTML = doc.html(highlight)
+    }
+    tagger();//fire!
+  </script>
+
+</body>
+
+</html>
