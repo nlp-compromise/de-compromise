@@ -6,12 +6,7 @@
   <div><code>npm install de-compromise</code></div>
   <div align="center">
     <sub>
-      work-in-progress!
-    </sub>
-  </div>
-  <div align="center">
-    <sub>
-     in Arbeit!
+      work-in-progress! •  in Arbeit!
     </sub>
   </div>
   <img height="25px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
@@ -39,10 +34,9 @@
 
 The goal of this project is to provide a small, basic, rule-based POS-tagger.
 
-<sub>Das Ziel dieses Projekts ist es, einen kleinen, einfachen, regelbasierten POS-Tagger bereitzustellen.</sub>
+Das Ziel dieses Projekts ist es, einen kleinen, einfachen, regelbasierten POS-Tagger bereitzustellen.
 
 
-please join to help! - Bitte beitreten, um zu helfen!
 <!-- spacer -->
 <img height="15px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
@@ -53,6 +47,7 @@ dok.match('#Noun').out('array')
 // [ 'wir', 'Helden', 'Tag.' ]
 ```
 
+Bitte beitreten, um zu helfen! - please join to help!
 
 <!-- spacer -->
 <img height="85px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
