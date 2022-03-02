@@ -1,6 +1,6 @@
 {
   "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
-  "name": "kompromiss",
+  "name": "de-compromise",
   "description": "Computerlinguistik im browser",
   "version": "0.1.0",
   "main": "./src/index.js",
@@ -22,6 +22,7 @@
     "test": "tape \"./tests/**/*.test.js\" | tap-dancer",
     "build": "rollup -c --silent",
     "pack": "node ./scripts/pack.js",
+    "score": " node learn/tiger/test.js",
     "watch": "amble ./scratch.js"
   },
   "files": [

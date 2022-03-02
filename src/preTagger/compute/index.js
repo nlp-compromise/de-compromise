@@ -5,7 +5,7 @@ const tagger = function (view,) {
   // add noun to anything titlecased
   titleCase(view, world)
   // random ad-hoc stuff
-  view.match('konig').tag('Noun')
+  // view.match('konig').tag('Noun')
   return view
 }
 export default tagger

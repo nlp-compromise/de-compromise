@@ -2,16 +2,15 @@ import fs from 'fs';
 import tags from './tags.js';
 import XmlStream from 'xml-stream';
 
-const parseXml = function (file, cb) {
+const parseXml = function (file, cb, end) {
 
   const stream = fs.createReadStream(file);
   const xml = new XmlStream(stream);
 
   xml.collect('t');
-  xml.on('endElement: terminals', function (term) {
-    let terms = term.t;
+  xml.on('endElement: terminals', function (s) {
+    let terms = s.t;
     let sentence = [];
-    // console.dir(term, { depth: 5 })
     terms.forEach((t) => {
       let obj = t['$'];
       if (!obj.word || obj.pos[0] === '$') {
@@ -42,11 +41,21 @@ const parseXml = function (file, cb) {
       if (obj.mood !== '--') {
         res.mood = obj.mood;
       }
+      if (obj.person !== '--') {
+        res.person = obj.person;
+      }
+      if (obj.case !== '--') {
+        res.case = obj.case;
+      }
       sentence.push(res);
     });
     // console.log(sentence);
     cb(sentence)
   });
+
+  xml.on('end', function () {
+    console.log('end')
+  })
 
 }
 export default parseXml

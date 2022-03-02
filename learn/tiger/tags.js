@@ -1,7 +1,7 @@
 // https://www.linguistik.hu-berlin.de/de/institut/professuren/korpuslinguistik/mitarbeiter-innen/hagen/STTS_Tagset_Tiger
 export default {
-  ADJA: 'JJ', // adjective, //attributive [das] große [Haus]
-  ADJD: 'JJ', //adjective, //adverbial or predicative [er fahrt] ¨ schnell, //[er ist] schnell
+  ADJA: 'Adjective', // adjective, //attributive [das] große [Haus]
+  ADJD: 'Adjective', //adjective, //adverbial or predicative [er fahrt] ¨ schnell, //[er ist] schnell
   ADV: 'Adverb', //adverb schon, //bald, //doch
   APPR: 'Adverb', //preposition; circumposition left in [der Stadt], //ohne [mich]
   APPRART: 'Preposition', //preposition with article im [Haus], //zur [Sache]
@@ -32,7 +32,7 @@ export default {
   PWAT: 'Pronoun', //attributive interrogative pronoun welche [Farbe], //wessen [Hut]
   PWAV: 'Pronoun', //adverbial interrogative or relative pronoun warum, //wo, //wann, //woruber ¨ , //wobei
   PAV: 'Pronoun', //pronominal adverb dafur¨ , //dabei, //deswegen, //trotzdem
-  PTKZU: 'Auxiliary', //zu before infinitive zu [gehen]
+  PTKZU: 'Verb', //zu before infinitive zu [gehen]
   PTKNEG: 'Particle', //negative particle nicht
   PTKVZ: 'Particle', //separable verbal particle [er kommt] an, //[er fahrt] ¨ rad
   PTKANT: 'Particle', //answer particle ja, //nein, //danke, //bitte
@@ -43,15 +43,15 @@ export default {
 
   VVFIN: 'Verb', //finite verb, //full [du] gehst, //[wir] kommen [an]
   VVIMP: 'Verb', //imperative, //full komm [!]
-  VVINF: 'Infinitive', //infinitive, //full gehen, //ankommen
-  VVIZU: 'Infinitive', //Infinitive with zu, //full anzukommen, //loszulassen
+  VVINF: 'Verb', //infinitive, //full gehen, //ankommen
+  VVIZU: 'Verb', //Infinitive with zu, //full anzukommen, //loszulassen
   VVPP: 'Verb', //perfect participle, //full gegangen, //angekommen
-  VAFIN: 'Copula', //finite verb, //auxiliary [du] bist, //[wir] werden
+  VAFIN: 'Verb', //finite verb, //auxiliary [du] bist, //[wir] werden
   VAIMP: 'Verb', //imperative, //auxiliary sei [ruhig !]
-  VAINF: 'Inf', //infinitive, //auxiliary werden, //sein
+  VAINF: 'Verb', //infinitive, //auxiliary werden, //sein
   VAPP: 'Verb', //perfect participle, //auxiliary gewesen
-  VMFIN: 'Modal', //finite verb, //modal dur¨ fen
-  VMINF: 'Infinitive', //infinitive, //modal wollen
+  VMFIN: 'Verb', //finite verb, //modal dur¨ fen
+  VMINF: 'Verb', //infinitive, //modal wollen
   VMPP: 'Verb', //perfect participle, //modal gekonnt, //[er hat gehen] kon¨ nen
   XY: '', //non-word containing non-letter 3:7, //H2O, //D2XW3
 };

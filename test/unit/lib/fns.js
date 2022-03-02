@@ -1,6 +1,6 @@
 'use strict';
 
-var pad = function(str, width, char) {
+var pad = function (str, width, char) {
   char = char || '.';
   str = str.toString();
   while (str.length < width) {
@@ -10,13 +10,13 @@ var pad = function(str, width, char) {
 };
 
 //helpers to make test output messages nicer
-var str_test = function(got, input, want, t) {
+var str_test = function (got, input, want, t) {
   var msg = pad("'" + got + "'", 20) + "(want: '" + want + "' )"; //'\'' + input +
   t.equal(got, want, msg);
   return;
 };
 
-var arr_test = function(got, input, want, t) {
+var arr_test = function (got, input, want, t) {
   got = JSON.stringify(got);
   want = JSON.stringify(want);
   var msg = pad("'" + got + "'") + " (want: '" + want + "' )"; //'\'' + input +
@@ -24,7 +24,7 @@ var arr_test = function(got, input, want, t) {
   return;
 };
 
-var has_pos = function(r, tags) {
+var has_pos = function (r, tags) {
   var terms = r.terms();
   if (r.length !== r.length) {
     return false;
@@ -32,18 +32,18 @@ var has_pos = function(r, tags) {
   for (var i = 0; i < terms.list.length; i++) {
     var t = terms.list[i].terms[0];
     if (!t.tags[tags[i]]) {
-      console.log(t.normal, t.tags, tags[i]);
+      // console.log(t.normal, t.tags, tags[i]);
       return false;
     }
   }
   return true;
 };
 
-var pos_test = function(r, tags, t) {
+var pos_test = function (r, tags, t) {
   var str = '';
   var got = r
     .terms()
-    .list.map(function(ts) {
+    .list.map(function (ts) {
       var term = ts.terms[0];
       str += ' ' + term.normal;
       return Object.keys(term.tags)[0];
@@ -54,9 +54,9 @@ var pos_test = function(r, tags, t) {
   return;
 };
 
-var terms_test = function(terms, want, t, isText) {
+var terms_test = function (terms, want, t, isText) {
   var str = '';
-  var got = terms.map(function(term) {
+  var got = terms.map(function (term) {
     str += ' ' + term.text;
     if (isText) {
       return term.text;
@@ -73,7 +73,7 @@ var terms_test = function(terms, want, t, isText) {
   t.deepEqual(got, want, msg);
 };
 
-var isArray = function(someVar) {
+var isArray = function (someVar) {
   if (Object.prototype.toString.call(someVar) === '[object Array]') {
     return true;
   }
