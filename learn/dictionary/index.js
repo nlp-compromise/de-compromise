@@ -1,5 +1,6 @@
 const file = '/Users/spencer/data/tiger-de/tiger_release_aug07.corrected.16012013.xml'
 import parseXml from '../parseXml.js'
+import fs from 'fs'
 
 const normalize = function (str) {
   str = str.toLowerCase().trim()
@@ -24,10 +25,6 @@ const callback = function (sentence) {
     }
   })
 }
-
-// setInterval(() => {
-//   console.log(byTag.Noun)
-// }, 2000)
 
 const doTag = function (tag, max = 6) {
   let all = Object.entries(byTag[tag])

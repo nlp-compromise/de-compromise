@@ -55,6 +55,7 @@ const parseXml = function (file, cb, end) {
 
   xml.on('end', function () {
     console.log('end')
+    end()
   })
 
 }

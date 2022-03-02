@@ -1,8 +1,8 @@
 import nlp from './src/index.js'
 
+nlp.verbose('tagger')
 
-
-let text = 'Die eidgenössischen Landwirte bleiben somit im wahrsten Sinne des Wortes auf ihrem Kuhmist sitzen weil die Vorarlberger'
+let text = 'asdftens'
 var dok = nlp(text)
 dok.debug()
 

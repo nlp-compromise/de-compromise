@@ -6,29 +6,97 @@ const jj = 'Adjective'
 
 export default [
   null,
-  null,
   {
-    //2-letter
-
+    // one-letter suffixes
+    s: nn,
+    l: nn,
+    a: nn,
+    k: nn,
+    d: nn,
+    z: nn,
   },
   {
-    //3-letter
-
+    // two-letter suffixes
+    ig: jj,
+    ls: rb,
+    er: nn,
+    el: nn,
+    et: vb,
+    gt: vb,
+    lt: vb,
+    ht: vb,
+    'ßt': vb
   },
   {
-    //4-letter
-
+    // three-letter suffixes
+    che: jj,
+    ige: jj,
+    ger: jj,
+    tig: jj,
+    end: jj,
+    mal: rb,
+    hin: rb,
+    ung: nn,
+    ion: nn,
+    ter: nn,
+    ert: vb,
+    tet: vb,
+    ben: vb,
+    ren: vb,
+    fen: vb,
+    men: vb,
+    igt: vb,
+    tzt: vb,
+    det: vb,
+    elt: vb,
+    ete: vb
   },
   {
-    //5-letter
-
+    // four-letter suffixes
+    chen: jj,
+    lich: jj,
+    igen: jj,
+    cher: jj,
+    ende: jj,
+    isch: jj,
+    enen: jj,
+    tige: jj,
+    tens: rb,
+    mals: rb,
+    rung: nn,
+    iert: vb,
+    eben: vb,
+    ehen: vb,
+    mmen: vb,
+    lten: vb,
+    ssen: vb
   },
   {
-    //6-letter
-
+    // five-letter suffixes
+    ische: jj,
+    liche: jj,
+    enden: jj,
+    tlich: jj,
+    tigen: jj,
+    stens: rb,
+    falls: rb,
+    weise: rb,
+    seits: rb,
+    ungen: nn,
+    erung: nn,
+    ieren: vb
   },
   {
-    //7-letter
-
+    // six-letter suffixes
+    ischen: jj,
+    lichen: jj,
+    tische: jj,
+    nische: jj
   },
+  {
+    // seven-letter suffixes
+    tischen: jj,
+    tlichen: jj,
+    nischen: jj
+  }
 ]
