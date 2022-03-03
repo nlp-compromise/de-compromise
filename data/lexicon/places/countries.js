@@ -1,270 +1,203 @@
 export default [
-  // some french versions
-  'etats unis',
-  'russie',
-  'suisse',
-  'chine',
-  'georgie',
-  'allemagne',
-  'israel',
-  'espagne',
-  'italie',
-  'angleterre',
-  'bretagne',
-  'japon',
-  'amerique',
-  'australie',
-  'belgique',
-  'brésil',
+  'afghanistan',//afghanistan
+  'albanien', //albania
+  'algerien',//algeria
+  'andorra',//andorra
+  'angola',//angola
+  'antigua und barbuda',//antigua and barbuda
+  'argentinien',//argentina
+  'armenien',//armenia
+  'australien',//australia
+  'österreich',//austria
+  'aserbaidschan',//azerbaijan
+  'bahamas',//bahamas
+  'bahrain',//bahrain
+  'bangladesch',//bangladesh
+  'barbados',//barbados
+  'weißrussland',//belarus
+  'belgien',//belgium
+  'belize',//belize
+  'benin',//benin
+  'bhutan',//bhutan
+  'bolivien',//bolivia
+  'bosnien und herzegowina',//bosnia and herzegovina
+  'botswana',//botswana
+  'brasilien',//brazil
+  'brunei',//brunei
+  'bulgarien',//bulgaria
+  'burkina faso',//burkina faso
+  'burundi',//burundi
+  'kambodscha',//cambodia
+  'kamerun',//cameroon
+  'kanada',//canada
+  'kap verde',//cape verde
+  'zentralafrikanische republik',//central african republic
+  'tschad',//chad
+  'chile',//chile
+  'china',//china
+  'kolumbien',//colombia
+  'komoren',//comoros
+  'costa rica',//costa rica
+  'elfenbeinküste',//côte d’ivoire
+  'kroatien',//croatia
+  'kuba',//cuba
+  'zypern',//cyprus
+  'tschechien',//czech republic
+  'demokratische republik kongo',//democratic republic of the congo
+  'dänemark',//denmark
+  'dschibuti',//djibouti
+  'dominica',//dominica
+  'dominikanische republik',//dominican republic
+  'osttimor',//east timor
+  'ecuador',//ecuador
+  'ägypten',//egypt
+  'el salvador',//el salvador
+  'äquatorialguinea',//equatorial guinea
+  'eritrea',//eritrea
+  'estland',//estonia
+  'äthiopien',//ethiopia
+  'fidschi',//fiji
+  'finnland',//finland
+  'frankreich',//france
+  'gabun',//gabon
+  'gambia',//gambia
+  'georgia',//georgia
+  'deutschland',//germany
+  'ghana',//ghana
+  'griechenland',//greece
+  'grenada',//grenada
+  'guatemala',//guatemala
+  'guinea',//guinea
+  'guinea-bissau',//guinea-bissau
+  'guyana',//guyana
+  'haiti',//haiti
+  'honduras',//honduras
+  'ungarn',//hungary
+  'island',//iceland
+  'indien',//india
+  'indonesien',//indonesia
+  'iran',//iran
+  'irak',//iraq
+  'irland',//ireland
+  'israel',//israel
+  'italien',//italy
+  'jamaika',//jamaica
+  'japan',//japan
+  'jordan',//jordan
+  'kasachstan',//kazakhstan
+  'kenia',//kenya
+  'kiribati',//kiribati
+  'kuwait',//kuwait
+  'kirgisistan',//kyrgyzstan
+  'laos',//laos
+  'lettland',//latvia
+  'libanon',//lebanon
+  'lesotho',//lesotho
+  'liberia',//liberia
+  'libyen',//libya
+  'liechtenstein',//liechtenstein
+  'litauen',//lithuania
+  'luxemburg',//luxembourg
+  'madagaskar',//madagascar
+  'malawi',//malawi
+  'malaysia',//malaysia
+  'malediven',//maldives
+  'mali',//mali
+  'malta',//malta
+  'marshallinseln',//marshall islands
+  'mauretanien',//mauritania
+  'mauritius',//mauritius
+  'mexiko',//mexico
+  'mikronesien',//micronesia
+  'moldawien',//moldova
+  'monaco',//monaco
+  'mongolei',//mongolia
+  'montenegro',//montenegro
+  'marokko',//morocco
+  'mosambik',//mozambique
+  'myanmar',//myanmar
+  'namibia',//namibia
+  'nauru',//nauru
+  'nepal',//nepal
+  'niederlande',//netherlands
+  'neuseeland',//new zealand
+  'nicaragua',//nicaragua
+  'niger',//niger
+  'nigeria',//nigeria
+  'nordkorea',//north korea
+  'norwegen',//norway
+  'oman',//oman
+  'pakistan',//pakistan
+  'palau',//palau
+  'panama',//panama
+  'papua-neuguinea',//papua new guinea
+  'paraguay',//paraguay
+  'peru',//peru
+  'philippinen',//philippines
+  'polen',//poland
+  'portugal',//portugal
+  'katar',//qatar
+  'republik kongo',//republic of the congo
+  'mazedonien',//republic of macedonia
+  'rumänien',//romania
+  'russland',//russia
+  'ruanda',//rwanda
+  'st. kitts und nevis',//saint kitts and nevis
+  'st. lucia',//saint lucia
+  'st. vincent und die grenadinen',//saint vincent and the grenadines
+  'samoa',//samoa
+  'san marino',//san marino
+  'são tomé und príncipe',//sao tome and principe
+  'saudi-arabien',//saudi arabia
+  'senegal',//senegal
+  'serbien',//serbia
+  'seychellen',//seychelles
+  'sierra leone',//sierra leone
+  'singapur',//singapore
+  'slowakei',//slovakia
+  'slowenien',//slovenia
+  'salomonen',//solomon islands
+  'somalia',//somalia
+  'südafrika',//south africa
+  'südkorea',//south korea
+  'südsudan',//south sudan
+  'spanien',//spain
+  'sri lanka',//sri lanka
+  'sudan',//sudan
+  'suriname',//suriname
+  'swasiland',//swaziland
+  'schweden',//sweden
+  'schweiz',//switzerland
+  'syrien',//syria
+  'tadschikistan',//tajikistan
+  'tansania',//tanzania
+  'thailand',//thailand
+  'togo',//togo
+  'tonga',//tonga
+  'trinidad und tobago',//trinidad and tobago
+  'tunesien',//tunisia
+  'türkei',//turkey
+  'turkmenistan',//turkmenistan
+  'tuvalu',//tuvalu
+  'uganda',//uganda
+  'ukraine',//ukraine
+  'vereinigte arabische emirate',//united arab emirates
+  'königreich großbritannien',//united kingdom
+  'vereinigte staaten',//united states of america
+  'uruguay',//uruguay
+  'usbekistan',//uzbekistan
+  'vanuatu',//vanuatu
+  'venezuela',//venezuela
+  'vietnam',//vietnam
+  'jemen',//yemen
+  'sambia',//zambia
+  'simbabwe',//zimbabwe
 
-  // english versions
-  'afghanistan',
-  'albania',
-  'algeria',
-  'america',
-  'andorra',
-  'angola',
-  'anguilla',
-  'antarctica',
-  'antigua and barbuda',
-  'argentina',
-  'armenia',
-  'aruba',
-  'australia',
-  'austria',
-  'azerbaijan',
-  'bahamas',
-  'bahrain',
-  'bangladesh',
-  'barbados',
-  'belarus',
-  'belgium',
-  'belize',
-  'benin',
-  'bermuda',
-  'bhutan',
-  'bolivia',
-  'bonaire',
-  'bosnia and herzegovina',
-  'botswana',
-  'bouvet island',
-  'brazil',
-  'british virgin islands',
-  'brunei',
-  'bulgaria',
-  'burkina faso',
-  'burma',
-  'burundi',
-  'cambodia',
-  'cameroon',
-  'canada',
-  'cape verde',
-  'cayman islands',
-  'central african republic',
-  'chile',
-  'china',
-  'christmas island',
-  'cocos islands',
-  'colombia',
-  'comoros',
-  'congo-brazzaville',
-  'cook islands',
-  'costa rica',
-  'croatia',
-  'cuba',
-  'curacao',
-  'cyprus',
-  'czech republic',
-  'czechia',
-  'denmark',
-  'djibouti',
-  'dominica',
-  'dominican republic',
-  'dr congo',
-  'east timor',
-  'ecuador',
-  'egypt',
-  'el salvador',
-  'england',
-  'equatorial guinea',
-  'eritrea',
-  'estonia',
-  'ethiopia',
-  'falkland islands',
-  'faroe islands',
-  'fiji',
-  'finland',
-  'france',
-  'french guiana',
-  'french polynesia',
-  'gabon',
-  'gambia',
-  'georgia',
-  'germany',
-  'ghana',
-  'gibraltar',
-  'greece',
-  'greenland',
-  'grenada',
-  'guadeloupe',
-  'guam',
-  'guatemala',
-  'guernsey',
-  'guinea-bissau',
-  'guinea',
-  'guyana',
-  'haiti',
-  'honduras',
-  'hong kong',
-  'hungary',
-  'iceland',
-  'india',
-  'indonesia',
-  'iran',
-  'iraq',
-  'ireland',
-  'isle of man',
-  'israel',
-  'italy',
-  'ivory coast',
-  'jamaica',
-  'japan',
-  'jersey',
-  'kazakhstan',
-  'keeling islands',
-  'kenya',
-  'kiribati',
-  'kosovo',
-  'kuwait',
-  'kyrgyzstan',
-  'laos',
-  'latvia',
-  'lebanon',
-  'lesotho',
-  'liberia',
-  'libya',
-  'liechtenstein',
-  'lithuania',
-  'luxembourg',
-  'macao',
-  'macedonia',
-  'madagascar',
-  'malawi',
-  'malaysia',
-  'maldives',
-  'mali',
-  'malta',
-  'marshall islands',
-  'martinique',
-  'mauritania',
-  'mauritius',
-  'mayotte',
-  'mexico',
-  'micronesia',
-  'moldova',
-  'monaco',
-  'mongolia',
-  'montenegro',
-  'montserrat',
-  'morocco',
-  'mozambique',
-  'myanmar',
-  'namibia',
-  'nauru',
-  'nepal',
-  'netherlands',
-  'new zealand',
-  'nicaragua',
-  'niger',
-  'nigeria',
-  'niue',
-  'norfolk island',
-  'north korea',
-  'northern mariana islands',
-  'norway',
-  'oman',
-  'pakistan',
-  'palau',
-  'palestine',
-  'panama',
-  'papua new guinea',
-  'paraguay',
-  'peru',
-  'philippines',
-  'pitcairn islands',
-  'poland',
-  'portugal',
-  'puerto rico',
-  'qatar',
-  'republic of ireland',
-  'romania',
-  'russia',
-  'rwanda',
-  'saint helena',
-  'saint lucia',
-  'saint martin',
-  'samoa',
-  'san marino',
-  'saudi arabia',
-  'scotland',
-  'senegal',
-  'serbia',
-  'seychelles',
-  'sierra leone',
-  'singapore',
-  'sint maarten',
-  'slovakia',
-  'slovenia',
-  'solomon islands',
-  'somalia',
-  'south africa',
-  'south korea',
-  'south sudan',
-  'spain',
-  'sri lanka',
-  'sudan',
-  'suriname',
-  'swaziland',
-  'sweden',
-  'switzerland',
-  'syria',
-  'taiwan',
-  'tajikistan',
-  'tanzania',
-  'thailand',
-  'timor-leste',
-  'togo',
-  'tokelau',
-  'tonga',
-  'trinidad and tobago',
-  'trinidad-tobago',
-  'tunisia',
-  'turkey',
-  'turkmenistan',
-  'turks and caicos islands',
-  'tuvalu',
   'u.k.',
   'u.s. virgin islands',
   'u.s.a.',
-  'uganda',
-  'ukraine',
   'united arab emirates',
   'united kingdom',
   'united states of america',
   'united states',
-  'uruguay',
-  'usa',
-  'ussr',
-  'uzbekistan',
-  'vanuatu',
-  'vatican city',
-  'venezuela',
-  'vietnam',
-  'wales',
-  'wallis and futuna',
-  'yemen',
-  'zambia',
-  'zimbabwe',
-  "cote d'ivoire",
-  // 'jordan', //... or a name?
 ]

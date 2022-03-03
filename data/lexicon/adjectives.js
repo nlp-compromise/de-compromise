@@ -68,7 +68,6 @@ export default [
   "diversen",
   "doppelt",
   "dresdner",
-  "dritte",
   "dritten",
   "dritter",
   "dunkel",
@@ -102,7 +101,6 @@ export default [
   "ernster",
   "ernsthaft",
   "ernsthafter",
-  "erste",
   "ersten",
   "erster",
   "erstes",
@@ -479,7 +477,6 @@ export default [
   "zuständigen",
   "zweier",
   "zweifelhaft",
-  "zweite",
   "zweiten",
   "zweiter",
 

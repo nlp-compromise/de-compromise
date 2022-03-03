@@ -151,7 +151,7 @@ export default [
   'navan',
   'new delhi',
   'new taipei',
-  'new york',
+  'new york city',
   'nis',
   'odessa',
   'osaka',
