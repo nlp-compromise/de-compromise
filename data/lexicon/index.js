@@ -27,6 +27,15 @@ import people from './people/people.js'
 import cardinal from './numbers/cardinal.js'
 import ordinal from './numbers/ordinal.js'
 
+// dates
+import months from './dates/months.js'
+import weekdays from './dates/weekdays.js'
+
+// places
+import cities from './places/cities.js'
+import countries from './places/countries.js'
+import places from './places/places.js'
+import regions from './places/regions.js'
 
 const data = [
   // nouns
@@ -34,6 +43,14 @@ const data = [
   [adverbs, 'Adverb'],
   [conjunctions, 'Conjunction'],
   [determiners, 'Determiner'],
+
+  [cities, 'City'],
+  [countries, 'Country'],
+  [places, 'Place'],
+  [regions, 'Region'],
+
+  [months, 'Month'],
+  [weekdays, 'WeekDay'],
 
   [femaleNames, 'FemaleName'],
   [maleNames, 'MaleName'],

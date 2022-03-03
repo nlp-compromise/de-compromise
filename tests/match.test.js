@@ -9,6 +9,14 @@ test('match:', function (t) {
     ['Kanada ist sehr kalt', '#Noun #Verb #Adverb #Adjective'],
     ['hinterm', '#Adverb #Determiner'],// contraction
     ['Spencer geht zum Laden ', '#Person #Verb #Determiner #Noun'],
+
+    ['juni', '#Month'],
+    ['donnerstag', '#WeekDay'],
+    ['234', '#Value'],
+    ['chicago', '#City'],
+    ['Jamaica', '#Country'],
+    ['colorado', '#Place'],
+    ['tony', '#MaleName'],
     // ['', ''],
   ]
   arr.forEach(function (a) {
