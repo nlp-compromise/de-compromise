@@ -11,9 +11,19 @@ nlp.verbose('tagger')
 // mögen (to like, to like to).
 
 let txt = ''
-txt = 'junio'
+txt = ''
+txt = 'butterweich' //soft as butter
+txt = 'ausbrechen'
+txt = 'Ausbruch' //breakout
+txt = 'Bananenbrot' //bananabread
+txt = 'Siebentausendzweihundertvierundfünfzig' //7254
+txt = 'Schneeeule' //snow owl
+txt = 'Fallschirmspringerschule'//parachute jumper school 
+
 let doc = nlp(txt)
+doc.compute('splitter')
 doc.debug()
+console.log(JSON.stringify(doc.json(), null, 2))
 
 // proof-of-concept verb-conjugation
 // let conjugate = dok.methods.one.transform.conjugate

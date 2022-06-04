@@ -2,6 +2,8 @@ const rb = 'Adverb'
 const nn = 'Noun'
 const vb = 'Verb'
 const jj = 'Adjective'
+const ord = 'Ordinal'
+const card = 'Cardinal'
 
 
 export default [
@@ -68,6 +70,7 @@ export default [
     eben: vb,
     ehen: vb,
     mmen: vb,
+    zehn: card//10s
     // lten: vb,
     // ssen: vb
   },
@@ -91,12 +94,36 @@ export default [
     ischen: jj,
     lichen: jj,
     tische: jj,
-    nische: jj
+    nische: jj,
+    zehnte: ord,
+    zigste: ord,
+    ßigste: ord,
   },
   {
     // seven-letter suffixes
     tischen: jj,
     tlichen: jj,
-    nischen: jj
-  }
+    nischen: jj,
+    zwanzig: card,//20
+    dreiβig: card,//30
+    vierzig: card,//40
+    fünfzig: card,//50
+    sechzig: card, //60
+    siebzig: card, //70
+    achtzig: card, //80
+    neunzig: card, //90
+  },
+  // eight-letter suffixes
+  {
+
+  },
+  // nine-letter suffixes
+  {
+  },
+  // ten-letter suffixes
+  {
+    hundertste: ord,
+    tausendste: ord,
+    millionste: ord
+  },
 ]
