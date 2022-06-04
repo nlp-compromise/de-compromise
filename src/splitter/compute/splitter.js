@@ -69,7 +69,7 @@ const findbyChar = function (term, byChar) {
       str = ''
     }
   }
-  if (str) {
+  if (str && words.length > 0) {
     words.push(str)
   }
   return words

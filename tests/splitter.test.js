@@ -65,9 +65,8 @@ test('splitter:', function (t) {
     let [str, parts] = a
     let doc = nlp(str).compute('splitter')
     let splits = doc.docs[0][0].splits || []
-    splits.forEach((splt, i) => {
-      splt = splt.toLowerCase()
-      let want = parts[i] || ''
+    parts.forEach((want, i) => {
+      let splt = (splits[i] || '').toLowerCase()
       t.equal(splt, want.toLowerCase(), here + ` ${str}`)
     })
   })

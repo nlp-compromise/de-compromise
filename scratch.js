@@ -24,7 +24,7 @@ txt = 'Bananenbrot' //bananabread
 txt = 'Fallschirmspringerschule'
 txt = 'Zustandsdiagramm'
 txt = 'Schwimmerbereichen'
-txt = 'Phasendiagramms'
+txt = 'Staatsexamen'
 
 let doc = nlp(txt)
 doc.compute('splitter')
