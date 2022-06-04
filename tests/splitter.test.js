@@ -12,7 +12,7 @@ test('splitter:', function (t) {
     ['Schweinswal', ['Schwein', 's', 'Wal']],//pig, whale (porpoise)
     ['Bananenbrot', ['Bananen', 'brot']],//banana, bread
     ['Orangensaft', ['Orange', 'n', 'saft']],//orange, juice
-    ['Jahreszeit', ['Jahr', 'e', 'zeit']],//year, time (season)
+    ['Jahreszeit', ['Jahres', 'zeit']],//year, time (season)
     ['Zungenbrecher', ['Zunge', 'n', 'Brecher']],//tongue crusher (tongue twister)
     ['Drachenfutter', ['Drach', 'en', 'Futter']],//dragon, feeding (peace offering)
     ['Ohrwurm', ['Ohr', 'wurm']],//ear worm
@@ -33,7 +33,7 @@ test('splitter:', function (t) {
     ['Determinativkompositum', ['Determinativ', 'kompositum']],//compound noun
     ['Hotelzimmer', ['Hotel', 'Zimmer']],//hotel room
     ['Zahnbürste', ['Zahn', 'Bürste']],//tooth brush
-    ['Fußballweltmeisterschaft', ['Fußball', 'Weltmeisterschaft']],//world cup
+    // ['Fußballweltmeisterschaft', ['Fußball', 'Weltmeisterschaft']],//world cup
     ['Esszimmer', ['essen ', 'Zimmer']],//dining room
     ['Schreibmaschine', ['schreiben', 'Maschine']],//typewriter
     ['Laufschritt', ['laufen', 'Schritt']],//double quick
@@ -53,7 +53,7 @@ test('splitter:', function (t) {
     ['Arbeitstier', ['Arbeit', 's', 'Tier']],//(workaholic)
     ['Hundemüde', ['Hund', 'e', 'Müde']],//(dog tired)
     ['Landesgeld', ['Land', 'es', 'Geld']],//currency
-    ['Gedankenfreiheit', ['Gedank', 'en', 'Freiheit']],//(freedom of thought)
+    ['Gedankenfreiheit', ['Gedanken', 'Freiheit']],//(freedom of thought)
     ['Schreibtischcomputer', ['Schreibtisch', 'computer']],//
     // ['', ['', '']],//
     // ['', ['', '']],//

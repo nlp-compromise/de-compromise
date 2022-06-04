@@ -2,8 +2,8 @@
 export default [
   ['Buchungstrick', ['Buchungs', 'trick']],
   ['Buchungstricks', ['Buchungs', 'tricks']],
-  ['Bruttorentenniveau'['Brutto', 'renten', 'niveau']],
-  ['Bruttorentenniveaus'['Brutto', 'renten', 'niveaus']],
+  ['Bruttorentenniveau', ['Brutto', 'renten', 'niveau']],
+  ['Bruttorentenniveaus', ['Brutto', 'renten', 'niveaus']],
   ['Sünderecke', ['Sünder', 'ecke']],
   ['Abteilende', ['Abteil', 'ende']],
   ['Außenstürmer', ['Außen', 'stürmer']],
@@ -54,7 +54,6 @@ export default [
   ['Standesamttermins', ['Standes', 'amt', 'termins']],
   ['Standesamttermine', ['Standes', 'amt', 'termine']],
   ['Standesamtterminen', ['Standes', 'amt', 'terminen']],
-
   ['Speichereinheit', ['Speicher', 'einheit']],
   ['Speichereinheiten', ['Speicher', 'einheiten']],
   ['Rettungseinsatz', ['Rettungs', 'einsatz']],
@@ -665,9 +664,7 @@ export default [
   ['Gewohnheitstiers', ['Gewohnheits', 'tiers']],
   ['Gewohnheitstiere', ['Gewohnheits', 'tiere']],
   ['Gewohnheitstieren', ['Gewohnheits', 'tieren']],
-  ['Gewohnheitstieres', ['Gewohnheits', 'tieres']]
-
-
+  ['Gewohnheitstieres', ['Gewohnheits', 'tieres']],
   ['bewegungsachse', ['bewegung', 'achse']],
   ['vergewaltigungsopfer', ['vergewaltigung', 'opfer']],
   ['Flüchtlingslager', ['flüchtlings', 'lager']],

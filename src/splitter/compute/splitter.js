@@ -3,14 +3,14 @@
 // 'er|en|es|s|e|n
 const hasLink = /^(e[rns]|s|n)/
 
-const tryLeft = function (str, splits) {
+const tryLeft = function (str, byChar) {
   let char = str.substr(0, 1)
-  let list = splits[char] || []
+  let list = byChar[char] || []
   return list.find(s => str.startsWith(s))
 }
 
-const fromLeft = function (str, splits) {
-  let found = tryLeft(str, splits)
+const fromLeft = function (str, byChar) {
+  let found = tryLeft(str, byChar)
   if (found) {
     return {
       prefix: str.substr(0, found.length),
@@ -21,7 +21,7 @@ const fromLeft = function (str, splits) {
   let link = str.match(hasLink)
   if (link !== null) {
     let less = str.replace(hasLink, '')
-    let res = tryLeft(less, splits)
+    let res = tryLeft(less, byChar)
     if (res) {
       return {
         prefix: link[0] + res,
@@ -32,12 +32,23 @@ const fromLeft = function (str, splits) {
   return {}
 }
 
+// look for known suffixes
+const fromRight = function (str, byChar) {
+  let lists = Object.values(byChar)
+  for (let i = 0; i < lists.length; i += 1) {
+    let found = lists[i].find(s => str.endsWith(s))
+    if (found) {
+      return found
+    }
+  }
+  return null
+}
 
-const findSplits = function (term, splits) {
+const findbyChar = function (term, byChar) {
   let str = term.normal || ''
   let words = []
   while (str.length > 0) {
-    let found = fromLeft(str, splits)
+    let found = fromLeft(str, byChar)
     if (found.prefix) {
       words = words.concat(found.words)
       str = str.substr(found.prefix.length)
@@ -46,9 +57,20 @@ const findSplits = function (term, splits) {
       continue
     } else {
       // nothing found
-      words.push(str)
       break
     }
+  }
+  // try from the right
+  if (str.length > 5) {
+    let found = fromRight(str, byChar)
+    if (found) {
+      str = str.substr(0, str.length - found.length)
+      words = words.concat([str, found])
+      str = ''
+    }
+  }
+  if (str) {
+    words.push(str)
   }
   return words
 }
@@ -59,15 +81,15 @@ const splitter = function (view) {
     terms.forEach(term => {
       // split numbers
       if (term.tags.has('Value')) {
-        term.splits = findSplits(term, values)
+        term.splits = findbyChar(term, values)
       }
       // split nouns
       if (term.tags.has('Noun')) {
-        term.splits = findSplits(term, nouns)
+        term.splits = findbyChar(term, nouns)
       }
       // split adjectives
       // if (term.tags.has('Adjective')) {
-      //   term.splits = findSplits(term, adjectives)
+      //   term.byChar = findbyChar(term, adjectives)
       // }
     })
   })

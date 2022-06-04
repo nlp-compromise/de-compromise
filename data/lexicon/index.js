@@ -85,5 +85,5 @@ for (let i = 0; i < data.length; i++) {
     lex[list[o]] = data[i][1]
   }
 }
-// console.log(lex)
+// console.log(lex.schule)
 export default lex
