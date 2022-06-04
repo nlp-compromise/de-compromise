@@ -12,13 +12,14 @@ nlp.verbose('tagger')
 
 let txt = ''
 txt = ''
-txt = 'butterweich' //soft as butter
 txt = 'ausbrechen'
 txt = 'Ausbruch' //breakout
-txt = 'Bananenbrot' //bananabread
-txt = 'Siebentausendzweihundertvierundfünfzig' //7254
 txt = 'Schneeeule' //snow owl
 txt = 'Fallschirmspringerschule'//parachute jumper school 
+txt = 'butterweich' //soft as butter
+txt = 'Bananenbrot' //bananabread
+txt = 'Bilderrahmen' //bananabread
+txt = 'Siebentausendzweihundertvierundfünfzig' //7254
 
 let doc = nlp(txt)
 doc.compute('splitter')

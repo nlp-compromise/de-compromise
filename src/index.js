@@ -4,10 +4,12 @@ import lexicon from './lexicon/plugin.js'
 import tagger from './preTagger/plugin.js'
 import tagset from './tagset/plugin.js'
 import tokenizer from './tokenizer/plugin.js'
+import splitter from './splitter/plugin.js'
 nlp.plugin(tokenizer)
 nlp.plugin(tagset)
 nlp.plugin(lexicon)
 nlp.plugin(tagger)
+nlp.plugin(splitter)
 
 
 const de = function (txt, lex) {

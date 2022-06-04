@@ -23,7 +23,6 @@ Object.keys(lexData).forEach(tag => {
         lexicon[past] = 'PastTense'
       }
     }
-
   })
 })
 // console.log(lexicon)
