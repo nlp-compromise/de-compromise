@@ -6,5 +6,5 @@ export default {
   mutate,
   model,
   compute,
-  hooks: ['splitter'],
+  // hooks: ['splitter'],
 }

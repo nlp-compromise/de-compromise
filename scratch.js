@@ -18,13 +18,13 @@ txt = 'Schneeeule' //snow owl
 txt = 'Fallschirmspringerschule'//parachute jumper school 
 txt = 'butterweich' //soft as butter
 txt = 'Bilderrahmen' //bananabread
-txt = 'Siebentausendzweihundertvierundfünfzig' //7254
 txt = 'Fallschirmspringerschule'
-txt = 'Bananenbrot' //bananabread
-txt = 'Fallschirmspringerschule'
-txt = 'Zustandsdiagramm'
 txt = 'Schwimmerbereichen'
+txt = 'Siebentausendzweihundertvierundfünfzig' //7254
+txt = 'Bananenbrot' //bananabread
 txt = 'Staatsexamen'
+txt = 'Zustandsdiagramm'
+txt = 'Fallschirmspringerschule'
 
 let doc = nlp(txt)
 doc.compute('splitter')

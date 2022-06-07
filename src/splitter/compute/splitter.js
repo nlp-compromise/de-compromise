@@ -2,77 +2,33 @@
 // https://digital.lib.washington.edu/researchworks/bitstream/handle/1773/44691/Callow_washington_0250O_20779.pdf
 // 'er|en|es|s|e|n
 const hasLink = /^(e[rns]|s|n)/
+import { findMatch } from '../trie.js'
 
-const tryLeft = function (str, byChar) {
-  let char = str.substr(0, 1)
-  let list = byChar[char] || []
-  return list.find(s => str.startsWith(s))
-}
-
-const fromLeft = function (str, byChar) {
-  let found = tryLeft(str, byChar)
-  if (found) {
-    return {
-      prefix: str.substr(0, found.length),
-      words: [found]
-    }
-  }
-  // look for 'foo|en|bar'
-  let link = str.match(hasLink)
-  if (link !== null) {
-    let less = str.replace(hasLink, '')
-    let res = tryLeft(less, byChar)
-    if (res) {
-      return {
-        prefix: link[0] + res,
-        words: [link[0], res]
+const findSplits = function (str, root) {
+  let found = []
+  while (str.length > 0) {
+    let match = findMatch(str, root)
+    if (!match) {//we done
+      // allow a connector - [foo, en, bar]
+      if (found.length > 0 && hasLink.test(str)) {
+        let tmp = str.replace(hasLink, '')
+        match = findMatch(tmp, root)
+        if (match) {
+          let link = str.match(hasLink)[0]
+          found.push(link)
+          str = str.substr(link.length)
+        }
       }
     }
-  }
-  return {}
-}
-
-// look for known suffixes
-const fromRight = function (str, byChar) {
-  let lists = Object.values(byChar)
-  for (let i = 0; i < lists.length; i += 1) {
-    let found = lists[i].find(s => str.endsWith(s))
-    if (found) {
-      return found
-    }
-  }
-  return null
-}
-
-const findbyChar = function (term, byChar) {
-  let str = term.normal || ''
-  let words = []
-  while (str.length > 0) {
-    let found = fromLeft(str, byChar)
-    if (found.prefix) {
-      words = words.concat(found.words)
-      str = str.substr(found.prefix.length)
-      // console.log(found)
-      // console.log('->', str)
-      continue
-    } else {
-      // nothing found
+    if (!match) {
+      found.push(str)
       break
     }
+    // found a prefix
+    found.push(match)
+    str = str.substr(match.length)
   }
-  // try from the right
-  if (str.length > 5) {
-    let found = fromRight(str, byChar)
-    if (found) {
-      str = str.substr(0, str.length - found.length)
-      words = words.concat([str, found])
-      str = ''
-    }
-  }
-  if (str && words.length > 0) {
-    words.push(str)
-  }
-  return words
+  return found
 }
 
 const splitter = function (view) {
@@ -81,11 +37,11 @@ const splitter = function (view) {
     terms.forEach(term => {
       // split numbers
       if (term.tags.has('Value')) {
-        term.splits = findbyChar(term, values)
+        term.splits = findSplits(term.normal, values)
       }
       // split nouns
       if (term.tags.has('Noun')) {
-        term.splits = findbyChar(term, nouns)
+        term.splits = findSplits(term.normal, nouns)
       }
       // split adjectives
       // if (term.tags.has('Adjective')) {
