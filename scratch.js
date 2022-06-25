@@ -18,7 +18,8 @@ txt = 'sechshundert'
 txt = 'sechsundzwanzig'
 // txt = '30'
 txt = '22'
-txt = '10000'
+txt = 'hunderterste'
+// txt = 'hunderteins'
 // txt = 'Wir kommen am 7. September vorbei.'
 // txt = 'Am 5. Mai um 20.20 Uhr feiern wir mit 20.000 Margaritas.'
 // txt = 'hunderterste'
@@ -30,12 +31,12 @@ txt = '10000'
 
 let doc = nlp(txt).debug()
 let num = doc.numbers()
-num.toText()
-num.debug()
+// num.toText()
+// num.debug()
 // num.toOrdinal()
 // num.debug()
 // console.log(doc.docs)
-// console.log(num.json())
+console.log(num.json())
 // doc.debug()
 // console.log(JSON.stringify(doc.json(), null, 2))
 

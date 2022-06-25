@@ -65,9 +65,13 @@ Object.keys(data).forEach(k => {
 })
 
 const isMultiple = new Set(data.multiples.map(a => a[1]))
-// eins - ein
-toNumber.ein = 1
+
+// misc
+toNumber.ein = 1 // eins - ein
+toNumber.hunderteins = 101
 toCardinal.siebte = 'sieben'
+toCardinal.hunderterste = 'hunderteins'
+toOrdinal.hunderteins = 'hunderterste'
 
 
 export { data, toCardinal, toOrdinal, toNumber, isMultiple }
