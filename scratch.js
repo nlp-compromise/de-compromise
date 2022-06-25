@@ -29,14 +29,20 @@ txt = 'hunderterste'
 // txt = 'einhunderteinunddreißig'
 // txt = 'eine million'
 
-let doc = nlp(txt).debug()
-let num = doc.numbers()
+
+let doc = nlp('Ich habe einhunderteinundzwanzig Euro')
+doc.numbers().minus(10)
+doc.text()
+// 'Ich habe einhundertelf Euro'
+
+// let doc = nlp(txt).debug()
+// let num = doc.numbers()
 // num.toText()
 // num.debug()
 // num.toOrdinal()
 // num.debug()
 // console.log(doc.docs)
-console.log(num.json())
+// console.log(num.json())
 // doc.debug()
 // console.log(JSON.stringify(doc.json(), null, 2))
 

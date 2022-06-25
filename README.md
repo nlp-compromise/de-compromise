@@ -48,6 +48,15 @@ dok.match('#Noun').out('array')
 // [ 'wir', 'Helden', 'Tag.' ]
 ```
 
+### Parsing von Zahlen / Number parsing
+es kann Zahlen in natürlicher Sprache analysieren und formatieren
+```js
+let doc = ldv('Ich habe einhunderteinundzwanzig Euro')
+doc.numbers().minus(10)
+doc.text()
+// 'Ich habe einhundertelf Euro'
+```
+
 <!-- spacer -->
 <img height="15px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
@@ -72,6 +81,8 @@ Bitte beitreten, um zu helfen! - please join to help!
 <h2 align="center">
   <a href="https://rawgit.com/nlp-compromise/de-compromise/master/demo/index.html">Demo</a>
 </h2>
+
+
 
 
 ### Beitragen / Contributing
