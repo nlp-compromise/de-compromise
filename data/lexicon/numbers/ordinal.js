@@ -27,9 +27,13 @@ export default [
   'ziebzigste',// 70
   'achtzigste',// 80
   'neunzigste',// 90
-  'hundertste',// 1e2
+  'hundertste',// 100
+  'hunderterste',// 101
   'tausendste',// 1e3
   'millionste',// 1e6
   'milliardste',// 1e9
   'billionste',// 1e12
+
+  'siebente', //(alt)
+
 ]

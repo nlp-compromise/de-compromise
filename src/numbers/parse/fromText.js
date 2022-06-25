@@ -6,7 +6,7 @@ const parseNumbers = function (terms = []) {
   let minus = false
 
   let words = terms[0].splits || []
-  console.log(words)
+  // console.log(words)
   let tags = terms[0].tags
   for (let i = 0; i < words.length; i += 1) {
     let w = words[i]
@@ -21,7 +21,7 @@ const parseNumbers = function (terms = []) {
     }
     // 'huitieme'
     if (tags.has('Ordinal')) {
-      w = toCardinal[w]
+      w = toCardinal[w] || w
     }
     // 'hundert'
     if (isMultiple.has(w)) {
@@ -36,6 +36,7 @@ const parseNumbers = function (terms = []) {
     // 'fünf'
     if (toNumber.hasOwnProperty(w)) {
       carry += toNumber[w]
+      // console.log(w, carry)
     }
 
   }

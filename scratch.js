@@ -16,15 +16,17 @@ txt = 'fünf'
 txt = 'fünfhundert'
 txt = 'sechshundert'
 txt = 'sechsundzwanzig'
-txt = 'einundzwanzig'
+txt = 'zweihundertste'
+// txt = 'hunderterste'
+// txt = 'zweiundzwanzig'
 // txt = 'zweihunderteins'
 // txt = 'dreiunddreiβig'
 // txt = 'einhunderteinunddreißig'
 // txt = 'eine million'
 
-let doc = nlp(txt)
+let doc = nlp(txt).debug()
 // doc.compute('splitter')
-let num = doc.numbers().debug()
+let num = doc.numbers()
 // console.log(doc.docs)
 console.log(num.json())
 // doc.debug()

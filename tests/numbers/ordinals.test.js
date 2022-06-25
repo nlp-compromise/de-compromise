@@ -10,7 +10,8 @@ let arr = [
   [4, 'vierte', "vier"],
   [5, 'fünfte', "fünf"],
   [6, 'sechste', "sechs"],
-  [7, 'siebente', "sieben"], //siebte
+  [7, 'siebente', "sieben"], //
+  [7, 'siebte', "sieben"], //(alt)
   [8, 'achte', "acht"],
   [9, 'neunte', "neun"],
   [10, 'zehnte', "zehn"],
@@ -42,8 +43,8 @@ let arr = [
   [70, 'siebzigste', "siebzig"],
   [80, 'achtzigste', "achtzig"],
   [90, 'neunzigste', "neunzig"],
-  [100, 'hundertste', "einhundert"],
-  [101, 'hunderterste', 'einhunderteins'],
+  [100, 'hundertste', "hundert"],
+  [101, 'hunderterste', 'hunderteins'],
   [200, 'zweihundertste', 'zweihundert'],
   [300, 'dreihundertste', 'dreihundert'],
   [400, 'vierhundertste', 'vierhundert'],
@@ -52,18 +53,21 @@ let arr = [
   [700, 'siebenhundertste', 'siebenhundert'],
   [800, 'achthundertste', 'achthundert'],
   [900, 'neunhundertste', 'neunhundert'],
-  [1000, 'tausendste', 'eintausend'],
+  [1000, 'tausendste', 'tausend'],
   [2000, 'zweitausendste', 'zweitausend'],
   [100000, 'hunderttausendste', 'hunderttausend'],
   [1000000, 'millionste', 'million'],
-  [2000000, 'zweimillionste', 'zwei millionen'],
+  // [2000000, 'zweimillionste', 'zwei millionen'],
 ]
 
 test('match:', function (t) {
   arr.forEach(a => {
-    let [n, card, ord] = a
+    let [n, ord, card] = a
     t.equal(nlp(ord).has('#Ordinal'), true, here + ' [ordinal-tag] ' + ord)
     t.equal(nlp(card).has('#Cardinal'), true, here + ' [cardinal-tag] ' + card)
+    // parse the ordinal number
+    let num = nlp(ord).numbers().get()[0]
+    t.equal(num, n, here + ' [parse] ' + ord)
   })
   t.end()
 })

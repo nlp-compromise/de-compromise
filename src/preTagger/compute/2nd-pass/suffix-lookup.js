@@ -2,7 +2,7 @@
 //sweep-through all suffixes
 const suffixLoop = function (str = '', suffixes = []) {
   const len = str.length
-  let max = 7
+  let max = 10
   if (len <= max) {
     max = len - 1
   }

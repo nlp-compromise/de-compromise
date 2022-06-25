@@ -2,7 +2,7 @@
 //sweep-through all prefixes
 const prefixLoop = function (str = '', prefixes = []) {
   const len = str.length
-  let max = 7
+  let max = 10
   if (max > len - 3) {
     max = len - 3
   }
