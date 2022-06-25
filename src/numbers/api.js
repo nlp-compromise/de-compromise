@@ -247,6 +247,8 @@ const api = function (View) {
     if (!m.has('(million|millionen|milliarde)')) {
       m = m.terms()
     }
+    // make sure splitter has run
+    m.compute('splitter')
     m = getNth(m, n)
     return new Numbers(this.document, m.pointer)
   }

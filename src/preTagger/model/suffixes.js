@@ -2,8 +2,8 @@ const rb = 'Adverb'
 const nn = 'Noun'
 const vb = 'Verb'
 const jj = 'Adjective'
-const ord = 'Ordinal'
-const card = 'Cardinal'
+const ord = 'TextOrdinal'
+const card = 'TextCardinal'
 
 
 export default [

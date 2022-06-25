@@ -45,7 +45,8 @@ let data = {
     [900, 'neunhundert', 'neunhundertste'],
   ],
   multiples: [
-    [1000, 'eintausend', 'tausendste'],
+    [100, 'hundert', 'hundertste'],
+    [1000, 'tausend', 'tausendste'],
     [100000, 'hunderttausend', 'hunderttausendste'],
     [1000000, 'million', 'millionste'],
   ]

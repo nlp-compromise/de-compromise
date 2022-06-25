@@ -12,7 +12,9 @@ const buildIndex = function (world) {
       addWord(w, nouns)
     }
   })
-  // misc word
+  // misc words
   addWord('und', values)//'and'
+  addWord('ein', values)//'one'
+  addWord('hunderttausend', values)
 }
 export default buildIndex

@@ -23,13 +23,7 @@ Object.keys(lexData).forEach(tag => {
         lexicon[past] = 'PastTense'
       }
     }
-    // number tags
-    if (tag === 'Cardinal') {
-      lexicon[w] = ['Cardinal', 'TextValue']
-    }
-    if (tag === 'Ordinal') {
-      lexicon[w] = ['Ordinal', 'TextValue']
-    }
+
   })
 })
 // console.log(lexicon)
