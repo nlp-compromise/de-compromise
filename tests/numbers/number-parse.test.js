@@ -35,15 +35,19 @@ let arr = [
   [28, "achtundzwanzig"],
   [29, "neunundzwanzig"],
   [30, "dreißig"],
-  [31, "einunddreiβig"],
-  [32, "zweiunddreiβig"],
-  [33, "dreiunddreiβig"],
-  [34, "vierunddreiβig"],
-  [35, "fünfunddreiβig"],
-  [36, "sechsunddreiβig"],
-  [37, "siebenunddreiβig"],
-  [38, "achtunddreiβig"],
-  [39, "neununddreiβig"],
+  [31, "einunddreißig"],
+  [32, "zweiunddreißig"],
+  [33, "dreiunddreißig"],
+  [34, "vierunddreißig"],
+  [35, "fünfunddreißig"],
+  [36, "sechsunddreißig"],
+  [37, "siebenunddreißig"],
+  [38, "achtunddreißig"],
+  [39, "neununddreißig"],
+  // [31, "einunddreiβig"],
+  // [32, "zweiunddreiβig"],
+  // [33, "dreiunddreiβig"],
+  // [34, "vierunddreiβig"],
   [40, "vierzig"],
   [41, "einundvierzig"],
   [42, "zweiundvierzig"],
@@ -128,6 +132,7 @@ let arr = [
   [800, 'achthundert'],
   [900, 'neunhundert'],
   [1000, 'eintausend'],
+  [1101, 'eintausendeinhunderteins'],
   [2000, 'zweitausend'],
   [3000, 'dreitausend'],
   [4000, 'viertausend'],
@@ -137,7 +142,7 @@ let arr = [
   [8000, 'achttausend'],
   [9000, 'neuntausend'],
   [10000, 'zehntausend'],
-  [100000, 'hunderttausend'],//	one hundred thousand
+  [100000, 'einhunderttausend'],//	one hundred thousand
   [500000, 'fünfhunderttausend'],//	five hundred thousand
   // [1000000, 'eine million'],//	one million
   // [2000001, 'zwei millionen eins'],//	two million one
@@ -151,6 +156,11 @@ test('match:', function (t) {
     // t.equal(doc.has('#Value'), true, here + ' [tag] ' + str)
     let num = doc.numbers().get()[0]
     t.equal(num, n, here + ' [parse] ' + str)
+
+    doc = nlp(String(n))
+    doc.numbers().toText()
+    t.equal(doc.text(), str, here + ' [fmt] ' + str)
+
   })
   t.end()
 })

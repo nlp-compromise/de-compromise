@@ -34,7 +34,7 @@ let data = {
   ],
   hundreds: [
     [100, 'einhundert', 'hundertste'],
-    [101, 'einhunderteins', 'hunderterste'],
+    // [101, 'einhunderteins', 'hunderterste'],
     [200, 'zweihundert', 'zweihundertste'],
     [300, 'dreihundert', 'dreihundertste'],
     [400, 'vierhundert', 'vierhundertste'],
