@@ -29,6 +29,7 @@ export default [
   'neunzig',// 90
   'hundert',// 1e2
   'tausend',// 1e3
+  'million',// 1e6
   'millionen',// 1e6
   'milliarde',// 1e9
   'billionen',// 1e12

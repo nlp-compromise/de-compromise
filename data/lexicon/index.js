@@ -70,8 +70,8 @@ const data = [
 
   [prepositions, 'Preposition'],
   [pronouns, 'Pronoun'],
-  [cardinal, 'TextCardinal'],
-  [ordinal, 'TextOrdinal'],
+  [cardinal, 'Cardinal'],
+  [ordinal, 'Ordinal'],
 ]
 
 let lex = {}

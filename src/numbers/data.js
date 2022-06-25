@@ -1,4 +1,4 @@
-export default {
+let data = {
   ones: [
     [1, 'eins', 'erste'],
     [2, 'zwei', 'zweite'],
@@ -24,7 +24,7 @@ export default {
   ],
   tens: [
     [20, 'zwanzig', 'zwanzigste'],
-    [30, 'dreiβig', 'dreißigste'],
+    [30, 'dreißig', 'dreißigste'],
     [40, 'vierzig', 'vierzigste'],
     [50, 'fünfzig', 'fünfzigste'],
     [60, 'sechzig', 'sechzigste'],
@@ -50,3 +50,19 @@ export default {
     [1000000, 'million', 'millionste'],
   ]
 }
+const toCardinal = {}
+const toOrdinal = {}
+const toNumber = {}
+
+Object.keys(data).forEach(k => {
+  data[k].forEach(a => {
+    let [num, w, ord] = a
+    toCardinal[ord] = w
+    toOrdinal[w] = ord
+    toNumber[w] = num
+  })
+})
+
+const isMultiple = new Set(data.multiples.map(a => a[1]))
+
+export { data, toCardinal, toOrdinal, toNumber, isMultiple }

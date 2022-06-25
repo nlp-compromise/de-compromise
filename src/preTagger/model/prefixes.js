@@ -13,9 +13,18 @@ export default [
   },
   {
     // four-letter prefixes
+    "eins": val,
+    "zwei": val,
+    "drei": val,
+    "vier": val,
+    "fünf": val,
+    "acht": val,
+    "neun": val,
   },
   {
     // five-letter prefixes
+    "sechs": val,
+    "sieben": val,
   },
   {
     // six-letter prefixes

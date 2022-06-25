@@ -34,7 +34,7 @@ let arr = [
   [27, "siebenundzwanzig"],
   [28, "achtundzwanzig"],
   [29, "neunundzwanzig"],
-  [30, "dreiβig"],
+  [30, "dreißig"],
   [31, "einunddreiβig"],
   [32, "zweiunddreiβig"],
   [33, "dreiunddreiβig"],
@@ -122,6 +122,7 @@ let arr = [
   [300, 'dreihundert'],
   [400, 'vierhundert'],
   [500, 'fünfhundert'],
+  [578, 'fünfhundertachtundsiebzig'],
   [600, 'sechshundert'],
   [700, 'siebenhundert'],
   [800, 'achthundert'],
@@ -140,7 +141,7 @@ let arr = [
   [500000, 'fünfhunderttausend'],//	five hundred thousand
   [1000000, 'eine million'],//	one million
   [2000001, 'zwei millionen eins'],//	two million one
-  [1000000000, 'eine milliarde']//	one billion
+  [1000000000, 'eine milliarde'],//	one billion
 ]
 
 test('match:', function (t) {

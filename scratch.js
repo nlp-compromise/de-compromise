@@ -12,24 +12,19 @@ nlp.verbose('tagger')
 
 let txt = ''
 txt = ''
-txt = 'ausbrechen'
-txt = 'Ausbruch' //breakout
-txt = 'Schneeeule' //snow owl
-txt = 'Fallschirmspringerschule'//parachute jumper school 
-txt = 'butterweich' //soft as butter
-txt = 'Bilderrahmen' //bananabread
-txt = 'Fallschirmspringerschule'
-txt = 'Schwimmerbereichen'
-txt = 'Siebentausendzweihundertvierundfünfzig' //7254
-txt = 'Bananenbrot' //bananabread
-txt = 'Staatsexamen'
-txt = 'Zustandsdiagramm'
-txt = 'Fallschirmspringerschule'
+txt = 'fünf'
+txt = 'fünfhundert'
+txt = 'dreiunddreiβig'
+txt = 'einhunderteinunddreißig'
+txt = 'eine million'
 
-let doc = nlp(txt)
-doc.compute('splitter')
-doc.debug()
-console.log(JSON.stringify(doc.json(), null, 2))
+let doc = nlp(txt).debug()
+// doc.compute('splitter')
+console.log(doc.docs)
+let num = doc.numbers().debug()
+console.log(num.json())
+// doc.debug()
+// console.log(JSON.stringify(doc.json(), null, 2))
 
 // proof-of-concept verb-conjugation
 // let conjugate = dok.methods.one.transform.conjugate

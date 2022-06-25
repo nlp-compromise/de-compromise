@@ -51,7 +51,8 @@ export default [
     tzt: vb,
     det: vb,
     elt: vb,
-    ete: vb
+    ete: vb,
+    elf: card,//eleven
   },
   {
     // four-letter suffixes
@@ -70,13 +71,23 @@ export default [
     eben: vb,
     ehen: vb,
     mmen: vb,
-    zehn: card//10s
+    zehn: card,//10s
+    eins: card,
+    zwei: card,
+    drei: card,
+    vier: card,
+    fünf: card,
+    acht: card,
+    neun: card,
+    zehn: card,
     // lten: vb,
     // ssen: vb
   },
   {
     // five-letter suffixes
     ische: jj,
+    zwölf: card,
+    sechs: card,
     liche: jj,
     // enden: jj,
     tlich: jj,
@@ -87,11 +98,12 @@ export default [
     seits: rb,
     ungen: nn,
     erung: nn,
-    ieren: vb
+    ieren: vb,
   },
   {
     // six-letter suffixes
     ischen: jj,
+    sieben: card,
     lichen: jj,
     tische: jj,
     nische: jj,
@@ -105,16 +117,25 @@ export default [
     tlichen: jj,
     nischen: jj,
     zwanzig: card,//20
-    dreiβig: card,//30
+    dreißig: card,//30
     vierzig: card,//40
     fünfzig: card,//50
     sechzig: card, //60
     siebzig: card, //70
     achtzig: card, //80
     neunzig: card, //90
+    hundert: card,//100
+    tausend: card,//1,000
   },
   // eight-letter suffixes
   {
+    dreizehn: card,
+    vierzehn: card,
+    fünfzehn: card,
+    sechzehn: card,
+    siebzehn: card,
+    achtzehn: card,
+    neunzehn: card,
 
   },
   // nine-letter suffixes
