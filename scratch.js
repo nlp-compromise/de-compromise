@@ -1,6 +1,6 @@
 import nlp from './src/index.js'
 
-nlp.verbose('tagger')
+// nlp.verbose('tagger')
 
 
 // können (can, to be able to), 
@@ -11,9 +11,42 @@ nlp.verbose('tagger')
 // mögen (to like, to like to).
 
 let txt = ''
-txt = 'junio'
-let doc = nlp(txt)
-doc.debug()
+txt = ''
+txt = 'fünf'
+txt = 'fünfhundert'
+txt = 'sechshundert'
+txt = 'sechsundzwanzig'
+// txt = '30'
+txt = '22'
+txt = 'hunderterste'
+// txt = 'hunderteins'
+// txt = 'Wir kommen am 7. September vorbei.'
+// txt = 'Am 5. Mai um 20.20 Uhr feiern wir mit 20.000 Margaritas.'
+// txt = 'hunderterste'
+// txt = 'zweiundzwanzig'
+// txt = 'zweihunderteins'
+// txt = 'dreiunddreiβig'
+// txt = 'einhunderteinunddreißig'
+// txt = 'eine million'
+
+let doc = nlp('Spencer geht zum Laden').debug()
+doc.match('#Person geht zum #Noun').debug()
+
+// let doc = nlp('Ich habe einhunderteinundzwanzig Euro')
+// doc.numbers().minus(10)
+// doc.text()
+// 'Ich habe einhundertelf Euro'
+
+// let doc = nlp(txt).debug()
+// let num = doc.numbers()
+// num.toText()
+// num.debug()
+// num.toOrdinal()
+// num.debug()
+// console.log(doc.docs)
+// console.log(num.json())
+// doc.debug()
+// console.log(JSON.stringify(doc.json(), null, 2))
 
 // proof-of-concept verb-conjugation
 // let conjugate = dok.methods.one.transform.conjugate

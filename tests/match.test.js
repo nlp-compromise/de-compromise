@@ -8,13 +8,18 @@ test('match:', function (t) {
     ['Wir gehen in den Park', '#Pronoun #Verb in #Determiner #Noun'],
     ['Kanada ist sehr kalt', '#Noun #Verb #Adverb #Adjective'],
     ['hinterm', '#Adverb #Determiner'],// contraction
-    ['Spencer geht zum Laden ', '#Person #Verb #Determiner #Noun'],
+    ['Spencer geht zum Laden', '#Person #Verb zu #Determiner #Noun'],
+    ['Spencer geht zum Laden', '#Person geht zum #Noun'],
+    // contractions
+    ['zum', 'zum'],
+    ['zum', 'zu .'],
+    ['zum', 'zu dem'],
 
     ['juni', '#Month'],
     ['donnerstag', '#WeekDay'],
     ['234', '#Value'],
     ['chicago', '#City'],
-    ['Jamaica', '#Country'],
+    ['Jamaika', '#Country'],
     ['colorado', '#Place'],
     ['tony', '#MaleName'],
     // ['', ''],

@@ -2,6 +2,8 @@ const rb = 'Adverb'
 const nn = 'Noun'
 const vb = 'Verb'
 const jj = 'Adjective'
+const ord = 'TextOrdinal'
+const card = 'TextCardinal'
 
 
 export default [
@@ -49,7 +51,8 @@ export default [
     tzt: vb,
     det: vb,
     elt: vb,
-    ete: vb
+    ete: vb,
+    elf: card,//eleven
   },
   {
     // four-letter suffixes
@@ -68,12 +71,23 @@ export default [
     eben: vb,
     ehen: vb,
     mmen: vb,
+    zehn: card,//10s
+    eins: card,
+    zwei: card,
+    drei: card,
+    vier: card,
+    fünf: card,
+    acht: card,
+    neun: card,
+    zehn: card,
     // lten: vb,
     // ssen: vb
   },
   {
     // five-letter suffixes
     ische: jj,
+    zwölf: card,
+    sechs: card,
     liche: jj,
     // enden: jj,
     tlich: jj,
@@ -84,19 +98,53 @@ export default [
     seits: rb,
     ungen: nn,
     erung: nn,
-    ieren: vb
+    ieren: vb,
   },
   {
     // six-letter suffixes
     ischen: jj,
+    sieben: card,
     lichen: jj,
     tische: jj,
-    nische: jj
+    nische: jj,
+    zehnte: ord,
+    zigste: ord,
+    ßigste: ord,
   },
   {
     // seven-letter suffixes
     tischen: jj,
     tlichen: jj,
-    nischen: jj
-  }
+    nischen: jj,
+    zwanzig: card,//20
+    dreißig: card,//30
+    vierzig: card,//40
+    fünfzig: card,//50
+    sechzig: card, //60
+    siebzig: card, //70
+    achtzig: card, //80
+    neunzig: card, //90
+    hundert: card,//100
+    tausend: card,//1,000
+  },
+  // eight-letter suffixes
+  {
+    dreizehn: card,
+    vierzehn: card,
+    fünfzehn: card,
+    sechzehn: card,
+    siebzehn: card,
+    achtzehn: card,
+    neunzehn: card,
+
+  },
+  // nine-letter suffixes
+  {
+  },
+  // ten-letter suffixes
+  {
+    hundertste: ord,
+    tausendste: ord,
+    millionste: ord
+  },
 ]

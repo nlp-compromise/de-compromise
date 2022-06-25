@@ -25,6 +25,15 @@ export default {
     is: 'Value',
     not: ['NumericValue'],
   },
+  TextOrdinal: {
+    is: 'TextValue',
+    also: ['Ordinal']
+  },
+  TextCardinal: {
+    is: 'TextValue',
+    also: ['Cardinal']
+  },
+
   NumericValue: {
     is: 'Value',
     not: ['TextValue'],

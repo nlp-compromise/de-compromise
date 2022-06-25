@@ -7,6 +7,7 @@ import acronym from './2nd-pass/acronym.js'
 // import neighbours from './2nd-pass/neighbours.js'
 import fallback from './2nd-pass/fallback.js'
 import suffixCheck from './2nd-pass/suffix-lookup.js'
+import prefixCheck from './2nd-pass/prefix-lookup.js'
 
 // these methods don't care about word-neighbours
 const firstPass = function (terms, world) {
@@ -23,6 +24,7 @@ const secondPass = function (terms, world) {
   for (let i = 0; i < terms.length; i += 1) {
     let found = acronym(terms, i, world)
     found = found || suffixCheck(terms, i, world)
+    found = found || prefixCheck(terms, i, world)
     // found = found || neighbours(terms, i, world)
     found = found || fallback(terms, i, world)
   }
