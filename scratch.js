@@ -29,10 +29,12 @@ txt = 'hunderterste'
 // txt = 'einhunderteinunddreißig'
 // txt = 'eine million'
 
+let doc = nlp('Spencer geht zum Laden').debug()
+doc.match('#Person geht zum #Noun').debug()
 
-let doc = nlp('Ich habe einhunderteinundzwanzig Euro')
-doc.numbers().minus(10)
-doc.text()
+// let doc = nlp('Ich habe einhunderteinundzwanzig Euro')
+// doc.numbers().minus(10)
+// doc.text()
 // 'Ich habe einhundertelf Euro'
 
 // let doc = nlp(txt).debug()
