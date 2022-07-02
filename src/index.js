@@ -7,6 +7,7 @@ import splitter from './splitter/plugin.js'
 import tagger from './preTagger/plugin.js'
 import postTagger from './postTagger/plugin.js'
 import numbers from './numbers/plugin.js'
+import version from './_version.js'
 
 nlp.plugin(tokenizer)
 nlp.plugin(tagset)
@@ -30,5 +31,7 @@ de.verbose = function (set) {
   env.DEBUG_CHUNKS = set === 'chunker' || set === true ? true : ''
   return this
 }
+
+de.version = version
 
 export default de
