@@ -400,7 +400,7 @@
   Object.assign(View.prototype, api$d);
   var View$1 = View;
 
-  var version = '14.3.1';
+  var version$1 = '14.3.1';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
@@ -609,7 +609,7 @@
   /** log the decision-making to console */
   nlp.verbose = verbose;
   /** current library release version */
-  nlp.version = version;
+  nlp.version = version$1;
 
   var nlp$1 = nlp;
 
@@ -9333,6 +9333,8 @@
     api: api$1
   };
 
+  var version = '0.0.4';
+
   nlp$1.plugin(tokenizer);
   nlp$1.plugin(tagset);
   nlp$1.plugin(lexicon);
@@ -9355,6 +9357,8 @@
     env.DEBUG_CHUNKS = set === 'chunker' || set === true ? true : '';
     return this
   };
+
+  de.version = version;
 
   return de;
 
