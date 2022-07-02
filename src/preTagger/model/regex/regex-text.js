@@ -11,4 +11,7 @@ export default [
   // ending-apostrophes
   [/.{3}[lkmnp]in['‘’‛‵′`´]$/, 'Gerund', "chillin'"],
   [/.{4}s['‘’‛‵′`´]$/, 'Possessive', "flanders'"],
+
+  // german ordinals '4.'
+  // [/^[0-9]+\.$/, 'Ordinal'],
 ]

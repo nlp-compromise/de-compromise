@@ -1,7 +1,6 @@
 import test from 'tape'
 import nlp from './_lib.js'
 let here = '[de-match] '
-nlp.verbose(false)
 
 test('match:', function (t) {
   let arr = [
@@ -22,6 +21,7 @@ test('match:', function (t) {
     ['Jamaika', '#Country'],
     ['colorado', '#Place'],
     ['tony', '#MaleName'],
+    ['64. Hund', '#Ordinal #Noun'],
     // ['', ''],
   ]
   arr.forEach(function (a) {
