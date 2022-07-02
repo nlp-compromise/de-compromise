@@ -1,4 +1,6 @@
 const hasApostrophe = /['‘’‛‵′`´]/
+const hasPeriod = /\./
+const isNum = /^[0-9+-,]+$/
 
 // normal regexes
 const doRegs = function (str, regs) {
@@ -19,6 +21,12 @@ const checkRegex = function (terms, i, world) {
   // keep dangling apostrophe?
   if (hasApostrophe.test(term.post) && !hasApostrophe.test(term.pre)) {
     text += term.post.trim()
+  }
+  // keep period in number ordinals?
+  if (hasPeriod.test(term.post) && isNum.test(text)) {
+    setTag([term], ['Ordinal', 'NumericValue'], world, false, `1-regex-ordinal`)
+    term.confidence = 0.6
+    return true
   }
   let arr = doRegs(text, regexText) || doRegs(normal, regexNormal)
   // hide a bunch of number regexes behind this one
