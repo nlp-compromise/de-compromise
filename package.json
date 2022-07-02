@@ -6,7 +6,6 @@
   "main": "./src/index.js",
   "unpkg": "./builds/de-compromise.min.js",
   "type": "module",
-  "types": "builds/types.d.ts",
   "sideEffects": false,
   "exports": {
     ".": {
@@ -14,6 +13,7 @@
       "require": "./builds/de-compromise.cjs"
     }
   },
+  "types": "types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git://github.com/nlp-compromise/de-compromise.git"
@@ -21,7 +21,8 @@
   "scripts": {
     "test": "tape \"./tests/**/*.test.js\" | tap-dancer",
     "testb": "TESTENV=prod npm run test",
-    "build": "rollup -c --silent",
+    "build": "npm run version && rollup -c --silent",
+    "version": "node ./scripts/version.js",
     "pack": "node ./scripts/pack.js",
     "score": " node ./learn/test/index.js",
     "watch": "amble ./scratch.js"
