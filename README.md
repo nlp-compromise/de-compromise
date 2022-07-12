@@ -123,4 +123,5 @@ npm watch
 ### See also
 * [dweiss/compound-splitter](https://github.com/dweiss/compound-splitter) - german compound-word splitter
 * [danielnaber/jwordsplitter](https://github.com/danielnaber/jwordsplitter) - Java compound-word splitter
+
 MIT
