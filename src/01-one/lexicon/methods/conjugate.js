@@ -26,3 +26,6 @@ const fromPast = function (str) {
 
 
 export default { toPresent, fromPresent, toPast, fromPast }
+
+
+// console.log(toPresent('zusammenzufuehren'))

@@ -20,7 +20,6 @@ txt = 'sechsundzwanzig'
 txt = '22'
 txt = 'hunderterste'
 // txt = 'hunderteins'
-txt = '64. Hund'
 // txt = 'Am 5. Mai um 20.20 Uhr feiern wir mit 20.000 Margaritas.'
 // txt = 'hunderterste'
 // txt = 'zweiundzwanzig'
@@ -28,6 +27,10 @@ txt = '64. Hund'
 // txt = 'dreiunddreiβig'
 // txt = 'einhunderteinunddreißig'
 // txt = 'eine million'
+
+// verbs
+txt = 'Wir gingen in den Park'
+txt = 'zusammenzufuehren'
 
 
 

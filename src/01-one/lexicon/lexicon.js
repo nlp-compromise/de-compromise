@@ -15,6 +15,9 @@ Object.keys(lexData).forEach(tag => {
       // add present tense
       let pres = conjugate.toPresent(w)
       if (pres && pres !== w) {
+        if (lexicon[pres]) {
+          console.log(w, pres)
+        }
         lexicon[pres] = 'PresentTense'
       }
       // add past tense
