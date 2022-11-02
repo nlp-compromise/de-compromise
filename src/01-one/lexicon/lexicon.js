@@ -1,6 +1,6 @@
 import lexData from './_data.js'
 import { unpack } from 'efrt'
-import conjugate from './methods/conjugate.js'
+import conjugate from './methods/verb.js'
 
 
 let lexicon = {}
@@ -15,9 +15,6 @@ Object.keys(lexData).forEach(tag => {
       // add present tense
       let pres = conjugate.toPresent(w)
       if (pres && pres !== w) {
-        if (lexicon[pres]) {
-          console.log(w, pres)
-        }
         lexicon[pres] = 'PresentTense'
       }
       // add past tense

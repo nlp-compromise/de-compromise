@@ -1,6 +1,6 @@
 import nlp from './src/index.js'
 
-nlp.verbose('tagger')
+// nlp.verbose('tagger')
 
 
 // können (can, to be able to), 
@@ -42,7 +42,9 @@ txt = 'Wir gingen in den Park'
 // doc.text()
 // 'Ich habe einhundertelf Euro'
 
-let doc = nlp(txt).debug()
+let doc = nlp(txt).debug().compute('root')
+console.log(nlp.parseMatch('{gehen}'))
+// doc.match('{gehen}').debug()
 // let num = doc.numbers()
 // num.toText()
 // num.debug()

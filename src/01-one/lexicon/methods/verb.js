@@ -24,8 +24,21 @@ const fromPast = function (str) {
   return convert(str, pastToInf)
 }
 
+const all = function (str) {
+  let arr = [str]
+  let past = toPast(str)
+  if (past !== str) {
+    arr.push(past)
+  }
+  let present = toPresent(str)
+  if (present !== str) {
+    arr.push(present)
+  }
+  return arr
+}
 
-export default { toPresent, fromPresent, toPast, fromPast }
+export default { toPresent, fromPresent, toPast, fromPast, all }
 
 
 // console.log(toPresent('zusammenzufuehren'))
+// console.log(toPast('gehen'))

@@ -22,6 +22,18 @@ const de = function (txt, lex) {
   return dok
 }
 
+// copy constructor methods over
+Object.keys(nlp).forEach(k => {
+  if (nlp.hasOwnProperty(k)) {
+    de[k] = nlp[k]
+  }
+})
+
+// this one is hidden
+Object.defineProperty(de, '_world', {
+  value: nlp._world,
+  writable: true,
+})
 /** log the decision-making to console */
 de.verbose = function (set) {
   let env = typeof process === 'undefined' ? self.env || {} : process.env //use window, in browser
