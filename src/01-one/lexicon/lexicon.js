@@ -1,6 +1,6 @@
 import lexData from './_data.js'
 import { unpack } from 'efrt'
-import conjugate from './methods/conjugate.js'
+import conjugate from './methods/verb.js'
 
 
 let lexicon = {}

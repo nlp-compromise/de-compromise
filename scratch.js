@@ -1,6 +1,6 @@
 import nlp from './src/index.js'
 
-nlp.verbose('tagger')
+// nlp.verbose('tagger')
 
 
 // können (can, to be able to), 
@@ -20,7 +20,6 @@ txt = 'sechsundzwanzig'
 txt = '22'
 txt = 'hunderterste'
 // txt = 'hunderteins'
-txt = '64. Hund'
 // txt = 'Am 5. Mai um 20.20 Uhr feiern wir mit 20.000 Margaritas.'
 // txt = 'hunderterste'
 // txt = 'zweiundzwanzig'
@@ -28,6 +27,10 @@ txt = '64. Hund'
 // txt = 'dreiunddreiβig'
 // txt = 'einhunderteinunddreißig'
 // txt = 'eine million'
+
+// verbs
+// txt = 'zusammenzufuehren'
+txt = 'Wir gingen in den Park'
 
 
 
@@ -40,6 +43,8 @@ txt = '64. Hund'
 // 'Ich habe einhundertelf Euro'
 
 let doc = nlp(txt).debug()
+console.log(doc.verbs().conjugate())
+// doc.match('{gehen}').debug()
 // let num = doc.numbers()
 // num.toText()
 // num.debug()

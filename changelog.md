@@ -1,3 +1,6 @@
+### 0.0.6 [Nov 2022]
+- **[new]** - support some verb root matches
+
 ### 0.0.5 [July 2022]
 - **[fix]** - support for ordinal numbers like '4.' 
 
