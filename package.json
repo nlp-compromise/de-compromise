@@ -25,7 +25,8 @@
     "version": "node ./scripts/version.js",
     "pack": "node ./scripts/pack.js",
     "score": " node ./learn/test/index.js",
-    "watch": "amble ./scratch.js"
+    "watch": "amble ./scratch.js",
+    "stress": "node scripts/stress.js"
   },
   "files": [
     "builds/",
@@ -37,6 +38,7 @@
     "suffix-thumb": "4.0.2"
   },
   "devDependencies": {
+    "de-corpus": "^0.0.1",
     "@rollup/plugin-alias": "3.1.9",
     "@rollup/plugin-node-resolve": "13.3.0",
     "amble": "1.3.0",
