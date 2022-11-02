@@ -29,8 +29,8 @@ txt = 'hunderterste'
 // txt = 'eine million'
 
 // verbs
+// txt = 'zusammenzufuehren'
 txt = 'Wir gingen in den Park'
-txt = 'zusammenzufuehren'
 
 
 
