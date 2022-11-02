@@ -263,7 +263,7 @@
 
   // aliases
   methods$l.get = methods$l.eq;
-  var api$d = methods$l;
+  var api$f = methods$l;
 
   class View {
     constructor(document, pointer, groups = {}) {
@@ -388,10 +388,10 @@
       return m
     }
   }
-  Object.assign(View.prototype, api$d);
+  Object.assign(View.prototype, api$f);
   var View$1 = View;
 
-  var version$1 = '14.4.0';
+  var version$1 = '14.6.0';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
@@ -426,6 +426,54 @@
     return model
   }
 
+  const addIrregulars = function (model, conj) {
+    let m = model.two.models || {};
+    Object.keys(conj).forEach(k => {
+      // verb forms
+      if (conj[k].pastTense) {
+        if (m.toPast) {
+          m.toPast.exceptions[k] = conj[k].pastTense;
+        }
+        if (m.fromPast) {
+          m.fromPast.exceptions[conj[k].pastTense] = k;
+        }
+      }
+      if (conj[k].presentTense) {
+        if (m.toPresent) {
+          m.toPresent.exceptions[k] = conj[k].presentTense;
+        }
+        if (m.fromPresent) {
+          m.fromPresent.exceptions[conj[k].presentTense] = k;
+        }
+      }
+      if (conj[k].gerund) {
+        if (m.toGerund) {
+          m.toGerund.exceptions[k] = conj[k].gerund;
+        }
+        if (m.fromGerund) {
+          m.fromGerund.exceptions[conj[k].gerund] = k;
+        }
+      }
+      // adjective forms
+      if (conj[k].comparative) {
+        if (m.toComparative) {
+          m.toComparative.exceptions[k] = conj[k].comparative;
+        }
+        if (m.fromComparative) {
+          m.fromComparative.exceptions[conj[k].comparative] = k;
+        }
+      }
+      if (conj[k].superlative) {
+        if (m.toSuperlative) {
+          m.toSuperlative.exceptions[k] = conj[k].superlative;
+        }
+        if (m.fromSuperlative) {
+          m.fromSuperlative.exceptions[conj[k].superlative] = k;
+        }
+      }
+    });
+  };
+
   const extend = function (plugin, world, View, nlp) {
     const { methods, model, compute, hooks } = world;
     if (plugin.methods) {
@@ -433,6 +481,9 @@
     }
     if (plugin.model) {
       mergeDeep(model, plugin.model);
+    }
+    if (plugin.irregulars) {
+      addIrregulars(model, plugin.irregulars);
     }
     // shallow-merge compute
     if (plugin.compute) {
@@ -661,7 +712,7 @@
   const addAPI$3 = function (View) {
     Object.assign(View.prototype, methods$j);
   };
-  var api$c = addAPI$3;
+  var api$e = addAPI$3;
 
   var compute$8 = {
     cache: function (view) {
@@ -670,7 +721,7 @@
   };
 
   var cache$1 = {
-    api: api$c,
+    api: api$e,
     compute: compute$8,
     methods: methods$k,
   };
@@ -891,7 +942,7 @@
   // are we inserting inside a contraction?
   // expand it first
   const expand$2 = function (m) {
-    if (m.has('@hasContraction')) {//&& m.after('^.').has('@hasContraction')
+    if (m.has('@hasContraction') && typeof m.contractions === 'function') {//&& m.after('^.').has('@hasContraction')
       let more = m.grow('@hasContraction');
       more.contractions().expand();
     }
@@ -916,7 +967,7 @@
     }
     //allow a view object
     if (typeof input === 'object' && input.isView) {
-      return input.clone().docs[0] //assume one sentence
+      return input.clone().docs[0] || [] //assume one sentence
     }
     //allow an array of terms, too
     if (isArray$7(input)) {
@@ -937,6 +988,10 @@
       // add-in the words
       let home = document[n];
       let terms = getTerms(input, world);
+      // are we inserting nothing?
+      if (terms.length === 0) {
+        return
+      }
       terms = addIds$2(terms);
       if (prepend) {
         expand$2(view.update([ptr]).firstTerm());
@@ -1063,6 +1118,7 @@
     if (!m.found) {
       return this
     }
+    this.soften();
     return m.replaceWith(input, keep)
   };
   var replace = fns$2;
@@ -1172,9 +1228,10 @@
         self = this;
         not = this.match(reg);
       }
+      let isFull = !self.ptrs;
       // is it part of a contraction?
-      if (self.has('@hasContraction') && self.contractions) {
-        let more = self.grow('@hasContraction');
+      if (not.has('@hasContraction') && not.contractions) {
+        let more = not.grow('@hasContraction');
         more.contractions().expand();
       }
 
@@ -1185,11 +1242,14 @@
       // repair our pointers
       let gonePtrs = indexN(nots);
       ptrs = fixPointers$1(ptrs, gonePtrs);
-
       // clean up our original inputs
       self.ptrs = ptrs;
       self.document = document;
       self.compute('index');
+      // if we started zoomed-out, try to end zoomed-out
+      if (isFull) {
+        self.ptrs = undefined;
+      }
       if (!reg) {
         this.ptrs = [];
         return self.none()
@@ -1540,7 +1600,7 @@
   const addAPI$2 = function (View) {
     Object.assign(View.prototype, methods$f);
   };
-  var api$b = addAPI$2;
+  var api$d = addAPI$2;
 
   const compute$6 = {
     id: function (view) {
@@ -1557,7 +1617,7 @@
   var compute$7 = compute$6;
 
   var change = {
-    api: api$b,
+    api: api$d,
     compute: compute$7,
   };
 
@@ -1787,7 +1847,7 @@
   };
   var numberRange$1 = numberRange;
 
-  const numUnit = /^([0-9.,+-]+)([a-z°²³µ/]+)$/i;
+  const numUnit = /^([+-]?[0-9][.,0-9]*)([a-z°²³µ/]+)$/; //(must be lowercase)
 
   const notUnit = new Set([
     'st',
@@ -1796,7 +1856,10 @@
     'th',
     'am',
     'pm',
-    'max'
+    'max',
+    '°',
+    's', // 1990s
+    'e' // 18e - french/spanish ordinal
   ]);
 
   const numberUnit = function (terms, i) {
@@ -2268,7 +2331,7 @@
     return Object.prototype.toString.call(val) === '[object Object]'
   };
 
-  function api$a (View) {
+  function api$c (View) {
 
     /** find all matches in this document */
     View.prototype.lookup = function (input, opts = {}) {
@@ -2326,7 +2389,7 @@
   lib$4.compile = lib$4.buildTrie;
 
   var lookup = {
-    api: api$a,
+    api: api$c,
     lib: lib$4
   };
 
@@ -2686,7 +2749,7 @@
   const matchAPI = function (View) {
     Object.assign(View.prototype, methods$c);
   };
-  var api$9 = matchAPI;
+  var api$b = matchAPI;
 
   // match  'foo /yes/' and not 'foo/no/bar'
   const bySlashes = /(?:^|\s)([![^]*(?:<[^<]*>)?\/.*?[^\\/]\/[?\]+*$~]*)(?:\s|$)/;
@@ -2992,45 +3055,59 @@
   };
   var splitHyphens$2 = splitHyphens$1;
 
+  // add all conjugations of this verb
   const addVerbs = function (token, world) {
-    let { verbConjugate } = world.methods.two.transform;
-    let res = verbConjugate(token.root, world.model);
-    delete res.FutureTense;
-    return Object.values(res).filter(str => str)
+    let { all } = world.methods.two.transform.verb || {};
+    let str = token.root;
+    // if (toInfinitive) {
+    //   str = toInfinitive(str, world.model)
+    // }
+    if (!all) {
+      return []
+    }
+    return all(str, world.model)
   };
 
+  // add all inflections of this noun
   const addNoun = function (token, world) {
-    let { nounToPlural } = world.methods.two.transform;
-    let res = [token.root];
-    res.push(nounToPlural(token.root, world.model));
-    return res
+    let { all } = world.methods.two.transform.noun || {};
+    if (!all) {
+      return [token.root]
+    }
+    return all(token.root, world.model)
   };
 
+  // add all inflections of this adjective
   const addAdjective = function (token, world) {
-    let { adjToSuperlative, adjToComparative, adjToAdverb } = world.methods.two.transform;
-    let res = [token.root];
-    res.push(adjToSuperlative(token.root, world.model));
-    res.push(adjToComparative(token.root, world.model));
-    res.push(adjToAdverb(token.root, world.model));
-    return res
+    let { all } = world.methods.two.transform.adjective || {};
+    if (!all) {
+      return [token.root]
+    }
+    return all(token.root, world.model)
   };
 
   // turn '{walk}' into 'walking', 'walked', etc
   const inflectRoot = function (regs, world) {
     // do we have compromise/two?
-    if (world.methods.two && world.methods.two.transform) {
-      regs = regs.map(token => {
-        // a reg to convert '{foo}'
-        if (token.root) {
+    regs = regs.map(token => {
+      // a reg to convert '{foo}'
+      if (token.root) {
+        // check if compromise/two is loaded
+        if (world.methods.two && world.methods.two.transform) {
           let choices = [];
-          if (!token.pos || token.pos === 'Verb') {
+          // have explicitly set from POS - '{sweet/adjective}'
+          if (token.pos) {
+            if (token.pos === 'Verb') {
+              choices = choices.concat(addVerbs(token, world));
+            } else if (token.pos === 'Noun') {
+              choices = choices.concat(addNoun(token, world));
+            } else if (token.pos === 'Adjective') {
+              choices = choices.concat(addAdjective(token, world));
+            }
+          } else {
+            // do verb/noun/adj by default
             choices = choices.concat(addVerbs(token, world));
-          }
-          if (!token.pos || token.pos === 'Noun') {
             choices = choices.concat(addNoun(token, world));
-          }
-          // don't run these by default
-          if (!token.pos || token.pos === 'Adjective') {
             choices = choices.concat(addAdjective(token, world));
           }
           choices = choices.filter(str => str);
@@ -3038,10 +3115,16 @@
             token.operator = 'or';
             token.fastOr = new Set(choices);
           }
+        } else {
+          // if no compromise/two, drop down into 'machine' lookup
+          token.machine = token.root;
+          delete token.id;
+          delete token.root;
         }
-        return token
-      });
-    }
+      }
+      return token
+    });
+
     return regs
   };
   var inflectRoot$1 = inflectRoot;
@@ -3276,7 +3359,7 @@
   const endQuote = /([\u0022\uFF02\u0027\u201D\u2019\u00BB\u203A\u2032\u2033\u2034\u301E\u00B4])/;
 
   const hasHyphen$1 = /^[-–—]$/;
-  const hasDash$1 = / [-–—] /;
+  const hasDash$1 = / [-–—]{1,3} /;
 
   /** search the term's 'post' punctuation  */
   const hasPost = (term, punct) => term.post.indexOf(punct) !== -1;
@@ -3298,6 +3381,8 @@
     hasEllipses: term => hasPost(term, '..') || hasPost(term, '…') || hasPre(term, '..') || hasPre(term, '…'),
     /** is there a semicolon after term word? */
     hasSemicolon: term => hasPost(term, ';'),
+    /** is there a colon after term word? */
+    hasColon: term => hasPost(term, ':'),
     /** is there a slash '/' in term word? */
     hasSlash: term => /\//.test(term.text),
     /** a hyphen connects two words like-term */
@@ -3680,17 +3765,82 @@
   };
   var doAndBlock = andBlock;
 
+  const negGreedy = function (state, reg, nextReg) {
+    let skip = 0;
+    for (let t = state.t; t < state.terms.length; t += 1) {
+      let found = matchTerm(state.terms[t], reg, state.start_i + state.t, state.phrase_length);
+      // we don't want a match, here
+      if (found) {
+        break//stop going
+      }
+      // are we doing 'greedy-to'?
+      // - "!foo+ after"  should stop at 'after'
+      if (nextReg) {
+        found = matchTerm(state.terms[t], nextReg, state.start_i + state.t, state.phrase_length);
+        if (found) {
+          break
+        }
+      }
+      skip += 1;
+      // is it max-length now?
+      if (reg.max !== undefined && skip === reg.max) {
+        break
+      }
+    }
+    if (skip === 0) {
+      return false //dead
+    }
+    // did we satisfy min for !foo{min,max}
+    if (reg.min && reg.min > skip) {
+      return false//dead
+    }
+    state.t += skip;
+    // state.r += 1
+    return true
+  };
+
+  var negGreedy$1 = negGreedy;
+
   // '!foo' should match anything that isn't 'foo'
   // if it matches, return false
   const doNegative = function (state) {
     const { regs } = state;
     let reg = regs[state.r];
+
+    // match *anything* but this term
     let tmpReg = Object.assign({}, reg);
     tmpReg.negative = false; // try removing it
-    let foundNeg = matchTerm(state.terms[state.t], tmpReg, state.start_i + state.t, state.phrase_length);
-    if (foundNeg === true) {
-      return null //bye!
+
+    // found it? if so, we die here
+    let found = matchTerm(state.terms[state.t], tmpReg, state.start_i + state.t, state.phrase_length);
+    if (found) {
+      return false//bye
     }
+    // should we skip the term too?
+    if (reg.optional) {
+      // "before after" - "before !foo? after"
+      // does the next reg match the this term?
+      let nextReg = regs[state.r + 1];
+      if (nextReg) {
+        let fNext = matchTerm(state.terms[state.t], nextReg, state.start_i + state.t, state.phrase_length);
+        if (fNext) {
+          state.r += 1;
+        } else if (nextReg.optional && regs[state.r + 2]) {
+          // ugh. ok,
+          // support "!foo? extra? need"
+          // but don't scan ahead more than that.
+          let fNext2 = matchTerm(state.terms[state.t], regs[state.r + 2], state.start_i + state.t, state.phrase_length);
+          if (fNext2) {
+            state.r += 2;
+          }
+        }
+      }
+    }
+    // negative greedy - !foo+  - super hard!
+    if (reg.greedy) {
+      return negGreedy$1(state, tmpReg, regs[state.r + 1])
+    }
+    state.t += 1;
     return true
   };
   var doNegative$1 = doNegative;
@@ -3822,6 +3972,7 @@
    * starting at this certain term.
    */
   const tryHere = function (terms, regs, start_i, phrase_length) {
+    // console.log(`\n\n:start: '${terms[0].text}':`)
     if (terms.length === 0 || regs.length === 0) {
       return null
     }
@@ -3884,6 +4035,10 @@
       }
       // support '.' as any-single
       if (reg.anything === true) {
+        // '!.' negative anything should insta-fail
+        if (reg.negative && reg.anything) {
+          return null
+        }
         let alive = simpleMatch$1(state);
         if (!alive) {
           return null
@@ -3898,7 +4053,17 @@
         }
         continue
       }
+      // ok, it doesn't match - but maybe it wasn't *supposed* to?
+      if (reg.negative) {
+        // we want *anything* but this term
+        let alive = doNegative$1(state);
+        if (!alive) {
+          return null
+        }
+        continue
+      }
       // ok, finally test the term-reg
+      // console.log('   - ' + state.terms[state.t].text)
       let hasMatch = matchTerm(state.terms[state.t], reg, state.start_i + state.t, state.phrase_length);
       if (hasMatch === true) {
         let alive = simpleMatch$1(state);
@@ -3907,13 +4072,8 @@
         }
         continue
       }
-      // ok, it doesn't match - but maybe it wasn't *supposed* to?
-      if (reg.negative) {
-        let alive = doNegative$1(state);
-        if (!alive) {
-          return null
-        }
-      }
+      // console.log('=-=-=-= here -=-=-=-')
+
       //ok who cares, keep going
       if (reg.optional === true) {
         continue
@@ -4078,7 +4238,7 @@
   };
 
   var match = {
-    api: api$9,
+    api: api$b,
     methods: methods$a,
     lib: lib$3,
   };
@@ -4768,7 +4928,7 @@
       if (fmt && typeof fmt === 'string' && fmts$1.hasOwnProperty(fmt)) {
         opts = Object.assign({}, fmts$1[fmt]);
       } else if (fmt && isObject$1(fmt)) {
-        opts = Object.assign({}, fmt, opts);//todo: fixme
+        opts = Object.assign({}, opts, fmt);//todo: fixme
       }
       if (this.pointer) {
         opts.keepSpace = false;
@@ -4790,10 +4950,10 @@
   const addAPI$1 = function (View) {
     Object.assign(View.prototype, methods$6);
   };
-  var api$8 = addAPI$1;
+  var api$a = addAPI$1;
 
   var output = {
-    api: api$8,
+    api: api$a,
     methods: {
       one: {
         hash: md5
@@ -4929,7 +5089,7 @@
 
   var splitAll$1 = splitAll;
 
-  const max$1 = 4;
+  const max$1 = 20;
 
   // sweep-around looking for our start term uuid
   const blindSweep = function (id, doc, n) {
@@ -5205,11 +5365,11 @@
     // add set/intersection/union
     Object.assign(View.prototype, methods$4);
   };
-  var api$7 = addAPI;
+  var api$9 = addAPI;
 
   var pointers = {
     methods: methods$5,
-    api: api$7,
+    api: api$9,
   };
 
   var lib$2 = {
@@ -5222,7 +5382,7 @@
     }
   };
 
-  const api$5 = function (View) {
+  const api$7 = function (View) {
 
     /** speedy match a sequence of matches */
     View.prototype.sweep = function (net, opts = {}) {
@@ -5266,7 +5426,7 @@
     };
 
   };
-  var api$6 = api$5;
+  var api$8 = api$7;
 
   // extract the clear needs for an individual match token
   const getTokenNeeds = function (reg) {
@@ -5426,7 +5586,7 @@
       });
       // ensure nothing matches in our 'ifNo' property
       list = list.filter(obj => {
-        if (obj.ifNo !== undefined && obj.ifNo.some(no => docCache[n].has(no)) === true) {
+        if (obj.ifNo !== undefined && obj.ifNo.some(no => haves.has(no)) === true) {
           return false
         }
         return true
@@ -5447,7 +5607,7 @@
 
   // finally,
   // actually run these match-statements on the terms
-  const runMatch = function (maybeList, document, methods, opts) {
+  const runMatch = function (maybeList, document, docCache, methods, opts) {
     let results = [];
     for (let n = 0; n < maybeList.length; n += 1) {
       for (let i = 0; i < maybeList[n].length; i += 1) {
@@ -5456,9 +5616,23 @@
         let res = methods.one.match([document[n]], m);
         // found something.
         if (res.ptrs.length > 0) {
-          // let index=document[n][0].index
           res.ptrs.forEach(ptr => {
             ptr[0] = n; // fix the sentence pointer
+            // check ifNo
+            // if (m.ifNo !== undefined) {
+            //   let terms = document[n].slice(ptr[1], ptr[2])
+            //   for (let k = 0; k < m.ifNo.length; k += 1) {
+            //     const no = m.ifNo[k]
+            //     // quick-check cache
+            //     if (docCache[n].has(no)) {
+            //       // console.log(no)
+            //       if (terms.find(t => t.normal === no || t.tags.has(no))) {
+            //         // console.log('+' + no)
+            //         return
+            //       }
+            //     }
+            //   }
+            // }
             let todo = Object.assign({}, m, { pointer: ptr });
             if (m.unTag !== undefined) {
               todo.unTag = m.unTag;
@@ -5500,16 +5674,8 @@
     // if we don't have enough words
     maybeList = tooSmall(maybeList, document);
 
-    // maybeList.forEach((arr, i) => {
-    //   let txt = document[i].map(t => t.text).join(' ')
-    //   console.log(`==== ${txt} ====`)
-    //   arr.forEach(m => {
-    //     console.log(`    - ${m.match}`)
-    //   })
-    // })
-
     // now actually run the matches
-    let results = runMatch$1(maybeList, document, methods, opts);
+    let results = runMatch$1(maybeList, document, docCache, methods, opts);
     // console.dir(results, { depth: 5 })
     return results
   };
@@ -5537,6 +5703,7 @@
   const tagger$3 = function (list, document, world) {
     const { model, methods } = world;
     const { getDoc, setTag, unTag } = methods.one;
+    const looksPlural = methods.two.looksPlural;
     if (list.length === 0) {
       return list
     }
@@ -5565,9 +5732,12 @@
       if (todo.tag !== undefined) {
         setTag(terms, todo.tag, world, todo.safe, `[post] '${reason}'`);
         // quick and dirty plural tagger
-        if (terms.length === 1 && todo.tag === 'Noun') {
-          if (terms[0].text && terms[0].text.match(/..s$/) !== null) {
-            setTag(terms, 'Plural', world, todo.safe, 'quick-plural');
+        if (todo.tag === 'Noun') {
+          let term = terms[terms.length - 1];
+          if (looksPlural(term.text)) {
+            setTag([term], 'Plural', world, todo.safe, 'quick-plural');
+          } else {
+            setTag([term], 'Singular', world, todo.safe, 'quick-singular');
           }
         }
       }
@@ -5590,7 +5760,7 @@
 
   var sweep = {
     lib: lib$2,
-    api: api$6,
+    api: api$8,
     methods: {
       one: methods$3,
     }
@@ -5689,6 +5859,10 @@
     }
     if (isArray$2(tag) === true) {
       tag.forEach(tg => setTag(terms, tg, world, isSafe));
+      return
+    }
+    if (typeof tag !== 'string') {
+      console.warn(`compromise: Invalid tag '${tag}'`);// eslint-disable-line
       return
     }
     tag = tag.trim();
@@ -5980,7 +6154,7 @@
   const tagAPI = function (View) {
     Object.assign(View.prototype, tag$1);
   };
-  var api$4 = tagAPI;
+  var api$6 = tagAPI;
 
   // wire-up more pos-tags to our model
   const addTags = function (tags) {
@@ -6034,12 +6208,16 @@
       tagRank: tagRank$1
     },
     methods: methods$2,
-    api: api$4,
+    api: api$6,
     lib: lib$1
   };
 
-  const initSplit = /(\S.+?[.!?\u203D\u2E18\u203C\u2047-\u2049])(?=\s|$)/g; //!TODO: speedup this regex
+  // split by periods, question marks, unicode ⁇, etc
+  const initSplit = /([.!?\u203D\u2E18\u203C\u2047-\u2049]+\s)/g;
+  // merge these back into prev sentence
+  const splitsOnly = /^[.!?\u203D\u2E18\u203C\u2047-\u2049]+\s$/;
   const newLine = /((?:\r?\n|\r)+)/; // Match different new-line formats
+
   // Start with a regex:
   const basicSplit = function (text) {
     let all = [];
@@ -6049,7 +6227,14 @@
       //split by period, question-mark, and exclamation-mark
       let arr = lines[i].split(initSplit);
       for (let o = 0; o < arr.length; o++) {
-        all.push(arr[o]);
+        // merge 'foo' + '.'
+        if (arr[o + 1] && splitsOnly.test(arr[o + 1]) === true) {
+          arr[o] += arr[o + 1];
+          arr[o + 1] = '';
+        }
+        if (arr[o] !== '') {
+          all.push(arr[o]);
+        }
       }
     }
     return all
@@ -6106,6 +6291,114 @@
   };
   var smartMerge$1 = smartMerge;
 
+  // merge embedded quotes into 1 sentence
+  // like - 'he said "no!" and left.' 
+  const MAX_QUOTE = 280;// ¯\_(ツ)_/¯
+
+  // don't support single-quotes for multi-sentences
+  const pairs = {
+    '\u0022': '\u0022', // 'StraightDoubleQuotes'
+    '\uFF02': '\uFF02', // 'StraightDoubleQuotesWide'
+    // '\u0027': '\u0027', // 'StraightSingleQuotes'
+    '\u201C': '\u201D', // 'CommaDoubleQuotes'
+    // '\u2018': '\u2019', // 'CommaSingleQuotes'
+    '\u201F': '\u201D', // 'CurlyDoubleQuotesReversed'
+    // '\u201B': '\u2019', // 'CurlySingleQuotesReversed'
+    '\u201E': '\u201D', // 'LowCurlyDoubleQuotes'
+    '\u2E42': '\u201D', // 'LowCurlyDoubleQuotesReversed'
+    '\u201A': '\u2019', // 'LowCurlySingleQuotes'
+    '\u00AB': '\u00BB', // 'AngleDoubleQuotes'
+    '\u2039': '\u203A', // 'AngleSingleQuotes'
+    '\u2035': '\u2032', // 'PrimeSingleQuotes'
+    '\u2036': '\u2033', // 'PrimeDoubleQuotes'
+    '\u2037': '\u2034', // 'PrimeTripleQuotes'
+    '\u301D': '\u301E', // 'PrimeDoubleQuotes'
+    // '\u0060': '\u00B4', // 'PrimeSingleQuotes'
+    '\u301F': '\u301E', // 'LowPrimeDoubleQuotesReversed'
+  };
+  const openQuote = RegExp('(' + Object.keys(pairs).join('|') + ')', 'g');
+  const closeQuote = RegExp('(' + Object.values(pairs).join('|') + ')', 'g');
+
+  const closesQuote = function (str) {
+    if (!str) {
+      return false
+    }
+    let m = str.match(closeQuote);
+    if (m !== null && m.length === 1) {
+      return true
+    }
+    return false
+  };
+
+  // allow micro-sentences when inside a quotation, like:
+  // the doc said "no sir. i will not beg" and walked away.
+  const quoteMerge = function (splits) {
+    let arr = [];
+    for (let i = 0; i < splits.length; i += 1) {
+      let split = splits[i];
+      // do we have an open-quote and not a closed one?
+      let m = split.match(openQuote);
+      if (m !== null && m.length === 1) {
+
+        // look at the next sentence for a closing quote,
+        if (closesQuote(splits[i + 1]) && splits[i + 1].length < MAX_QUOTE) {
+          splits[i] += splits[i + 1];// merge them
+          arr.push(splits[i]);
+          splits[i + 1] = '';
+          i += 1;
+          continue
+        }
+        // look at n+2 for a closing quote,
+        if (closesQuote(splits[i + 2])) {
+          let toAdd = splits[i + 1] + splits[i + 2];// merge them all
+          //make sure it's not too-long
+          if (toAdd.length < MAX_QUOTE) {
+            splits[i] += toAdd;
+            arr.push(splits[i]);
+            splits[i + 1] = '';
+            splits[i + 2] = '';
+            i += 2;
+            continue
+          }
+        }
+      }
+      arr.push(splits[i]);
+    }
+    return arr
+  };
+  var quoteMerge$1 = quoteMerge;
+
+  const MAX_LEN = 250;// ¯\_(ツ)_/¯
+
+  // support unicode variants?
+  // https://stackoverflow.com/questions/13535172/list-of-all-unicodes-open-close-brackets
+  const hasOpen = /\(/g;
+  const hasClosed = /\)/g;
+  const mergeParens = function (splits) {
+    let arr = [];
+    for (let i = 0; i < splits.length; i += 1) {
+      let split = splits[i];
+      let m = split.match(hasOpen);
+      if (m !== null && m.length === 1) {
+        // look at next sentence, for closing parenthesis
+        if (splits[i + 1] && splits[i + 1].length < MAX_LEN) {
+          let m2 = splits[i + 1].match(hasClosed);
+          if (m2 !== null && m.length === 1 && !hasOpen.test(splits[i + 1])) {
+            // merge in 2nd sentence
+            splits[i] += splits[i + 1];
+            arr.push(splits[i]);
+            splits[i + 1] = '';
+            i += 1;
+            continue
+          }
+        }
+      }
+      arr.push(splits[i]);
+    }
+    return arr
+  };
+  var parensMerge = mergeParens;
+
   //(Rule-based sentence boundary segmentation) - chop given text into its proper sentences.
   // Ignore periods/questions/exclamations used in acronyms/abbreviations/numbers, etc.
   //regs-
@@ -6124,9 +6417,13 @@
     // First do a greedy-split..
     let splits = simpleSplit(text);
     // Filter-out the crap ones
-    let chunks = simpleMerge(splits);
+    let sentences = simpleMerge(splits);
     //detection of non-sentence chunks:
-    let sentences = smartMerge$1(chunks, world);
+    sentences = smartMerge$1(sentences, world);
+    // allow 'he said "no sir." and left.'
+    sentences = quoteMerge$1(sentences);
+    // allow 'i thought (no way!) and left.'
+    sentences = parensMerge(sentences);
     //if we never got a sentence, return the given text
     if (sentences.length === 0) {
       return [text]
@@ -6226,7 +6523,7 @@
   const isBoundary = /^[!?.]+$/;
   const naiiveSplit = /(\S+)/;
 
-  let notWord = ['.', '?', '!', ':', ';', '-', '–', '—', '--', '...', '(', ')', '[', ']', '"', "'", '`'];
+  let notWord = ['.', '?', '!', ':', ';', '-', '–', '—', '--', '...', '(', ')', '[', ']', '"', "'", '`', '«', '»', '*'];
   notWord = notWord.reduce((h, c) => {
     h[c] = true;
     return h
@@ -6292,38 +6589,66 @@
   };
   var splitTerms = splitWords;
 
+  const allowBefore = [
+    '#', //#hastag
+    '@', //@atmention
+    '_',//underscore
+    // '\\-',//-4  (escape)
+    '+',//+4
+    '.',//.4
+  ];
+  const allowAfter = [
+    '%',//88%
+    '_',//underscore
+    '°',//degrees, italian ordinal
+    // '\'',// \u0027
+  ];
+
   //all punctuation marks, from https://en.wikipedia.org/wiki/Punctuation
+  let beforeReg = new RegExp(`[${allowBefore.join('')}]+$`, '');
+  let afterReg = new RegExp(`^[${allowAfter.join('')}]+`, '');
+
   //we have slightly different rules for start/end - like #hashtags.
-  const startings =
-    /^[ \n\t.[\](){}⟨⟩:,،、‒–—―…!‹›«»‐\-?‘’;/⁄·&*•^†‡¡¿※№÷×ºª%‰+−=‱¶′″‴§~|‖¦©℗®℠™¤₳฿\u0022\uFF02\u0027\u201C\u201F\u201B\u201E\u2E42\u201A\u2035\u2036\u2037\u301D\u0060\u301F]+/;
-  const endings =
-    /[ \n\t.'[\](){}⟨⟩:,،、‒–—―…!‹›«»‐\-?‘’;/⁄·&*@•^†‡°¡¿※#№÷×ºª‰+−=‱¶′″‴§~|‖¦©℗®℠™¤₳฿\u0022\uFF02\u201D\u00B4\u301E]+$/;
+  const endings = /[\p{Punctuation}\s]+$/u;
+  const startings = /^[\p{Punctuation}\s]+/u;
   const hasApostrophe$1 = /['’]/;
   const hasAcronym = /^[a-z]\.([a-z]\.)+/i;
-  const minusNumber = /^[-+.][0-9]/;
   const shortYear = /^'[0-9]{2}/;
+  const isNumber = /^-[0-9]/;
 
   const normalizePunctuation = function (str) {
     let original = str;
     let pre = '';
     let post = '';
-    // number cleanups
+    // adhoc cleanup for pre
     str = str.replace(startings, found => {
-      pre = found;
-      // support '-40'
-      if ((pre === '-' || pre === '+' || pre === '.') && minusNumber.test(str)) {
-        pre = '';
-        return found
+      // punctuation symboles like '@' to allow at start of term
+      let m = found.match(beforeReg);
+      if (m) {
+        pre = found.replace(beforeReg, '');
+        return m
       }
       // support years like '97
       if (pre === `'` && shortYear.test(str)) {
         pre = '';
         return found
       }
+      // support prefix negative signs like '-45'
+      if (found === '-' && isNumber.test(str)) {
+        return found
+      }
+      pre = found; //keep it
       return ''
     });
+    // ad-hoc cleanup for post 
     str = str.replace(endings, found => {
-      post = found;
+      // punctuation symboles like '@' to allow at start of term
+      let m = found.match(afterReg);
+      if (m) {
+        post = found.replace(afterReg, '');
+        return m
+      }
+
       // keep s-apostrophe - "flanders'" or "chillin'"
       if (hasApostrophe$1.test(found) && /[sn]['’]$/.test(original) && hasApostrophe$1.test(pre) === false) {
         post = post.replace(hasApostrophe$1, '');
@@ -6331,9 +6656,10 @@
       }
       //keep end-period in acronym
       if (hasAcronym.test(str) === true) {
-        post = post.replace(/\./, '');
+        post = found.replace(/^\./, '');
         return '.'
       }
+      post = found;//keep it
       return ''
     });
     //we went too far..
@@ -6477,9 +6803,10 @@
   };
   var fromString = parse$1;
 
-  const isAcronym$2 = /[ .][A-Z]\.? *$/i;
-  const hasEllipse$1 = /(?:\u2026|\.{2,}) *$/;
+  const isAcronym$2 = /[ .][A-Z]\.? *$/i; //asci - 'n.s.a.'
+  const hasEllipse$1 = /(?:\u2026|\.{2,}) *$/; // '...'
   const hasLetter$1 = /\p{L}/u;
+  const leadInit = /^[A-Z]\. $/; // "W. Kensington"
 
   /** does this look like a sentence? */
   const isSentence$2 = function (str, abbrevs) {
@@ -6489,6 +6816,10 @@
     }
     // check for 'F.B.I.'
     if (isAcronym$2.test(str) === true) {
+      return false
+    }
+    // check for leading initial - "W. Kensington"
+    if (str.length === 3 && leadInit.test(str)) {
       return false
     }
     //check for '...'
@@ -6609,7 +6940,6 @@
     'lt',
     'maj',
     'messrs',
-    'mister',
     'mlle',
     'mme',
     'mr',
@@ -6630,7 +6960,7 @@
     'sir',
     'sr',
     'supt',
-    'surg',
+    'surg'
     //miss
     //misses
   ];
@@ -7121,10 +7451,10 @@
     return this
   };
 
-  const api$2 = function (View) {
+  const api$4 = function (View) {
     View.prototype.autoFill = autoFill;
   };
-  var api$3 = api$2;
+  var api$5 = api$4;
 
   // generate all the possible prefixes up-front
   const getPrefixes = function (arr, opts, world) {
@@ -7206,7 +7536,7 @@
   };
   var typeahead = {
     model: model$2,
-    api: api$3,
+    api: api$5,
     lib,
     compute: compute$1,
     hooks: ['typeahead']
@@ -7365,15 +7695,16 @@
   };
   var reverse$1 = reverse;
 
-  // generated in ./learn/tiger/conjugate
   var presentModel = {
-    rules: '.5t¦aLbKcHeDfindRgreChaftRiBleiMn9o8r6s4t3u2we1ä0ü0;mmN;ndPrtP;ldGndL;attNeuKriL;peisMt0;ellLi4rebL;eiFs0teilK;etzJt7;niGppE;giFko0st5tiF;mmG;cEndCsiDtiD;ifEnzE;i2r0st1;g0iA;ehB;g7n2;h0ki7;aff8t0;ig7;leib6ring6;c4gi3mm2nd1us0;ch4;eln;ern;er1;ht0;en|.6t¦chaft2eu1hneid2mitteln,r0steuern;a0echn1i0;cht0;en|.2ifft¦treffen|.2icht¦brechen|.2immt¦nnehmen|.4le¦wickeln|.4t¦aVcSdPeLgiKharrYinJkIlFmEnCppeUr9s6t3us7w2z0ündY;ahlXeugXie0;hWlW;eisVirkV;e1i0s3;erTmmT;ilSllS;etzRiDorgRseQte1u0;chQ;hPln;e1gehOi0üH;erNngN;ckMdMifMnnM;de0geKi7;ln,rn;i5meF;angIeibIi0;e0ngH;gGrG;ehrFi1ommF;dEigE;erD;g2i1ndCrtCu0;eAtB;chAdAtA;e5n9;e1ie0;n7r7;ck6;h0ke1;au4e0n4;ln;ft2tt2u0;ch1e0;rn;en|wirbt¦werben|rifft¦reffen|hilft¦helfen|läuft¦laufen|fängt¦fangen|richt¦rechen|.5¦denken|nimmt¦nehmen|.2ßt¦passen|.2itt¦treten|gibt¦geben|.3t¦aNbeMdLeHfGgEhCiAkeMl9ndQo8peMr7s5t3u1ze6ße2ährQöpfQü0;ckPhrPtP;chOe0tO;rn;e0igMtM;hLrn;agKchKe0;ln;dIeuItIufI;mmHtzH;dGegGigG;chFe0mmFn7;gEhElEnErE;auDe0örD;bCrn;e0nB;hAln,rn;e5t9;ck8d8h2i1n0rr8tz8ug8;g7k7n7;b6f6h6l6n6s6ß6;l5n5r5;e0ig4;ln,rn;c1ff2h0mm2nk2rr2ub2;l1n1;h0k0;en|ilft¦elfen|sieht¦sehen|immt¦ehmen|ißt¦issen|ritt¦reten|.4¦ützen|.2t¦a8ch9e7ff9h6i5ll9mm9n4o3pf9r2tz9u1äg9ö0üh9;r8s8;b7g7;g6k6n6r6;b5l5;g4k4n4z4;g3l3n3;l2r2;g1r1u1;n0r0u0;en|gt¦gen|lt¦len|ut¦u0;en,n|xt¦xen|zt¦zen|ßt¦ßen|t¦en',
-    exceptions: 'gilt¦gelten|hält¦halten|.8¦aJbeimessUeCfestlegUgefährdUherrüBmiAnachgFpläd9schrOt8v1z0;erse5usP;er0orE;büEdienRfa8helfRl2meidRs1tretRze0;ihQrrQ;pürPtoßPuO;a1e0;tzN;ngMufM;ang0end0;ierK;tteilJßaG;hrI;in5mp3nt0;s0wertG;innFt0;ehE;fi0;ndC;h3planB;b8n5u0;f2s0;blut8h0saug8weit8;alt7;d0werf6;eck5;ri1s0treff4;chau3;cht2;stamm1wei0;ch0;en|.7¦a8b3er2gesellEhingebErut1s0täu1vorsBzulD;chuldDprengDtrotzD;schC;blühBkaufBnä3zeugB;e0illigA;dank9gegn9harr9ke2r0st6wein9;aub8ü0;hr7;hr6nn6;ddier5n3u0;f0slös4;g0hör3;eh2;bahn1halt1p0weis1;ass0;en|.4ät¦ent0ver0;raten|weiß¦wissen|fällt¦fallen|.6¦a9b4ergBg2möchtEr1s0trinkEumg8zusagE;chämDpeisDtr7;auchCechnC;e0renzB;hörAlobA;e1re0;ch8nn8;g1h0;eb6üt6;eb5;b2n0;g0leg3r2;eh2;lös1r0;uf0;en|läßt¦lassen|.4ällt¦au2e1miß3v0z0;er2;in1nt1;f0s0;fallen|.4¦e1r0seh2töt2werd2;ed1uh1;bn0ss0;en|.5¦b8dehnBfü7ha6kaufBl5mü6prägBrü4s3t2w1z0;a6ehrAielA;erb9irk9;arn8rag8;org7par7;ck6hr6;aut5e4ieb5;ss4;hl3;a1e0;rg1ut1;ck0;en|rät¦raten|.9¦aAb6darstellBe4fe3gebrau2ignor7offenlegBrauskommBuntersagBver0überwa2;bleibAste0zi8;ck9ll9;ch8;rnhalt7ststeh7;n0rschöpf6xist2;gag1tfremd5;e1lock0;ier3;oba0schaff2tra0;cht1;nschick0ufbring0;en|.5ieht¦geschehen|.7t¦an9be8e4f2ge9heiratAs1tr0;ill5ockn9;chalt8pötteln;lü0ür0;cht6;nt2r0;inn0öffn4;ern;pupp2zwei2;last1scher1;biet0;en|.4ägt¦betr0schl0;agen|.10¦aBbevor9d7e4hinzu6offen9profitCrekl8unter3v0;er0orankommC;anlassBbrau0glei0schiebB;chA;halt9lieg9;in0rniedrig8xpand7;be0schlag7;zi3;iff0urchlauf5;am3;st0;eh2;bschneid1ppell0;ier0;en|.4ag¦vermögen|.5t¦auf8biet7ernt7g5ha4ko4l3ordn7pu4t1w0ähn2öffn7;alt6eh7idm6;a2e2it0r4;eln;a0i0;st2;enüg1l0;imm0;en;tun|.3ät¦b0g0;eraten|.8t¦au6behaup7ent4gest5sch3ver0;b1m1w0;al5üs5;ie4;immern,ütteln;f0las2;al1;flis0srüs0;ten|führen¦fahren|.4ält¦auf0ent0ver0;halten|.4ßt¦be0er0um0;fassen|.9t¦be1durchquer2ver0;markt1tröst1;fürcht0inhalt0;en|.4te¦freuen|.11¦autoris7be5gleichkomm8komm4präs4registr7unterdrück8v1zurück0;tret7zi5;ers0orbeifahr6;ch0treich5;ling4melz4wend4;ent2;einfluss2kanntgeb2reitst0;eh1;ier0;en|wirft¦werfen|.4icht¦verfechten|.4iehlt¦empfehlen|.7ägt¦au0ver1;f0s0;schlagen|.12¦be3durch2entschuld4kollabor1rechtfert4s0wiedertreff5zusammengeh5;icherstell4tabilis0;ier3;leucht2schlag2;absicht0schleun0;ig0;en|.13¦e0zurückerhalt2übereinstimm2;ntgegen0rwirtschaft1;nehm0steh0;en|.2ßt¦fa0kü0;ssen|.15¦aufrechterhalt0entgegenschlag0;en|.4t¦atm0bad0nütz0wat0;en|.5ält¦festhalten|Melden¦melden|Erteilt¦erteilen|.6ält¦durch0offen0vorbe0;halten|.5ägt¦bei1h0mit1v0;er0;tragen|Greift¦greifen|.3ält¦be0er0;halten|.6st¦anfleh1betteln,sch0wimmern;ick0rei0;en|Weißt¦weißen|Spürst¦spüren|.9ält¦gefangenhalten|.6t¦brü3ermüd4ge1innehab4kundtun,lei3s0wick2;chad3palt3;denk2iß0;eln;st0;en|wächst¦wachsen|.2ößt¦stoßen|.4ißt¦vergessen|.6te¦fertigen|.11t¦veranstalten|.3te¦fax0kos0;en|.4äßt¦aus0ent0ver0;lassen|liest¦lesen|.6ägt¦umschl0übertr0;agen|.3ällt¦ab0ge0um0;fallen|Tauschen¦tauschen|.3arf¦bedürfen|.2äbt¦graben|.3ährt¦an0er0;fahren|.10t¦mit0unterordn1ver0;schwimm0;en|.4illt¦schwellen|.14¦gegenüberstehen|.6irft¦unterwerfen|.4irft¦ent0ver0;werfen|.4irfst¦vorwerfen|.2äst¦blasen|Tagt¦tagen|.4irgt¦verbergen|.4äft¦schlafen|.2hlt¦malen|Gestatten¦gestatten|.5äßt¦überlassen|.6ällt¦unterfallen|.9ächst¦zusammenwachsen|Blüht¦blühen|mißt¦messen|.4ädt¦e0;in0nt0;laden|.3ißt¦zumessen|.3äßt¦belassen|.3ßt¦pressen|.7äßt¦h0;erein0inter0;lassen|.3irft¦abwerfen|.2dtschlägt¦totschlagen|Berücksichtigen¦berücksichtigen|.3ächst¦erwachsen|wäscht¦waschen|Offeriert¦offerieren|.8ßt¦bezuschussen|.3iehlt¦befehlen|.3gen¦folen|.2irbt¦sterben|.4ährt¦entfahren|.2icht¦stechen|.6ßt¦verblassen|.5ißt¦zerfressen|.7ält¦bereithalten|.7äft¦verschlafen|.6äßt¦unterlassen|lädt¦laden|.4ächst¦auswachsen|.4ingen¦auffangen|.2ißt¦fressen|.9ägt¦unterschlagen|.5irbt¦aussterben|.4irbt¦erst0verd0;erben|.7ällt¦hereinfallen|Telefoniert¦telefonieren|.2illt¦quellen|.10ßt¦zusammenfassen|.14t¦zurückvermieten|Bereinigt¦bereinigen|.3iert¦gebären|.5te¦schoten|.4ilzt¦schmelzen|.3äscht¦abwaschen|.5ällt¦überfallen|Wetten¦wetten|.8e¦be0;hi0wu0;ndern|.6e¦hung1koppeln,steu1w0;and0eig0;ern|.5e¦lagern,regeln|.7e¦annäh0bedau0;ern|.7le¦verhandeln|.4le¦wandeln|.9e¦verbessern|Feiert¦feiern|.13t¦herunterleiern|.12e¦verschlimmern|.2t¦tun'
+    rules: 'elten|ilt,erraten|3ät,ädieren|6,schehen|3ieht,ermögen|3ag,mgeben|5,hlaufen|6,usagen|5,ufgehen|6,rblühen|6,fechten|1icht,prengen|6,pfehlen|2iehlt,rtreten|6,eunigen|6,etragen|3ägt,egegnen|6,rstoßen|6,itragen|3ägt,ntgeben|6,fährden|6,orsehen|6,ufhören|6,chreien|5st,etteln|5st,nflehen|5st,osen|2te,esen|iest,tteilen|6,uziehen|6,rinken|5,egeben|5,rocknen|6t,uslösen|6,zichten|6,edürfen|2arf,edauern|6e,erden|3,brufen|5,flussen|6,öten|3,eharren|6,tsinnen|6,chützen|6,eloben|5,hwellen|2illt,pfinden|6,kziehen|6,eweinen|6,rletzen|6,blösen|5,chulden|6,ssaugen|6,ekehren|6,lasen|1äst,imessen|6,rzerren|6,ekennen|6,bachten|6,ulassen|6,chgehen|6,nplanen|6,bnen|3,tmen|3t,chämen|5,fhalten|2ält,ßachten|6,erauben|6,rspüren|6,agern|4e,rmeiden|6,rdenken|6,nfahren|2ährt,ntraten|3ät,chussen|3ßt,ktreten|6,hhalten|2ält,efehlen|2iehlt,rbünden|6,nrufen|5,ingeben|6,tfahren|2ährt,techen|1icht,nehaben|4t,andern|5e,fdecken|6,axen|2te,blassen|3ßt,nnähern|6e,rnähren|6,nbahnen|6,hlingen|6,twerten|6,hwenden|6,esellen|6,stlegen|6,shalten|6,fremden|6,ifahren|6,ttragen|3ägt,ffangen|2ingen,hdenken|6,eheben|5,edanken|6,idmen|4t,sweiten|6,rzeihen|6,edrigen|6,rderben|2irbt,uellen|1illt,fwerfen|6,sbluten|6,ddieren|6,ebären|2iert,choten|4te,limmern|6e,öchten|5,ehüten|5,öffnen|5t,eraten|2ät,stützen|6,werben|1irbt,ehalten|2ält,nlegen|5,ordnen|5t,chlafen|3äft,amieren|6,issen|1ßt,waschen|1äscht,thalten|2ält,rhalten|6,fangen|1ängt,rühren|5,tstehen|6,rtragen|3ägt,helfen|1ilft,laden|1ädt,sterben|2irbt,treffen|2ifft,wachsen|1ächst,passen|2ßt,tun|2t,fassen|2ßt,essen|ißt,werfen|1irft,treten|2itt,gnen|3t,sehen|1ieht,laufen|1äuft,chnen|4t,lassen|1äßt,nehmen|1immt,rechen|1icht,geben|1ibt,fallen|1ällt,den|2t,eln|2t,ern|2t,ten|2t,en|t',
+    exceptions: 'halten|1ält,verlangen|8,bestehen|7,wissen|1eiß,rechnen|6,anschauen|8,sehen|4,denken|5,wirken|5,raten|1ät,darstellen|9,gehören|6,schlagen|4ägt,einbeziehen|10,hungern|6e,fahren|1ühren,ruhen|4,fühlen|5,freuen|4te,kommentieren|11,verschmelzen|11,speisen|6,versuchen|8,steuern|6e,ausschlagen|7ägt,entgegenstehen|13,streben|6,lauten|5,feiern|Feiert,engagieren|9,melden|Melden,erteilen|Erteilt,verstreichen|11,durchleuchten|12,greifen|Greift,erhalten|3ält,regeln|5e,präsentieren|11,entwickeln|7le,existieren|9,angehen|6,wimmern|6st,weißen|Weißt,spüren|Spürst,gefangenhalten|9ält,vorankommen|10,ignorieren|9,tragen|5,stoßen|2ößt,fertigen|6te,umschlagen|6ägt,erwirtschaften|13,billigen|7,verdienen|8,rauchen|6,tauschen|Tauschen,betrachten|9,zielen|5,werben|5,appellieren|10,tangieren|8,sorgen|5,verhandeln|7le,durchschlagen|12,unterdrücken|11,zahlen|5,verbrauchen|10,graben|2äbt,rücken|5,gebrauchen|9,erfahren|3ährt,unterliegen|10,registrieren|11,verbessern|9e,bedenken|7,anschicken|9,gegenüberstehen|14,fernhalten|9,sparen|5,blockieren|9,verhalten|4ält,schicken|6st,rauskommen|9,zuschauen|8,profitieren|10,lieben|5,bewundern|8e,rechtfertigen|12,vorwerfen|4irfst,vorfinden|8,brechen|6,tagen|Tagt,verstecken|9,offenhalten|6ält,grenzen|6,verbergen|4irgt,weigern|6e,verlaufen|8,malen|2hlt,entgegennehmen|13,gestatten|Gestatten,vergleichen|10,prägen|5,behindern|8e,sicherstellen|12,untersagen|9,reden|4,kaufen|5,anrichten|8,beuten|5,verfahren|8,verschlagen|7ägt,übereinstimmen|13,verschieben|10,zehren|5,strotzen|7,blühen|Blüht,abstammen|8,koppeln|6e,bevorstehen|10,schrecken|8,pressen|3ßt,aufschlagen|7ägt,hassen|5,bergen|5,antreffen|8,anweisen|7,totschlagen|2dtschlägt,berücksichtigen|Berücksichtigen,rutschen|7,autorisieren|11,offerieren|Offeriert,folen|3gen,brennen|6,beabsichtigen|12,veranlassen|10,verbleiben|9,anhalten|7,abschneiden|10,dehnen|5,essen|4,gleichkommen|11,beschaffen|9,entschuldigen|12,küssen|2ßt,anpassen|7,tendieren|8,erzeugen|7,tarnen|5,zersetzen|8,kollaborieren|12,aufbringen|9,überwachen|9,verstellen|9,täuschen|7,offenstehen|10,ergehen|6,unterschlagen|9ägt,entgegenschlagen|15,verhelfen|8,erschöpfen|9,telefonieren|Telefoniert,stabilisieren|12,abweichen|8,backen|5,bereinigen|Bereinigt,wandeln|4le,zusammengehen|12,expandieren|10,abwickeln|6le,einhalten|8,schmelzen|4ilzt,wiedertreffen|12,müssen|5,lecken|5,einschlagen|10,wetten|Wetten,erkaufen|7,gelten|1ilt,hissen|2ßt',
+    rev: 'hnelt|4n,schieht|3ehen,rinnert|6n,erficht|3echten,eißelt|5n,immerst|5n,chreist|5en,ettelst|5n,nflehst|5en,tößt|1oßen,ergißt|3essen,iest|esen,ähert|4n,räbt|1aben,rleiert|6n,chwillt|3ellen,chickst|5en,rwirfst|2erfen,läst|1asen,erbirgt|3ergen,ermißt|4ssen,ufhält|3alten,reßt|2ssen,uschußt|5ssen,rchhält|4alten,uchert|5n,ticht|1echen,nnehat|5ben,erblaßt|5ssen,rillert|6n,uillt|1ellen,ebiert|2ären,chmilzt|3elzen,ßert|3n,fiehlt|1ehlen,behält|3alten,enhält|3alten,erhält|3alten,mißt|1essen,frißt|2essen,schläft|4afen,tschert|6n,ssert|4n,wäscht|1aschen,pert|3n,auert|4n,thält|2alten,fängt|1angen,kert|3n,fährt|1ahren,hilft|1elfen,lädt|1aden,trifft|2effen,felt|3n,wächst|1achsen,paßt|2ssen,zelt|3n,tut|2n,rät|1aten,faßt|2ssen,mmelt|4n,pelt|3n,wirft|1erfen,chelt|4n,belt|3n,fert|3n,schlägt|4agen,irbt|erben,trägt|2agen,tritt|2eten,bert|3n,ichert|5n,delt|3n,mmert|4n,telt|3n,sieht|1ehen,läuft|1aufen,euert|4n,läßt|1assen,selt|3n,nimmt|1ehmen,kelt|3n,richt|1echen,gibt|1eben,fällt|1allen,gert|3n,gelt|3n,tert|3n,dert|3n,et|1n,t|en,eiß|issen,ermag|3ögen,ühren|ahren,olgen|2en,ffingen|2angen,reute|3en,egele|4n,ertigte|5en,oste|2en,bessere|6n,oppele|5n,axte|2en,nnähere|6n,chotte|4en,limmere|6n,uere|3n,wickle|4eln,andle|3eln,gere|3n,ndere|4n,e|1n,edarf|2ürfen,erd|3en'
   };
 
   var pastModel = {
-    rules: '.5te¦aGblickIchDe8haftIi6l5n4o3r2st1u0;ti9zi9;ellGi8;leibFrschFseBteilF;ni6rde8;di5ti5zi5;eitCli4;ch0egAll8ni3si3;nAtA;chn9ig2r0ti1;i0leg8;er7;e0n6;rn;t1ä0;tz3;ig2;cht1nd0;eln;en|.2ieb¦treiben|.2af¦treffen|.2iefen¦rlaufen|.3ug¦chlagen|.2ogen¦fliegen|.2ag¦rliegen|.2iegen¦steigen|.2achte¦bringen|.2ang¦pringen|lich¦leichen|.3and¦e0r0;stehen|.3ie¦chreien|.2ienen¦cheinen|.2uhr¦rfahren|.2itt¦treiten|.2oß¦rgießen|.2ossen¦ch0fl0;ießen|.2ab¦rgeben|.4te¦aIchHdiGeFgiGkElBm9n8orDr4s3t0viGziG;e1i0rauJsCteIä9;erImmI;ckHilHllH;etzGiCu9;d2e1iBle0s8änkFü7;bEgE;ckDdD;eBigC;geln,i7;e0i6;rk9;ang8i1o0;ck7;ch6;ehr5i1lag5;dig4gn4ue3;er3;n2t2;st1ue0;rn;en|.4ten¦artAche9deckAed8henkAi7ld6m4n3perrAr1t0;reb9t7;dn8ei0hol8;k7s7;bar6d2ge5s1;a0m3;ch4;e2ig3;nig2st2;eln;rn;en|rieb¦reiben|fand¦finden|warf¦werfen|lang¦lingen|wang¦wingen|ich¦eichen|.2ingen¦n0s0;gehen|.2ing¦rgehen|zog¦ziehen|.2and¦stehen|dachten¦denken|rank¦rinken|fielen¦fallen|nahm¦nehmen|kam¦kommen|fuhr¦fahren|uchs¦achsen|wies¦weisen|.2ßten¦fassen|.2at¦treten|hielten¦halten|riß¦reißen|ruben¦raben|gab¦geben|hob¦heben|.3te¦aHbeGdeFeCfBgAi9l7ntJrtJs6t4u1äumJü0;ckIhrIllI;c1e3mmHt0;en,zG;hFkF;e0igEtEufEörE;rn;agCchC;dBe0igB;bAgA;ck9e4;e5n8;e4t7;ck6d6h1i0ll6tz6;l5m5;n4r4;ln,rn;ln;ff1hn1mm1nk1u0;b0s0;en|arben¦erben|and¦inden|.3ten¦a2eug3g1h1irk3mpf3o0peln,ütz3;ff2lg2rg2;ern;ch0un0;en|arf¦erfen|rief¦rufen|arg¦ergen|og¦iehen|sah¦sehen|ahm¦ehmen|am¦ommen|annte¦ennen|annen¦innen|ies¦eisen|ißte¦issen|riet¦raten|ot¦ieten|rat¦reten|tießen¦toßen|ud¦aden|.2ten¦as0pf0;en|.2te¦a6ck7e4hl7nz7pp7r3tz7u2ä1ös7ü0;g6ß6;h5r5;h4l4;k3m3n3r3;l0r0;en,n;l0u0;en|iet¦aten|ute¦uen|vte¦ven|zte¦zen',
-    exceptions: '.4or¦erfr0verl0;ieren|.11ten¦argument3beabsich2demonstr3interess3rechtfer2substitu3unterbreit4ver0zurückreich4;ans0gewal1schleiern;chlag2talt2;tig1;ier0;en|.9ten¦aNbeGdiEeinschäDfCgarantPinsAk8m6provozPre5s2ver1widerseDz0überdau4;erschellPir2;billHdiJköGsiegFteidHweig2;chlumm1pe0;kulL;ern;b1kl9;ißhandAod0;ellH;andidGo0;nsumFrrigF;istEpi0;rDzD;inanzCrühstückD;tzC;ff0skutA;am9;a5f3gün1kräft2schränk9tra4zweif0;eln;st0;ig6;ra0ür0;cht4;rb1uftrag3;bsolv1usbr0;eit1;ier0;en|.10ten¦auszeichnBb9erleicht8favor7konkurrAorgan7pr6v1über0;ford7nachtA;er1or0;a1ber2herrsch8;a0dächtig7einnahm7schlepp7;rb0;eit5;aktiz3otest3äsent3;is2;ern;eeindruck1ombard0;ier0;en|.7ten¦aPbMeIfFhantiZkDlBnahelCoperiZpAs7traHum6ver1wegräum03zus0;piKti01;bu3harr01klär01l2mut01nein01s1t0übC;eil00ief00;pürZu1;angYoQ;chX;pflügWsteL;ch1t0;eigEill3udiQ;uftTweSüttT;assiOolstC;ahml0eerf0;egQ;ampiLling0;eln;l0ür1;imm6ü0;chtL;in1r0;krankJmordJ;reihIse0;tzH;e1lätt0;ern;gegnEkuCruh5schAwertEzwe6;bAn8r6u0;f2s0;de5fü0;llA;heul9mu1ze0;ig8;ck7;beit6gwö0;hn5;imi0last4;er3;sti1we0;nd1;mm0;en|.8ten¦aKbFeBgeAho9i6kumuOm5resi4s3ve0überquP;geBr0;goLhärtOst0weG;eckNärkN;chillAkan0tag4;diK;iterlebKusiziJ;g2n0;itiiHto0;niG;noriF;brauBfährdF;ntzü6r1skaCxis0;tiC;ford0richtC;ern;e0locki9;antrag9flüg2g0hand2rechn9teilig9;leit8rü0;nd7;eln;nstreng5ppe3us0;bi1rei0stell4;ch3;ld2;li0;er0;en|.6ten¦aUbNdiMeIfGgeFkElausOpCrBs9tr8urteil00v5w2z0;e0uwinkZ;itBrlJ;er1i0;c0nzP;keln;er1o0;rwKtiM;eIsJ;au8östR;ch0peI;mähPwebP;egiHiAutsC;oliGred0;igM;apiEerk2;maJwäA;ahBolt0;ern;in1r0;laubGsE;büßFl0;egE;chtD;asi5e1rau0;chB;e2fr1harrAs8wa0;hr9;ag8;nd7;er6;b2n1u0;fhör4slos4;rück3s1wähl3;le1s0;etz1;hn0;en|.12ten¦diskrimin1identifiz1natural0solidar0zurückfordern;is0;ieren|.5or¦einfrieren|Debattierten¦debattieren|.4ten¦bFdrohHfehlHhDkBliCm9nu8pumpHr6s5t4w1z0;eigGierG;a1einFäh0;lErE;lzDrnDtD;anzCeilCrauC;iegBäumB;e0i1ollA;ck9d9if9;tz8;e0u4;hr6rk6;e4l0;eb4;o0äuf3;ck2;lüh1o0uch1;hr0;en|.2or¦frieren|.15ten¦weiter0;debatt0produz0;ieren|Dominierten¦dominieren|.5ten¦anrOblickPdNeJfeHgeGkElBpAr9s3t2verübPweitPz0öffnP;u0üC;hKlM;au9re4;ch4p2t0;ammKo0römK;ckJppJ;a0eisIrühI;nnH;auGürG;ei2ottF;flDok7u4;a1ös0;chC;ndB;nallAo0;st9;h5nüg8;i0u0;ern;ign5mp2r0;hö0tön4;h3r3;ör2;eut1räng1;eg0;en|.3aß¦besitzen|saßen¦sitzen|.10aß¦gegenübersitzen|.7olzen¦verschmelzen|.4olz¦schmelzen|.5aßen¦festsitzen|.4aßen¦einsitzen|.6amen¦h0;eran0inzu0;kommen|.6ämen¦davonkommen|.9amen¦zusammenkommen|.7amen¦zugutekommen|.3amen¦umkommen|.3äme¦zukommen|wusch¦waschen|.3ahmen¦annehmen|.4ähme¦hinnehmen|.4ähmen¦aufnehmen|.4oll¦schwellen|.2oll¦quellen|.2ünden¦stehen|.4ünde¦bestehen|.5anden¦entstehen|.4anden¦anstehen|.7ünden¦unterstehen|.4aben¦aufgeben|.3aben¦begeben|.5aben¦übergeben|.3äben¦ab0er0;geben|.3anden¦befinden|.7anden¦verschwinden|.3ten¦bau0eil0heg0jag0tob0;en|.7ogen¦vorbeiziehen|.2ohen¦fliehen|.6ogen¦einbe0unter0;ziehen|.4ogen¦einziehen|.3ogen¦abziehen|hielte¦halten|.3ielt¦an0be0;halten|.4ielt¦ent0vor0;halten|.9ielte¦zusammenhalten|.7te¦a9be8e6heiratDkremp5mitwirkDp4s1tro2ver0wechs5;hängCka9liebCsorgCwahrC;ch1ta0;mm2;alt9lüpf9;lapp7rang7;eln;inreis6r0;inn4reich5öffn5;reit4straf4;n1ufhä0;uf2;gehör1näh0;ern;en|.4iesen¦hinweisen|Suchte¦suchen|.3ahl¦befehlen|.4ahl¦empfehlen|.9te¦anprang8beschädig7durchpauk7e3prophezei7umkremp6ver0überrei1;br3körp7sic1ursa0;ch5;h5k5;ntw1rarb0;eit2;ick0urz0;eln;en;ern|.6te¦ausholIbEdBer9f8g7k6liefDm5rätsFs1torkFver0zaubD;ebbHhörHtagHwehH;ch2i1p0treifG;altFrengF;ck9edB;adDenkD;ind7utmaßC;anz8leidBü5;lucksAründA;olg4rist9;folg8ob3w0;ach7ähn7ürg7;onn1ä0;mm0;ern;e1reit3umm0;eln;d0frei1;eck0roh0;en|.5te¦anhörDbAer9flachDmündDo7prallDrü6s4t3w1ä0;rg7uß7;a0idmB;b5rtA;e2rimm9;chä0perr8tütz8;l7m7;st6;pf0rdn5;ern;bos3r2;e0rems2;jah1müh1ton1w0;eg0;en|.5annten¦verbrennen|.2annten¦brennen|.3annten¦bekennen|.3iel¦gefallen|.4iele¦entfallen|.4iel¦ausfallen|.2ichen¦gleichen|.4äten¦betreten|.13ten¦erwirtschaften|.14ten¦auskundschaft0veranschaulich0;en|.8te¦aCbe9e6ge5nachfragGsch3ver0;drängFeiEk1w7ä0;ndFußF;nü1äm1ündD;eppDildDrum0ütB;pfB;nehm1st2;ntf1rkund0;ig8;alt7;h1vorzug6z0;aub6iff6;aupt4ind5;blief4n1u0;fspieß2sweit2;kreid1zet0;teln;en;ern|.13te¦beglückwünsch0zusammenknüpf0;en|.5achten¦verbringen|.5ächten¦aufbringen|.4te¦atmFbetFdDendFfChBjäAkaufFleEm8n7p5r4s2t1w0zollF;iDohnE;rübDötD;eBpü0;lBrB;ä4ö5ühmA;lan9r0;äg8üf8;eig7ä2;a0ein6;ch5;hr4;emm3i2;ilm2rag2u1;eck1reh1ü0;nk0;en|bat¦bitten|.4aten¦ver0;bitten,tun|.2ieben¦bl0tr0;eiben|.9ieben¦unterschreiben|rieben¦reiben|.8ieben¦festschreiben|.3arfen¦bewerfen|.7angen¦durchk0versch0;lingen|.2ieg¦steigen|.5ieg¦versteigen|fuhren¦fahren|.7ühre¦weiterfahren|.2afen¦treffen|.5afen¦eintreffen|.4issen¦wegreißen|Schirmte¦schirmen|warb¦werben|.3arb¦bewerben|riefen¦rufen|.4iefe¦aufrufen|.10te¦auf1beanstand2mit1niederkni2unterstütz2ver0;kleinern,wechseln;arbeit0;en|.2angen¦dr0zw0;ingen|.2ßte¦fassen|.4ßte¦anp0erf0;assen|.7inge¦weitergehen|.2itt¦gleiten|.3uf¦schaffen|wußten¦wissen|.3üchse¦erwachsen|.4ing¦auf2e0ver1;in1mp0;fang1;geh0;en|.7ub¦untergraben|hoben¦heben|.11te¦durchforst0entschuldig0;en|.6ief¦durch0unter0;laufen|dachte¦denken|.4ägen¦vorliegen|.6achen¦aus0ent0;sprechen|.4omm¦erklimmen|.3ach¦sprechen|.3te¦ein3h2k1lob3müh3reg3tag3w0;ag2eh2;ur1ür1;ol0ör0;en|ließ¦lassen|.3ieße¦zulassen|.3ießen¦erlassen|.2achen¦brechen|.2ugen¦tragen|gingen¦gehen|.5ied¦bescheiden|.4oß¦schließen|Hätte¦haben|.4iffen¦begreifen|hieß¦heißen|.7ieg¦verschweigen|lief¦laufen|lag¦liegen|galt¦gelten|.2iff¦greifen|.4iefen¦rumlau0schla0;fen|.6oben¦verschieben|litten¦leiden|.4ieß¦e1ver0;heiß2l1;inl0ntl0;ass0;en|.4ug¦betragen|.6ach¦versprechen|.5ah¦geschehen|.2te¦üben|wandte¦wenden|.4iß¦schm0verb0;eißen|.4itten¦sch0;neid0reit0;en|fingen¦fangen|tat¦tun|.3iefen¦belaufen|.6oß¦an0be0er0;schließen|.5ug¦aus0bei0;tragen|sank¦sinken|.5agen¦festliegen|.3itten¦erleiden|.3ang¦bes0err0;ingen|.6ied¦aus0ent0;scheiden|.4anken¦versinken|.5ieß¦überlassen|.8ächen¦widersprechen|.7oß¦e0;inschließ0ntschliess0;en|sang¦singen|.2ßten¦passen|.3ieden¦scheiden|.5chten¦vermögen|aß¦essen|.4test¦sollen|.8itt¦fortschreiten|.9itt¦unterschreiten|.6ing¦herumgehen|.4ieg¦schweigen|.2ank¦stinken|.4andte¦entsenden|mochte¦mögen|.4iff¦ergreifen|hingen¦hängen|.3ingen¦anfang1be0zu0;geh0;en|.4aß¦vergessen|ziehen¦zeihen|.10achen¦zusammenbrechen|.4ieh¦verleihen|.5achen¦aufbrechen|.7ießen¦hinterlassen|.6oren¦beschwören|ward¦werden|.2aßen¦fressen|.5ach¦aus0ein0;brechen|.3andte¦anwenden|.7iefen¦hinauslaufen|half¦helfen|wogen¦wägen|.3og¦erwägen|lasen¦lesen|.3ob¦schieben|.6ug¦übertragen|.3ossen¦gen0spr0;ießen|.5ieb¦ausbleiben|mied¦meiden|.7itten¦einschreiten|.8iedet¦unterscheiden|Unkten¦unken|.9ag¦zugrundeliegen|.4ammen¦schwimmen|wog¦wiegen|.8urde¦bekanntwerden|.7ag¦zurückliegen|maß¦messen|.5ugen¦vortragen|.3ief¦ablaufen|sandte¦senden|.3urfte¦bedürfen|wart¦sein|.5ieben¦verbleiben|.7ossen¦entschließen|.7ach¦unterbrechen|.5ogen¦überwiegen|.4ied¦vermeiden|.3tet¦kosen|.6ang¦durchringen|.4alfen¦verhelfen|.5angen¦eindringen|.8ang¦herausdringen|.5ßten¦verpassen|.6ießen¦übriglassen|.2ochen¦kriechen|.5iffen¦aufgreifen|.7ieb¦unterbleiben|.5ießen¦freilassen|.5ügen¦vertragen|.3aten¦abtun|barsten¦bersten|.9ingen¦zusammenhängen|.6ingen¦draufgehen|.7ing¦zurückgehen|bisse¦beißen|sog¦saugen|.7ief¦zurücklaufen|mußte¦müssen|.4as¦verlesen|rangen¦ringen|.4äte¦auftun|roch¦riechen|.7össen¦ausschließen|.14te¦entgegenrieseln|.12te¦niedermetzeln|.15te¦zusammenbrutzeln'
+    rules: 'klimmen|2omm,iziehen|2ogen,hwellen|2oll,ulassen|2ieße,rlieren|2or,sdehnen|5ten,efehlen|2ahl,rkünden|6te,rtönen|4ten,nregen|4ten,esitzen|2aß,ehalten|2ielt,ufgeben|3aben,blehnen|5ten,pfehlen|2ahl,hlingen|2angen,efinden|2anden,elten|alt,otten|4ten,haupten|6te,tdecken|5ten,ewegen|4te,etonen|4te,chlafen|3iefen,egeben|2aben,toppen|4ten,hmlegen|5ten,eenden|5ten,tlassen|2ieß,etragen|3ug,chuften|6ten,etreten|3äten,liehen|1ohen,üsten|4te,flegen|4ten,erebben|5te,ühmen|3te,rsitzen|2aß,pfangen|2ing,ntragen|5ten,schehen|3ah,rhängen|5te,eidigen|5ten,hneiden|2itten,rwarten|6ten,elaufen|2iefen,rumpfen|5te,itragen|3ug,scheren|5ten,rspüren|5ten,tliegen|2agen,lingeln|6ten,rbitten|2aten,längern|6ten,rringen|2ang,greißen|2issen,rsinken|2anken,udieren|5ten,ingehen|3ing,osten|4ten,hädigen|5te,lüchten|6ten,liessen|1oß,ermuten|6ten,erüben|4ten,ekennen|2annten,redigen|5ten,rgraben|3ub,tiieren|5ten,prühen|4ten,lvieren|5ten,idmen|4te,ermögen|4chten,erehren|5ten,hwinden|2anden,rägen|3te,helegen|5ten,rhöhen|4ten,trömen|4ten,ümpeln|5ten,edrohen|5te,umgehen|3ing,rmorden|6ten,ewerten|6ten,drucken|5ten,pflügen|5ten,nstigen|5ten,tinken|1ank,rqueren|5ten,usten|4ten,ftragen|5ten,rehen|3te,ilmen|3te,erknien|6te,röffnen|6te,hezeien|5te,ürgern|5ten,fheulen|5ten,öten|3te,nlasten|6ten,undigen|5te,rwürgen|5te,egegnen|6ten,standen|6te,efallen|2iel,rbosen|4te,ulegen|4ten,palten|5te,rlauben|5ten,ejahen|4te,egehen|2ingen,fährden|6ten,inbüßen|5ten,lucksen|5te,rleihen|2ieh,ufrufen|3iefe,mpieren|5ten,uwinken|5ten,rwähnen|5te,tfalten|6te,tfallen|2iele,sfallen|2iel,chwören|3oren,gnieren|5ten,rsachen|5te,rwenden|6ten,ugehen|2ingen,ressen|1aßen,flügeln|6ten,nwenden|2andte,eitigen|5ten,ehmigen|5te,fdecken|5ten,nweisen|2iesen,enügen|4ten,slaufen|2iefen,utmaßen|5te,gräumen|5ten,rgolden|6ten,rwägen|2og,rüfen|3te,ruhigen|5ten,umpen|3ten,uellen|1oll,erübeln|6ten,hleppen|5ten,ohnen|3te,ewirken|5ten,anschen|5ten,inzeren|5ten,östigen|5ten,chellen|5ten,hwemmen|5ten,irieren|5ten,orzugen|5te,tarten|5ten,peisen|4ten,tuieren|5ten,bildern|6ten,nlassen|2ieß,elieren|5ten,ekunden|6ten,rwachen|5te,lanen|3te,chaden|5te,npassen|3ßte,eliegen|2ag,spießen|5te,stragen|3ug,rrieren|5ten,hwimmen|2ammen,altigen|5ten,ewerfen|2arfen,nrücken|5ten,tapeln|5ten,okern|4ten,sbilden|6ten,twerden|2urde,rlieben|5te,rlocken|5ten,kliegen|2ag,limmern|6ten,sfüllen|5ten,ewahren|5ten,chweben|5ten,ungern|5ten,hillern|6ten,blaufen|2ief,mpören|4ten,bziehen|2ogen,rneinen|5ten,gwöhnen|5ten,edürfen|2urfte,ringern|6ten,ichtern|6ten,alzen|3ten,efragen|5ten,olstern|6ten,emahnen|5ten,pannen|4ten,rimmen|4te,rwiegen|2ogen,orwagen|5ten,nfangen|2ingen,ulichen|5ten,bgeben|2äben,hringen|2ang,esten|4te,rhelfen|2alfen,stücken|5ten,uhören|4ten,penden|5ten,strafen|5te,sweiten|6te,rsorgen|5te,nallen|4ten,glassen|2ießen,rfangen|2ing,chämen|4te,mlaufen|2iefen,bdecken|5ten,oltern|5ten,ilassen|2ießen,lündern|6ten,ewerben|2arb,esetzen|5ten,ufhören|5ten,tmen|3te,erfegen|5ten,bwenden|6ten,forsten|6te,ümmeln|5ten,btun|2aten,ertun|3aten,prengen|5te,trengen|5ten,zwecken|5ten,ersten|arsten,erkern|5ten,efreien|5te,chalten|6te,eiraten|6te,risten|5te,tocken|4ten,hlaufen|2ief,ckgehen|3ing,fnehmen|2ähmen,chüren|4ten,nnahmen|5ten,rwalten|6te,kreiden|6te,lummern|6ten,remsen|4te,umieren|5ten,siegeln|6ten,treifen|5te,nachten|6ten,rdieren|5ten,rösten|5ten,illegen|5ten,mkommen|2amen,rtiefen|5ten,ohren|3ten,augen|og,bsetzen|5ten,klaufen|2ief,fhäufen|5te,lühen|3ten,üssen|ußte,erlesen|3as,apieren|5ten,uslosen|5ten,ächen|3te,rdauern|6ten,uftun|3äte,erkeln|5ten,umpeln|5ten,alieren|5ten,ahnden|5ten,nreihen|5ten,öschen|4ten,auben|3te,ordnen|5ten,eiern|4ten,erholen|5ten,rleiben|5te,hweigen|2ieg,cheinen|2ienen,ürchten|6ten,treiten|2itt,mühen|3te,sammeln|6ten,währen|4ten,stufen|4te,chreien|3ie,mitteln|6ten,treiken|5ten,pringen|2ang,lagern|5ten,leiden|1itten,folgen|4ten,graben|2uben,rdigen|4te,aunen|3ten,bergen|1arg,heben|1ob,harren|4ten,uldigen|5ten,laden|1ud,rlaufen|2iefen,amieren|5ten,isten|4ten,senden|1andte,regen|3te,zünden|5ten,issen|1ßte,denken|1achten,ruhen|3te,tagen|3te,rliegen|2ag,kaufen|4te,wachsen|1uchs,edigen|4te,sorgen|4ten,heißen|1ieß,ähen|2te,buchen|4ten,trinken|2ank,ummen|3te,eimen|3te,hoffen|4ten,nsetzen|5ten,dichten|6ten,rgießen|2oß,nten|3te,nbaren|4ten,affen|3te,fragen|4te,mucken|4ten,usgehen|3ingen,streben|5ten,meiden|1ied,üben|2te,oppeln|5ten,dringen|2angen,passen|2ßten,chützen|5ten,ammen|3te,singen|1ang,rasen|3ten,lasten|5te,horchen|5te,zeigen|4ten,hängen|1ingen,ngehen|2ingen,ausen|3te,wählen|4ten,wandern|6ten,wehen|3te,lden|3te,innen|annen,cheiden|2ied,ndigen|4ten,eden|3te,ehnen|3te,erben|arben,rufen|1ief,fliegen|2ogen,wingen|1ang,frieren|2or,rmen|2te,ahnen|3te,fassen|2ßten,rgehen|2ing,dienen|4te,stimmen|5te,einigen|5ten,bieten|1ot,essen|aß,sitzen|1aßen,leiten|5te,zeugen|4ten,langen|4te,ven|1te,üpfen|3te,stoßen|2ießen,uten|3te,lingen|1ang,raten|1iet,äumen|3te,klagen|4te,ügen|2te,rbeiten|6ten,üßen|2te,steigen|2iegen,fahren|1uhr,treffen|2af,ppen|2te,reisen|4ten,sehen|1ah,ösen|2te,lichen|4te,achen|3ten,reiben|1ieb,werfen|1arf,sagen|3te,ligen|3te,rnen|2te,tten|3te,rten|3te,treten|2at,pfen|2ten,gnen|3te,eißen|iß,ften|3te,bringen|2achte,leben|3te,chlagen|3ug,eichen|ich,uchen|3te,ennen|annte,fallen|1ielen,legen|3te,ziehen|1og,chnen|4te,halten|1ielten,weisen|1ies,inden|and,ießen|ossen,uen|1te,stehen|2and,geben|1ab,nehmen|1ahm,schen|3te,chten|4te,tigen|3te,kommen|1am,zen|1te,eln|2te,len|1te,ken|1te,ern|2te,ren|1te',
+    exceptions: 'wünschen|6ten,aussprechen|6achen,machen|4te,entsprechen|6achen,halten|1ielte,sprechen|3ach,loben|3te,lassen|1ieß,suchen|Suchte,argumentieren|11ten,erlassen|3ießen,brechen|2achen,rebellieren|9ten,demonstrieren|11ten,versuchen|7ten,erreichen|7te,tragen|2ugen,gehen|1ingen,stehen|2ünden,rufen|1iefen,schaffen|3uf,gehören|5ten,fassen|2ßte,protestieren|10ten,gründen|6te,schließen|4oß,teilen|4ten,organisieren|10ten,haben|Hätte,begreifen|4iffen,rutschen|6ten,laufen|1ief,liegen|1ag,bitten|1at,heben|1oben,beschränken|9ten,besiedeln|8ten,wissen|1ußten,verlangen|7ten,warnen|4ten,deuten|5ten,treffen|2afen,bleiben|2ieben,meinen|4te,greifen|2iff,bekräftigen|9ten,treiben|2ieben,landen|5ten,verschieben|6oben,errichten|8ten,drohen|4ten,einlegen|6ten,begründen|8ten,neigen|4te,reichen|5ten,fehlen|4ten,brauchen|6ten,richten|6ten,unterschreiben|9ieben,verweigern|9ten,versprechen|6ach,wenden|1andte,feuern|5ten,steigen|2ieg,stammen|5ten,übergeben|5aben,öffnen|5ten,rollen|4ten,verbrennen|5annten,ändern|5ten,fangen|1ingen,tun|1at,denken|1achte,wirken|4ten,einschätzen|9ten,beschließen|6oß,präsentieren|10ten,drängen|5ten,siegen|4ten,sinken|1ank,bestehen|4ünde,begleiten|8ten,ignorieren|8ten,verbringen|5achten,verbreiten|9te,versperren|8ten,fahren|1uhren,gestalten|8te,blockieren|8ten,entstehen|5anden,beabsichtigen|11ten,ordnen|5te,erfordern|8ten,verstärken|8ten,beteiligen|8ten,veranschlagen|11ten,diskutieren|9ten,veranstalten|11ten,verlassen|4ieß,votieren|6ten,überlassen|5ieß,brennen|2annten,widersprechen|8ächen,ausstellen|8ten,verschmelzen|7olzen,mißhandeln|9ten,anstehen|4anden,scheiden|3ieden,vorherrschen|10ten,lieben|4ten,verdrängen|8te,werben|1arb,blicken|5ten,gleichen|2ichen,sichern|6ten,enthalten|4ielt,annehmen|3ahmen,kumulieren|8ten,enden|4te,skandieren|8ten,eintreffen|5afen,lauschen|6ten,weinen|4ten,sollen|4test,fortschreiten|8itt,identifizieren|12ten,beschenken|8ten,abstimmen|7ten,existieren|8ten,reifen|4ten,verkämpfen|8te,urteilen|6ten,unterschreiten|9itt,tauchen|5ten,tummeln|6ten,verschenken|9ten,hegen|3ten,zustimmen|7ten,merken|4ten,interessieren|11ten,mögen|1ochte,bereiten|7te,entschuldigen|11te,ergreifen|4iff,naturalisieren|12ten,schmelzen|4olz,kehren|4ten,trauern|6ten,operieren|7ten,kleiden|6te,schmähen|6ten,behandeln|8ten,rechtfertigen|11ten,absperren|7ten,bezweifeln|9ten,vorliegen|4ägen,betrachten|9ten,widersetzen|9ten,steigern|7ten,ergeben|3äben,basieren|6ten,weiterfahren|7ühre,beten|4te,erfassen|4ßte,zeihen|1iehen,kichern|6ten,breiten|6te,zusammenbrechen|10achen,verhindern|9ten,ausreichen|8ten,aufbrechen|5achen,auszeichnen|10ten,wagen|3te,zwingen|2angen,honorieren|8ten,einbeziehen|6ogen,hinterlassen|7ießen,passieren|7ten,weitergehen|7inge,reiben|1ieben,debattieren|Debattierten,kleben|4ten,werden|1ard,hinzukommen|6amen,einen|3te,animieren|7ten,zerlegen|6ten,einbrechen|5ach,gleiten|2itt,mitarbeiten|10te,erfolgen|6te,einschließen|7oß,polieren|6ten,blättern|7ten,nutzen|4ten,ausbreiten|9ten,helfen|1alf,wägen|1ogen,lesen|1asen,eignen|5ten,hemmen|4te,schieben|3ob,überreichen|9te,übertragen|6ug,erkranken|7ten,unterbreiten|11ten,residieren|8ten,erhören|5ten,bauen|3ten,schreiten|4itten,ausbleiben|5ieb,eilen|3ten,einschreiten|7itten,erwirtschaften|13ten,unterscheiden|8iedet,unken|Unkten,trennen|5ten,zuspitzen|7ten,münden|5te,garantieren|9ten,verklären|7ten,nähern|5ten,erarbeiten|9te,insistieren|9ten,vorhalten|4ielt,betteln|6ten,abschütteln|10ten,zieren|4ten,regieren|6ten,vorbereiten|10ten,wiegen|1og,recken|4ten,davonkommen|6ämen,einziehen|4ogen,trauen|4ten,favorisieren|10ten,zusammenkommen|9amen,vortragen|5ugen,reden|4ten,unterstehen|7ünden,erwachsen|3üchse,einreisen|7te,zirkulieren|9ten,waschen|1usch,verdächtigen|10ten,inspizieren|9ten,auskundschaften|14ten,säumen|4ten,sein|wart,befrachten|9ten,weiten|5ten,solidarisieren|12ten,verbleiben|5ieben,umstellen|7ten,zugutekommen|7amen,zurückreichen|11ten,finanzieren|9ten,anhalten|3ielt,flachen|5te,vermindern|9ten,versteigen|5ieg,hinnehmen|4ähme,unterbrechen|7ach,unterlaufen|6ief,weiterproduzieren|15ten,kosen|3tet,musizieren|8ten,toben|3ten,häufen|4ten,berechnen|8ten,herausdringen|8ang,miterleben|8ten,korrigieren|9ten,aufbringen|5ächten,versagen|6ten,praktizieren|10ten,kandidieren|9ten,erschließen|6oß,herankommen|6amen,schauen|5ten,intonieren|8ten,vegetieren|8ten,kriechen|2ochen,ritzen|4ten,aufgreifen|5iffen,unterbleiben|7ieb,jagen|3ten,wildern|6ten,diskriminieren|12ten,aufgehen|4ing,tanzen|4ten,vertragen|5ügen,zusammenhalten|9ielte,hocken|4ten,verstecken|8ten,durchklingen|7angen,trachten|7ten,weiterdebattieren|15ten,verbilligen|9ten,mehren|4ten,dominieren|Dominierten,schirmen|Schirmte,draufgehen|6ingen,beißen|1isse,ersetzen|6ten,provozieren|9ten,ausbrechen|5ach,aufarbeiten|10te,festschreiben|8ieben,überfordern|10ten,spekulieren|9ten,schütten|7ten,gebrauchen|8ten,unterziehen|6ogen,nützen|4ten,modellieren|9ten,ansiedeln|8ten,wickeln|6ten,zurückfordern|12ten,ringen|1angen,anschließen|6oß,waten|4ten,riechen|1och,ausschließen|7össen,zukommen|3äme,hantieren|7ten,verhärten|8ten,verteilen|7ten,saugen|1og',
+    rev: 'rklomm|3immen,nahm|1ehmen,kam|1ommen,uließe|2assen,estünde|3ehen,ochte|ögen,erführe|3ahren,ufriefe|3ufen,erginge|3ehen,ntfiele|3allen,npaßte|3ssen,ntwurde|3erden,rwüchse|2achsen,edurfte|2ürfen,eitelte|5n,innähme|3ehmen,isse|eißen,ußte|üssen,uftäte|3un,ukäme|2ommen,felte|3n,herte|3n,kelte|3n,mmerte|4n,ißte|1ssen,faßte|2ssen,ickerte|5n,schrie|4eien,empelte|5n,ttelte|4n,hielte|1alten,äußerte|5n,nerte|3n,mmelte|4n,perte|3n,ferte|3n,berte|3n,belte|3n,andte|enden,zelte|3n,selte|3n,delte|3n,brachte|2ingen,gerte|3n,annte|ennen,gelte|3n,uerte|3n,derte|3n,terte|3n,ete|1n,te|en,chuf|2affen,alf|elfen,griff|2eifen,rief|1ufen,traf|2effen,warf|1erfen,lief|1aufen,efanden|2inden,ußten|issen,hliefen|2afen,schoben|3ieben,eträten|3eten,lohen|1iehen,euerten|4n,rachten|1ingen,stlagen|3iegen,uhren|ahren,erbaten|3itten,grissen|2eißen,rsanken|2inken,prächen|2echen,kannten|1ennen,hmolzen|2elzen,chieden|2eiden,möchten|2gen,hwanden|2inden,lichen|1eichen,nnahmen|2ehmen,orlägen|3iegen,iehen|eihen,chworen|3ören,raßen|1essen,nwiesen|2eisen,asen|esen,äherten|4n,hwammen|2immen,onkämen|3ommen,ewarfen|2erfen,llerten|4n,erwogen|3iegen,rhalfen|2elfen,rächten|1ingen,rochen|1iechen,rtrügen|3agen,arsten|ersten,fnähmen|2ehmen,hlössen|2ießen,eierten|4n,griffen|2eifen,chienen|2einen,rannten|1ennen,standen|2ehen,gruben|2aben,trafen|2effen,auerten|4n,dachten|1enken,gäben|1eben,hritten|2eiten,kerten|3n,mmerten|4n,trugen|2agen,stünden|2ehen,fingen|1angen,taten|1un,hingen|1ängen,annen|innen,gaben|1eben,itten|eiden,arben|erben,flogen|2iegen,saßen|1itzen,stießen|2oßen,ließen|1assen,stiegen|2eigen,terten|3n,rachen|1echen,zogen|1iehen,liefen|1aufen,aßten|1ssen,kamen|1ommen,angen|ingen,ieben|eiben,fielen|1allen,gerten|3n,gingen|1ehen,hielten|1alten,ossen|ießen,derten|3n,elten|2n,eten|1n,ten|en,alt|elten,olltest|3en,chiedet|2eiden,ostet|2en,bot|1ieten,riet|1aten,hielt|1alten,itt|eiten,trat|2eten,tschloß|5iessen,saß|1itzen,hieß|1eißen,aß|essen,ließ|1assen,iß|eißen,oß|ießen,tergrub|5aben,chob|2ieben,hob|1eben,warb|1erben,ieb|eiben,gab|1eben,chmolz|3elzen,erlieh|3eihen,usch|aschen,och|iechen,rach|1echen,ah|ehen,ich|eichen,ard|erden,lud|1aden,band|1inden,ied|eiden,fand|1inden,stand|2ehen,rwog|2ägen,fing|1angen,barg|1ergen,ieg|eigen,lag|1iegen,ging|1ehen,zog|1iehen,ug|agen,ang|ingen,erlas|3esen,wuchs|1achsen,wies|1eisen,oll|ellen,fahl|1ehlen,fiel|1allen,or|ieren,fuhr|1ahren,ank|inken'
   };
 
   let infToPresent = uncompress$1(presentModel);
@@ -7397,8 +7728,24 @@
     return convert$1(str, pastToInf)
   };
 
+  const all = function (str) {
+    let arr = [str];
+    let past = toPast(str);
+    if (past !== str) {
+      arr.push(past);
+    }
+    let present = toPresent(str);
+    if (present !== str) {
+      arr.push(present);
+    }
+    return arr
+  };
 
-  var conjugate = { toPresent, fromPresent, toPast, fromPast };
+  var verb = { toPresent, fromPresent, toPast, fromPast, all };
+
+
+  // console.log(toPresent('zusammenzufuehren'))
+  // console.log(toPast('gehen'))
 
   // generated in ./lib/lexicon
   var lexData = {
@@ -7409,7 +7756,7 @@
     "Conjunction": "true¦bAd7entwed6falls,in5nach5o3so2und,w0zumal;e0ohingegen;d4il,nn2;lange,ndern,wie;b0d2;!glei3;dem;er;a1enn,o0;ch;ss,ß;e0zw;vor,ziehungsweise",
     "Determiner": "true¦d2ein0;!e0;!m,n,r,s;as,e0ie;m,n,r,s",
     "City": "true¦0:3A;a2Yb28c1Yd1Te1Sf1Qg1Kh1Ci1Ajakar2Jk11l0Um0Gn0Co0ApZquiYrVsLtCuBv8w3y1zuri22;ang1We1okohama;katerin1Krev0;ars4e3i1rocl4;ckl0Yn1;nipeg,terth0Z;llingt1Rxford;aw;a2i1;en2Klni33;lenc2Yncouv0Ir2J;lan bat0Ftrecht;a7bilisi,e6he5i4o3rondheim,u1;nWr1;in,ku;kyo,ronJulouD;anj26l16miso2Mra2D; haKssaloni10;gucigalpa,hr0l av0O;i1llinn,mpe2Engi09rtu;chu25n0pU;a4e3h2kopje,t1ydney;ockholm,uttga15;angh1Ienzh20;o0Nv01;int peters0Xl4n1ppo1I; 1ti1E;jo1salv3;se;v1z0T;adW;eykjavik,i2o1;me,sario,t28;ga,o de janei1A;to;a9e7h6i5o3r1ueb1Tyongya1Q;a1etor28;gue;rt1zn0; elizabe4o;ls1Jrae28;iladelph23nom pe0Aoenix;r1tah tik1C;th;lerLr1tr13;is;dessa,s1ttawa;a1Klo;a3ew 1is;delWtaip1york ci1U;ei;goya,nt0Xpl0Xv0;a7e6i5o2u1;mb0Oni0L;nt2sco1;u,w;evideo,real;l0n03skolc;dellín,lbour0U;drid,l6n4r1;ib2se1;ille;or;chest1dalYi11;er;mo;a6i3o1vCy03;nd1s angel0H;on,r0G;ma1nz,sb00verpo2;!ss1;ol; pla0Jusan0G;a6hark5i4laipeda,o2rak1uala lump3;ow;be,pavog1sice;ur;ev,ng9;iv;b4mpa0Lndy,ohsiu0Ira1un04;c1j;hi;ncheNstanb1̇zmir;ul;a6e4o1; chi mi2ms,u1;stJ;nh;lsin1rakliH;ki;ifa,m1noi,va0B;bu0UiltE;alw5dan4en3hent,iza,othen2raz,ua1;dalaj0Hngzhou;bu0R;eVoa,ève;sk;ay;es,rankfu1;rt;dmont5indhovV;a2ha02oha,u1;blSrb0shanbe;e1kar,masc0HugavpiK;gu,je1;on;a8ebu,h3o1raioKuriti02;lo1nstanKpenhagOrk;gGmbo;enn4i2ristchur1;ch;ang m2c1ttagoM;ago;ai;i1lgary,pe town,rac5;ro;aIeCirminghXogoBr6u1;char4dap4enos air3r1s0;g1sa;as;es;est;a3isba2usse1;ls;ne;silRtisla1;va;ta;i4lgrade,r1;g2l1n;in;en;ji1rut;ng;ku,n4r1sel;celo2ranquil1;la;na;g2ja lu1;ka;alo1kok;re;aDbBhmedabad,l8m5n3qa2sh1thens,uckland;dod,gabat;ba;k1twerp;ara;m0s1;terd1;am;exandr2ma1;ty;ia;idj0u dhabi;an;lbo2rh1;us;rg",
-    "Verb": "true¦0:5M;1:5E;2:5L;3:4M;4:4O;5:4D;6:3O;a56b46d41e3Af31g24h1Ri2Lk1Ml1Hm1Cn1Ap18r15s0Ot0Hu09vTwHz9ä8über7;nehm0ras2sp3ZtrVwa2;nd3Juß1N;eDi3Dog0u7ä3Aög0;geBrück8sammen7;geb5Lhä1;ge8zu7;drä1erob3E;ga1wies0;la5Gsp5Hw58;ig16rstö2G;aGeEiBoAu9ä8ü7;nsche4rde4;ch28hl0re4;chs,rd0ß3;l1Ord0;ch0der2Pe8r7s15;d,ke4;derhol0Ms;i7r3C;ch0gere,st,ß;ch10ndt0r7;!en,f,n3;erAor7;ausg1Cge7lR;d3Bga1schl7;ag0;anke1ZbHdGfüg0gFhä1lCmOrat0s9tret0we8öffentlich7;en,t;chs42i1S;ch8pr7ta1Ou2P;e2ic5o2;li1ob0;a8oren7;!g12;ng0u3S;a1e4PliE;eutli2ie1Nrä1;ot0u3Z;mg0Xnter7;brClBs7;t7uc5;r7üS;ei2i7;ch6;ag;i1o2;aBhro1Dr8u3Uä7;t0us2;a8i7ug;n2Rtt;f,ge,t6;pp0u7;ch0s2;aLchFeDiBol0LpAt7uc5;a8e7ieg,reik0ärk0ü3I;c2Li3Jll3;mm3Knd6;iel0ra2;n7tz0;d,g0ke;i7nk3tz04;!d,en;aBeAi1Ql9rie8we2Zü7;tz0;!b;a39epp0;in0nk3;fZue;g7h,nk;e,te;e8ief,uts2ä7üc26;ch0um3;agiOi27;asJlant2Fr7;ophez2Xäg0;a7iedeV;hm6nn3;achAe9i8öch3ü7;sEßM;s2tb1Vßbrau2;in3lde3;e,te4;a9e8ie2Sud,ä7ös0;dt,g0;g3hn3;g6s7;se;aAlett9omme,ri8önne,ü7;mm14nd24;e2tisi7;er3;m6uB;aGerDiBo9ä7;lt,n27t7;te4;f7l3;fe;l2Xn7;blä0Pg0wegtäus2;rsche,vo7;rg7;ega1;be4l3nde8t7;!te4;le;a02e9i8l7;aub0i2änz0;b,lt,ng6;bUdTfSga1hRlQmac5pMrLsDtBw8z7;og0wu1;a8es0o7;nn0rd0;n2Ds2;an,r7;ag0o18;chBp2It9u7;c5n7;g0k0;a7orb0ri2;nd;a12l7;eu7o2B;st;at0u1;a8la7;nt;a7rkt;rt;a0Cu1;alt0t;a02u1E;ac5ru1;eAo9r7;a7o2;c5uc5;r0t0;!t0;b6lt;anEeIiCorderBreigeAuß0ördQü7;h7r13;le4r7;e4te4;sp1R;n,te4;el7ng0;!e4;d,g0;ingeVmpfSntMr7;fJga1hIinnerHklär0BläutGmögli03rDs9wäg0z7örtG;wu1ä7;hl0;ch7to2;i8o1Gü7;ttB;en6;ei7u1;ch7;e,t03;ern;n,t01;ob0öhS;r06ü7;ll0;ga1la15s7;ch8pr7tand6;a2e2ic5o2;ei8ied6;!en;de;a8i7;ng;hl,ng0;d7frVga1;ru1;enAr9urchd8ürf7;e,t0;ri1;a1i1ä1ück0;ke;a04eCiBliebHot,ra7;ch9u7;ch7;e4t;en,te4;e3n;aWdien0fSgQherrs2kam0mängPnötiNrJsCt7wältKzeichne3;on9r7;aVo7;ff0;en,t7;!e;chBitze,p0Et8uc5;ht;ra09ät7;ig7;en,te;ied,lo08w7äft9;or0;ich8ücksicht7;ig0;te3;te;ge4;!n;eln;an7li2onn0rab0;g0n;i9r8ür7;cht0;eit;nd0;bsichti7nspru2;ge;ng0t,u7;e,t;bJnFu7;fCs7;fiel,g7ma2spra2;e7i1;bMg8s7;cJpL;a1li2;ge7ma2;bIfa1ga1hob0zwu1;bot,ge7;bot0fa1ga1spGw7;an7;dt;ge8hä1;ng0;bBs7;c8tra7;ft;hlo7;ss0;ro2;ch0;en",
+    "Verb": "true¦0:4P;1:4I;2:4O;3:3W;4:3U;a4Ab3Gd3Be2Nf2Gg1Nh1Ci23k1Al15m12n10p0Yr0Ws0Ht0Bu05vSwFz7ä6über5;ne10ras2sp39trUwa2;nd2Uußer4;eBi2Qog0u5ä2Nög0;ge9rück6sammen5;geb4Mhä1;ge6zu5;drä1erob2P;ga1wies0;la4Hsp4Iw4A;igDrstö1Y;aFeDi9o8u7ä6ü5;nsche3rde3;hl0re3;rd0ß4;l17rd0;ch0der24e6r5s0S;d,ke3;derhol5s;e,te;i5r2N;ch0gere,st;ch0Mndt0r5;!en,f,n4;er8or5;ausg0Uge5lK;d2Kga1schl5;ag0;bCdBfüg0gAhä1l8mHrat0s6tret0wechs39öffentlich5;en,t;chli1pr5ucht2W;e2ic2Ao2;a1oren5;!g0M;a1e3Sli2;eutli2ie17rä1;ot0u36;mg0Inter5;br8l7st5;r5üP;ei2ich05;ag;i1o2;a8hro0Zr6ue,ä5;t0us2;a5in26ug;f,t0;pp0u5;ch0s2;a2VchEeCiAol09p9t5;a6e5reik0ärk0ü2S;c20i2Tll4;mm5ndT;e,t;iel0ra2;n5tz0;d,g0ke;i5tzt0;!d,en;a8ein0ienMl7rie6we2Aü5;tz0;!b;a2Iepp0;fOue;ei1Qief,uts2ä5üc1N;ch0um4;asElant1Wr5;ophezeit,äg0;a5iedeM;hm0;ach1Eein4i6öch4ü5;s9ßF;s2tb1Dßbrau2;a6ehn4ie27ud,ä5ös0;dt,g0;g6s5;se;!en;am0omme,rie2önne,ü5;mm0Pnd1L;aCer9in8of7ä5;n1Qt5;te3;fe;blä0Hg0wegtäus2;rs0Ivo5;rg5;ega1;be3l4nde6t5;!te3;le;ab0e7i6l5;aub0i2änz0;b,ng;bPdOfNga1halt0lu1mac0JpJrIsBt9w6z5;og0wu1;a6es0o5;nn0rd0;n1Us2;an,r5;ag0o0W;ch8p1Yt7u5;c0Bn5;g0k0;a07orb0ri2;a0Rl5;eu5o1S;st;at0u1;a6la5;nt;a5rkt;rt;aVu11;acZru1;e8o7r5;a5o2;cWucW;r0t0;!t0;a1eEiAorder9reige8uß0ördKü5;h5rc0S;le3r5;e,te3;sp1B;n,te3;el08ng0;ingeQmpfPntIr5;fFga1hEinnerDklär05läutCmögliYrAs7wäg0z5örtC;wu1ä5;hl0;ch5to2;i0o12ü5;tt7;ei5u1;che;ern;n,tX;ob0öhP;r00ü5;ll0;ga1la0Ts5;ch8pr6ta5;nd;a2e2ic5o2;ht;ei5ied0;de;a1ing;d5frQga1;ru1;en8r7urchd6ürf5;e,t0;ri1;a1i1ä1ück0;ke;aXe9i8liebEra5;cSu5;ch5;e3t;e4n;aQdien0fNgLherrs2kam0mängKnötiIrFsAt5wältG;on7r5;aPo5;ff0;en,t5;!e;ch7itze,p04tät5;ig5;en,te;ied,lo00w5äft7;or0;ichte4ücksicht5;ig0;te;ge3;!n;eln;an5li2onn0rab0;g0n;i6ürc5;ht0;nd0;bsichti5nspru2;ge;ng0ue;bFngeCu5;f9s5;ge5ma2;bIg6s5;cFpH;a1li2;ge5ma2;bEfa1ga1hob0zwu1;bot0fa1ga1spDw5;an5;dt;ge6hä1;ng0;b8s5;c5traft;hlo5;ss0;ro2;ch0;en",
     "Noun": "true¦0:8A;1:7Z;2:89;3:7K;4:7H;5:7Q;6:87;7:7F;8:7P;9:5K;A:7B;B:84;a7Cb6Ec68d60e5Nf51g4Ah3Ti3Oj3Kk36l2Um27n20o1Zp1Kr16s0Gt07u03vSwHzDäCölvor5Jüber2J;gypten4Sngs3rz3;aEeDuCwic3E;ge,kä1Bstande5G;c4hn3Qit04l3;c6Ogr6T;aKeGiEocheCä4Lört2ürst2;!nC;!en7J;dersCnt1ssen4D;a4Zp5O;ge,hrpflichtige,iElt,n7GrCsen4T;n1rat36tC;!e,papi6U;g1se;ff0hl0ige9lC;den40es;arian3eIieHoC;igt,lk,rC;ab1Lg7Kpres2sCwürfe6;chußlorbe6NitzendeDtandsC;sp2PvA;!r;l77rteljahrhunde67;ned3PrC;antwortlic5brau4KdDgleic4haCkä0Plus3teid6F;l51ndlungst1N;acBächtige6;ltent2QmDnterCrN;geb4Sschri3U;brü2fr78sCwelt3D;chuldungs4Ntänd0;aHei9hyss0iGoFreDürC;!en;ndCpp2uhanda5O;!w7;de,nn0;e0Xg1s51;sc5tDuC;be,s7;sac5;aZchVeUiTkand2Non5DpOtEuDynod2Nz4UüC;d0pp2;c4detendeuts2mI;aJeIimHrEuCädt2;dieCf0nd0;ngebü3Qr7;aDeC;et,ß;t5Eß0;me6;inkohleze2l1Z;atsCdtrat,rza3T;a01di5U;arFd ErC;ac4echC;ch6Wer;frak3Ll4SvA;er,te;cBgnal6Wnn;i6Tuc5;arpings,e09in,neid1rDuld0wC;ierig0Käc5;eibt0MiCöd1;fts27tt;chCnkt,rajewo;e6sen-an5U;aOeGiFoEu4üC;ckCd58he;s16t5L;be4Wl1G;tu1Tv1;chGgierungsQiCst;h0sC;ch,eDighaC;uf0;!n5N;er2tC;e,saC;nwa8;c4hmen3A;aMeJfIhänom3Qioni4YoGrC;eDoCä08; kopf 08grammv1Ujek3tes3;isCsseE;absp61verfal9;lizeiCr2D;sp0V;enn1Xl0N;it2ArC;es,sC;onal,pek3Y;lästinense4MpieErC;lamentCol0teivA;es,swahl0;re;berfläc4f1Qliv1ppenheim1stslawonie1C;aGeEieDorCä4;be44drhein westf12;r0tz20;andert0QgativtrCuk24;end;chCme;b5Gr08s4Ft;aUcdonnTeQiJoIuGäFöglichEüC;lCn2;heim kärli34l1;keit0;d2rk3;lCseum;is30;dellcharakt1nats7rd;chae9eHlGnDtC;gefang2Gtwo2X;destDisterpräCut0;sident0;ein2B;itär,lia3U;rt,te;nDrC;kma02rD;achem,em,ge,schenre1C;ell;astrOl1nErktn45schinenDßC;e,n2G;!pistol0;ge9n;aIeGiFokal2SuCä32;dCft;ew0SwigC;!shaf3P;cBs3;ch,g7iCu4T;c5pz0O;ch1fontain2LndCst0teini11;eDgerC;icB;!sC;e18k12vA;aMe3BiKoGrDu2ZöCüc4;ln,nig4Nr3;a25iegsCu0U;en3TverbC;re1A;h9llekRmmun0nCst0;flik3tC;ak3rolC;le;nCrc5;ke9;bel,mpagn0rDss0tschthCuf;al1;is1Ut0;ahrEerusalDuCürg0;gendliche3Wppé;em;!es7hundertw7tausendw7zehnt;deFmperaEnDrCtali2Y;an,e24;ha8itiative6;tiv;al0;aJeFoDundertCäf0Tö4;taus7;eCr0T;ch0Sn0;broEn1WrCß;b0Qrn,sCzog;tell1;n 0T;ftJlInGuC;ptDshaltC;!sstreits;urs2NvC;erantwor0A;delsCs jo2;!ab0N;s,t;!a1O;a0EeIipHläub36mbh,oGrCünt1;oßofEundDöße,ünC;de6en;ig;fens35;lft20tt;fe9;bTfaRha8lPmeinde6nOrKsEwC;a8erkschaftC;en,svA;chFeCicBpräc5ta8;llCtze;schaC;ft0;iCwor08;ch3;ichtDäuC;sc4;!eC;!s;era9f;d,senkC;ir2;hr,ngeneC;n,r;ie3üC;hr0;aWdp0GeUiPlKoHrDäll0ührungseC;be0R;aDeiheiC;tli2;g0kCu0;tion1Q;l08rC;meln,sC;ch1;aFuDäc5üchC;tlin04;cBgangC;st;mm0sc5;liale6schC;!erC;!eiC;abC;komm0;ld,stgenommC;en0;ll28milienangehöriT;bNiHnGpoc4rDuC;le,ropä1;achDde,folg,ha8löse,wachC;en,sene1R;tens;de,tge8;m1nC;bFheiEnDzelhande9;ls;ahm0;m0Yt0;rüc4;ene6;am0eIgbHiEraDu0YörfC;ch0er;ch;enstDnCvid7;ge;e,mäd2; vA;fizi3legie12utsc5;du FhCo8;arakter1Lef,iC;le,nabesuchC;es;lCvA;ande0J;a02eTilSlutvergieß0oPrKuGüC;ch1hErgerC;!initiaC;tiv0;ne;ndesCrs2;aDhaus0FläCtagsabgeordne3vA;nder6;nsta8;ancheDief,oCöt2;schür0t;!nC;!kollC;eg0;rcCusquLx0;heC;rt;d,l;am3b0freiungstJhöIrGsEtrC;iCoffP;eb;chäftig0TucheC;r,s;ekCgsteEicht0Tnd;et;rd0;ig1;dHnErriDsf,ueC;rn;er0;an0kC;darlCen;eh0;en1;a2b0Bgab,kb0Al06nWrSsOuC;fFge,sC;lä06sCwei2;ag0chußvAicBprC;ac4;entIsDtC;ritt;ichtsratDtändC;is2;svA;orsiC;tz7;ha8;c4ylsuch7;enC;de;he;beitsEgumen3tenvielC;fa8;te;plätz0we8;geIhHlGsDtwoCwa8zeig0;rt0;icBprüc5ta8;lt;he6;ag0;äng1;hörCklagt0stellO;igeC;!n,r;exaDternatC;ive;nd1;er;ar;endIgeordneGhFsC;icBpC;ra2;ht;ör0;te6;!n;!e;ch0;en",
     "Country": "true¦0:2Q;1:2P;a2Ib23c21d1Se1Lf1Hg19h18i13j10k0Rl0Nm0En05o04pYrVsKtEu7v4weißrusXz3ä2öster1I;quatorial02thiopi0;entralafrik1Type9;anuatu,e2ietnam;nezue2Jreinigte 2;arabische emira1Kstaat0;.6gan2GkraiLn2ruWsbeD;ga4ited 2;arab emirates,kingdom,states2;! of ame1T;rn;k.,s.2; virgin islands,a.;a5ha9o4rinidad und toba1Nsch3u2ürk1U;n0Trkme2Evalu;ad,echi0;go,nga;dschi2nsan0Y;ki2B;aAchwed0e9i7low6omal0Wpa1ri lan0Jt. 5u4was3y26ão tomé und príncipe,üd2;afri0IkNsud2A;il1D;d28riname;kitts und nevis,luc0Svincent und die grenadD;ak1Je1;erra leo2mbabwe,ngapur;ne;negKr03ychell0;lomon0m2n marino,udi-ara02;b0Moa;e15u2;an1Rmä1s2;sl12;a4eGhilipp3o2;l0rtugD;in0;ki1Tl0Cnama,pua-neu3ra2;guay;guin0L;m1Rsttim0O;a8e6i4or2;dk2weg0;or0H;caragua,ederlanRger2;!ia;p2useel0P;al;mib04u2;ru;a4exi7ikronUo2yanmK;ldawi0n2samb0I;aco,gol0Stenegro;dagaskHl5r3ur2zedo1;eta1itius;ok2shallinseln;ko;a2ediv0i,ta;wi,ysU;a0Re4i2uxemburg;b2echtenste0Ttau0;erRy0;sotho,tX;a6enPir5o3roati0u2önigreich großbritan1;ba,wait;lum2mor0;bi0;gisi0ZibaZ;m4na0Rp ver3sach0Yt2;ar;de;bodscha,erI;a2em0;mai2p0U;ka;nd4r3s2ta0H;lVrael;ak,lU;i0on2;esi0;aiMondur0A;a6ha01r5u2;atema0Einea2ya00;!-biss2;au;ena0Aieche8;b3mb2;ia;un;i3rank2;reiX;dschi,n2;nlF;cu6l4ritr3s2;tlD;ea; salv3fenbeinküs2;te;ad2;or;e6omini3schibu2änemark;ti;ca,k2;anische republ2;ik;mokratische re3utschl2;and;publik kon2;go;hi9osta 2;rica;aAe8hutSo6r4u2;lgaMr2;kina faso,undi;asiEun2;ei;livi0snien und herzegowi2tswa2;na;l2n7;gi0ize;h4nglades3rbad2;os;ch;am3ra2;in;as;fghaBl7n4r3serbaidschDustra2;li0;genti1me1;dorra,go3tigua und barbu2;da;la;ba1ge2;ri0;ni0;en;ni2;st2;an",
     "Region": "true¦0:1S;1:20;a1Yb1Rc1Hd1Ces1Bf18g12h0Zi0Wj0Uk0Sl0Rm0GnZoXpSqPrMsDtAut9v6w4y2zacatec20;o05u2;cat17kZ;a2est vi4isconsin,yomi13;rwick0shington dc;er3i2;rgin1R;acruz,mont;ah,tar pradesh;a3e2laxca1DuscaB;nnessee,x1Q;bas0Kmaulip1PsmK;a7i5o3taf0Ou2ylh13;ffWrr02s0Y;me10no1Auth 2;cTdS;ber1Hc2naloa;hu0Sily;n3skatchew0Rxo2;ny; luis potosi,ta catari1;a2hode8;j2ngp04;asth0Mshahi;inghai,u2;e2intana roo;bec,ensYreta0E;ara5e3rince edward2; isW;i,nnsylv2rnambu02;an13;!na;axa0Ndisha,h2klaho1Antar2reg5x04;io;ayarit,eCo4u2;evo le2nav0L;on;r2tt0Rva scot0W;f7mandy,th2; 2ampton0;c4d3yo2;rk0;ako0X;aroli1;olk;bras0Wva01w2; 3foundland2;! and labrador;brunswick,hamp0jers3mexiJyork2;! state;ey;a7i3o2;nta1relos;ch4dlands,n3ss2;issippi,ouri;as geraFneso0K;igPoacP;dhya,harasht03ine,ni4r2ssachusetts;anhao,y2;land;p2toba;ur;anca0eiHincoln0ouis7;a2entucky,hul1;ns08rnata0Dshmir;alis2iangxi;co;daho,llino3nd2owa;ia1;is;a3ert2idalFunB;ford0;mp0waii;ansu,eorgWlou6u2;an3erre2izhou,jarat;ro;ajuato,gdo2;ng;cester0;lori3uji2;an;da;sex;e5o3uran2;go;rs2;et;lawaFrby0;a9ea8hi7o2umbrH;ahui5l4nnectic3rsi2ventry;ca;ut;iMorado;la;apEhuahua;ra;l8m2;bridge0peche;a5ritish columb7uck2;ingham0;shi2;re;h3ja cal2sque,var3;iforn2;ia;guascalientes,l5r2;izo1kans2;as;na;a3ber2;ta;ba3s2;ka;ma",
@@ -7594,12 +7941,12 @@
       // add conjugations for our verbs
       if (tag === 'Infinitive') {
         // add present tense
-        let pres = conjugate.toPresent(w);
+        let pres = verb.toPresent(w);
         if (pres && pres !== w) {
           lexicon$1[pres] = 'PresentTense';
         }
         // add past tense
-        let past = conjugate.toPast(w);
+        let past = verb.toPast(w);
         if (past && past !== w) {
           lexicon$1[past] = 'PastTense';
         }
@@ -7611,11 +7958,90 @@
 
   var lexicon$2 = lexicon$1;
 
+  const verbForm = function (term) {
+    let want = [
+      'FirstPerson',
+      'SecondPerson',
+      'ThirdPerson',
+      'FirstPersonPlural',
+      'SecondPersonPlural',
+      'ThirdPersonPlural',
+    ];
+    return want.find(tag => term.tags.has(tag))
+  };
+
+  //relajarse -> relajar
+  const stripReflexive = function (str) {
+    str = str.replace(/se$/, '');
+    str = str.replace(/te$/, '');
+    str = str.replace(/me$/, '');
+    return str
+  };
+
+  const root = function (view) {
+
+    const { verb, noun, adjective } = view.world.methods.two.transform;
+    view.docs.forEach(terms => {
+      terms.forEach(term => {
+        let str = term.implicit || term.normal || term.text;
+
+        if (term.tags.has('Reflexive')) {
+          str = stripReflexive(str);
+        }
+        // get infinitive form of the verb
+        if (term.tags.has('Verb')) {
+          let form = verbForm(term);
+          if (term.tags.has('Gerund')) {
+            term.root = verb.fromGerund(str, form);
+          } else if (term.tags.has('PresentTense')) {
+            term.root = verb.fromPresent(str, form);
+          } else if (term.tags.has('PastTense')) {
+            term.root = verb.fromPast(str, form);
+          } else if (term.tags.has('FutureTense')) {
+            term.root = verb.fromFuture(str, form);
+          } else if (term.tags.has('Conditional')) {
+            term.root = verb.fromConditional(str, form);
+          } else ;
+        }
+
+        // nouns -> singular masculine form
+        // if (term.tags.has('Noun')) {
+        //   if (term.tags.has('Plural')) {
+        //     str = noun.toSingular(str)
+        //   }
+        //   if (term.tags.has('FemaleNoun')) {
+        //     // not sure about this
+        //     // str = noun.toMasculine(str)
+        //   }
+        //   term.root = str
+        // }
+
+        // // nouns -> singular masculine form
+        // if (term.tags.has('Adjective')) {
+        //   if (term.tags.has('PluralAdjective')) {
+        //     if (term.tags.has('FemaleAdjective')) {
+        //       str = adjective.fromFemalePlural(str)
+        //     } else {
+        //       str = adjective.toSingular(str)
+        //     }
+        //   }
+        //   if (term.tags.has('FemaleAdjective')) {
+        //     str = adjective.fromFemale(str)
+        //   }
+        //   term.root = str
+        // }
+      });
+    });
+    return view
+  };
+  var root$1 = root;
+
   var lexicon = {
+    compute: { root: root$1 },
     methods: {
-      one: {
+      two: {
         transform: {
-          conjugate
+          verb: verb
         }
       }
     },
@@ -7744,7 +8170,7 @@
     },
   };
 
-  var verbs$1 = {
+  var verbs$2 = {
     Verb: {
       not: ['Noun', 'Adjective', 'Adverb', 'Value', 'Expression'],
     },
@@ -7962,7 +8388,7 @@
     },
   };
 
-  let tags = Object.assign({}, nouns$1, verbs$1, values$1, dates, misc);
+  let tags = Object.assign({}, nouns$1, verbs$2, values$1, dates, misc);
 
   var tagset = {
     tags
@@ -8099,7 +8525,7 @@
 
   let values = { more: [] };
   let nouns = { more: [] };
-  let verbs = { more: [] };
+  let verbs$1 = { more: [] };
   let adjectives = { more: [] };
 
   var model$1 = {
@@ -8107,7 +8533,7 @@
       splitter: {
         values,
         nouns,
-        verbs,
+        verbs: verbs$1,
         adjectives
       }
     }
@@ -9230,9 +9656,9 @@
   var format = formatNumber;
 
   // return the nth elem of a doc
-  const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
+  const getNth$1 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
 
-  const api = function (View) {
+  const api$2 = function (View) {
     /**   */
     class Numbers extends View {
       constructor(document, pointer, groups) {
@@ -9240,13 +9666,13 @@
         this.viewType = 'Numbers';
       }
       parse(n) {
-        return getNth(this, n).map(parse)
+        return getNth$1(this, n).map(parse)
       }
       get(n) {
-        return getNth(this, n).map(parse).map(o => o.num)
+        return getNth$1(this, n).map(parse).map(o => o.num)
       }
       json(n) {
-        let doc = getNth(this, n);
+        let doc = getNth$1(this, n);
         return doc.map(p => {
           let json = p.toView().json(n)[0];
           let parsed = parse(p);
@@ -9477,19 +9903,62 @@
       }
       // make sure splitter has run
       m.compute('splitter');
-      m = getNth(m, n);
+      m = getNth$1(m, n);
       return new Numbers(this.document, m.pointer)
     };
     // alias
     View.prototype.values = View.prototype.numbers;
   };
-  var api$1 = api;
+  var api$3 = api$2;
 
   var numbers = {
-    api: api$1
+    api: api$3
   };
 
-  var version = '0.0.5';
+  const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
+
+  // get root form of adjective
+  const getRoot = function (m, methods) {
+    m.compute('root');
+    let str = m.text('root');
+    return str
+  };
+
+  const api = function (View) {
+    class Verbs extends View {
+      constructor(document, pointer, groups) {
+        super(document, pointer, groups);
+        this.viewType = 'Verbs';
+      }
+      conjugate(n) {
+        const methods = this.methods.two.transform.verb;
+        const { toPresent, toPast, toFuture, toConditional, toGerund } = methods;
+        return getNth(this, n).map(m => {
+          let str = getRoot(m);
+          return {
+            presentTense: toPresent(str),
+            pastTense: toPast(str),
+            // futureTense: toFuture(str),
+            // conditional: toConditional(str),
+            // gerund: toGerund(str),
+          }
+        }, [])
+      }
+    }
+
+    View.prototype.verbs = function (n) {
+      let m = this.match('#Verb+');
+      m = getNth(m, n);
+      return new Verbs(this.document, m.pointer)
+    };
+  };
+  var api$1 = api;
+
+  var verbs = {
+    api: api$1,
+  };
+
+  var version = '0.0.6';
 
   nlp$1.plugin(tokenizer);
   nlp$1.plugin(tagset);
@@ -9498,13 +9967,25 @@
   nlp$1.plugin(postTagger);
   nlp$1.plugin(splitter);
   nlp$1.plugin(numbers);
-
+  nlp$1.plugin(verbs);
 
   const de = function (txt, lex) {
     let dok = nlp$1(txt, lex);
     return dok
   };
 
+  // copy constructor methods over
+  Object.keys(nlp$1).forEach(k => {
+    if (nlp$1.hasOwnProperty(k)) {
+      de[k] = nlp$1[k];
+    }
+  });
+
+  // this one is hidden
+  Object.defineProperty(de, '_world', {
+    value: nlp$1._world,
+    writable: true,
+  });
   /** log the decision-making to console */
   de.verbose = function (set) {
     let env = typeof process === 'undefined' ? self.env || {} : process.env; //use window, in browser

@@ -42,8 +42,8 @@ txt = 'Wir gingen in den Park'
 // doc.text()
 // 'Ich habe einhundertelf Euro'
 
-let doc = nlp(txt).debug().compute('root')
-console.log(nlp.parseMatch('{gehen}'))
+let doc = nlp(txt).debug()
+console.log(doc.verbs().conjugate())
 // doc.match('{gehen}').debug()
 // let num = doc.numbers()
 // num.toText()

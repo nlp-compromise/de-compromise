@@ -21,9 +21,9 @@ const api = function (View) {
         return {
           presentTense: toPresent(str),
           pastTense: toPast(str),
-          futureTense: toFuture(str),
-          conditional: toConditional(str),
-          gerund: toGerund(str),
+          // futureTense: toFuture(str),
+          // conditional: toConditional(str),
+          // gerund: toGerund(str),
         }
       }, [])
     }
