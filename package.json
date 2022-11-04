@@ -2,7 +2,7 @@
   "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
   "name": "de-compromise",
   "description": "Computerlinguistik im browser",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "./src/index.js",
   "unpkg": "./builds/de-compromise.min.js",
   "type": "module",
@@ -33,7 +33,7 @@
     "docs/"
   ],
   "dependencies": {
-    "compromise": "14.6.0",
+    "compromise": "14.7.0",
     "efrt": "2.7.0",
     "suffix-thumb": "4.0.2"
   },
