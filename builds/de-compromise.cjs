@@ -270,6 +270,16 @@
         }
       }
       return true
+    },
+
+    // return the nth elem of a doc
+    getNth: function (n) {
+      if (typeof n === 'number') {
+        return this.eq(n)
+      } else if (typeof n === 'string') {
+        return this.if(n)
+      }
+      return this
     }
 
   };
@@ -412,7 +422,7 @@
   Object.assign(View.prototype, api$f);
   var View$1 = View;
 
-  var version$1 = '14.7.0';
+  var version$1 = '14.8.1';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
@@ -1558,11 +1568,13 @@
 
   // append a new document, somehow
   const combineDocs = function (homeDocs, inputDocs) {
-    // add a space
-    let end = homeDocs[homeDocs.length - 1];
-    let last = end[end.length - 1];
-    if (/ /.test(last.post) === false) {
-      last.post += ' ';
+    if (homeDocs.length > 0) {
+      // add a space
+      let end = homeDocs[homeDocs.length - 1];
+      let last = end[end.length - 1];
+      if (/ /.test(last.post) === false) {
+        last.post += ' ';
+      }
     }
     homeDocs = homeDocs.concat(inputDocs);
     return homeDocs
@@ -1579,7 +1591,7 @@
     ptrs.forEach(a => {
       a[0] += home.document.length;
     });
-    home.document = combineDocs(home.document, input.document);
+    home.document = combineDocs(home.document, input.docs);
     return home.all()
   };
 
@@ -1696,6 +1708,11 @@
     { word: 'whatd', out: ['what', 'did'] },
     { word: 'whend', out: ['when', 'did'] },
     { word: 'whered', out: ['where', 'did'] },
+    // shoulda, coulda
+    { word: 'shoulda', out: ['should', 'have'] },
+    { word: 'coulda', out: ['coulda', 'have'] },
+    { word: 'woulda', out: ['woulda', 'have'] },
+    { word: 'musta', out: ['must', 'have'] },
 
     // { after: `cause`, out: ['because'] },
     { word: "tis", out: ['it', 'is'] },
@@ -2056,6 +2073,11 @@
         let tag = lexicon[str];
         let ts = terms.slice(i, i + skip + 1);
         setTag(ts, tag, world, false, '1-multi-lexicon');
+
+        // special case for phrasal-verbs - 2nd word is a #Particle
+        if (tag && tag.length === 2 && (tag[0] === 'PhrasalVerb' || tag[1] === 'PhrasalVerb')) {
+          setTag([ts[1]], 'Particle', world, false, '1-phrasal-particle');
+        }
         return true
       }
     }
@@ -2969,7 +2991,7 @@
       //root/sense overloaded
       if (start(w) === '{' && end(w) === '}') {
         w = stripBoth(w);
-        obj.id = w;
+        // obj.sense = w
         obj.root = w;
         if (/\//.test(w)) {
           let split = obj.root.split(/\//);
@@ -2982,7 +3004,7 @@
           obj.pos = obj.pos.charAt(0).toUpperCase() + obj.pos.substr(1).toLowerCase();
           // add sense-number too
           if (split[2] !== undefined) {
-            obj.num = split[2];
+            obj.sense = split[2];
           }
         }
         return obj
@@ -3541,7 +3563,8 @@
       if (reg.pos && !term.tags.has(reg.pos)) {
         return null
       }
-      return reg.fastOr.has(term.implicit) || reg.fastOr.has(term.normal) || reg.fastOr.has(term.text) || reg.fastOr.has(term.machine)
+      let str = term.root || term.implicit || term.machine || term.normal;
+      return reg.fastOr.has(str) || reg.fastOr.has(term.text)
     }
     //support slower (one|two)
     if (reg.choices !== undefined) {
@@ -4730,13 +4753,17 @@
         let tags = [...(t.tags || [])];
         let text = t.text || '-';
         if (t.sense) {
-          text = '{' + t.sense + '}';
+          text = `{${t.normal}/${t.sense}}`;
         }
         if (t.implicit) {
           text = '[' + t.implicit + ']';
         }
         text = cli$1.yellow(text);
         let word = "'" + text + "'";
+        if (t.reference) {
+          let str = view.update([t.reference]).text('normal');
+          word += ` - ${cli$1.dim(cli$1.i('[' + str + ']'))}`;
+        }
         word = word.padEnd(18);
         let str = cli$1.blue('  │ ') + cli$1.i(word) + '  - ' + tagString(tags, model);
         console.log(str);
@@ -5813,7 +5840,7 @@
       if (todo.tag !== undefined) {
         setTag(terms, todo.tag, world, todo.safe, `[post] '${reason}'`);
         // quick and dirty plural tagger
-        if (todo.tag === 'Noun') {
+        if (todo.tag === 'Noun' && looksPlural) {
           let term = terms[terms.length - 1];
           if (looksPlural(term.text)) {
             setTag([term], 'Plural', world, todo.safe, 'quick-plural');
@@ -5996,6 +6023,7 @@
     Preposition: 'cyan',
     Conjunction: 'cyan',
     Determiner: 'cyan',
+    Hyphenated: 'cyan',
     Adverb: 'cyan',
   };
 
@@ -7684,8 +7712,6 @@
   nlp$1.extend(typeahead); //1kb
   nlp$1.extend(lexicon$4); //1kb
   nlp$1.extend(sweep); //1kb
-
-  console.log('local-path');
 
   const prefix$1 = /^.([0-9]+)/;
 
