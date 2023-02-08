@@ -11,10 +11,6 @@ export default {
       }
     }
   },
-  model: {
-    one: {
-      lexicon
-    }
-  },
+  words: lexicon,
   hooks: ['lexicon']
 }
