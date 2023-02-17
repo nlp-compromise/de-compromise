@@ -4,6 +4,7 @@
   "description": "Computerlinguistik im browser",
   "version": "0.0.7",
   "main": "./src/index.js",
+  "browser": "./builds/de-compromise.min.js",
   "unpkg": "./builds/de-compromise.min.js",
   "type": "module",
   "sideEffects": false,
