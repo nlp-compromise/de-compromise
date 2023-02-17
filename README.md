@@ -12,7 +12,8 @@
   <img height="25px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
   <div align="center">
     <sub>see: 
-     <a href="https://github.com/nlp-compromise/fr-compromise">french</a> • <a href="https://github.com/nlp-compromise/es-compromise">spanish</a>  • <a href="https://github.com/spencermountain/compromise">english</a>
+     <a href="https://github.com/nlp-compromise/fr-compromise">Französisch</a> • <a href="https://github.com/nlp-compromise/es-compromise">Spanisch</a>  • <a href="https://github.com/spencermountain/compromise">Englisch</a> • <a href="https://github.com/nlp-compromise/it-compromise">Italienisch</a> 
+     • <a href="https://github.com/nlp-compromise/pt-compromise">Portugiesisch</a> 
     </sub>
   </div>
 </div>

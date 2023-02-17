@@ -32,8 +32,8 @@ txt = 'hunderterste'
 // txt = 'zusammenzufuehren'
 txt = 'Wir gingen in den Park'
 
-let tokens = nlp("Ich bin der Hund, der bellt.").compute('root').json({ root: true })
-console.log(tokens[0])
+// let tokens = nlp("Ich bin der Hund, der bellt.").compute('root').json({ root: true })
+// console.log(tokens[0])
 
 // let doc = nlp('Spencer geht zum Laden').debug()
 // doc.match('#Person geht zum #Noun').debug()
@@ -42,9 +42,10 @@ console.log(tokens[0])
 // doc.numbers().minus(10)
 // doc.text()
 // 'Ich habe einhundertelf Euro'
+txt = 'dreihundertsiebzigsten'
 
 let doc = nlp(txt).debug()
-console.log(doc.verbs().conjugate())
+console.log(doc.numbers().get())
 // doc.match('{gehen}').debug()
 // let num = doc.numbers()
 // num.toText()
