@@ -46,8 +46,7 @@
     "rollup": "2.75.7",
     "rollup-plugin-terser": "7.0.2",
     "tap-dancer": "0.3.4",
-    "tape": "5.6.3",
-    "xml-stream": "^0.4.5"
+    "tape": "5.6.3"
   },
   "license": "MIT"
 }

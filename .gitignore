@@ -16,6 +16,7 @@ learn/dictionary/results
 *.log
 *.stackdump
 *.swp
+*.dump
 *~
 compromise.js.tmproj
 compromise.xcodeproj

@@ -31,37 +31,7 @@ txt = 'hunderterste'
 // verbs
 // txt = 'zusammenzufuehren'
 txt = 'Wir gingen in den Park'
-
-// let tokens = nlp("Ich bin der Hund, der bellt.").compute('root').json({ root: true })
-// console.log(tokens[0])
-
-// let doc = nlp('Spencer geht zum Laden').debug()
-// doc.match('#Person geht zum #Noun').debug()
-
-// let doc = nlp('Ich habe einhunderteinundzwanzig Euro')
-// doc.numbers().minus(10)
-// doc.text()
-// 'Ich habe einhundertelf Euro'
-txt = 'dreihundertsiebzigsten'
+txt = 'schmecken'
 
 let doc = nlp(txt).debug()
-console.log(doc.numbers().get())
-// doc.match('{gehen}').debug()
-// let num = doc.numbers()
-// num.toText()
-// num.debug()
-// num.toOrdinal()
-// num.debug()
-// console.log(doc.docs)
-// console.log(num.json())
-// doc.debug()
-// console.log(JSON.stringify(doc.json(), null, 2))
-
-// proof-of-concept verb-conjugation
-// let conjugate = dok.methods.one.transform.conjugate
-// console.log(conjugate.toPast('verabschieden'))
-// console.log(conjugate.fromPast('verabschiedete'))
-// // ["verabschieden", "verabschiedete"]
-// console.log(conjugate.toPresent('wissen'))
-// console.log(conjugate.fromPresent('weiß'))
-// // ["wissen","weiß"]
+console.log(doc.verbs().conjugate()[0])
