@@ -27,14 +27,14 @@ import fs from 'fs'
 
 // console.log((Object.keys(data).length))
 // console.dir(data['schmecken'], { depth: 5 })
-console.dir(data['tanzen'], { depth: 5 })
+// console.dir(data['tanzen'], { depth: 5 })
 
 
 let byInf = {}
 Object.keys(data).forEach(inf => {
   if (data[inf]) {
-    let o = data[inf]['PRT']
-    if (o && o.S && o.S['1']) {
+    let o = data[inf]['KJ2']
+    if (o && o.S && o.S['1'] && o.P) {
       byInf[inf] = [o.S['1'], o.S['2'], o.S['3'], o.P['1'], o.P['2'], o.P['3']]
     }
   }

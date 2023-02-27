@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import fs from 'fs'
 import { pack } from 'efrt'
-import { compress } from 'suffix-thumb'
+import { learn, compress } from 'suffix-thumb'
 import lexicon from '../data/lexicon/index.js'
 import models from '../data/models/index.js'
 // import switches from '../lib/switches/index.js'
@@ -31,16 +31,30 @@ const steps = [
       return packed
     },
   },
-  // {
-  //   label: 'models',
-  //   path: './src/01-one/lexicon/methods/_data.js',
-  //   compress: function () {
-  //     Object.keys(models).forEach(k => {
-  //       models[k] = compress(models[k])
-  //     })
-  //     return models
-  //   },
-  // }
+  {
+    label: 'models',
+    path: './src/01-one/lexicon/methods/_data.js',
+    compress: function () {
+      let packed = {}
+      console.log('verbs')
+      Object.keys(models.verbs).forEach(k => {
+        packed[k] = {}
+        Object.keys(models.verbs[k]).forEach(form => {
+          let pairs = models.verbs[k][form]
+          console.log('-', k, form)
+          packed[k][form] = learn(pairs)
+          packed[k][form] = compress(packed[k][form])
+        })
+      })
+      console.log('present-participle')
+      let presentParticiple = learn(models.presentParticiple)
+      presentParticiple = compress(presentParticiple)
+      packed.gerunds = {
+        gerunds
+      }
+      return packed
+    },
+  }
 ]
 
 // run through all our steps

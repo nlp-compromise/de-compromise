@@ -34,9 +34,9 @@
     "docs/"
   ],
   "dependencies": {
-    "compromise": "14.8.1",
+    "compromise": "14.8.2",
     "efrt": "2.7.0",
-    "suffix-thumb": "4.0.2"
+    "suffix-thumb": "5.0.2"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "3.1.9",
