@@ -1,9 +1,27 @@
 import lexData from './_data.js'
 import { unpack } from 'efrt'
-import conjugate from './methods/verb.js'
+import { toPresent, toPast, toSubjunctive1, toSubjunctive2, toImperative, } from './methods/verbs/conjugate.js'
 
 
 let lexicon = {}
+const tagMap = {
+  first: 'FirstPerson',
+  second: 'SecondPerson',
+  third: 'ThirdPerson',
+  firstPlural: 'FirstPersonPlural',
+  secondPlural: 'SecondPersonPlural',
+  thirdPlural: 'ThirdPersonPlural',
+}
+
+const addWords = function (obj, tag, lex) {
+  Object.keys(obj).forEach(k => {
+    let w = obj[k]
+    if (!lex[w]) {
+      lex[w] = [tag, tagMap[k]]
+    }
+  })
+}
+
 
 Object.keys(lexData).forEach(tag => {
   let wordsObj = unpack(lexData[tag])
@@ -13,19 +31,21 @@ Object.keys(lexData).forEach(tag => {
     // add conjugations for our verbs
     if (tag === 'Infinitive') {
       // add present tense
-      let pres = conjugate.toPresent(w)
-      if (pres && pres !== w) {
-        lexicon[pres] = 'PresentTense'
-      }
+      let obj = toPresent(w)
+      addWords(obj, 'PresentTense', lexicon)
       // add past tense
-      let past = conjugate.toPast(w)
-      if (past && past !== w) {
-        lexicon[past] = 'PastTense'
-      }
+      obj = toPast(w)
+      addWords(obj, 'PastTense', lexicon)
+      // add sunjunctives
+      obj = toSubjunctive1(w)
+      addWords(obj, 'Subjunctive1', lexicon)
+      obj = toSubjunctive2(w)
+      addWords(obj, 'Subjunctive2', lexicon)
+      // add imperative
+      obj = toImperative(w)
+      addWords(obj, 'Imperative', lexicon)
     }
 
   })
 })
-// console.log(lexicon)
-
 export default lexicon

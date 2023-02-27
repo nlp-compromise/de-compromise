@@ -2,6 +2,7 @@ import pastTense from './past-tense.js'
 import presentTense from './present-tense.js'
 import subjunctive1 from './subjunctive-1.js'
 import subjunctive2 from './subjunctive-2.js'
+import imperative from './imperative.js'
 
 const vbOrder = ['first', 'second', 'third', 'firstPlural', 'secondPlural', 'thirdPlural']
 const todo = {
@@ -9,6 +10,7 @@ const todo = {
   presentTense: { data: presentTense, keys: vbOrder },
   subjunctive1: { data: subjunctive1, keys: vbOrder },
   subjunctive2: { data: subjunctive2, keys: vbOrder },
+  imperative: { data: imperative, keys: ['singular', 'plural'] }
 }
 
 // turn our conjugation data into word-pairs

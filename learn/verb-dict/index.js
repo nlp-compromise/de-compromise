@@ -1,3 +1,4 @@
+// https://raw.githubusercontent.com/RosaeNLG/rosaenlg/master/packages/german-verbs/resources_pub/verbs.json
 import data from '/Users/spencer/mountain/de-compromise/learn/verb-dict/verbs-dict.json' assert { type: "json" };
 // console.log(data)
 import fs from 'fs'

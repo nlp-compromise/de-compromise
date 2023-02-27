@@ -31,7 +31,8 @@ txt = 'hunderterste'
 // verbs
 // txt = 'zusammenzufuehren'
 txt = 'Wir gingen in den Park'
-txt = 'schmecken'
+txt = 'tanzten'
 
-let doc = nlp(txt).debug()
+let doc = nlp(txt).compute('root').debug()
+console.log(doc.docs[0])
 console.log(doc.verbs().conjugate()[0])
