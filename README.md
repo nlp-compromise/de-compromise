@@ -63,6 +63,7 @@ doc.text()
 // 'Ich habe einhundertelf Euro'
 ```
 
+
 <!-- spacer -->
 <img height="15px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
@@ -75,6 +76,53 @@ oder im Browser:
   console.log(doc.sentences(1).json())
   // { text:'Dann singe...', terms:[ ... ] }
 </script>
+```
+
+### Konjugation von Verbformen
+erkennen und transformieren jede Verbform:
+```js
+txt = 
+let doc = nlp('Die Kinder waren geschwommen')
+console.log(doc.verbs().conjugate())
+/*
+[{
+  presentTense: {
+    first: 'schwimme',
+    second: 'schwimmst',
+    third: 'schwimmt',
+    firstPlural: 'schwimmen',
+    secondPlural: 'schwimmt',
+    thirdPlural: 'schwimmen'
+  },
+  pastTense: {
+    first: 'schwamm',
+    second: 'schwammst',
+    third: 'schwamm',
+    firstPlural: 'schwammen',
+    secondPlural: 'schwammt',
+    thirdPlural: 'schwammen'
+  },
+  subjunctive1: {
+    first: 'schwimme',
+    second: 'schwimmest',
+    third: 'schwimme',
+    firstPlural: 'schwimmen',
+    secondPlural: 'schwimmet',
+    thirdPlural: 'schwimmen'
+  },
+  subjunctive2: {
+    first: 'schwämme',
+    second: 'schwämmest',
+    third: 'schwämme',
+    firstPlural: 'schwämmen',
+    secondPlural: 'schwämmet',
+    thirdPlural: 'schwämmen'
+  },
+  imperative: { singular: 'schwimme', plural: 'schwimmt' },
+  pastParticiple: 'geschwommen',
+  presentParticiple: 'schwimmend'
+}]
+*/
 ```
 
 see [en-compromise/api](https://github.com/spencermountain/compromise#api) for full API documentation.

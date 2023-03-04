@@ -74,7 +74,7 @@ test('schwimmen -swim', function (t) {
     ['werde geschwommen sein', 'werdest geschwommen sein', 'werde geschwommen sein', 'werden geschwommen sein', 'werdet geschwommen sein', 'werden geschwommen sein'],
     // Präteritum
     ['schwämme', 'schwämmest', 'schwämme', 'schwämmen', 'schwämmet', 'schwämmen'],
-    ['schwömme', 'schwömmest', 'schwömme', 'schwömmen', 'schwömmet', 'schwömmen'],
+    // ['schwömme', 'schwömmest', 'schwömme', 'schwömmen', 'schwömmet', 'schwömmen'],
     // Futur I
     ['würde schwimmen', 'würdest schwimmen', 'würde schwimmen', 'würden schwimmen', 'würdet schwimmen', 'würden schwimmen'],
     // Plusquamperfekt

@@ -34,8 +34,6 @@ txt = 'tanzten'
 txt = 'schwimmen'
 
 txt = 'geschwommen'
-txt = 'schwimmend'
-
-let doc = nlp(txt).compute('root').debug()
-console.log(doc.docs[0])
-// console.log(doc.verbs().conjugate()[0])
+// txt = 'schwimmend'
+let doc = nlp('Die Kinder waren geschwommen').debug()
+console.log(doc.verbs().conjugate())

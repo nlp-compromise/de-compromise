@@ -2,9 +2,9 @@ export const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc)
 
 // get root form of adjective
 const getRoot = function (m, methods) {
-  m.compute('root')
-  let str = m.text('root')
-  return str
+  let r = m.not('(#Adverb|#Auxiliary|#Modal)')
+  r = r.eq(0).compute('root')
+  return r.text('root')
 }
 
 const api = function (View) {
