@@ -2,9 +2,9 @@ export const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc)
 
 // get root form of adjective
 const getRoot = function (m, methods) {
-  m.compute('root')
-  let str = m.text('root')
-  return str
+  let r = m.not('(#Adverb|#Auxiliary|#Modal)')
+  r = r.eq(0).compute('root')
+  return r.text('root')
 }
 
 const api = function (View) {
@@ -15,15 +15,18 @@ const api = function (View) {
     }
     conjugate(n) {
       const methods = this.methods.two.transform.verb
-      const { toPresent, toPast, toFuture, toConditional, toGerund } = methods
+      const { toPresent, toPast, toSubjunctive1, toSubjunctive2, toImperative, toPastParticiple, toPresentParticiple } = methods
       return getNth(this, n).map(m => {
         let str = getRoot(m, methods)
         return {
+          infinitive: str,
           presentTense: toPresent(str),
           pastTense: toPast(str),
-          // futureTense: toFuture(str),
-          // conditional: toConditional(str),
-          // gerund: toGerund(str),
+          subjunctive1: toSubjunctive1(str),
+          subjunctive2: toSubjunctive2(str),
+          imperative: toImperative(str),
+          pastParticiple: toPastParticiple(str),
+          presentParticiple: toPresentParticiple(str)
         }
       }, [])
     }

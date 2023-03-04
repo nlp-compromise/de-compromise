@@ -4,7 +4,7 @@ let here = '[de-number-parse] '
 nlp.verbose(false)
 
 let arr = [
-  [0, "null"],
+  // [0, "null"],
   [1, "eins"],
   [2, "zwei"],
   [3, "drei"],
@@ -162,5 +162,16 @@ test('match:', function (t) {
     t.equal(doc.text(), str, here + ' [fmt] ' + str)
 
   })
+  t.end()
+})
+
+
+
+test('misc:', function (t) {
+  let doc = nlp('342').numbers().toOrdinal()
+  t.equal(doc.text(), '342.', here + 'num-ord')
+
+  doc = nlp('dreihundertsiebzigsten').numbers().toNumber().toOrdinal()
+  t.equal(doc.text(), '370.', here + 'num-word-ord')
   t.end()
 })

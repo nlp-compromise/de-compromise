@@ -12,7 +12,8 @@
   <img height="25px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
   <div align="center">
     <sub>see: 
-     <a href="https://github.com/nlp-compromise/fr-compromise">french</a> • <a href="https://github.com/nlp-compromise/es-compromise">spanish</a>  • <a href="https://github.com/spencermountain/compromise">english</a>
+     <a href="https://github.com/nlp-compromise/fr-compromise">Französisch</a> • <a href="https://github.com/nlp-compromise/es-compromise">Spanisch</a>  • <a href="https://github.com/spencermountain/compromise">Englisch</a> • <a href="https://github.com/nlp-compromise/it-compromise">Italienisch</a> 
+     • <a href="https://github.com/nlp-compromise/pt-compromise">Portugiesisch</a> 
     </sub>
   </div>
 </div>
@@ -62,6 +63,7 @@ doc.text()
 // 'Ich habe einhundertelf Euro'
 ```
 
+
 <!-- spacer -->
 <img height="15px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
@@ -74,6 +76,53 @@ oder im Browser:
   console.log(doc.sentences(1).json())
   // { text:'Dann singe...', terms:[ ... ] }
 </script>
+```
+
+### Konjugation von Verbformen
+erkennen und transformieren jede Verbform:
+```js
+txt = 
+let doc = nlp('Die Kinder waren geschwommen')
+console.log(doc.verbs().conjugate())
+/*
+[{
+  presentTense: {
+    first: 'schwimme',
+    second: 'schwimmst',
+    third: 'schwimmt',
+    firstPlural: 'schwimmen',
+    secondPlural: 'schwimmt',
+    thirdPlural: 'schwimmen'
+  },
+  pastTense: {
+    first: 'schwamm',
+    second: 'schwammst',
+    third: 'schwamm',
+    firstPlural: 'schwammen',
+    secondPlural: 'schwammt',
+    thirdPlural: 'schwammen'
+  },
+  subjunctive1: {
+    first: 'schwimme',
+    second: 'schwimmest',
+    third: 'schwimme',
+    firstPlural: 'schwimmen',
+    secondPlural: 'schwimmet',
+    thirdPlural: 'schwimmen'
+  },
+  subjunctive2: {
+    first: 'schwämme',
+    second: 'schwämmest',
+    third: 'schwämme',
+    firstPlural: 'schwämmen',
+    secondPlural: 'schwämmet',
+    thirdPlural: 'schwämmen'
+  },
+  imperative: { secondSingular: 'schwimme', secondPlural: 'schwimmt' },
+  pastParticiple: 'geschwommen',
+  presentParticiple: 'schwimmend'
+}]
+*/
 ```
 
 see [en-compromise/api](https://github.com/spencermountain/compromise#api) for full API documentation.

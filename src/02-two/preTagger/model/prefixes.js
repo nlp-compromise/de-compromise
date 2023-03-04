@@ -1,4 +1,4 @@
-const val = 'Value'
+const val = 'TextValue'
 
 export default [
   null,

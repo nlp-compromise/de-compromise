@@ -22,6 +22,7 @@ test('match:', function (t) {
     ['colorado', '#Place'],
     ['tony', '#MaleName'],
     ['64. Hund', '#Ordinal #Noun'],
+    ['ho chi minh', '#City+'],
     // ['', ''],
   ]
   arr.forEach(function (a) {
