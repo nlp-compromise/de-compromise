@@ -12,7 +12,7 @@
   [
     "abberufen",
     "abberufen",
-    "abgeberuft"
+    "abgeberufen"
   ],
   [
     "abbestellen",
@@ -75,6 +75,11 @@
     "abgegebt"
   ],
   [
+    "abgehen",
+    "abgegangen",
+    "abgeganden"
+  ],
+  [
     "abgelten",
     "abgegolten",
     "abgegeltet"
@@ -113,11 +118,6 @@
     "abheben",
     "abgehoben",
     "abgehebt"
-  ],
-  [
-    "abhelfen",
-    "abgeholfen",
-    "abgehelft"
   ],
   [
     "abkneifen",
@@ -200,19 +200,9 @@
     "abgerodt"
   ],
   [
-    "abrufen",
-    "abgerufen",
-    "abgeruft"
-  ],
-  [
     "abrunden",
     "abgerundet",
     "abgerundt"
-  ],
-  [
-    "absaufen",
-    "abgesoffen",
-    "abgesauft"
   ],
   [
     "abschalten",
@@ -327,7 +317,7 @@
   [
     "abwärtsgehen",
     "abwärtsgegangen",
-    "abgewärtsgangen"
+    "abgewärtsganden"
   ],
   [
     "achtgeben",
@@ -460,6 +450,11 @@
     "angegebt"
   ],
   [
+    "angehen",
+    "angegangen",
+    "angeganden"
+  ],
+  [
     "angehören",
     "angehört",
     "angegehört"
@@ -570,16 +565,6 @@
     "angerennt"
   ],
   [
-    "anrufen",
-    "angerufen",
-    "angeruft"
-  ],
-  [
-    "ansaufen",
-    "angesoffen",
-    "angesauft"
-  ],
-  [
     "anschalten",
     "angeschaltet",
     "angeschalten"
@@ -608,11 +593,6 @@
     "anschmieren",
     "angeschmiert",
     "anschmiert"
-  ],
-  [
-    "anschreien",
-    "angeschrien",
-    "angeschreit"
   ],
   [
     "anschweigen",
@@ -780,6 +760,11 @@
     "aufgegebt"
   ],
   [
+    "aufgehen",
+    "aufgegangen",
+    "aufgeganden"
+  ],
+  [
     "aufglimmen",
     "aufgeglommen",
     "aufgeglimmt"
@@ -835,11 +820,6 @@
     "aufgereitet"
   ],
   [
-    "aufrufen",
-    "aufgerufen",
-    "aufgeruft"
-  ],
-  [
     "aufrunden",
     "aufgerundet",
     "aufgerundt"
@@ -853,11 +833,6 @@
     "aufschieben",
     "aufgeschoben",
     "aufgeschiebt"
-  ],
-  [
-    "aufschreien",
-    "aufgeschrien",
-    "aufgeschreit"
   ],
   [
     "aufsitzen",
@@ -902,7 +877,7 @@
   [
     "aufwärtsgehen",
     "aufwärtsgegangen",
-    "aufgewärtsgangen"
+    "aufgewärtsganden"
   ],
   [
     "ausarbeiten",
@@ -1312,7 +1287,7 @@
   [
     "ausgehen",
     "ausgegangen",
-    "ausgangen"
+    "ausganden"
   ],
   [
     "ausgeizen",
@@ -1412,7 +1387,7 @@
   [
     "aushelfen",
     "ausgeholfen",
-    "aushelft"
+    "ausholfen"
   ],
   [
     "ausholen",
@@ -1997,7 +1972,7 @@
   [
     "ausrufen",
     "ausgerufen",
-    "ausruft"
+    "ausrufen"
   ],
   [
     "ausruhen",
@@ -2040,11 +2015,6 @@
     "ausgesalzt"
   ],
   [
-    "aussaufen",
-    "ausgesoffen",
-    "ausgesauft"
-  ],
-  [
     "ausschalten",
     "ausgeschaltet",
     "ausgeschalten"
@@ -2073,11 +2043,6 @@
     "ausschmieren",
     "ausgeschmiert",
     "ausschmiert"
-  ],
-  [
-    "ausschreien",
-    "ausgeschrien",
-    "ausgeschreit"
   ],
   [
     "ausschreiten",
@@ -2370,6 +2335,11 @@
     "begebt"
   ],
   [
+    "begehen",
+    "begangen",
+    "beganden"
+  ],
+  [
     "begleichen",
     "beglichen",
     "begleicht"
@@ -2383,11 +2353,6 @@
     "begreifen",
     "begriffen",
     "begreift"
-  ],
-  [
-    "behelfen",
-    "beholfen",
-    "behelft"
   ],
   [
     "behängen",
@@ -2515,16 +2480,6 @@
     "bereitstellt"
   ],
   [
-    "berufen",
-    "berufen",
-    "beruft"
-  ],
-  [
-    "besaufen",
-    "besoffen",
-    "besauft"
-  ],
-  [
     "beschaden",
     "beschadet",
     "beschadt"
@@ -2543,11 +2498,6 @@
     "beschleichen",
     "beschlichen",
     "beschleicht"
-  ],
-  [
-    "beschreien",
-    "beschrien",
-    "beschreit"
   ],
   [
     "beschreiten",
@@ -2668,6 +2618,11 @@
     "dahingeben",
     "dahingegeben",
     "dahingegebt"
+  ],
+  [
+    "dahingehen",
+    "dahingegangen",
+    "dahingeganden"
   ],
   [
     "dahinscheiden",
@@ -2810,11 +2765,6 @@
     "davorgelogen"
   ],
   [
-    "dazwischenrufen",
-    "dazwischengerufen",
-    "dazwischengeruft"
-  ],
-  [
     "delfinschwimmen",
     "delfin geschwommen",
     "gedelfinschwimmt"
@@ -2945,14 +2895,14 @@
     "durchgegebt"
   ],
   [
+    "durchgehen",
+    "durchgegangen",
+    "durchgeganden"
+  ],
+  [
     "durchgreifen",
     "durchgegriffen",
     "durchgegreift"
-  ],
-  [
-    "durchhelfen",
-    "durchgeholfen",
-    "durchgehelft"
   ],
   [
     "durchkneifen",
@@ -3008,16 +2958,6 @@
     "durchrennen",
     "durchgerannt",
     "durchgerennt"
-  ],
-  [
-    "durchrufen",
-    "durchgerufen",
-    "durchgeruft"
-  ],
-  [
-    "durchsaufen",
-    "durchgesoffen",
-    "durchgesauft"
   ],
   [
     "durchscheinen",
@@ -3092,7 +3032,7 @@
   [
     "einberufen",
     "einberufen",
-    "eingeberuft"
+    "eingeberufen"
   ],
   [
     "einbestellen",
@@ -3150,6 +3090,11 @@
     "eingegebt"
   ],
   [
+    "eingehen",
+    "eingegangen",
+    "eingeganden"
+  ],
+  [
     "eingemeinden",
     "eingemeindet",
     "eingegemeunden"
@@ -3180,11 +3125,6 @@
     "eingehebt"
   ],
   [
-    "einhelfen",
-    "eingeholfen",
-    "eingehelft"
-  ],
-  [
     "einherbrausen",
     "einhergebraust",
     "eingeherbraust"
@@ -3192,7 +3132,7 @@
   [
     "einhergehen",
     "einhergegangen",
-    "eingehergangen"
+    "eingeherganden"
   ],
   [
     "einherjagen",
@@ -3427,7 +3367,7 @@
   [
     "emporhelfen",
     "emporgeholfen",
-    "emporhelft"
+    "emporholfen"
   ],
   [
     "emporragen",
@@ -3615,6 +3555,11 @@
     "entgegenwirkt"
   ],
   [
+    "entgehen",
+    "entgangen",
+    "entganden"
+  ],
+  [
     "entgleiten",
     "entglitten",
     "entgleitet"
@@ -3657,7 +3602,7 @@
   [
     "entlanggehen",
     "entlanggegangen",
-    "entlanggangen"
+    "entlangganden"
   ],
   [
     "entlanglaufen",
@@ -3693,11 +3638,6 @@
     "entschleichen",
     "entschlichen",
     "entschleicht"
-  ],
-  [
-    "entschulden",
-    "entschuldet",
-    "entschuldt"
   ],
   [
     "entsteigen",
@@ -3758,11 +3698,6 @@
     "erbleichen",
     "erblichen",
     "erbleicht"
-  ],
-  [
-    "erdulden",
-    "erduldet",
-    "erduldt"
   ],
   [
     "ergeben",
@@ -3833,11 +3768,6 @@
     "erraten",
     "erraten",
     "erratet"
-  ],
-  [
-    "ersaufen",
-    "ersoffen",
-    "ersauft"
   ],
   [
     "erschaffen",
@@ -3927,7 +3857,7 @@
   [
     "flötengehen",
     "flötengegangen",
-    "geflötengangen"
+    "geflötenganden"
   ],
   [
     "fortbegeben",
@@ -4027,7 +3957,7 @@
   [
     "fremdgehen",
     "fremdgegangen",
-    "gefremdgangen"
+    "gefremdganden"
   ],
   [
     "garkochen",
@@ -4140,6 +4070,11 @@
     "gesundstoßen"
   ],
   [
+    "glattgehen",
+    "glattgegangen",
+    "glattgeganden"
+  ],
+  [
     "glattstreichen",
     "glattgestrichen",
     "glattgestreicht"
@@ -4227,7 +4162,7 @@
   [
     "herangehen",
     "herangegangen",
-    "hergeangangen"
+    "hergeanganden"
   ],
   [
     "herankriechen",
@@ -4472,7 +4407,7 @@
   [
     "herbeirufen",
     "herbeigerufen",
-    "hergebeiruft"
+    "hergebeirufen"
   ],
   [
     "herbeischaffen",
@@ -4567,7 +4502,7 @@
   [
     "hereinrufen",
     "hereingerufen",
-    "hergeeinruft"
+    "hergeeinrufen"
   ],
   [
     "herfallen",
@@ -4588,11 +4523,6 @@
     "herleihen",
     "hergeliehen",
     "hergeleiht"
-  ],
-  [
-    "herrufen",
-    "hergerufen",
-    "hergeruft"
   ],
   [
     "herschaffen",
@@ -4772,7 +4702,7 @@
   [
     "hervorgehen",
     "hervorgegangen",
-    "hergevorgangen"
+    "hergevorganden"
   ],
   [
     "hervorheben",
@@ -4812,7 +4742,7 @@
   [
     "hervorrufen",
     "hervorgerufen",
-    "hergevorruft"
+    "hergevorrufen"
   ],
   [
     "hervorschauen",
@@ -5087,7 +5017,7 @@
   [
     "hinausschreien",
     "hinausgeschrien",
-    "hingeausschreit"
+    "hingeausschrien"
   ],
   [
     "hinausstürzen",
@@ -5158,6 +5088,11 @@
     "hingeben",
     "hingegeben",
     "hingegebt"
+  ],
+  [
+    "hingehen",
+    "hingegangen",
+    "hingeganden"
   ],
   [
     "hingehören",
@@ -5415,6 +5350,11 @@
     "hingeüberzogen"
   ],
   [
+    "hochgehen",
+    "hochgegangen",
+    "hochgeganden"
+  ],
+  [
     "hochheben",
     "hochgehoben",
     "hochgehebt"
@@ -5428,6 +5368,11 @@
     "hochsteigen",
     "hochgestiegen",
     "hochgesteigt"
+  ],
+  [
+    "hopsgehen",
+    "hopsgegangen",
+    "hopsgeganden"
   ],
   [
     "ineinanderfügen",
@@ -5463,6 +5408,11 @@
     "kaltstellen",
     "kaltgestellt",
     "gekaltstellt"
+  ],
+  [
+    "kaputtgehen",
+    "kaputtgegangen",
+    "kaputtgeganden"
   ],
   [
     "kaputtkriegen",
@@ -5523,6 +5473,11 @@
     "losgeben",
     "losgegeben",
     "losgegebt"
+  ],
+  [
+    "losgehen",
+    "losgegangen",
+    "losgeganden"
   ],
   [
     "loslassen",
@@ -5600,11 +5555,6 @@
     "mitgegestalten"
   ],
   [
-    "mithelfen",
-    "mitgeholfen",
-    "mitgehelft"
-  ],
-  [
     "mitkriegen",
     "mitgekriegt",
     "mitgekrogen"
@@ -5618,11 +5568,6 @@
     "mitleiden",
     "mitgelitten",
     "mitgeleidt"
-  ],
-  [
-    "mitsaufen",
-    "mitgesoffen",
-    "mitgesauft"
   ],
   [
     "mißfallen",
@@ -5680,6 +5625,11 @@
     "nachgegebt"
   ],
   [
+    "nachgehen",
+    "nachgegangen",
+    "nachgeganden"
+  ],
+  [
     "nachgeraten",
     "nachgeraten",
     "nachgegeratet"
@@ -5688,11 +5638,6 @@
     "nachgären",
     "nachgegoren",
     "nachgegärt"
-  ],
-  [
-    "nachhelfen",
-    "nachgeholfen",
-    "nachgehelft"
   ],
   [
     "nachhinken",
@@ -5728,11 +5673,6 @@
     "nachrennen",
     "nachgerannt",
     "nachgerennt"
-  ],
-  [
-    "nachrufen",
-    "nachgerufen",
-    "nachgeruft"
   ],
   [
     "nachschaffen",
@@ -5790,6 +5730,11 @@
     "nachgewunken"
   ],
   [
+    "nahegehen",
+    "nahegegangen",
+    "nahegeganden"
+  ],
+  [
     "naheliegen",
     "nahegelegen",
     "nahegelogen"
@@ -5833,11 +5778,6 @@
     "niederlassen",
     "niedergelassen",
     "niedergelasst"
-  ],
-  [
-    "niederschreien",
-    "niedergeschrien",
-    "niedergeschreit"
   ],
   [
     "niedersteigen",
@@ -5937,7 +5877,7 @@
   [
     "rückwärtsgehen",
     "rückwärtsgegangen",
-    "rückgewärtsgangen"
+    "rückgewärtsganden"
   ],
   [
     "sauberhalten",
@@ -5948,6 +5888,11 @@
     "scharfstellen",
     "scharfgestellt",
     "gescharfstellt"
+  ],
+  [
+    "schiefgehen",
+    "schiefgegangen",
+    "schiefgeganden"
   ],
   [
     "schiefliegen",
@@ -5992,7 +5937,7 @@
   [
     "spazierengehen",
     "spazierengegangen",
-    "gespazierengangen"
+    "gespazierenganden"
   ],
   [
     "spitzbekommen",
@@ -6083,6 +6028,11 @@
     "umfliegen",
     "umflogen",
     "umgeflogen"
+  ],
+  [
+    "umgehen",
+    "umgegangen",
+    "umgeganden"
   ],
   [
     "umgestalten",
@@ -6220,11 +6170,6 @@
     "umgeschalten"
   ],
   [
-    "umschulden",
-    "umgeschuldet",
-    "umgeschuldt"
-  ],
-  [
     "umschwenken",
     "umgeschwenkt",
     "umgeschwacht"
@@ -6252,7 +6197,7 @@
   [
     "untergehen",
     "untergegangen",
-    "untergangen"
+    "unterganden"
   ],
   [
     "unterhaken",
@@ -6410,6 +6355,11 @@
     "vergebt"
   ],
   [
+    "vergehen",
+    "vergangen",
+    "verganden"
+  ],
+  [
     "vergelten",
     "vergolten",
     "vergeltet"
@@ -6428,11 +6378,6 @@
     "verheißen",
     "verheißen",
     "verhissen"
-  ],
-  [
-    "verhelfen",
-    "verholfen",
-    "verhelft"
   ],
   [
     "verhängen",
@@ -6545,11 +6490,6 @@
     "versalzt"
   ],
   [
-    "versaufen",
-    "versoffen",
-    "versauft"
-  ],
-  [
     "verschalten",
     "verschaltet",
     "verschalten"
@@ -6575,16 +6515,6 @@
     "verschlaft"
   ],
   [
-    "verschreien",
-    "verschrien",
-    "verschreit"
-  ],
-  [
-    "verschulden",
-    "verschuldet",
-    "verschuldt"
-  ],
-  [
     "verschweigen",
     "verschwiegen",
     "verschweigt"
@@ -6607,7 +6537,7 @@
   [
     "verschüttgehen",
     "verschüttgegangen",
-    "verschüttgangen"
+    "verschüttganden"
   ],
   [
     "versenken",
@@ -6747,7 +6677,7 @@
   [
     "vorangehen",
     "vorangegangen",
-    "vorgeangangen"
+    "vorgeanganden"
   ],
   [
     "vorausblicken",
@@ -6757,7 +6687,7 @@
   [
     "vorausgehen",
     "vorausgegangen",
-    "vorgeausgangen"
+    "vorgeausganden"
   ],
   [
     "voraussagen",
@@ -6817,7 +6747,7 @@
   [
     "vorbeigehen",
     "vorbeigegangen",
-    "vorgebeigangen"
+    "vorgebeiganden"
   ],
   [
     "vorbeikommen",
@@ -6888,6 +6818,11 @@
     "vorgeben",
     "vorgegeben",
     "vorgegebt"
+  ],
+  [
+    "vorgehen",
+    "vorgegangen",
+    "vorgeganden"
   ],
   [
     "vorgreifen",
@@ -6972,7 +6907,7 @@
   [
     "vorwärtsgehen",
     "vorwärtsgegangen",
-    "vorgewärtsgangen"
+    "vorgewärtsganden"
   ],
   [
     "vorwärtskommen",
@@ -6987,12 +6922,7 @@
   [
     "vorübergehen",
     "vorübergegangen",
-    "vorgeübergangen"
-  ],
-  [
-    "wachrufen",
-    "wachgerufen",
-    "wachgeruft"
+    "vorgeüberganden"
   ],
   [
     "warmhalten",
@@ -7035,6 +6965,11 @@
     "weggegebt"
   ],
   [
+    "weggehen",
+    "weggegangen",
+    "weggeganden"
+  ],
+  [
     "wegheben",
     "weggehoben",
     "weggehebt"
@@ -7043,16 +6978,6 @@
     "weglassen",
     "weggelassen",
     "weggelasst"
-  ],
-  [
-    "wegrufen",
-    "weggerufen",
-    "weggeruft"
-  ],
-  [
-    "wegsaufen",
-    "weggesoffen",
-    "weggesauft"
   ],
   [
     "wegschenken",
@@ -7110,9 +7035,9 @@
     "weitergegebt"
   ],
   [
-    "weiterhelfen",
-    "weitergeholfen",
-    "weitergehelft"
+    "weitergehen",
+    "weitergegangen",
+    "weitergeganden"
   ],
   [
     "weiterverbreiten",
@@ -7365,6 +7290,11 @@
     "zugegebt"
   ],
   [
+    "zugehen",
+    "zugegangen",
+    "zugeganden"
+  ],
+  [
     "zugehören",
     "zugehört",
     "zugegehört"
@@ -7470,11 +7400,6 @@
     "zugereitet"
   ],
   [
-    "zurufen",
-    "zugerufen",
-    "zugeruft"
-  ],
-  [
     "zurückbegeben",
     "zurückbegeben",
     "zurückgebegebt"
@@ -7550,6 +7475,11 @@
     "zurückgegebt"
   ],
   [
+    "zurückgehen",
+    "zurückgegangen",
+    "zurückgeganden"
+  ],
+  [
     "zurückgewinnen",
     "zurückgewonnen",
     "zurückgegewonnen"
@@ -7578,11 +7508,6 @@
     "zurückreiten",
     "zurückgeritten",
     "zurückgereitet"
-  ],
-  [
-    "zurückrufen",
-    "zurückgerufen",
-    "zurückgeruft"
   ],
   [
     "zurückschaffen",
@@ -7670,6 +7595,11 @@
     "zusammengegebt"
   ],
   [
+    "zusammengehen",
+    "zusammengegangen",
+    "zusammengeganden"
+  ],
+  [
     "zusammengehören",
     "zusammengehört",
     "zusammengegehört"
@@ -7708,11 +7638,6 @@
     "zusammenpressen",
     "zusammengepresst",
     "zusammengepressen"
-  ],
-  [
-    "zusammenrufen",
-    "zusammengerufen",
-    "zusammengeruft"
   ],
   [
     "zusammenschieben",
@@ -7902,7 +7827,7 @@
   [
     "auseinandergehen",
     "auseinandergegangen",
-    "auseinandergangen"
+    "auseinanderganden"
   ],
   [
     "auseinanderschreiben",
@@ -7937,7 +7862,7 @@
   [
     "bankrottgehen",
     "bankrottgegangen",
-    "gebankrottgangen"
+    "gebankrottganden"
   ],
   [
     "bergen",
@@ -7993,6 +7918,11 @@
     "befehlen",
     "befohlen",
     "befehlt"
+  ],
+  [
+    "befreien",
+    "befreit",
+    "befrien"
   ],
   [
     "befremden",
@@ -8268,11 +8198,6 @@
     "dreschen",
     "gedroschen",
     "gedrescht"
-  ],
-  [
-    "dulden",
-    "geduldet",
-    "geduldt"
   ],
   [
     "durchbluten",
@@ -8630,11 +8555,6 @@
     "gedeiht"
   ],
   [
-    "gedulden",
-    "geduldet",
-    "geduldt"
-  ],
-  [
     "gefallen",
     "gefallen",
     "gefallt"
@@ -8648,6 +8568,11 @@
     "gefährden",
     "gefährdet",
     "gefährdt"
+  ],
+  [
+    "gehen",
+    "gegangen",
+    "geganden"
   ],
   [
     "gehren",
@@ -8773,11 +8698,6 @@
     "hohnlachen",
     "gehohnlacht",
     "hohngelacht"
-  ],
-  [
-    "helfen",
-    "geholfen",
-    "gehelft"
   ],
   [
     "hopsen",
@@ -9100,11 +9020,6 @@
     "gerodt"
   ],
   [
-    "rufen",
-    "gerufen",
-    "geruft"
-  ],
-  [
     "runden",
     "gerundet",
     "gerundt"
@@ -9205,19 +9120,9 @@
     "gescheltet"
   ],
   [
-    "schreien",
-    "geschrien",
-    "geschreit"
-  ],
-  [
     "schreiten",
     "geschritten",
     "geschreitet"
-  ],
-  [
-    "schulden",
-    "geschuldet",
-    "geschuldt"
   ],
   [
     "schweißen",
@@ -9283,11 +9188,6 @@
     "siegen",
     "gesiegt",
     "gesogen"
-  ],
-  [
-    "saufen",
-    "gesoffen",
-    "gesauft"
   ],
   [
     "spenden",
@@ -9552,7 +9452,7 @@
   [
     "gutgehen",
     "gutgegangen",
-    "gegutgangen"
+    "gegutganden"
   ],
   [
     "guttun",
@@ -9587,7 +9487,7 @@
   [
     "hintergehen",
     "hintergangen",
-    "hingetergangen"
+    "hingeterganden"
   ],
   [
     "hinterlassen",
@@ -10082,7 +9982,7 @@
   [
     "widerrufen",
     "widerrufen",
-    "widergeruft"
+    "widergerufen"
   ],
   [
     "widersetzen",
@@ -10108,6 +10008,11 @@
     "wiederholen",
     "wiederholt",
     "gewiederholt"
+  ],
+  [
+    "zergehen",
+    "zergangen",
+    "zerganden"
   ],
   [
     "zigeunern",
@@ -10303,6 +10208,11 @@
     "übergeben",
     "übergeben",
     "übergebt"
+  ],
+  [
+    "übergehen",
+    "übergangen",
+    "überganden"
   ],
   [
     "überladen",
