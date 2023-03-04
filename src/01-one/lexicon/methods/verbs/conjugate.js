@@ -38,8 +38,8 @@ const toPresentParticiple = (str) => convert(str, presentParticiple.presentParti
 const toPastParticiple = (str) => convert(str, pastParticiple.pastParticiple)
 const toImperative = (str) => {
   return {
-    singular: convert(str, imperative.singular),
-    plural: convert(str, imperative.plural),
+    secondSingular: convert(str, imperative.singular),
+    secondPlural: convert(str, imperative.plural),
   }
 }
 

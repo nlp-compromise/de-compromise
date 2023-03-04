@@ -19,6 +19,7 @@ const api = function (View) {
       return getNth(this, n).map(m => {
         let str = getRoot(m, methods)
         return {
+          infinitive: str,
           presentTense: toPresent(str),
           pastTense: toPast(str),
           subjunctive1: toSubjunctive1(str),

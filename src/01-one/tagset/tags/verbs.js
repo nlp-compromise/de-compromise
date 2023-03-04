@@ -52,4 +52,13 @@ export default {
     is: 'Verb',
     not: ['PastTense', 'PresentTense', 'Gerund', 'Conjunction'],
   },
+  FirstPerson: {
+    is: 'Verb'
+  },
+  SecondPerson: {
+    is: 'Verb'
+  },
+  ThirdPerson: {
+    is: 'Verb'
+  },
 }

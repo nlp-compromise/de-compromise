@@ -118,7 +118,7 @@ console.log(doc.verbs().conjugate())
     secondPlural: 'schwämmet',
     thirdPlural: 'schwämmen'
   },
-  imperative: { singular: 'schwimme', plural: 'schwimmt' },
+  imperative: { secondSingular: 'schwimme', secondPlural: 'schwimmt' },
   pastParticiple: 'geschwommen',
   presentParticiple: 'schwimmend'
 }]
