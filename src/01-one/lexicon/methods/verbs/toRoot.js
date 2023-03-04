@@ -1,6 +1,7 @@
 import { convert, reverse } from 'suffix-thumb'
 import model from '../models.js'
-let { presentTense, pastTense, subjunctive1, subjunctive2, imperative, presentParticiple, pastParticiple } = model
+import fromPastParticiple from './custom/fromPastParticiple.js'
+let { presentTense, pastTense, subjunctive1, subjunctive2, imperative, presentParticiple } = model
 
 // =-=-
 const revAll = function (m) {
@@ -16,7 +17,7 @@ let subjRev1 = revAll(subjunctive1)
 let subjRev2 = revAll(subjunctive2)
 let impRev = revAll(imperative)
 let presentPartRev = reverse(presentParticiple.presentParticiple)
-let pastPartRev = reverse(pastParticiple.pastParticiple)
+// let pastPartRev = reverse(pastParticiple.pastParticiple)
 
 const allForms = function (str, form, model) {
   if (model.hasOwnProperty(form)) {
@@ -31,7 +32,7 @@ const fromSubjunctive1 = (str, form) => allForms(str, form, subjRev1)
 const fromSubjunctive2 = (str, form) => allForms(str, form, subjRev2)
 const fromImperative = (str, form) => allForms(str, form, impRev)
 const fromPresentParticiple = (str) => convert(str, presentPartRev)
-const fromPastParticiple = (str) => convert(str, pastPartRev)
+// const fromPastParticiple = (str) => convert(str, pastPartRev)
 
 export {
   fromPresent, fromPast, fromSubjunctive1, fromSubjunctive2, fromImperative, fromPresentParticiple, fromPastParticiple

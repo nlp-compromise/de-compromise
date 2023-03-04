@@ -3,7 +3,7 @@ import presentParticiple from './verbs/present-participle.js'
 import verbs from './verbs/index.js'
 
 export default {
-  pastParticiple,
+  // pastParticiple,
   presentParticiple,
   verbs
 }

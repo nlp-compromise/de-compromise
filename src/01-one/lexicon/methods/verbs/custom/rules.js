@@ -125,6 +125,7 @@ let suffixes = [
   'erben|orben',
   'gehen|ganden',
   'gehen|gangen',
+  // 'immen|ommen',
   'hauen|hauen',
   'iegen|ogen',
   'iehen|ogen',

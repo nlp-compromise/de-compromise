@@ -36,7 +36,7 @@ txt = 'schwimmen'
 txt = 'geschwommen'
 txt = 'schmecken'
 // txt = 'schwimmend'
-txt = 'untersuchen'
+txt = 'schwimmen'
 let doc = nlp(txt).debug()
 console.log(doc.verbs().conjugate())
 
