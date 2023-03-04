@@ -1,9 +1,13 @@
 import { prefixes, suffixes } from './rules.js'
-const inseperable = /^(be|emp|ent|er|ge|miss|ver|zer)/
+const inseperable = /^(be|emp|ent|er|ge|miss|ver|zer|wiederer)/
 
 const doPrefix = function (str) {
   if (/^auss/.test(str)) {
     str = str.replace(/^auss/, 'ausges')
+    return str
+  }
+  if (/^ansch/.test(str)) {
+    str = str.replace(/^ansch/, 'angesch')
     return str
   }
   // put a 'ge' somewhere
@@ -47,4 +51,4 @@ const toPastParticiple = function (str) {
 }
 export default toPastParticiple
 
-// console.log('\n\n', toPastParticiple("sinnen"))
+// console.log( toPastParticiple("schwimmen"), "geschwommen")

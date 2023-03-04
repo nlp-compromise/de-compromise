@@ -49,4 +49,4 @@ console.log(bads.length, 'errors')
 console.log(percent(right, pairs.length) + '%')
 // console.log('\n\n', toPastParticiple("enthalten"))
 // console.log(bads)
-// 67%
+// 85.8%
