@@ -52,9 +52,8 @@ const steps = [
       // presentParticiple = compress(presentParticiple)
       // packed.presentParticiple = { presentParticiple }
       // console.log('past-participle')
-      console.log(models.pastParticiple)
       let pastParticiple = learn(models.pastParticiple)
-      console.log(pastParticiple)
+      console.log(pastParticiple.both)
       pastParticiple = compress(pastParticiple)
       packed.pastParticiple = { pastParticiple }
       return packed
