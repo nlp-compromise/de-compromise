@@ -1,5 +1,5 @@
 import { prefixes, suffixes } from './rules.js'
-const inseperable = /^(be|emp|ent|er|ge|miss|ver|zer|wied)/
+const inseperable = /^(be|emp|ent|er|ge|miss|ver|zer)/
 
 const doPrefix = function (str) {
   if (/^auss/.test(str)) {
@@ -47,4 +47,4 @@ const toPastParticiple = function (str) {
 }
 export default toPastParticiple
 
-console.log('\n\n', toPastParticiple("sinnen"))
+// console.log('\n\n', toPastParticiple("sinnen"))

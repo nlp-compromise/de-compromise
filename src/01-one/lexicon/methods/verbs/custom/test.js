@@ -36,9 +36,9 @@ pairs.forEach(a => {
 })
 
 // let suffs = bads.map(a => a[1].substring(a[1].length - inspect.length, a[1].length))
-// let suffs = bads.map(a => a[0].substring(a[0].length - inspect.length - 2, a[0].length))
-bads = bads.filter(a => a[2].startsWith('ge') && !a[1].startsWith('ge'))
-let suffs = bads.map(a => a[0].substring(0, 4))
+let suffs = bads.map(a => a[0].substring(a[0].length - inspect.length - 5, a[0].length))
+// bads = bads.filter(a => a[2].startsWith('ge') && !a[1].startsWith('ge'))
+// let suffs = bads.map(a => a[0].substring(0, 3))
 console.log(topk(suffs))
 fs.writeFileSync('./tmp.json', JSON.stringify(bads, null, 2))
 
