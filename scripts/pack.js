@@ -36,23 +36,25 @@ const steps = [
     path: './src/01-one/lexicon/methods/_data.js',
     compress: function () {
       let packed = {}
-      let opts = { min: 1 }
-      console.log('verbs')
-      Object.keys(models.verbs).forEach(k => {
-        packed[k] = {}
-        Object.keys(models.verbs[k]).forEach(form => {
-          let pairs = models.verbs[k][form]
-          console.log('-', k, form)
-          packed[k][form] = learn(pairs, opts)
-          packed[k][form] = compress(packed[k][form])
-        })
-      })
-      console.log('present-participle')
-      let presentParticiple = learn(models.presentParticiple)
-      presentParticiple = compress(presentParticiple)
-      packed.presentParticiple = { presentParticiple }
-      console.log('past-participle')
+      // let opts = { min: 1 }
+      // console.log('verbs')
+      // Object.keys(models.verbs).forEach(k => {
+      //   packed[k] = {}
+      //   Object.keys(models.verbs[k]).forEach(form => {
+      //     let pairs = models.verbs[k][form]
+      //     console.log('-', k, form)
+      //     packed[k][form] = learn(pairs, opts)
+      //     packed[k][form] = compress(packed[k][form])
+      //   })
+      // })
+      // console.log('present-participle')
+      // let presentParticiple = learn(models.presentParticiple)
+      // presentParticiple = compress(presentParticiple)
+      // packed.presentParticiple = { presentParticiple }
+      // console.log('past-participle')
+      console.log(models.pastParticiple)
       let pastParticiple = learn(models.pastParticiple)
+      console.log(pastParticiple)
       pastParticiple = compress(pastParticiple)
       packed.pastParticiple = { pastParticiple }
       return packed

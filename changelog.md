@@ -1,3 +1,7 @@
+### 0.0.8 [Nov 2022]
+- **[new]** - more verb conjugations
+- **[change]** - update dependencies
+
 ### 0.0.6 [Nov 2022]
 - **[new]** - support some verb root matches
 

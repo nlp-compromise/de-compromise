@@ -4,7 +4,7 @@ let here = '[de-number-parse] '
 nlp.verbose(false)
 
 let arr = [
-  [0, "null"],
+  // [0, "null"],
   [1, "eins"],
   [2, "zwei"],
   [3, "drei"],

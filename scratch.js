@@ -1,5 +1,5 @@
 import nlp from './src/index.js'
-// nlp.verbose('tagger')
+nlp.verbose('tagger')
 
 
 // können (can, to be able to), 
@@ -36,5 +36,11 @@ txt = 'schwimmen'
 txt = 'geschwommen'
 txt = 'schmecken'
 // txt = 'schwimmend'
+txt = 'untersuchen'
 let doc = nlp(txt).debug()
 console.log(doc.verbs().conjugate())
+
+
+// let doc = nlp('null').debug()
+// doc.numbers().toNumber().toOrdinal()
+// console.log(doc.text())

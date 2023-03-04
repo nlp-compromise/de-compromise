@@ -51,5 +51,5 @@ Object.keys(lexData).forEach(tag => {
 
   })
 })
-// console.log(lexicon['schwimmend'])
+// console.log(lexicon['null'])
 export default lexicon
