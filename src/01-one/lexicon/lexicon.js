@@ -1,7 +1,6 @@
 import lexData from './_data.js'
 import { unpack } from 'efrt'
-import { toPresent, toPast, toSubjunctive1, toSubjunctive2, toImperative, } from './methods/verbs/conjugate.js'
-
+import { toPresent, toPast, toSubjunctive1, toSubjunctive2, toImperative, toPastParticiple, toPresentParticiple } from './methods/verbs/conjugate.js'
 
 let lexicon = {}
 const tagMap = {
@@ -22,7 +21,6 @@ const addWords = function (obj, tag, lex) {
   })
 }
 
-
 Object.keys(lexData).forEach(tag => {
   let wordsObj = unpack(lexData[tag])
   Object.keys(wordsObj).forEach(w => {
@@ -33,14 +31,19 @@ Object.keys(lexData).forEach(tag => {
       // add present tense
       let obj = toPresent(w)
       addWords(obj, 'PresentTense', lexicon)
+      // participles
+      let str = toPresentParticiple(w)
+      lexicon[str] = lexicon[str] || ['Participle', 'PresentTense']
+      str = toPastParticiple(w)
+      lexicon[str] = lexicon[str] || ['Participle', 'PastTense']
       // add past tense
       obj = toPast(w)
       addWords(obj, 'PastTense', lexicon)
       // add sunjunctives
       obj = toSubjunctive1(w)
-      addWords(obj, 'Subjunctive1', lexicon)
+      addWords(obj, 'Verb', lexicon)
       obj = toSubjunctive2(w)
-      addWords(obj, 'Subjunctive2', lexicon)
+      addWords(obj, 'Verb', lexicon)
       // add imperative
       obj = toImperative(w)
       addWords(obj, 'Imperative', lexicon)
@@ -48,4 +51,5 @@ Object.keys(lexData).forEach(tag => {
 
   })
 })
+// console.log(lexicon['schwimmend'])
 export default lexicon

@@ -1,6 +1,6 @@
 import { convert } from 'suffix-thumb'
 import model from '../models.js'
-let { presentTense, pastTense, subjunctive1, subjunctive2, imperative } = model
+let { presentTense, pastTense, subjunctive1, subjunctive2, imperative, presentParticiple, pastParticiple } = model
 
 const doEach = function (str, m) {
   return {
@@ -28,10 +28,15 @@ const all = function (str) {
     Object.values(toSubjunctive1(str)),
     Object.values(toSubjunctive2(str)),
     Object.values(toImperative(str)),
+    toPresentParticiple(str),
+    toPastParticiple(str)
   ).filter(s => s)
   res = new Set(res)
   return Array.from(res)
 }
+
+const toPresentParticiple = (str) => convert(str, presentParticiple.presentParticiple)
+const toPastParticiple = (str) => convert(str, pastParticiple.pastParticiple)
 
 export {
   all,
@@ -40,7 +45,10 @@ export {
   toSubjunctive1,
   toSubjunctive2,
   toImperative,
+  toPresentParticiple,
+  toPastParticiple
 }
 
-// console.log(toPresent('tanzen'))
+// console.log(toPresentParticiple('schwimmen'))
+// console.log(toPastParticiple('schwimmen'))
 // console.log(all('tanzen'))

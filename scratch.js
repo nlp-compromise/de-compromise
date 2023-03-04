@@ -1,5 +1,4 @@
 import nlp from './src/index.js'
-
 // nlp.verbose('tagger')
 
 
@@ -32,7 +31,11 @@ txt = 'hunderterste'
 // txt = 'zusammenzufuehren'
 txt = 'Wir gingen in den Park'
 txt = 'tanzten'
+txt = 'schwimmen'
+
+txt = 'geschwommen'
+txt = 'schwimmend'
 
 let doc = nlp(txt).compute('root').debug()
 console.log(doc.docs[0])
-console.log(doc.verbs().conjugate()[0])
+// console.log(doc.verbs().conjugate()[0])

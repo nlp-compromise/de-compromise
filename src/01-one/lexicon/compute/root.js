@@ -21,7 +21,12 @@ const root = function (view) {
       // get infinitive form of the verb
       if (term.tags.has('Verb')) {
         let form = verbForm(term)
-        if (term.tags.has('PresentTense')) {
+        // look at past + present participles, first
+        if (term.tags.has('Participle') && term.tags.has('PresentTense')) {
+          term.root = verb.fromPresentParticiple(str, form)
+        } else if (term.tags.has('Participle') && term.tags.has('PastTense')) {
+          term.root = verb.fromPastParticiple(str, form)
+        } else if (term.tags.has('PresentTense')) {
           term.root = verb.fromPresent(str, form)
         } else if (term.tags.has('PastTense')) {
           term.root = verb.fromPast(str, form)

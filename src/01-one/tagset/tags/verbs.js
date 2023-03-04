@@ -13,6 +13,12 @@ export default {
   Imperative: {
     is: 'Infinitive',
   },
+  Subjunctive: {
+    is: 'Verb',
+  },
+  Participle: {
+    is: 'Verb',
+  },
   Gerund: {
     is: 'PresentTense',
     not: ['Copula'],
@@ -34,9 +40,6 @@ export default {
   },
   Pluperfect: {
     is: 'Verb',
-  },
-  Participle: {
-    is: 'PastTense',
   },
   PhrasalVerb: {
     is: 'Verb',

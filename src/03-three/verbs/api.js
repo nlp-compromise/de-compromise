@@ -15,15 +15,17 @@ const api = function (View) {
     }
     conjugate(n) {
       const methods = this.methods.two.transform.verb
-      const { toPresent, toPast, toFuture, toConditional, toGerund } = methods
+      const { toPresent, toPast, toSubjunctive1, toSubjunctive2, toImperative, toPastParticiple, toPresentParticiple } = methods
       return getNth(this, n).map(m => {
         let str = getRoot(m, methods)
         return {
           presentTense: toPresent(str),
           pastTense: toPast(str),
-          // futureTense: toFuture(str),
-          // conditional: toConditional(str),
-          // gerund: toGerund(str),
+          subjunctive1: toSubjunctive1(str),
+          subjunctive2: toSubjunctive2(str),
+          imperative: toImperative(str),
+          pastParticiple: toPastParticiple(str),
+          presentParticiple: toPresentParticiple(str)
         }
       }, [])
     }
