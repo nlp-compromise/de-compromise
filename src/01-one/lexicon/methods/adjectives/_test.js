@@ -4,7 +4,7 @@ import convert from './inflect.js'
 let all = []
 let prop = 'four'
 let n = 3
-let suff = 'l'
+let suff = ''
 
 const percent = (part, total) => {
   let num = (part / total) * 100;
@@ -31,7 +31,7 @@ Object.keys(model).forEach(inf => {
   } else {
     if (inf.endsWith(suff)) {
       all.push(inf.substring(inf.length - (suff.length + 1)))
-      console.log(inf.padEnd(12), model[inf][n])
+      // console.log(inf.padEnd(12), model[inf][n])
       //   console.log(inf, model[inf][0], have,)
     }
   }

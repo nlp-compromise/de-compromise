@@ -1,76 +1,53 @@
 
-const convertTo = (inf, suffixes, fallback) => {
-  let keys = Object.keys(suffixes)
-  for (let i = 0; i < keys.length; i += 1) {
-    if (inf.endsWith(keys[i])) {
-      return inf.replace(keys[i], suffixes[keys[i]])
+const convertTo = (inf, pairs, fallback) => {
+  for (let i = 0; i < pairs.length; i += 1) {
+    let [from, to] = pairs[i]
+    if (inf.endsWith(from)) {
+      return inf.replace(from, to)
     }
   }
   return inf + fallback
 }
 
 const toOne = (inf) => {
-  let pairs = {
-    'erisch': 'erischster',
-    'chtig': 'chtigster',
-    'fähig': 'fähigster',
-    'nhaft': 'nhaftester',
-    'eitig': 'eitiger',
-    'wach': 'wächster',
-    'eich': 'eichster',
-    'rtig': 'rtiger',
-    'htig': 'htiger',
-    'haft': 'hafter',
-    'tlich': 'tlicher',
-    'lich': 'lichster',
-    'ert': 'ertester',
-    'ig': 'igster',
-    'os': 'osester',
-    'll': 'llster',
-    'ft': 'ftester',
-    'nt': 'ntester',
-  }
+  let pairs = [
+    ['ich', 'ichster'],
+    ['ft', 'ftester'],
+    ['ll', 'llster'],
+    ['os', 'osester'],
+    ['ig', 'igster']
+  ]
   return convertTo(inf, pairs, 'er')
 }
 
 const toTwo = (inf) => {
-  let pairs = {
-  }
+  let pairs = [
+    ['ich', 'ichsten'],
+    ['ft', 'ftesten'],
+    ['ll', 'llsten'],
+    ['os', 'osesten'],
+    ['ig', 'igsten']
+  ]
   return convertTo(inf, pairs, 'en')
 }
 const toThree = (inf) => {
-  let pairs = {
-  }
-  return convertTo(inf, pairs, 'ste')
+  let pairs = [
+    ['ich', 'ichste'],
+    ['ft', 'fteste'],
+    ['ll', 'llste'],
+    ['os', 'oseste'],
+    ['ig', 'igste']
+  ]
+  return convertTo(inf, pairs, 'e')
 }
 const toFour = (inf) => {
-  let pairs = {
-    alig: 'aliges',
-    llig: 'lliges',
-    ilig: 'iliges',
-    ig: 'igstes',
-    lich: 'liches',
-    tisch: 'tisches',
-    nisch: 'nisches',
-    misch: 'misches',
-    lisch: 'lisches',
-    disch: 'disches',
-    hisch: 'hisches',
-    risch: 'risches',
-    isch: 'ischstes',
-    ich: 'ichstes',
-    aft: 'aftestes',
-    est: 'estes',
-    ert: 'ertestes',
-    nt: 'ntestes',
-    art: 'artes',
-    rt: 'rtetes',
-    uell: 'uelles',
-    ll: 'llstes',
-    bel: 'bles',
-    // al: 'alstes',
-
-  }
+  let pairs = [
+    ['ich', 'ichstes'],
+    ['ft', 'ftestes'],
+    ['ll', 'llstes'],
+    ['os', 'osestes'],
+    ['ig', 'igstes']
+  ]
   return convertTo(inf, pairs, 'es')
 }
 
