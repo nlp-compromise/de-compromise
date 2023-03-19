@@ -55,6 +55,13 @@ const steps = [
       // let pastParticiple = learn(models.pastParticiple)
       // pastParticiple = compress(pastParticiple)
       // packed.pastParticiple = { pastParticiple }
+      // console.log('adjectives')
+      // packed.adjectives = {}
+      // Object.keys(models.adjectives).forEach(k => {
+      //   let m = learn(models.adjectives[k])
+      //   packed.adjectives[k] = compress(m)
+      // })
+
       return packed
     },
   }
