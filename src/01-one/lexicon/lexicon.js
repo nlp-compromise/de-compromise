@@ -1,6 +1,7 @@
 import lexData from './_data.js'
 import { unpack } from 'efrt'
 import { toPresent, toPast, toSubjunctive1, toSubjunctive2, toImperative, toPastParticiple, toPresentParticiple } from './methods/verbs/conjugate.js'
+import inflectAdj from './methods/adjectives/inflect.js'
 
 let lexicon = {}
 const tagMap = {
@@ -48,8 +49,12 @@ Object.keys(lexData).forEach(tag => {
       obj = toImperative(w)
       addWords(obj, 'Imperative', lexicon)
     }
-
+    // inflect our adjectives
+    if (tag === 'Adjective') {
+      let obj = inflectAdj(w)
+      addWords(obj, 'Adjective', lexicon)
+    }
   })
 })
-// console.log(lexicon['null'])
+// console.log(lexicon['kulturell'])
 export default lexicon

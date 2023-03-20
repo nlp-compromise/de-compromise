@@ -2,9 +2,8 @@ import model from '/Users/spencer/mountain/de-compromise/data/models/adjectives/
 import convert from './inflect.js'
 
 let all = []
-let prop = 'four'
-let n = 3
 let suff = ''
+
 
 const percent = (part, total) => {
   let num = (part / total) * 100;
@@ -23,18 +22,27 @@ const topk = function (arr) {
 }
 
 
-let good = 0
-Object.keys(model).forEach(inf => {
-  let have = convert(inf)[prop]
-  if (have === model[inf][n]) {
-    good += 1
-  } else {
-    if (inf.endsWith(suff)) {
-      all.push(inf.substring(inf.length - (suff.length + 1)))
-      // console.log(inf.padEnd(12), model[inf][n])
-      //   console.log(inf, model[inf][0], have,)
+
+let tests = [
+  { prop: 'one', n: 0 },
+  { prop: 'two', n: 1 },
+  { prop: 'three', n: 2 },
+  { prop: 'four', n: 3 },
+]
+tests.forEach(obj => {
+  let good = 0
+  Object.keys(model).forEach(inf => {
+    let have = convert(inf)[obj.prop]
+    if (have === model[inf][obj.n]) {
+      good += 1
+    } else {
+      if (inf.endsWith(suff)) {
+        all.push(inf.substring(inf.length - (suff.length + 1)))
+        // console.log(inf.padEnd(12), model[inf][n])
+        //   console.log(inf, model[inf][0], have,)
+      }
     }
-  }
+  })
+  console.log(obj.prop, percent(good, Object.keys(model).length))
 })
-console.log(topk(all))
-console.log(percent(good, Object.keys(model).length))
+// console.log(topk(all))
