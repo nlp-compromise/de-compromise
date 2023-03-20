@@ -43,6 +43,9 @@ const root = function (view) {
       if (term.tags.has('Adjective')) {
         term.root = adjective.toRoot(str)
       }
+      if (term.tags.has('Noun')) {
+        term.root = noun.toRoot(str)
+      }
 
     })
   })

@@ -3957,7 +3957,6 @@ export default [
   "garkochen",
   "garnieren",
   "gärtnern",
-  "gasen",
   "gastieren",
   "gaukeln",
   "gaunern",

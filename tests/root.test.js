@@ -16,16 +16,16 @@ test('root-match:', function (t) {
     [`am schönsten`, `am {schöne}`],
     [`Dieses Haus ist das schönste`, `#Determiner #Noun #Copula das {schöne}`],//This house is the most beautiful
     // adjectives
-    // [`kulturell`, `{kulturell}`],
-    // [`kultureller`, `{kulturell}`],
-    // [`kulturelle`, `{kulturell}`],
-    // [`kulturellen`, `{kulturell}`],
-    // [`kulturelles`, `{kulturell}`],
     ['konkreter', '{konkret}'],
     ['konkreten', '{konkret}'],
     ['konkrete', '{konkret}'],
     ['konkretes', '{konkret}'],
-    // [``, ``],
+    // nouns
+    [`Abdriftendste`, `{abdriftendste}`],
+    [`Abdriftendsten`, `{abdriftendste}`],
+    [`Gasen`, `{gase}`],
+    [`Lampen`, `{lampe}`],
+    [`Kunden`, `{kunde}`],
     // [``, ``],
   ]
   arr.forEach(function (a) {

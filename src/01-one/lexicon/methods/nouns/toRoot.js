@@ -37,4 +37,4 @@ const toRoot = function (str) {
   return str
 }
 export default toRoot
-console.log(toRoot('assistenten'))
+// console.log(toRoot('Gasen'))

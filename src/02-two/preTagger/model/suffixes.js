@@ -26,7 +26,7 @@ export default [
     et: vb,
     gt: vb,
     lt: vb,
-    en: vb,
+    // en: vb,
     ns: nn,
     ts: nn,
     // ht: vb,
