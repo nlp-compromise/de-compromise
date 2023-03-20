@@ -16,6 +16,6 @@ nlp.verbose('tagger')
 // [`kulturelles`, `{kulturell}`],
 
 // let doc = nlp('kultureller').debug()
-let doc = nlp('konkretes').debug().compute('root')
+let doc = nlp('nterwäldlerisch').debug().compute('root')
 console.log(doc.docs[0])
 console.log(doc.adjectives().conjugate()[0])
