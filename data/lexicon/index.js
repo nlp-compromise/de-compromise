@@ -16,6 +16,7 @@ import male from './nouns/male-nouns.js'
 import neuter from './nouns/neuter-nouns.js'
 import nouns from './nouns/nouns.js'
 import pronouns from './nouns/pronouns.js'
+import possessive from './nouns/possessive.js'
 
 import femaleNames from './people/femaleNames.js'
 import maleNames from './people/maleNames.js'
@@ -67,9 +68,10 @@ const data = [
   [female, 'FemaleNoun'],
   [neuter, 'NeuterNoun'],
   [nouns, 'Noun'],
+  [pronouns, 'Pronoun'],
+  [possessive, 'Possessive'],
 
   [prepositions, 'Preposition'],
-  [pronouns, 'Pronoun'],
   [cardinal, 'TextCardinal'],
   [ordinal, 'TextOrdinal'],
 ]
@@ -79,11 +81,11 @@ for (let i = 0; i < data.length; i++) {
   const list = data[i][0]
   for (let o = 0; o < list.length; o++) {
     // log duplicates
-    // if (lex[list[o]]) {
-    //   console.log(list[o] + '  ' + lex[list[o]] + ' ' + data[i][1])
-    // }
+    if (lex[list[o]]) {
+      console.log(list[o] + '  ' + lex[list[o]] + ' ' + data[i][1])
+    }
     lex[list[o]] = data[i][1]
   }
 }
-// console.log(lex.null)
+// console.log(lex.zweite)
 export default lex

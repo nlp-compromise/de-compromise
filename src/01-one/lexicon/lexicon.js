@@ -1,8 +1,12 @@
 import lexData from './_data.js'
 import { unpack } from 'efrt'
 import { toPresent, toPast, toSubjunctive1, toSubjunctive2, toImperative, toPastParticiple, toPresentParticiple } from './methods/verbs/conjugate.js'
+import inflectAdj from './methods/adjectives/inflect.js'
+import inflectNoun from './methods/nouns/inflect.js'
+import misc from './misc.js'
 
-let lexicon = {}
+let lexicon = Object.assign({}, misc)
+
 const tagMap = {
   first: 'FirstPerson',
   second: 'SecondPerson',
@@ -15,7 +19,7 @@ const tagMap = {
 const addWords = function (obj, tag, lex) {
   Object.keys(obj).forEach(k => {
     let w = obj[k]
-    if (!lex[w]) {
+    if (!lex[w] && tagMap[k]) {
       lex[w] = [tag, tagMap[k]]
     }
   })
@@ -24,7 +28,7 @@ const addWords = function (obj, tag, lex) {
 Object.keys(lexData).forEach(tag => {
   let wordsObj = unpack(lexData[tag])
   Object.keys(wordsObj).forEach(w => {
-    lexicon[w] = tag
+    lexicon[w] = lexicon[w] || tag
 
     // add conjugations for our verbs
     if (tag === 'Infinitive') {
@@ -48,8 +52,19 @@ Object.keys(lexData).forEach(tag => {
       obj = toImperative(w)
       addWords(obj, 'Imperative', lexicon)
     }
-
+    // inflect our adjectives
+    if (tag === 'Adjective') {
+      let obj = inflectAdj(w)
+      addWords(obj, 'Adjective', lexicon)
+    }
+    if (tag === 'Noun') {
+      let obj = inflectNoun(w)
+      addWords(obj, 'Noun', lexicon)
+    }
+    if (tag === 'Possessive') {
+      lexicon[w] = ['Pronoun', 'Possessive']
+    }
   })
 })
-// console.log(lexicon['null'])
+// console.log(lexicon['zweite'])
 export default lexicon

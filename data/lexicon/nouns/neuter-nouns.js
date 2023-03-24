@@ -806,7 +806,7 @@ export default [
   "tor",
   "toren",
   "travnik",
-  "treffen",
+  // "treffen",
   "tribunals",
   "triest",
   "tschetschenien",

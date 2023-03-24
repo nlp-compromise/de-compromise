@@ -1,3 +1,7 @@
+### 0.0.9 [Mar 2023]
+- **[new]** - adjective + noun inflections
+- **[change]** - tagger fixes
+
 ### 0.0.8 [Nov 2022]
 - **[new]** - more verb conjugations
 - **[change]** - update dependencies

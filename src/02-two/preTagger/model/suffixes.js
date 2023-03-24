@@ -26,6 +26,9 @@ export default [
     et: vb,
     gt: vb,
     lt: vb,
+    // en: vb,
+    ns: nn,
+    ts: nn,
     // ht: vb,
     'ßt': vb
   },
@@ -43,6 +46,11 @@ export default [
     ter: nn,
     ert: vb,
     tet: vb,
+    ten: vb,
+    eln: vb,
+    ern: vb,
+    gen: vb,
+    fen: vb,
     // ben: vb,
     // ren: vb,
     // fen: vb,
@@ -71,6 +79,17 @@ export default [
     eben: vb,
     ehen: vb,
     mmen: vb,
+    llen: vb,
+    ngen: vb,
+    tzen: vb,
+    hren: vb,
+    cken: vb,
+    ssen: vb,
+    eßen: vb,
+    hnen: vb,
+    ufen: vb,
+    lten: vb,
+    hten: vb,
     zehn: card,//10s
     eins: card,
     zwei: card,
@@ -102,6 +121,7 @@ export default [
   },
   {
     // six-letter suffixes
+    igsten: jj,
     ischen: jj,
     sieben: card,
     lichen: jj,
@@ -113,6 +133,7 @@ export default [
   },
   {
     // seven-letter suffixes
+    zigsten: ord,
     tischen: jj,
     tlichen: jj,
     nischen: jj,
