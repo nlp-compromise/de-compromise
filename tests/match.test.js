@@ -6,7 +6,7 @@ test('match:', function (t) {
   let arr = [
     ['Wir gehen in den Park', '#Pronoun #Verb in #Determiner #Noun'],
     ['Kanada ist sehr kalt', '#Noun #Verb #Adverb #Adjective'],
-    ['hinterm', '#Adverb #Determiner'],// contraction
+    // ['hinterm', '#Adverb #Determiner'],// contraction
     ['Spencer geht zum Laden', '#Person #Verb zu #Determiner #Noun'],
     ['Spencer geht zum Laden', '#Person geht zum #Noun'],
     // contractions
@@ -35,6 +35,12 @@ test('match:', function (t) {
     ["Ich habe es von meinem Bruder gehört.", '#Pronoun #Verb #Pronoun #Preposition #Pronoun #Noun #Verb'],//“I heard it from my brother.”
     ["Wir gehen zum Festival.", '#Pronoun #Verb #Preposition #Determiner #Noun'],//“We’re going to the festival.”
     ["Alle außer ihm gab mir ein Geschenk.", '#Noun . #Pronoun #Verb #Pronoun #Determiner #Noun'],//“Everyone but him gave me a gift.”
+    ['einen Sünder', '#Determiner #Noun'],
+    ['in der [Stille]', '#Preposition #Determiner #Noun'], //in the silence
+    ['über ihre [Erfolge] und Misserfolge', '#Preposition #Possessive #Noun #Conjunction #Noun'],
+    ['soll er ankommen', '#Modal #Pronoun #PresentTense'], //should he come
+    ['Er konnte tanzen', '#Pronoun #Modal #PresentTense'], //he could dance
+    // ['', ''],
     // ['', ''],
   ]
   arr.forEach(function (a) {

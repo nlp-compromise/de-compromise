@@ -132,6 +132,7 @@ export default [
   },
   {
     // seven-letter suffixes
+    zigsten: ord,
     tischen: jj,
     tlichen: jj,
     nischen: jj,

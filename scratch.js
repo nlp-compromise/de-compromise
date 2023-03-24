@@ -18,11 +18,8 @@ nlp.verbose('tagger')
 // let doc = nlp('kultureller').debug()
 
 let arr = [
-  'Wir gehen zum Festival',
-  'die [Kette] durch [die] der Kronleuchter ',//The [excited] crowd pushing the [chain] through [the] chandeliers
-  `einen Sünder`,//a sinner
-  ' in der [Stille] ', //in the silence
-  'über ihre [Erfolge] und Misserfolge ',//about their successes and fialures
+  'das schönere Lied',
+  'über ihre [Erfolge] und Misserfolge',
   '[Mach] [dir] keine [Sorgen] ',//do not worry
   'Dieser [Zustand] war rein frei ',//this state was free
   `Die [Löhne] der Technikfreaks `,//the wages of the techies
@@ -38,3 +35,5 @@ let arr = [
   '[einige] seiner [heftigsten] [Angriffe] ',//some of his most violent attacks
 ]
 let doc = nlp(arr[0]).debug()
+doc.compute('root')
+

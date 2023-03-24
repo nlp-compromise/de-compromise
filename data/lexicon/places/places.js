@@ -17,7 +17,7 @@ export default [
   'hnd',
   'iax',
   'icn',
-  'ist',
+  // 'ist',
   'jfk',
   'kul',
   // 'las',

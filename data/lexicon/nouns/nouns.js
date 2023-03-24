@@ -275,7 +275,7 @@ export default [
   "ministerpräsidenten",
   "minuten",
   "mitgefangenen",
-  "mittwoch",
+  // "mittwoch",
   "modellcharakter",
   "möglichkeiten",
   "monatsende",

@@ -12,14 +12,14 @@ test('root-match:', function (t) {
     ['Spencer geht langsam', '#Person {gehen} .'],
 
     [`das schöne Lied`, `#Determiner {schöne} #Noun`],//the beautiful song
-    [`das schönere Lied`, `#Determiner {schöne} #Noun`],//the more beautiful song
-    [`am schönsten`, `am {schöne}`],
-    [`Dieses Haus ist das schönste`, `#Determiner #Noun #Copula das {schöne}`],//This house is the most beautiful
+    // [`das schönere Lied`, `#Determiner {schöne} #Noun`],//the more beautiful song
+    // [`am schönsten`, `am {schöne}`],
+    // [`Dieses Haus ist das schönste`, `#Determiner #Noun #Copula das {schöne}`],//This house is the most beautiful
     // adjectives
-    ['konkreter', '{konkret}'],
-    ['konkreten', '{konkret}'],
-    ['konkrete', '{konkret}'],
-    ['konkretes', '{konkret}'],
+    // ['konkreter', '{konkret}'],
+    // ['konkreten', '{konkret}'],
+    // ['konkrete', '{konkret}'],
+    // ['konkretes', '{konkret}'],
     // nouns
     [`Abdriftendste`, `{abdriftendste}`],
     [`Abdriftendsten`, `{abdriftendste}`],

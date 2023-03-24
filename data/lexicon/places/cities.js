@@ -118,7 +118,7 @@ export default [
   'kuala lumpur',
   'la plata',
   'lausanne',
-  'liege',
+  // 'liege',
   'lima',
   'limassol',
   'linz',

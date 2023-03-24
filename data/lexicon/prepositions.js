@@ -40,4 +40,15 @@ export default [
   "von",// – “from, of”
   "zu",// – “to”
   "zufolge",// – “according to”
+
+  'an',// – “on (a vertical surface)”
+  'auf',// – “on top of (horizontal surface)”
+  'hinter',// – “behind”
+  'in',// – “in, into”
+  'neben',// – “next to”
+  // 'entlang',// – “along”
+  'über',// – “above”
+  'unter',// – “under”
+  'vor',// – “in front of”
+  'zwischen',// – “between”
 ]

@@ -21,6 +21,7 @@ export default [
   "diesen",
   "dieser",
   "dieses",
+  "dir",
   "du",
   "einigen",
   "einiger",
