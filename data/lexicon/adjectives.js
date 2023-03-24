@@ -1046,7 +1046,7 @@ export default [
   "humorvoll",
   "hundekalt",
   "hundertfach",
-  "hundertste",
+  // "hundertste",
   "hundsgemein",
   "hundsmiserabel",
   "hybrid",

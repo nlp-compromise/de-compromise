@@ -18,7 +18,7 @@ nlp.verbose('tagger')
 // let doc = nlp('kultureller').debug()
 
 let arr = [
-  'Ich wohne bei meinem Freund.',
+  'Wir gehen zum Festival',
   'die [Kette] durch [die] der Kronleuchter ',//The [excited] crowd pushing the [chain] through [the] chandeliers
   `einen Sünder`,//a sinner
   ' in der [Stille] ', //in the silence
