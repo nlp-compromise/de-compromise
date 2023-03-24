@@ -18,6 +18,23 @@ export default [
   { word: 'vorm', out: ['vor', 'dem'] },  //(in front of the / from)
   { word: 'zum', out: ['zu', 'dem'] },  //(to the / to)
   { word: 'zur', out: ['zu', 'der'] },  //(to the / to)
+
+  // { word: "n", out: ['das', 'ans'] },
+  // { word: "an", out: ['dem', 'am'] },
+  // { word: "auf", out: ['das', 'aufs'] },
+  // { word: "bei", out: ['dem', 'beim'] },
+  // { word: "durch", out: ['das', 'durchs'] },
+  // { word: "für", out: ['das', 'fürs'] },
+  // { word: "in", out: ['das', 'ins'] },
+  // { word: "in", out: ['dem', 'im'] },
+  // { word: "über", out: ['das', 'übers'] },
+  // { word: "um", out: ['das', 'ums'] },
+  // { word: "unter", out: ['das', 'unters'] },
+  // { word: "von", out: ['dem', 'vom'] },
+  // { word: "vor", out: ['das', 'vors'] },
+  // { word: "vor", out: ['dem', 'vorm'] },
+  // { word: "zu", out: ['dem', 'zum'] },
+  // { word: "zu", out: ['der', 'zur'] },
 ]
 
 

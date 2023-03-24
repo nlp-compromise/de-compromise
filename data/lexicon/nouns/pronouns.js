@@ -116,5 +116,5 @@ export default [
   "womit",
   "wonach",
   "worin",
-  "wovon"
+  "wovon",
 ]

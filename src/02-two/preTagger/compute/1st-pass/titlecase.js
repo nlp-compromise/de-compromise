@@ -7,9 +7,9 @@ const titleCaseNoun = function (terms, i, world) {
   let setTag = world.methods.one.setTag
   let term = terms[i]
   // don't over-write any tags
-  if (term.tags.size > 0) {
-    return
-  }
+  // if (term.tags.size > 0) {
+  //   return
+  // }
   // skip first-word, for now
   if (i === 0) {
     return

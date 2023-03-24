@@ -17,7 +17,7 @@ const fallback = function (terms, i, world) {
     }
 
     let tag = 'Adjective'
-    if (hasNoVerb(terms)) {
+    if (terms.length > 8 && hasNoVerb(terms)) {
       tag = 'Verb'
     }
     setTag([term], tag, world, false, '2-fallback')

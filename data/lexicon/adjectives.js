@@ -147,6 +147,7 @@ export default [
   "attributiv",
   "audiovisuell",
   "auditiv",
+  "aufgeregten",
   "aufgedunsen",
   "auflagenschwach",
   "auflagenstark",

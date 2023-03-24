@@ -16,6 +16,7 @@ import male from './nouns/male-nouns.js'
 import neuter from './nouns/neuter-nouns.js'
 import nouns from './nouns/nouns.js'
 import pronouns from './nouns/pronouns.js'
+import possessive from './nouns/possessive.js'
 
 import femaleNames from './people/femaleNames.js'
 import maleNames from './people/maleNames.js'
@@ -67,9 +68,10 @@ const data = [
   [female, 'FemaleNoun'],
   [neuter, 'NeuterNoun'],
   [nouns, 'Noun'],
+  [pronouns, 'Pronoun'],
+  [possessive, 'Possessive'],
 
   [prepositions, 'Preposition'],
-  [pronouns, 'Pronoun'],
   [cardinal, 'TextCardinal'],
   [ordinal, 'TextOrdinal'],
 ]

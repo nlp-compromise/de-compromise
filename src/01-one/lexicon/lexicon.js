@@ -59,7 +59,10 @@ Object.keys(lexData).forEach(tag => {
       let obj = inflectNoun(w)
       addWords(obj, 'Noun', lexicon)
     }
+    if (tag === 'Possessive') {
+      lexicon[w] = ['Pronoun', 'Possessive']
+    }
   })
 })
-// console.log(lexicon['kulturell'])
+// console.log(lexicon['meinem'])
 export default lexicon
