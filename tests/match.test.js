@@ -40,7 +40,16 @@ test('match:', function (t) {
     ['über ihre [Erfolge] und Misserfolge', '#Preposition #Possessive #Noun #Conjunction #Noun'],
     ['soll er ankommen', '#Modal #Pronoun #PresentTense'], //should he come
     ['Er konnte tanzen', '#Pronoun #Modal #PresentTense'], //he could dance
-    // ['', ''],
+    ['das schönere Lied', '#Determiner #Adjective #Noun'],
+    [`von [meinem] [Rücken]`, '#Preposition #Possessive #Noun'],//from my back
+    [`Die Löhne der Technikfreaks`, '#Determiner #Noun . #Noun'],//the wages of the techies
+    [`in der linken [Kralle]`, '#Preposition #Determiner #Adjective #Noun'],//in the left claw
+    [`Das [ferne] [Stöhnen]`, '#Determiner #Adjective #Noun'],//the distant moan
+    [`meine Erfahrung mit [eritreischem] [äthiopischem] [Essen]`, '#Pronoun #Noun #Preposition #Adjective #Adjective #Noun'],//my experience with [Eritrean] [Ethiopian] [food]
+    ['Das [Böse] ist real und es [muss] bekämpft werden', '#Determiner #Noun #Verb #Adjective #Conjunction #Pronoun #Modal #Verb+'],//The [evil] is real and it [must] be fought
+    ['der [Unterschied] zwischen', '#Determiner #Noun #Preposition'],//the difference between
+    ['ich [muss] hinzufügen', '#Pronoun #Modal #Verb'],//i must add 
+
     // ['', ''],
   ]
   arr.forEach(function (a) {

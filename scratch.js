@@ -18,21 +18,8 @@ nlp.verbose('tagger')
 // let doc = nlp('kultureller').debug()
 
 let arr = [
-  'das schönere Lied',
-  'über ihre [Erfolge] und Misserfolge',
-  '[Mach] [dir] keine [Sorgen] ',//do not worry
-  'Dieser [Zustand] war rein frei ',//this state was free
-  `Die [Löhne] der Technikfreaks `,//the wages of the techies
-  `von [meinem] [Rücken]  `,//from my back
-  `in der linken [Kralle] `,//in the left claw
-  `Das [ferne] [Stöhnen] `,//the distant moan
-  `meine Erfahrung mit [eritreischem] [äthiopischem] [Essen] `,//my experience with [Eritrean] [Ethiopian] [food]
-  `[und] [eine] die [ich] so schnell vergessen werde `,//[and] [one] that [I] will soon forget
-  ' Das [Böse] ist real und es [muss] bekämpft werden',//The [evil] is real and it [must] be fought
-  'der [Unterschied] zwischen ',//the difference between
-  'ich [muss] hinzufügen dass [das] ',//i must add that
-  ' [hinzu] [neutrale] Monster',//add neutral monsters
-  '[einige] seiner [heftigsten] [Angriffe] ',//some of his most violent attacks
+  'ich [muss] hinzufügen dass',
+  // '[Mach] [dir] keine [Sorgen] ',//do not worry
 ]
 let doc = nlp(arr[0]).debug()
 doc.compute('root')

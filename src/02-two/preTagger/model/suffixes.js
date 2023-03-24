@@ -121,6 +121,7 @@ export default [
   },
   {
     // six-letter suffixes
+    igsten: jj,
     ischen: jj,
     sieben: card,
     lichen: jj,
