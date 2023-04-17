@@ -20,6 +20,8 @@ const getProp1 = (term) => {
   if (term.g === 'Neut') {
     return 'n'
   }
+  return 'm'
+  // console.log(term)
 }
 const getProp2 = (term) => {
   if (term.case === 'Nom') {
@@ -34,6 +36,7 @@ const getProp2 = (term) => {
   if (term.g === 'Acc') {
     return 3
   }
+  return 0
 }
 
 let all = {}
@@ -44,16 +47,30 @@ const callback = function (sentence) {
       all[term.lemma] = all[term.lemma] || { m: [], f: [], n: [], pl: [] }
       let prop = getProp1(term)
       let prop2 = getProp2(term)
-      all[term.lemma][prop][prop2] = term.w
+
+      // console.log(prop, all[term.lemma][prop])
+      // all[term.lemma] = all[term.lemma] || {}
+      if (!all[term.lemma] || !all[term.lemma][prop]) {
+        console.log(term.lemma, prop, prop2)
+      } else {
+        all[term.lemma][prop][prop2] = term.w
+      }
     }
   })
 }
 
-setTimeout(() => {
-  console.log(JSON.stringify(all, null, 2))
-}, 15000);
+// setTimeout(() => {
+//   console.log(JSON.stringify(all, null, 2))
+// }, 15000);
 parseXml(file, callback, () => {
   console.log('done')
+
+  Object.keys(all).forEach(k => {
+    if (!all[k].m.length || !all[k].f.length || !all[k].n.length || !all[k].n.length) {
+      delete all[k]
+    }
+  })
   console.log(JSON.stringify(all, null, 2))
+  fs.writeFileSync('./out.json', JSON.stringify(all, null, 2))
 
 })

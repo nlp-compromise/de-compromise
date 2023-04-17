@@ -15,17 +15,21 @@ const parseXml = function (file, cb, end) {
       let sentence = [];
       terms.forEach((t) => {
         let obj = t['$'];
-        if (!obj.word || obj.pos[0] === '$') {
+        if (!obj || !obj.word || !obj.pos || obj.pos === '$') {
           return;
+        }
+        if (typeof obj.pos !== 'string') {
+          return
         }
         let res = {
           w: obj.word,
+          lemma: obj.word,
           tag: tags[obj.pos] || obj.pos,
         };
         if (obj.lemma !== '--') {
           res.lemma = obj.lemma;
         }
-        //nouns
+        //   //nouns
         if (obj.number !== '--') {
           if (obj.number === 'Sg') {
             res.plural = false
@@ -51,7 +55,7 @@ const parseXml = function (file, cb, end) {
         }
         sentence.push(res);
       });
-      // console.log(sentence);
+      // console.log(sentence.length);
       cb(sentence)
     });
 

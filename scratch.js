@@ -1,5 +1,5 @@
 import nlp from './src/index.js'
-nlp.verbose('tagger')
+// nlp.verbose('tagger')
 
 
 // können (can, to be able to), 
@@ -18,9 +18,37 @@ nlp.verbose('tagger')
 // let doc = nlp('kultureller').debug()
 
 let arr = [
-  'ich [muss] hinzufügen dass',
+  'Wir hatten eine amerikanische Hochzeit',
+  'Michaela wird einmal Bäckerin', //Michaela will be a baker one day.
+  '„Wir bleiben hier.“',// (We are staying here.)
+  '„Sie hält ihn für einen Nichtsnutz.“',// (She thinks he is a loser.)
+  `Dass es kein Geld für meine Hochzeit gibt?! `,
+  `Ich hatte Spaß bei der ersten Hochzeit. `,
+  'Die Aussicht ist schön',
+
+  'skandalös',
+  'und der ganze Rest der skandalösen Sachen.',
+  'eine zweite Welle privater skandalöser Publikationen ausgelöst',
+  'ebenso Gerüchte über eine skandalöse, inzestuöse Verbindung mit seiner Halbschwester',
+  'Kraft',
+  'Fuss',
+  'anspruchsvoll',
+  'schöne',
+  // 'ich [muss] hinzufügen dass',
   // '[Mach] [dir] keine [Sorgen] ',//do not worry
 ]
-let doc = nlp(arr[0]).debug()
-doc.compute('root')
+
+// skandalösen
+
+let doc = nlp(arr[0]).debug()//.tag('Noun')
+doc.match('{hochzeit}').debug()
+// console.log(nlp.world().methods.two.transform.adjective.all)
+// console.log(doc.adjectives().conjugate())
+// doc.compute('root')
+// console.log(doc.text('root'))
+let net = nlp.buildNet([{ match: '{hochzeit}' }])
+doc.match(net)
+// console.log(nlp.parseMatch('{skandalös}')[0])
+
+
 

@@ -8570,7 +8570,7 @@
   };
   var inflectAdj$1 = inflectAdj;
 
-  // console.log(inflectAdj('foovativ'))
+  // console.log(inflectAdj('skandalös'))
 
   const abel = /able[rns]$/;
   const auer = /aure[rns]$/;
@@ -8705,6 +8705,9 @@
   var nounToRoot = toRoot;
   // console.log(toRoot('Gasen'))
 
+  const allAdj = (inf) => Object.values(inflectAdj$1(inf));
+  const allNoun = (inf) => Object.values(inflectNoun(inf));
+
   var methods = {
     verb: {
       all,
@@ -8712,10 +8715,10 @@
       fromPresent, fromPast, fromSubjunctive1, fromSubjunctive2, fromImperative, fromPresentParticiple, fromPastParticiple: fromPastParticiple$1
     },
     adjective: {
-      inflect: inflectAdj$1, toRoot: adjToRoot
+      inflect: inflectAdj$1, toRoot: adjToRoot, all: allAdj
     },
     noun: {
-      inflect: inflectNoun, toRoot: nounToRoot
+      inflect: inflectNoun, toRoot: nounToRoot, all: allNoun
     }
   };
 
@@ -9891,7 +9894,7 @@
       }
 
       let tag = 'Adjective';
-      if (terms.length > 8 && hasNoVerb(terms)) {
+      if (terms.length > 10 && hasNoVerb(terms)) {
         tag = 'Verb';
       }
       setTag([term], tag, world, false, '2-fallback');
@@ -11095,7 +11098,7 @@
     api: api$1,
   };
 
-  var version = '0.0.9';
+  var version = '0.0.10';
 
   nlp$1.plugin(tokenizer);
   nlp$1.plugin(tagset);

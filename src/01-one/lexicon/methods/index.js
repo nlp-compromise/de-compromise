@@ -5,6 +5,8 @@ import adjToRoot from './adjectives/toRoot.js'
 import inflectNoun from './nouns/inflect.js'
 import nounToRoot from './nouns/toRoot.js'
 
+const allAdj = (inf) => Object.values(inflectAdj(inf))
+const allNoun = (inf) => Object.values(inflectNoun(inf))
 
 export default {
   verb: {
@@ -13,9 +15,9 @@ export default {
     fromPresent, fromPast, fromSubjunctive1, fromSubjunctive2, fromImperative, fromPresentParticiple, fromPastParticiple
   },
   adjective: {
-    inflect: inflectAdj, toRoot: adjToRoot
+    inflect: inflectAdj, toRoot: adjToRoot, all: allAdj
   },
   noun: {
-    inflect: inflectNoun, toRoot: nounToRoot
+    inflect: inflectNoun, toRoot: nounToRoot, all: allNoun
   }
 }

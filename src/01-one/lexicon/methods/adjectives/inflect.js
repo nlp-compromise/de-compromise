@@ -22,6 +22,6 @@ const inflectAdj = function (inf) {
 }
 export default inflectAdj
 
-// console.log(inflectAdj('foovativ'))
+// console.log(inflectAdj('skandalös'))
 
 
