@@ -38,6 +38,13 @@ arr.forEach(str => {
   let [w, inf, meta] = str.split(/\t/)
   byInf[inf] = byInf[inf] || { m: [], f: [], n: [], pl: [] }
   let arr = (meta || '').split(':')
+  // if (inf === 'skandalös') {
+  //   console.log(str)
+  //   console.log(arr)
+  // }
+  if (arr[4] === 'SUP' || arr[4] === 'KOM') {
+    return
+  }
   if (arr[0] !== 'ADJ') {
     return
   }
@@ -46,7 +53,7 @@ arr.forEach(str => {
   if (one !== null && two !== null) {
     byInf[inf][one][two] = w
   } else {
-    console.log(meta)
+    // console.log(meta)
   }
 
   // byInf[inf][w] = parts
@@ -56,11 +63,14 @@ arr.forEach(str => {
 let model = {}
 Object.keys(byInf).forEach(inf => {
   let o = byInf[inf]
+  if (inf.toLowerCase() !== inf) {
+    return
+  }
   if (o.m.length === 4 && o.f.length === 4) {
     model[inf] = byInf[inf]
   }
 })
 fs.writeFileSync('./model.js', JSON.stringify(model, null, 2))
 // console.log(all.length)
-console.log(model)
-console.log(Object.keys(model).length)
+console.log(model['skandalös'])
+// console.log(Object.keys(model).length)

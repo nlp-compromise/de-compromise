@@ -18,6 +18,7 @@ import nlp from './src/index.js'
 // let doc = nlp('kultureller').debug()
 
 let arr = [
+  'skandalös',
   'Wir hatten eine amerikanische Hochzeit',
   'Michaela wird einmal Bäckerin', //Michaela will be a baker one day.
   '„Wir bleiben hier.“',// (We are staying here.)
@@ -26,7 +27,6 @@ let arr = [
   `Ich hatte Spaß bei der ersten Hochzeit. `,
   'Die Aussicht ist schön',
 
-  'skandalös',
   'und der ganze Rest der skandalösen Sachen.',
   'eine zweite Welle privater skandalöser Publikationen ausgelöst',
   'ebenso Gerüchte über eine skandalöse, inzestuöse Verbindung mit seiner Halbschwester',
@@ -41,13 +41,13 @@ let arr = [
 // skandalösen
 
 let doc = nlp(arr[0]).debug()//.tag('Noun')
-doc.match('{hochzeit}').debug()
+// doc.match('{hochzeit}').debug()
 // console.log(nlp.world().methods.two.transform.adjective.all)
-// console.log(doc.adjectives().conjugate())
+console.log(doc.adjectives().conjugate())
 // doc.compute('root')
 // console.log(doc.text('root'))
-let net = nlp.buildNet([{ match: '{hochzeit}' }])
-doc.match(net)
+// let net = nlp.buildNet([{ match: '{hochzeit}' }])
+// doc.match(net)
 // console.log(nlp.parseMatch('{skandalös}')[0])
 
 
