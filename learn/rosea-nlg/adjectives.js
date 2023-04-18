@@ -42,7 +42,7 @@ arr.forEach(str => {
   //   console.log(str)
   //   console.log(arr)
   // }
-  if (arr[4] === 'SUP' || arr[4] === 'KOM') {
+  if (arr[4] !== 'KOM') {//&& arr[4] !== 'KOM'
     return
   }
   if (arr[0] !== 'ADJ') {
