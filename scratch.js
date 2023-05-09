@@ -19,6 +19,7 @@ import nlp from './src/index.js'
 // let doc = nlp('kultureller').debug()
 
 let arr = [
+  'Ich habe drei Bücher gelesen',
   'skandalös',
   'Wir hatten eine amerikanische Hochzeit',
   'Michaela wird einmal Bäckerin', //Michaela will be a baker one day.
@@ -44,6 +45,7 @@ let arr = [
 // skandalösen
 
 let doc = nlp(arr[0]).debug()//.tag('Noun')
+console.log(doc.nouns().toSingular().text())
 // doc.match('{hochzeit}').debug()
 // console.log(nlp.world().methods.two.transform.adjective.all)
 // console.log(doc.adjectives().conjugate())
@@ -51,7 +53,7 @@ let doc = nlp(arr[0]).debug()//.tag('Noun')
 // console.log(doc.text('root'))
 // let net = nlp.buildNet([{ match: '{hochzeit}' }])
 // doc.match(net)
-console.log(nlp.parseMatch('{elternteil/Noun}')[0])
+// console.log(nlp.parseMatch('{elternteil/Noun}')[0])
 
 
 

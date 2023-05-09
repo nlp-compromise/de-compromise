@@ -36,11 +36,11 @@ const firstForm = function (str) {
   }
   return str + 'n'
 }
-const inflect = function (str) {
+const toPlural = function (str) {
   return {
     one: firstForm(str)
   }
 }
-export default inflect
+export default toPlural
 
 // console.log(inflect('abdruckende').one === 'abdruckenden')

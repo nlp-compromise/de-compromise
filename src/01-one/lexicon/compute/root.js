@@ -44,7 +44,7 @@ const root = function (view) {
         term.root = adjective.toRoot(str)
       }
       if (term.tags.has('Noun')) {
-        term.root = noun.toRoot(str)
+        term.root = noun.toSingular(str)
       }
 
     })

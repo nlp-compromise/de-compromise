@@ -2,7 +2,7 @@ import lexData from './_data.js'
 import { unpack } from 'efrt'
 import { toPresent, toPast, toSubjunctive1, toSubjunctive2, toImperative, toPastParticiple, toPresentParticiple } from './methods/verbs/conjugate.js'
 import inflectAdj from './methods/adjectives/inflect.js'
-import inflectNoun from './methods/nouns/inflect.js'
+import inflectNoun from './methods/nouns/toPlural.js'
 import misc from './misc.js'
 
 let lexicon = Object.assign({}, misc)

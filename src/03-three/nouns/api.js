@@ -24,6 +24,29 @@ const api = function (View) {
         }
       }, [])
     }
+
+    isPlural(n) {
+      return getNth(this, n).if('#Plural')
+    }
+    toPlural(n) {
+      const methods = this.methods.two.transform.noun
+      return getNth(this, n).if('#Singular').map(m => {
+        let str = getRoot(m)
+        let plural = methods.toPlural(str)
+        return m.replaceWith(plural)
+      })
+    }
+    toSingular(n) {
+      const methods = this.methods.two.transform.noun
+      return getNth(this, n).map(m => {
+        if (m.has('#Plural')) {
+          return m
+        }
+        let str = getRoot(m)
+        let singular = methods.toSingular(str)
+        return m.replaceWith(singular)
+      })
+    }
   }
 
   View.prototype.nouns = function (n) {

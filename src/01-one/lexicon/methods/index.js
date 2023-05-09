@@ -2,11 +2,11 @@ import { all, toPresent, toPast, toSubjunctive1, toSubjunctive2, toImperative, t
 import { fromPresent, fromPast, fromSubjunctive1, fromSubjunctive2, fromImperative, fromPresentParticiple, fromPastParticiple } from './verbs/toRoot.js'
 import inflectAdj from './adjectives/inflect.js'
 import adjToRoot from './adjectives/toRoot.js'
-import inflectNoun from './nouns/inflect.js'
-import nounToRoot from './nouns/toRoot.js'
+import toPlural from './nouns/toPlural.js'
+import toSingular from './nouns/toSingular.js'
 
 const allAdj = (inf) => Object.values(inflectAdj(inf))
-const allNoun = (inf) => Object.values(inflectNoun(inf))
+const allNoun = (inf) => Object.values(toPlural(inf))
 
 export default {
   verb: {
@@ -18,6 +18,6 @@ export default {
     inflect: inflectAdj, toRoot: adjToRoot, all: allAdj
   },
   noun: {
-    inflect: inflectNoun, toRoot: nounToRoot, all: allNoun
+    toPlural, toSingular, all: allNoun
   }
 }
