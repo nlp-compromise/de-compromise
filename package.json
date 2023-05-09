@@ -20,6 +20,11 @@
     "type": "git",
     "url": "git://github.com/nlp-compromise/de-compromise.git"
   },
+  "files": [
+    "builds/",
+    "types/",
+    "src/"
+  ],
   "scripts": {
     "test": "tape \"./tests/**/*.test.js\" | tap-dancer",
     "testb": "cross-env TESTENV=prod npm run test",
