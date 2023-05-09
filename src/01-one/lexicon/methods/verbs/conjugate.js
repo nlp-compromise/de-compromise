@@ -19,6 +19,14 @@ const toPast = (str) => doEach(str, pastTense)
 const toSubjunctive1 = (str) => doEach(str, subjunctive1)
 const toSubjunctive2 = (str) => doEach(str, subjunctive2)
 
+const toPresentParticiple = (str) => convert(str, presentParticiple.presentParticiple)
+// const toPastParticiple = (str) => convert(str, pastParticiple.pastParticiple)
+const toImperative = (str) => {
+  return {
+    secondSingular: convert(str, imperative.singular),
+    secondPlural: convert(str, imperative.plural),
+  }
+}
 
 // an array of every inflection, for '{inf}' syntax
 const all = function (str) {
@@ -35,14 +43,7 @@ const all = function (str) {
   return Array.from(res)
 }
 
-const toPresentParticiple = (str) => convert(str, presentParticiple.presentParticiple)
-// const toPastParticiple = (str) => convert(str, pastParticiple.pastParticiple)
-const toImperative = (str) => {
-  return {
-    secondSingular: convert(str, imperative.singular),
-    secondPlural: convert(str, imperative.plural),
-  }
-}
+
 
 export {
   all,

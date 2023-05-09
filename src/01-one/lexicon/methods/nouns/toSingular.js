@@ -22,7 +22,7 @@ const suffixes = [
   's',
 ]
 
-const toRoot = function (str) {
+const toSingular = function (str) {
   for (let i = 0; i < leave.length; i += 1) {
     if (str.endsWith(leave[i])) {
       return str
@@ -36,5 +36,5 @@ const toRoot = function (str) {
   }
   return str
 }
-export default toRoot
+export default toSingular
 // console.log(toRoot('Gasen'))

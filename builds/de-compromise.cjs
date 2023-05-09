@@ -422,7 +422,7 @@
   Object.assign(View.prototype, api$j);
   var View$1 = View;
 
-  var version$1 = '14.8.2';
+  var version$1 = '14.9.0';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
@@ -463,43 +463,43 @@
       // verb forms
       if (conj[k].pastTense) {
         if (m.toPast) {
-          m.toPast.exceptions[k] = conj[k].pastTense;
+          m.toPast.ex[k] = conj[k].pastTense;
         }
         if (m.fromPast) {
-          m.fromPast.exceptions[conj[k].pastTense] = k;
+          m.fromPast.ex[conj[k].pastTense] = k;
         }
       }
       if (conj[k].presentTense) {
         if (m.toPresent) {
-          m.toPresent.exceptions[k] = conj[k].presentTense;
+          m.toPresent.ex[k] = conj[k].presentTense;
         }
         if (m.fromPresent) {
-          m.fromPresent.exceptions[conj[k].presentTense] = k;
+          m.fromPresent.ex[conj[k].presentTense] = k;
         }
       }
       if (conj[k].gerund) {
         if (m.toGerund) {
-          m.toGerund.exceptions[k] = conj[k].gerund;
+          m.toGerund.ex[k] = conj[k].gerund;
         }
         if (m.fromGerund) {
-          m.fromGerund.exceptions[conj[k].gerund] = k;
+          m.fromGerund.ex[conj[k].gerund] = k;
         }
       }
       // adjective forms
       if (conj[k].comparative) {
         if (m.toComparative) {
-          m.toComparative.exceptions[k] = conj[k].comparative;
+          m.toComparative.ex[k] = conj[k].comparative;
         }
         if (m.fromComparative) {
-          m.fromComparative.exceptions[conj[k].comparative] = k;
+          m.fromComparative.ex[conj[k].comparative] = k;
         }
       }
       if (conj[k].superlative) {
         if (m.toSuperlative) {
-          m.toSuperlative.exceptions[k] = conj[k].superlative;
+          m.toSuperlative.ex[k] = conj[k].superlative;
         }
         if (m.fromSuperlative) {
-          m.fromSuperlative.exceptions[conj[k].superlative] = k;
+          m.fromSuperlative.ex[conj[k].superlative] = k;
         }
       }
     });
@@ -1106,6 +1106,8 @@
     if (typeof input === 'function') {
       return replaceByFn(main, input)
     }
+    let terms = main.docs[0];
+    let isPossessive = keep.possessives && terms[terms.length - 1].tags.has('Possessive');
     // support 'foo $0' replacements
     input = subDollarSign(input, main);
 
@@ -1126,6 +1128,17 @@
     }
     // delete the original terms
     main.delete(original); //science.
+
+    // keep "John's"
+    if (isPossessive) {
+      let tmp = main.docs[0];
+      let term = tmp[tmp.length - 1];
+      if (!term.tags.has('Possessive')) {
+        term.text += '\'s';
+        term.normal += '\'s';
+        term.tags.add('Possessive');
+      }
+    }
     // what should we return?
     let m = main.toView(ptrs).compute(['index', 'lexicon']);
     if (m.world.compute.preTagger) {
@@ -1141,6 +1154,12 @@
     if (keep.case && m.docs[0] && m.docs[0][0] && m.docs[0][0].index[1] === 0) {
       m.docs[0][0].text = titleCase$2(m.docs[0][0].text);
     }
+
+    // try to keep some pre-post punctuation
+    // if (m.terms().length === 1 && main.terms().length === 1) {
+    //   console.log(original.docs)
+    // }
+
     // console.log(input.docs[0])
     // let regs = input.docs[0].map(t => {
     //   return { id: t.id, optional: true }
@@ -1406,6 +1425,8 @@
       return this
     },
   };
+
+  // aliases
   methods$i.deHyphenate = methods$i.dehyphenate;
   methods$i.toQuotation = methods$i.toQuotations;
 
@@ -1673,6 +1694,7 @@
   var contractions$4 = [
     // simple mappings
     { word: '@', out: ['at'] },
+    { word: 'arent', out: ['are', 'not'] },
     { word: 'alot', out: ['a', 'lot'] },
     { word: 'brb', out: ['be', 'right', 'back'] },
     { word: 'cannot', out: ['can', 'not'] },
@@ -1686,11 +1708,12 @@
     { word: "that's", out: ['that', 'is'] },
     { word: "what's", out: ['what', 'is'] },
     { word: "let's", out: ['let', 'us'] },
-    { word: "there's", out: ['there', 'is'] },
+    // { word: "there's", out: ['there', 'is'] },
     { word: 'dunno', out: ['do', 'not', 'know'] },
     { word: 'gonna', out: ['going', 'to'] },
     { word: 'gotta', out: ['have', 'got', 'to'] }, //hmm
     { word: 'gimme', out: ['give', 'me'] },
+    { word: 'outta', out: ['out', 'of'] },
     { word: 'tryna', out: ['trying', 'to'] },
     { word: 'gtg', out: ['got', 'to', 'go'] },
     { word: 'im', out: ['i', 'am'] },
@@ -1734,7 +1757,30 @@
     { before: 't', out: ['tu'] }, // t'aime
   ];
 
-  var model$7 = { one: { contractions: contractions$4 } };
+  // number suffixes that are not units
+  const t$1 = true;
+  var numberSuffixes = {
+    'st': t$1,
+    'nd': t$1,
+    'rd': t$1,
+    'th': t$1,
+    'am': t$1,
+    'pm': t$1,
+    'max': t$1,
+    '°': t$1,
+    's': t$1, // 1990s
+    'e': t$1, // 18e - french/spanish ordinal
+    'er': t$1, //french 1er
+    'ère': t$1, //''
+    'ème': t$1, //french 2ème
+  };
+
+  var model$7 = {
+    one: {
+      contractions: contractions$4,
+      numberSuffixes
+    }
+  };
 
   // put n new words where 1 word was
   const insertContraction = function (document, point, words) {
@@ -1903,27 +1949,15 @@
 
   const numUnit = /^([+-]?[0-9][.,0-9]*)([a-z°²³µ/]+)$/; //(must be lowercase)
 
-  const notUnit = new Set([
-    'st',
-    'nd',
-    'rd',
-    'th',
-    'am',
-    'pm',
-    'max',
-    '°',
-    's', // 1990s
-    'e' // 18e - french/spanish ordinal
-  ]);
-
-  const numberUnit = function (terms, i) {
+  const numberUnit = function (terms, i, world) {
+    const notUnit = world.model.one.numberSuffixes || {};
     let term = terms[i];
     let parts = term.text.match(numUnit);
     if (parts !== null) {
       // is it a recognized unit, like 'km'?
       let unit = parts[2].toLowerCase().trim();
       // don't split '3rd'
-      if (notUnit.has(unit)) {
+      if (notUnit.hasOwnProperty(unit)) {
         return null
       }
       return [parts[1], unit] //split it
@@ -1993,12 +2027,26 @@
     return doc.docs[0]
   };
 
+  // there's is usually [there, is]
+  // but can be 'there has' for 'there has (..) been'
+  const thereHas = function (terms, i) {
+    for (let k = i + 1; k < 5; k += 1) {
+      if (!terms[k]) {
+        break
+      }
+      if (terms[k].normal === 'been') {
+        return ['there', 'has']
+      }
+    }
+    return ['there', 'is']
+  };
+
   //really easy ones
   const contractions$2 = (view) => {
     let { world, document } = view;
     const { model, methods } = world;
     let list = model.one.contractions || [];
-    new Set(model.one.units || []);
+    // let units = new Set(model.one.units || [])
     // each sentence
     document.forEach((terms, n) => {
       // loop through terms backwards
@@ -2017,6 +2065,10 @@
         // ['j', 'aime']
         if (!words && byStart.hasOwnProperty(before)) {
           words = byStart[before](terms, i);
+        }
+        // 'there is' vs 'there has'
+        if (before === 'there' && after === 's') {
+          words = thereHas(terms, i);
         }
         // actually insert the new terms
         if (words) {
@@ -2041,7 +2093,7 @@
           continue
         }
         // split-apart '4km'
-        words = numberUnit$1(terms, i);
+        words = numberUnit$1(terms, i, world);
         if (words) {
           words = toDocs(words, view);
           splice(document, [n, i], words);
@@ -2076,6 +2128,8 @@
 
         // special case for phrasal-verbs - 2nd word is a #Particle
         if (tag && tag.length === 2 && (tag[0] === 'PhrasalVerb' || tag[1] === 'PhrasalVerb')) {
+          // guard against 'take walks in'
+          // if (terms[i + skip - 2] && terms[i + skip - 2].tags.has('Infinitive')) { }
           setTag([ts[1]], 'Particle', world, false, '1-phrasal-particle');
         }
         return true
@@ -2955,6 +3009,46 @@
         }
       }
 
+      //regex
+      if (start(w) === '/' && end(w) === '/') {
+        w = stripBoth(w);
+        if (opts.caseSensitive) {
+          obj.use = 'text';
+        }
+        obj.regex = new RegExp(w); //potential vuln - security/detect-non-literal-regexp
+        return obj
+      }
+
+      // support foo{1,9}
+      if (hasMinMax.test(w) === true) {
+        w = w.replace(hasMinMax, (_a, b, c) => {
+          if (c === undefined) {
+            // '{3}'	Exactly three times
+            obj.min = Number(b);
+            obj.max = Number(b);
+          } else {
+            c = c.replace(/, */, '');
+            if (b === undefined) {
+              // '{,9}' implied zero min
+              obj.min = 0;
+              obj.max = Number(c);
+            } else {
+              // '{2,4}' Two to four times
+              obj.min = Number(b);
+              // '{3,}' Three or more times
+              obj.max = Number(c || 999);
+            }
+          }
+          // use same method as '+'
+          obj.greedy = true;
+          // 0 as min means the same as '?'
+          if (!obj.min) {
+            obj.optional = true;
+          }
+          return ''
+        });
+      }
+
       //wrapped-flags
       if (start(w) === '(' && end(w) === ')') {
         // support (one && two)
@@ -2977,15 +3071,6 @@
           return str.split(/ /g).map(s => parseToken(s, opts))
         });
         w = '';
-      }
-      //regex
-      if (start(w) === '/' && end(w) === '/') {
-        w = stripBoth(w);
-        if (opts.caseSensitive) {
-          obj.use = 'text';
-        }
-        obj.regex = new RegExp(w); //potential vuln - security/detect-non-literal-regexp
-        return obj
       }
 
       //root/sense overloaded
@@ -3021,35 +3106,6 @@
         obj.switch = w;
         return obj
       }
-    }
-    // support foo{1,9}
-    if (hasMinMax.test(w) === true) {
-      w = w.replace(hasMinMax, (_a, b, c) => {
-        if (c === undefined) {
-          // '{3}'	Exactly three times
-          obj.min = Number(b);
-          obj.max = Number(b);
-        } else {
-          c = c.replace(/, */, '');
-          if (b === undefined) {
-            // '{,9}' implied zero min
-            obj.min = 0;
-            obj.max = Number(c);
-          } else {
-            // '{2,4}' Two to four times
-            obj.min = Number(b);
-            // '{3,}' Three or more times
-            obj.max = Number(c || 999);
-          }
-        }
-        // use same method as '+'
-        obj.greedy = true;
-        // 0 as min means the same as '?'
-        if (!obj.min) {
-          obj.optional = true;
-        }
-        return ''
-      });
     }
     //do the actual token content
     if (start(w) === '#') {
@@ -3118,9 +3174,6 @@
   const addVerbs = function (token, world) {
     let { all } = world.methods.two.transform.verb || {};
     let str = token.root;
-    // if (toInfinitive) {
-    //   str = toInfinitive(str, world.model)
-    // }
     if (!all) {
       return []
     }
@@ -6401,6 +6454,8 @@
   };
   var smartMerge$1 = smartMerge;
 
+  /* eslint-disable regexp/no-dupe-characters-character-class */
+
   // merge embedded quotes into 1 sentence
   // like - 'he said "no!" and left.' 
   const MAX_QUOTE = 280;// ¯\_(ツ)_/¯
@@ -6426,8 +6481,8 @@
     // '\u0060': '\u00B4', // 'PrimeSingleQuotes'
     '\u301F': '\u301E', // 'LowPrimeDoubleQuotesReversed'
   };
-  const openQuote = RegExp('(' + Object.keys(pairs).join('|') + ')', 'g');
-  const closeQuote = RegExp('(' + Object.values(pairs).join('|') + ')', 'g');
+  const openQuote = RegExp('[' + Object.keys(pairs).join('') + ']', 'g');
+  const closeQuote = RegExp('[' + Object.values(pairs).join('') + ']', 'g');
 
   const closesQuote = function (str) {
     if (!str) {
@@ -6637,7 +6692,29 @@
   const isBoundary = /^[!?.]+$/;
   const naiiveSplit = /(\S+)/;
 
-  let notWord = ['.', '?', '!', ':', ';', '-', '–', '—', '--', '...', '(', ')', '[', ']', '"', "'", '`', '«', '»', '*'];
+  let notWord = [
+    '.',
+    '?',
+    '!',
+    ':',
+    ';',
+    '-',
+    '–',
+    '—',
+    '--',
+    '...',
+    '(',
+    ')',
+    '[',
+    ']',
+    '"',
+    "'",
+    '`',
+    '«',
+    '»',
+    '*',
+    '•',
+  ];
   notWord = notWord.reduce((h, c) => {
     h[c] = true;
     return h
@@ -8275,6 +8352,14 @@
   const toSubjunctive1 = (str) => doEach(str, subjunctive1$1);
   const toSubjunctive2 = (str) => doEach(str, subjunctive2$1);
 
+  const toPresentParticiple = (str) => convert$1(str, presentParticiple$1.presentParticiple);
+  // const toPastParticiple = (str) => convert(str, pastParticiple.pastParticiple)
+  const toImperative = (str) => {
+    return {
+      secondSingular: convert$1(str, imperative$1.singular),
+      secondPlural: convert$1(str, imperative$1.plural),
+    }
+  };
 
   // an array of every inflection, for '{inf}' syntax
   const all = function (str) {
@@ -8289,15 +8374,6 @@
     ).filter(s => s);
     res = new Set(res);
     return Array.from(res)
-  };
-
-  const toPresentParticiple = (str) => convert$1(str, presentParticiple$1.presentParticiple);
-  // const toPastParticiple = (str) => convert(str, pastParticiple.pastParticiple)
-  const toImperative = (str) => {
-    return {
-      secondSingular: convert$1(str, imperative$1.singular),
-      secondPlural: convert$1(str, imperative$1.plural),
-    }
   };
 
   // console.log(toImperative('schwimmen'))
@@ -8357,9 +8433,9 @@
   let presentPartRev = reverse$1(presentParticiple.presentParticiple);
   // let pastPartRev = reverse(pastParticiple.pastParticiple)
 
-  const allForms = function (str, form, model) {
-    if (model.hasOwnProperty(form)) {
-      return convert$1(str, model[form])
+  const allForms = function (str, form, m) {
+    if (m.hasOwnProperty(form)) {
+      return convert$1(str, m[form])
     }
     return str
   };
@@ -8383,7 +8459,6 @@
   var model$2 = {
     'böse': [r, n, e, s],
     chener: ['erer', 'eren', 'ere', 'eres'],
-    'tgemäß': ['ester', 'esten', 'este', 'estes'],
     agisch: [r, n, e, s],
     ppisch: [r, n, e, s],
     ragend: [r, n, e, s],
@@ -8410,11 +8485,9 @@
     thisch: [r, n, e, s],
     iebend: [r, n, e, s],
     tional: [r, n, e, s],
-    erecht: ['ester', 'esten', 'este', 'estes'],
     regend: [r, n, e, s],
     erisch: [r, n, e, s],
     hener: ['erer', 'eren', 'ere', 'eres'],
-    'chämt': ['ester', 'esten', 'este', 'estes'],
     ocken: [r, n, e, s],
     iisch: [r, n, e, s],
     htern: [r, n, e, s],
@@ -8422,70 +8495,49 @@
     egial: [r, n, e, s],
     abend: [r, n, e, s],
     ifend: [r, n, e, s],
-    ittet: ['ester', 'esten', 'este', 'estes'],
     efend: [r, n, e, s],
     nitiv: [r, n, e, s],
     nnend: [r, n, e, s],
-    cheit: ['ester', 'esten', 'este', 'estes'],
     vativ: [r, n, e, s],
     erade: ['r', 'n', '', 's'],
     igend: [r, n, e, s],
     iden: [r, n, e, s],
     stiv: [r, n, e, s],
     mein: [r, n, e, s],
-    rdet: ['ester', 'esten', 'este', 'estes'],
     ubar: [r, n, e, s],
     ikal: [r, n, e, s],
     zend: [r, n, e, s],
     rade: ['r', 'n', '', 's'],
     gnet: [r, n, e, s],
     tral: [r, n, e, s],
-    iebt: ['ester', 'esten', 'este', 'estes'],
     fbar: [r, n, e, s],
     rmal: [r, n, e, s],
     eden: [r, n, e, s],
     hren: [r, n, e, s],
     'ßbar': [r, n, e, s],
-    scht: ['ester', 'esten', 'este', 'estes'],
     zbar: [r, n, e, s],
-    lank: ['ester', 'esten', 'este', 'estes'],
     chen: [r, n, e, s],
     ogen: [r, n, e, s],
     nbar: [r, n, e, s],
     egen: [r, n, e, s],
     rsch: [r, n, e, s],
-    icht: ['ester', 'esten', 'este', 'estes'],
     tbar: [r, n, e, s],
     rbar: [r, n, e, s],
     ktiv: [r, n, e, s],
     'öse': [r, n, e, s],
-    ond: ['ester', 'esten', 'este', 'estes'],
     eal: [r, n, e, s],
     ade: ['r', 'n', '', 's'],
-    'ümt': ['ester', 'esten', 'este', 'estes'],
-    oid: ['ester', 'esten', 'este', 'estes'],
-    agt: ['ester', 'esten', 'este', 'estes'],
-    aut: ['ester', 'esten', 'este', 'estes'],
-    und: ['ester', 'esten', 'este', 'estes'],
     men: [r, n, e, s],
-    llt: ['ester', 'esten', 'este', 'estes'],
     ten: [r, n, e, s],
     sen: [r, n, e, s],
     siv: [r, n, e, s],
     ich: [r, n, e, s],
     'üm': [r, n, e, s],
-    lz: ['ester', 'esten', 'este', 'estes'],
     'än': [r, n, e, s],
     xy: [r, n, e, s],
     'ül': [r, n, e, s],
-    xt: ['ester', 'esten', 'este', 'estes'],
     uh: [r, n, e, s],
-    mp: ['ester', 'esten', 'este', 'estes'],
     be: [r, n, e, s],
-    ax: ['ester', 'esten', 'este', 'estes'],
-    'üh': ['ester', 'esten', 'este', 'estes'],
-    ix: ['ester', 'esten', 'este', 'estes'],
-    ad: ['ester', 'esten', 'este', 'estes'],
     pf: [r, n, e, s],
     of: [r, n, e, s],
     ic: [r, n, e, s],
@@ -8493,58 +8545,34 @@
     om: [r, n, e, s],
     ik: [r, n, e, s],
     ym: [r, n, e, s],
-    rd: ['ester', 'esten', 'este', 'estes'],
-    ct: ['ester', 'esten', 'este', 'estes'],
     ff: [r, n, e, s],
-    ur: ['ester', 'esten', 'este', 'estes'],
-    ox: ['ester', 'esten', 'este', 'estes'],
     'üb': [r, n, e, s],
     hn: [r, n, e, s],
-    ss: ['ester', 'esten', 'este', 'estes'],
-    rs: ['ester', 'esten', 'este', 'estes'],
-    ex: ['ester', 'esten', 'este', 'estes'],
     pp: [r, n, e, s],
-    es: ['ester', 'esten', 'este', 'estes'],
     ir: [r, n, e, s],
-    us: ['ester', 'esten', 'este', 'estes'],
     av: [r, n, e, s],
-    'öd': ['ester', 'esten', 'este', 'estes'],
-    ld: ['ester', 'esten', 'este', 'estes'],
-    is: ['ester', 'esten', 'este', 'estes'],
     im: [r, n, e, s],
     rb: [r, n, e, s],
     ge: [r, n, e, s],
     ul: [r, n, e, s],
     rr: [r, n, e, s],
     em: [r, n, e, s],
-    oh: ['ester', 'esten', 'este', 'estes'],
     ck: [r, n, e, s],
     'ön': [r, n, e, s],
     hm: [r, n, e, s],
     te: ['r', 'n', '', 's'],
     hl: [r, n, e, s],
-    pt: ['ester', 'esten', 'este', 'estes'],
     mm: [r, n, e, s],
     au: [r, n, e, s],
-    at: ['ester', 'esten', 'este', 'estes'],
     if: [r, n, e, s],
-    tt: ['ester', 'esten', 'este', 'estes'],
     eu: [r, n, e, s],
     de: [r, n, e, s],
-    'ßt': ['ester', 'esten', 'este', 'estes'],
     il: [r, n, e, s],
     se: ['r', 'n', '', 's'],
-    kt: ['ester', 'esten', 'este', 'estes'],
-    'ös': ['ester', 'esten', 'este', 'estes'],
     'är': [r, n, e, s],
-    st: ['ester', 'esten', 'este', 'estes'],
     am: [r, n, e, s],
     er: [r, n, e, s],
-    nt: ['ester', 'esten', 'este', 'estes'],
-    rt: ['ester', 'esten', 'este', 'estes'],
-    ft: ['ester', 'esten', 'este', 'estes'],
     ll: [r, n, e, s],
-    os: ['ester', 'esten', 'este', 'estes'],
     ig: [r, n, e, s]
   };
 
@@ -8593,7 +8621,7 @@
     'e',
   ];
 
-  const toRoot$1 = function (str) {
+  const toRoot = function (str) {
     if (abel.test(str)) {
       return str.replace(abel, 'abel')
     }
@@ -8617,8 +8645,10 @@
     }
     return str
   };
-  var adjToRoot = toRoot$1;
+  var adjToRoot = toRoot;
   // console.log(toRoot('saurerer'))
+
+  // import models from './new.js'
 
   let rules = [
     ['ein', ''],
@@ -8656,12 +8686,12 @@
     }
     return str + 'n'
   };
-  const inflect = function (str) {
+  const toPlural = function (str) {
     return {
       one: firstForm(str)
     }
   };
-  var inflectNoun = inflect;
+  var inflectNoun = toPlural;
 
   // console.log(inflect('abdruckende').one === 'abdruckenden')
 
@@ -8688,7 +8718,7 @@
     's',
   ];
 
-  const toRoot = function (str) {
+  const toSingular = function (str) {
     for (let i = 0; i < leave.length; i += 1) {
       if (str.endsWith(leave[i])) {
         return str
@@ -8702,7 +8732,7 @@
     }
     return str
   };
-  var nounToRoot = toRoot;
+  var toSingular$1 = toSingular;
   // console.log(toRoot('Gasen'))
 
   const allAdj = (inf) => Object.values(inflectAdj$1(inf));
@@ -8718,7 +8748,7 @@
       inflect: inflectAdj$1, toRoot: adjToRoot, all: allAdj
     },
     noun: {
-      inflect: inflectNoun, toRoot: nounToRoot, all: allNoun
+      toPlural: inflectNoun, toSingular: toSingular$1, all: allNoun
     }
   };
 
@@ -9026,7 +9056,7 @@
           term.root = adjective.toRoot(str);
         }
         if (term.tags.has('Noun')) {
-          term.root = noun.toRoot(str);
+          term.root = noun.toSingular(str);
         }
 
       });
@@ -9625,7 +9655,7 @@
   };
 
   const splitter$1 = function (view) {
-    let { nouns, verbs, values, adjectives } = view.model.one.splitter;
+    let { nouns, values } = view.model.one.splitter;
     view.docs.forEach(terms => {
       terms.forEach(term => {
         // split numbers
@@ -9647,7 +9677,7 @@
 
   const buildIndex = function (world) {
     let words = Object.entries(world.model.one.lexicon);
-    let { nouns, verbs, values, adjectives } = world.model.one.splitter;
+    let { nouns, values } = world.model.one.splitter;
     words.forEach(a => {
       let [w, tag] = a;
       if (tag === 'TextOrdinal' || tag === 'TextCardinal') {
@@ -9673,7 +9703,7 @@
 
   const hasApostrophe = /['‘’‛‵′`´]/;
   const hasPeriod = /\./;
-  const isNum = /^[0-9+-,]+$/;
+  const isNum = /^[0-9+\-,]+$/;
 
   // normal regexes
   const doRegs = function (str, regs) {
@@ -9716,7 +9746,7 @@
   var checkRegex$1 = checkRegex;
 
   const isTitleCase$1 = function (str) {
-    return /^[A-ZÄÖÜ][a-zäöü'\u00C0-\u00FF]/.test(str) || /^[A-ZÄÖÜ]$/.test(str)
+    return /^[A-ZÄÖÜ][a-z'\u00C0-\u00FF]/.test(str) || /^[A-ZÄÖÜ]$/.test(str)
   };
 
   // add a noun to any non-0 index titlecased word, with no existing tag
@@ -9876,7 +9906,7 @@
   var acronym = isAcronym;
 
   const isTitleCase = function (str) {
-    return /^[A-ZÄÖÜ][a-zäöü'\u00C0-\u00FF]/.test(str) || /^[A-ZÄÖÜ]$/.test(str)
+    return /^[A-ZÄÖÜ][a-z'\u00C0-\u00FF]/.test(str) || /^[A-ZÄÖÜ]$/.test(str)
   };
 
   const hasNoVerb = function (terms) {
@@ -9890,7 +9920,8 @@
 
       // is it first-word titlecase?
       if (i === 0 && isTitleCase(term.text)) {
-        return setTag([term], 'Noun', world, false, `1-titlecase`)// Noun still the safest bet?
+        setTag([term], 'Noun', world, false, `1-titlecase`);// Noun still the safest bet?
+        return
       }
 
       let tag = 'Adjective';
@@ -10042,7 +10073,7 @@
   var regexNumbers = [
 
     [/^@1?[0-9](am|pm)$/i, 'Time', '3pm'],
-    [/^[0-9]{2}[:\.][0-9]{2}(am|pm)?$/i, 'Time', '13.30pm'],
+    [/^[0-9]{2}[:.][0-9]{2}(am|pm)?$/i, 'Time', '13.30pm'],
     [/^'[0-9]{2}$/, 'Year'],
     // times
     [/^[012]?[0-9](:[0-5][0-9])(:[0-5][0-9])$/, 'Time', '3:12:31'],
@@ -10102,7 +10133,7 @@
 
   var regexText = [
     // #coolguy
-    [/^#[a-zäöü0-9_\u00C0-\u00FF]{2,}$/i, 'HashTag'],
+    [/^#[a-z0-9_\u00C0-\u00FF]{2,}$/i, 'HashTag'],
 
     // @spencermountain
     [/^@\w{2,}$/, 'AtMention'],
@@ -10218,7 +10249,7 @@
       fünf: card,
       acht: card,
       neun: card,
-      zehn: card,
+      // zehn: card,
       // lten: vb,
       // ssen: vb
     },
@@ -10976,7 +11007,7 @@
   const getNth$2 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
 
   // get root form of adjective
-  const getRoot$2 = function (m, methods) {
+  const getRoot$2 = function (m) {
     let r = m.not('(#Adverb|#Auxiliary|#Modal)');
     r = r.eq(0).compute('root');
     return r.text('root')
@@ -11022,7 +11053,7 @@
   const getNth$1 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
 
   // get root form of adjective
-  const getRoot$1 = function (m, methods) {
+  const getRoot$1 = function (m) {
     m = m.eq(0).compute('root');
     return m.text('root')
   };
@@ -11061,7 +11092,7 @@
   const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
 
   // get root form of noun
-  const getRoot = function (m, methods) {
+  const getRoot = function (m) {
     m = m.eq(0).compute('root');
     return m.text('root')
   };
@@ -11084,6 +11115,29 @@
           }
         }, [])
       }
+
+      isPlural(n) {
+        return getNth(this, n).if('#Plural')
+      }
+      toPlural(n) {
+        const methods = this.methods.two.transform.noun;
+        return getNth(this, n).if('#Singular').map(m => {
+          let str = getRoot(m);
+          let plural = methods.toPlural(str);
+          return m.replaceWith(plural)
+        })
+      }
+      toSingular(n) {
+        const methods = this.methods.two.transform.noun;
+        return getNth(this, n).map(m => {
+          if (m.has('#Plural')) {
+            return m
+          }
+          let str = getRoot(m);
+          let singular = methods.toSingular(str);
+          return m.replaceWith(singular)
+        })
+      }
     }
 
     View.prototype.nouns = function (n) {
@@ -11098,7 +11152,7 @@
     api: api$1,
   };
 
-  var version = '0.0.10';
+  var version = '0.0.11';
 
   nlp$1.plugin(tokenizer);
   nlp$1.plugin(tagset);

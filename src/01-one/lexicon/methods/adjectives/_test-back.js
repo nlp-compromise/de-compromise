@@ -1,8 +1,9 @@
+/* eslint-disable no-console, no-unused-vars */
 import toRoot from './toRoot.js'
 import model from '/Users/spencer/mountain/de-compromise/data/models/adjectives/adjectives.js'
 
-let all = []
-let suff = ''
+// let all = []
+// let suff = ''
 
 
 const percent = (part, total) => {

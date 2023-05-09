@@ -19,9 +19,9 @@ let impRev = revAll(imperative)
 let presentPartRev = reverse(presentParticiple.presentParticiple)
 // let pastPartRev = reverse(pastParticiple.pastParticiple)
 
-const allForms = function (str, form, model) {
-  if (model.hasOwnProperty(form)) {
-    return convert(str, model[form])
+const allForms = function (str, form, m) {
+  if (m.hasOwnProperty(form)) {
+    return convert(str, m[form])
   }
   return str
 }

@@ -1,6 +1,6 @@
 import test from 'tape'
-import nlp from './_lib.js'
-let here = '[de-adj] '
+// import nlp from './_lib.js'
+// let here = '[de-adj] '
 
 test('adj-inflection:', function (t) {
   // let doc = nlp('konkretes')

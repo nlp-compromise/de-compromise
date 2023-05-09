@@ -1,5 +1,5 @@
 const isTitleCase = function (str) {
-  return /^[A-ZÄÖÜ][a-zäöü'\u00C0-\u00FF]/.test(str) || /^[A-ZÄÖÜ]$/.test(str)
+  return /^[A-ZÄÖÜ][a-z'\u00C0-\u00FF]/.test(str) || /^[A-ZÄÖÜ]$/.test(str)
 }
 
 const hasNoVerb = function (terms) {
@@ -13,7 +13,8 @@ const fallback = function (terms, i, world) {
 
     // is it first-word titlecase?
     if (i === 0 && isTitleCase(term.text)) {
-      return setTag([term], 'Noun', world, false, `1-titlecase`)// Noun still the safest bet?
+      setTag([term], 'Noun', world, false, `1-titlecase`)// Noun still the safest bet?
+      return
     }
 
     let tag = 'Adjective'

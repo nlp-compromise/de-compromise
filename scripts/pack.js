@@ -13,7 +13,7 @@ const steps = [
     path: './src/01-one/lexicon/_data.js',
     compress: function () {
       let packed = {}
-      //turn them into a series of flat-arrays
+      // turn them into a series of flat-arrays
       Object.keys(lexicon).forEach(word => {
         let tags = lexicon[word]
         if (typeof tags === 'string') {

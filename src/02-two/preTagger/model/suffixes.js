@@ -98,7 +98,7 @@ export default [
     fünf: card,
     acht: card,
     neun: card,
-    zehn: card,
+    // zehn: card,
     // lten: vb,
     // ssen: vb
   },
