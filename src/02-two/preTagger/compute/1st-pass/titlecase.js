@@ -1,5 +1,5 @@
 const isTitleCase = function (str) {
-  return /^[A-ZÄÖÜ][a-zäöü'\u00C0-\u00FF]/.test(str) || /^[A-ZÄÖÜ]$/.test(str)
+  return /^[A-ZÄÖÜ][a-z'\u00C0-\u00FF]/.test(str) || /^[A-ZÄÖÜ]$/.test(str)
 }
 
 // add a noun to any non-0 index titlecased word, with no existing tag

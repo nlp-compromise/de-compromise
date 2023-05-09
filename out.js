@@ -1056,4 +1056,5 @@ export default {
   "provinziell": ["provinziellen", "provinzielle", "provinzielle"],
   "utopisch": ["utopisch", "utopische", "utopisches"],
   "elastisch": ["elastischem", "elastischer", "elastischem", "elastischen"],
-  "zollfrei": ["zollfrei", "zollfreie", "zollfreies",  }}
+  // "zollfrei": ["zollfrei", "zollfreie", "zollfreies",
+}

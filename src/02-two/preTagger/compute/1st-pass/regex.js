@@ -1,6 +1,6 @@
 const hasApostrophe = /['‘’‛‵′`´]/
 const hasPeriod = /\./
-const isNum = /^[0-9+-,]+$/
+const isNum = /^[0-9+\-,]+$/
 
 // normal regexes
 const doRegs = function (str, regs) {

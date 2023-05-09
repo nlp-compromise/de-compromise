@@ -1,6 +1,6 @@
 export default [
   // #coolguy
-  [/^#[a-zäöü0-9_\u00C0-\u00FF]{2,}$/i, 'HashTag'],
+  [/^#[a-z0-9_\u00C0-\u00FF]{2,}$/i, 'HashTag'],
 
   // @spencermountain
   [/^@\w{2,}$/, 'AtMention'],

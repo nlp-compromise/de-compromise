@@ -1,3 +1,5 @@
+// import models from './new.js'
+
 let rules = [
   ['ein', ''],
   ['cht', 'e'],

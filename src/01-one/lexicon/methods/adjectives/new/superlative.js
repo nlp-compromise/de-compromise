@@ -1,3 +1,4 @@
+/* eslint-disable no-console, no-unused-vars */
 let models = [
   {
     fallback: 'ster',

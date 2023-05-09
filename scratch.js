@@ -1,3 +1,4 @@
+/* eslint-disable no-console, no-unused-vars */
 import nlp from './src/index.js'
 // nlp.verbose('tagger')
 
@@ -38,17 +39,19 @@ let arr = [
   // '[Mach] [dir] keine [Sorgen] ',//do not worry
 ]
 
+
+
 // skandalösen
 
 let doc = nlp(arr[0]).debug()//.tag('Noun')
 // doc.match('{hochzeit}').debug()
 // console.log(nlp.world().methods.two.transform.adjective.all)
-console.log(doc.adjectives().conjugate())
+// console.log(doc.adjectives().conjugate())
 // doc.compute('root')
 // console.log(doc.text('root'))
 // let net = nlp.buildNet([{ match: '{hochzeit}' }])
 // doc.match(net)
-// console.log(nlp.parseMatch('{skandalös}')[0])
+console.log(nlp.parseMatch('{elternteil/Noun}')[0])
 
 
 

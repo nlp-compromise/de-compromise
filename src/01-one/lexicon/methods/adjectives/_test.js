@@ -1,3 +1,4 @@
+/* eslint-disable no-console, no-unused-vars */
 import model from '/Users/spencer/mountain/de-compromise/data/models/adjectives/adjectives.js'
 import convert from './inflect.js'
 
@@ -11,15 +12,15 @@ const percent = (part, total) => {
   return num;
 };
 
-const topk = function (arr) {
-  let obj = {}
-  arr.forEach(a => {
-    obj[a] = obj[a] || 0
-    obj[a] += 1
-  })
-  let res = Object.keys(obj).map(k => [k, obj[k]])
-  return res.sort((a, b) => (a[1] > b[1] ? -1 : 0))
-}
+// const topk = function (arr) {
+//   let obj = {}
+//   arr.forEach(a => {
+//     obj[a] = obj[a] || 0
+//     obj[a] += 1
+//   })
+//   let res = Object.keys(obj).map(k => [k, obj[k]])
+//   return res.sort((a, b) => (a[1] > b[1] ? -1 : 0))
+// }
 
 
 
