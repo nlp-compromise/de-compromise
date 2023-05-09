@@ -1,3 +1,7 @@
+### 0.0.11 [May 2023]
+- **[fix]** - linting
+- **[update]** - deps
+
 ### 0.0.9 [Mar 2023]
 - **[new]** - adjective + noun inflections
 - **[change]** - tagger fixes

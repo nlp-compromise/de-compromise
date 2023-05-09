@@ -22,7 +22,7 @@
   },
   "scripts": {
     "test": "tape \"./tests/**/*.test.js\" | tap-dancer",
-    "testb": "TESTENV=prod npm run test",
+    "testb": "npm run test && TESTENV=prod npm run test",
     "build": "npm run version && rollup -c --silent",
     "version": "node ./scripts/version.js",
     "pack": "node ./scripts/pack.js",
