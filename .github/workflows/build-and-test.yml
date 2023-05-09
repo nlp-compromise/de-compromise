@@ -43,5 +43,5 @@ jobs:
       - name: test
         run: |
           npm run test
-          set NODE_ENV=production
+          set TESTENV=production
           npm run test
