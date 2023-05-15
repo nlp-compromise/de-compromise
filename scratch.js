@@ -41,11 +41,19 @@ let arr = [
 ]
 
 
+let str = "er Hochzeitsfragen ausgewichen war"
+// let str = "Die Top 10 der günstigen Hochzeitseinladungen in Toronto"
+// let str = "des Wunders des Hochzeitsfestes Jesu"
+// let str = "für die Hochzeitsfeier von Königin"
+let doc = nlp.tokenize(str).compute('root')
+// let match = nlp.parseMatch('{werkstätten}')
+// doc.match(match).debug()
+console.log(doc.has('{hochzeit}'))
 
 // skandalösen
 
-let doc = nlp(arr[0]).debug()//.tag('Noun')
-console.log(doc.nouns().toSingular().text())
+// let doc = nlp(arr[0]).debug()//.tag('Noun')
+// console.log(doc.nouns().toSingular().text())
 // doc.match('{hochzeit}').debug()
 // console.log(nlp.world().methods.two.transform.adjective.all)
 // console.log(doc.adjectives().conjugate())
