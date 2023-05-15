@@ -40,9 +40,9 @@ const splitter = function (view) {
         term.splits = findSplits(term.normal, values)
       }
       // split nouns
-      if (term.tags.has('Noun')) {
-        term.splits = findSplits(term.normal, nouns)
-      }
+      // if (term.tags.has('Noun')) {
+      term.splits = findSplits(term.normal, nouns)
+      // }
       // split adjectives
       // if (term.tags.has('Adjective')) {
       //   term.byChar = findbyChar(term, adjectives)
