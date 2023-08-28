@@ -8,7 +8,8 @@ const findSplits = function (str, root) {
   let found = []
   while (str.length > 0) {
     let match = findMatch(str, root)
-    if (!match) {//we done
+    if (!match) {
+      //we done
       // allow a connector - [foo, en, bar]
       if (found.length > 0 && hasLink.test(str)) {
         let tmp = str.replace(hasLink, '')
@@ -33,15 +34,15 @@ const findSplits = function (str, root) {
 
 const splitter = function (view) {
   let { nouns, values } = view.model.one.splitter
-  view.docs.forEach(terms => {
-    terms.forEach(term => {
+  view.docs.forEach((terms) => {
+    terms.forEach((term) => {
       // split numbers
       if (term.tags.has('Value')) {
         term.splits = findSplits(term.normal, values)
       }
       // split nouns
       // if (term.tags.has('Noun')) {
-      term.splits = findSplits(term.normal, nouns)
+      // term.splits = findSplits(term.normal, nouns)
       // }
       // split adjectives
       // if (term.tags.has('Adjective')) {

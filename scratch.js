@@ -17,8 +17,6 @@ import nlp from './src/index.js'
 
 // let doc = nlp('kultureller').debug()
 
-console.log(nlp.parseMatch('{erdnuss/noun}'))
-
 let arr = [
   'Ich habe drei Bücher gelesen',
   'skandalös',
@@ -61,4 +59,9 @@ let str = 'er Hochzeitsfragen ausgewichen war'
 // console.log(doc.text('root'))
 // let net = nlp.buildNet([{ match: '{hochzeit}' }])
 // doc.match(net)
-// console.log(nlp.parseMatch('{elternteil/Noun}')[0])
+// console.log(nlp.parseMatch('{subtil}')[0])
+
+// console.log(nlp('subtil').adjectives().conjugate())
+
+let doc = nlp('zweitausend') //.compute('splitter')
+console.log(doc.numbers().get())

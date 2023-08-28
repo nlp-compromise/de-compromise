@@ -15,7 +15,7 @@ const parseNumbers = function (terms = []) {
       minus = true
       continue
     }
-    // ...  [ein][und][zwanzig]   
+    // ...  [ein][und][zwanzig]
     if (w === 'und') {
       continue
     }
@@ -38,7 +38,6 @@ const parseNumbers = function (terms = []) {
       carry += toNumber[w]
       // console.log(w, carry)
     }
-
   }
   // include any remaining
   if (carry !== 0) {

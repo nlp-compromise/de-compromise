@@ -34,7 +34,8 @@
     "score": " node ./learn/test/index.js",
     "lint": "eslint ./src/**/*",
     "watch": "amble ./scratch.js",
-    "stress": "node scripts/stress.js"
+    "stress": "node scripts/stress.js",
+    "match": "node scripts/match.js"
   },
   "dependencies": {
     "compromise": "14.10.0",
