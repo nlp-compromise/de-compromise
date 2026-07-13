@@ -553,7 +553,7 @@ export default {
   ],
   "bepissen": [
     "bepisse",
-    "bepißt"
+    "bepisst"
   ],
   "beraten": [
     "berate",
@@ -2183,53 +2183,53 @@ export default {
     "missverstehe",
     "missversteht"
   ],
-  "mißachten": [
-    "mißachte",
-    "mißachtet"
+  "missachten": [
+    "missachte",
+    "missachtet"
   ],
-  "mißbilden": [
-    "mißbilde",
-    "mißbildet"
+  "missbilden": [
+    "missbilde",
+    "missbildet"
   ],
-  "mißbilligen": [
-    "mißbillige",
-    "mißbilligt"
+  "missbilligen": [
+    "missbillige",
+    "missbilligt"
   ],
-  "mißbrauchen": [
-    "mißbrauche",
-    "mißbraucht"
+  "missbrauchen": [
+    "missbrauche",
+    "missbraucht"
   ],
-  "mißfallen": [
-    "mißgefallen",
-    "mißfallt"
+  "missfallen": [
+    "missgefallen",
+    "missfallt"
   ],
-  "mißglücken": [
-    "mißglücke",
-    "mißglückt"
+  "missglücken": [
+    "missglücke",
+    "missglückt"
   ],
-  "mißhandeln": [
-    "mißhandle",
-    "mißhandelt"
+  "misshandeln": [
+    "misshandle",
+    "misshandelt"
   ],
-  "mißinterpretieren": [
-    "mißinterpretiere",
-    "mißinterpretiert"
+  "missinterpretieren": [
+    "missinterpretiere",
+    "missinterpretiert"
   ],
-  "mißraten": [
-    "mißrate",
-    "mißratet"
+  "missraten": [
+    "missrate",
+    "missratet"
   ],
-  "mißtrauen": [
-    "mißtraue",
-    "mißtraut"
+  "misstrauen": [
+    "misstraue",
+    "misstraut"
   ],
-  "mißverstehen": [
-    "mißverstehe",
-    "mißversteht"
+  "missverstehen": [
+    "missverstehe",
+    "missversteht"
   ],
-  "mißwirtschaften": [
-    "mißwirtschafte",
-    "mißwirtschaftet"
+  "misswirtschaften": [
+    "misswirtschafte",
+    "misswirtschaftet"
   ],
   "rad fahren": [
     "fahre",
@@ -2992,7 +2992,7 @@ export default {
     "vermerkt"
   ],
   "vermessen": [
-    "vermiß",
+    "vermiss",
     "vermeßt"
   ],
   "vermiefen": [
@@ -3109,7 +3109,7 @@ export default {
   ],
   "verpissen": [
     "verpisse",
-    "verpißt"
+    "verpisst"
   ],
   "verplanen": [
     "verplane",
@@ -3936,7 +3936,7 @@ export default {
     "zerfranst"
   ],
   "zerfressen": [
-    "zerfriß",
+    "zerfriss",
     "zerfreßt"
   ],
   "zergliedern": [
@@ -4833,7 +4833,7 @@ export default {
   ],
   "beeinflussen": [
     "beeinflusse",
-    "beeinflußt"
+    "beeinflusst"
   ],
   "beeinträchtigen": [
     "beeinträchtige",
@@ -5405,7 +5405,7 @@ export default {
   ],
   "bezuschussen": [
     "bezuschusse",
-    "bezuschußt"
+    "bezuschusst"
   ],
   "bezwecken": [
     "bezwecke",
@@ -9792,8 +9792,8 @@ export default {
     "mischt"
   ],
   "missen": [
-    "miß",
-    "mißt"
+    "miss",
+    "misst"
   ],
   "misten": [
     "miste",
@@ -10317,7 +10317,7 @@ export default {
   ],
   "pissen": [
     "pisse",
-    "pißt"
+    "pisst"
   ],
   "plagen": [
     "plage",
@@ -13409,7 +13409,7 @@ export default {
   ],
   "wissen": [
     "wisse",
-    "wißt"
+    "wisst"
   ],
   "wählen": [
     "wähle",
@@ -14751,9 +14751,9 @@ export default {
     "mitdenke",
     "mitdenkt"
   ],
-  "mißlingen": [
-    "mißlinge",
-    "mißlingt"
+  "misslingen": [
+    "misslinge",
+    "misslingt"
   ],
   "mobilisieren": [
     "mobilisiere",
@@ -16596,7 +16596,7 @@ export default {
     "verfrüht"
   ],
   "vergessen": [
-    "vergiß",
+    "vergiss",
     "vergeßt"
   ],
   "vergegenwärtigen": [
@@ -16868,8 +16868,8 @@ export default {
     "vermint"
   ],
   "vermissen": [
-    "vermiß",
-    "vermißt"
+    "vermiss",
+    "vermisst"
   ],
   "vermummen": [
     "vermumme",
@@ -17588,7 +17588,7 @@ export default {
     "überfragt"
   ],
   "überfressen": [
-    "überfriß",
+    "überfriss",
     "überfreßt"
   ],
   "überfremden": [

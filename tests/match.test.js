@@ -30,9 +30,9 @@ test('match:', function (t) {
     ['Wir spielen ohne dich.', '#Pronoun #Verb #Preposition #Noun'],// “We are playing without you.”
     ['Wir laufen um das Haus.', '#Pronoun #Verb #Preposition #Determiner #Noun'],// “We run around the house.”
 
-    ["Ich wohne bei meinem Freund.", '#Pronoun #Verb #Preposition #Pronoun #Noun'],//“I live with my boyfriend.”
+    ["Ich wohne bei meinem Freund.", '#Pronoun #Verb #Preposition #Determiner #Noun'],//“I live with my boyfriend.”
     ["Nach dem Unterricht treffen wir.", '#Preposition #Determiner #Noun #Verb #Pronoun'],//“We’re meeting after (the) class.”
-    ["Ich habe es von meinem Bruder gehört.", '#Pronoun #Verb #Pronoun #Preposition #Pronoun #Noun #Verb'],//“I heard it from my brother.”
+    ["Ich habe es von meinem Bruder gehört.", '#Pronoun #Verb #Pronoun #Preposition #Determiner #Noun #Verb'],//“I heard it from my brother.”
     ["Wir gehen zum Festival.", '#Pronoun #Verb #Preposition #Determiner #Noun'],//“We’re going to the festival.”
     ["Alle außer ihm gab mir ein Geschenk.", '#Noun . #Pronoun #Verb #Pronoun #Determiner #Noun'],//“Everyone but him gave me a gift.”
     ['einen Sünder', '#Determiner #Noun'],
@@ -45,7 +45,7 @@ test('match:', function (t) {
     [`Die Löhne der Technikfreaks`, '#Determiner #Noun . #Noun'],//the wages of the techies
     [`in der linken [Kralle]`, '#Preposition #Determiner #Adjective #Noun'],//in the left claw
     [`Das [ferne] [Stöhnen]`, '#Determiner #Adjective #Noun'],//the distant moan
-    [`meine Erfahrung mit [eritreischem] [äthiopischem] [Essen]`, '#Pronoun #Noun #Preposition #Adjective #Adjective #Noun'],//my experience with [Eritrean] [Ethiopian] [food]
+    [`meine Erfahrung mit [eritreischem] [äthiopischem] [Essen]`, '#Determiner #Noun #Preposition #Adjective #Adjective #Noun'],//my experience with [Eritrean] [Ethiopian] [food]
     ['Das [Böse] ist real und es [muss] bekämpft werden', '#Determiner #Noun #Verb #Adjective #Conjunction #Pronoun #Modal #Verb+'],//The [evil] is real and it [must] be fought
     ['der [Unterschied] zwischen', '#Determiner #Noun #Preposition'],//the difference between
     ['ich [muss] hinzufügen', '#Pronoun #Modal #Verb'],//i must add 

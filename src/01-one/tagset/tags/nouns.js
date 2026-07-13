@@ -97,9 +97,9 @@ export default {
     also: ['ProperNoun'],
     not: entity,
   },
-  Possessive: {
-    is: 'Noun',
-  },
+  // standalone — 'meinem' is #Possessive as both a determiner ('meinem Freund')
+  // and a pronoun ('das ist meins')
+  Possessive: {},
   // german genders
   MaleNoun: {
     is: 'Noun',

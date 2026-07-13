@@ -16,19 +16,35 @@ const tagMap = {
   thirdPlural: 'ThirdPersonPlural',
 }
 
+// a generated form may upgrade a bare 'Verb' entry to something richer,
+// but never overwrites a more-specific word
+const canEnrich = (lex, w) => !lex[w] || lex[w] === 'Verb'
+
 const addWords = function (obj, tag, lex) {
   Object.keys(obj).forEach(k => {
     let w = obj[k]
-    if (!lex[w] && tagMap[k]) {
+    if (canEnrich(lex, w) && tagMap[k]) {
       lex[w] = [tag, tagMap[k]]
     }
   })
 }
 
+// 1st pass - add all words directly from the lexicon
+let unpacked = {}
 Object.keys(lexData).forEach(tag => {
   let wordsObj = unpack(lexData[tag])
-  Object.keys(wordsObj).forEach(w => {
+  unpacked[tag] = Object.keys(wordsObj)
+  unpacked[tag].forEach(w => {
     lexicon[w] = lexicon[w] || tag
+    if (tag === 'Possessive') {
+      lexicon[w] = ['Pronoun', 'Possessive']
+    }
+  })
+})
+
+// 2nd pass - generate inflections; never overwrite a real word
+Object.keys(unpacked).forEach(tag => {
+  unpacked[tag].forEach(w => {
 
     // add conjugations for our verbs
     if (tag === 'Infinitive') {
@@ -37,9 +53,13 @@ Object.keys(lexData).forEach(tag => {
       addWords(obj, 'PresentTense', lexicon)
       // participles
       let str = toPresentParticiple(w)
-      lexicon[str] = lexicon[str] || ['Participle', 'PresentTense']
+      if (canEnrich(lexicon, str)) {
+        lexicon[str] = ['Participle', 'PresentTense']
+      }
       str = toPastParticiple(w)
-      lexicon[str] = lexicon[str] || ['Participle', 'PastTense']
+      if (canEnrich(lexicon, str)) {
+        lexicon[str] = ['Participle', 'PastTense']
+      }
       // add past tense
       obj = toPast(w)
       addWords(obj, 'PastTense', lexicon)
@@ -57,12 +77,17 @@ Object.keys(lexData).forEach(tag => {
       let obj = inflectAdj(w)
       addWords(obj, 'Adjective', lexicon)
     }
-    if (tag === 'Noun') {
-      let obj = inflectNoun(w)
-      addWords(obj, 'Noun', lexicon)
-    }
-    if (tag === 'Possessive') {
-      lexicon[w] = ['Pronoun', 'Possessive']
+    // add plural forms for our nouns
+    if (tag === 'Noun' || tag === 'MaleNoun' || tag === 'FemaleNoun' || tag === 'NeuterNoun') {
+      let plural = inflectNoun(w).one
+      if (plural && plural !== w) {
+        if (!lexicon[plural]) {
+          lexicon[plural] = 'Plural'
+        } else if (typeof lexicon[plural] === 'string' && /Noun$/.test(lexicon[plural])) {
+          // 'kinder' is hand-listed as a noun - mark it plural too
+          lexicon[plural] = [lexicon[plural], 'Plural']
+        }
+      }
     }
   })
 })

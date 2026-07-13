@@ -51,10 +51,14 @@ const steps = [
       let presentParticiple = learn(models.presentParticiple)
       presentParticiple = compress(presentParticiple)
       packed.presentParticiple = { presentParticiple }
-      // console.log('past-participle')
-      // let pastParticiple = learn(models.pastParticiple)
-      // pastParticiple = compress(pastParticiple)
-      // packed.pastParticiple = { pastParticiple }
+      console.log('past-participle')
+      let pastParticiple = learn(models.pastParticiple, opts)
+      pastParticiple = compress(pastParticiple)
+      packed.pastParticiple = { pastParticiple }
+      console.log('noun-plurals')
+      let nounPlural = learn(models.nounPlurals, opts)
+      nounPlural = compress(nounPlural)
+      packed.nouns = { plural: nounPlural }
       // console.log('adjectives')
       // packed.adjectives = {}
       // Object.keys(models.adjectives).forEach(k => {

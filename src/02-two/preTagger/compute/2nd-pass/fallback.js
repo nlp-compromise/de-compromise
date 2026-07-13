@@ -3,7 +3,7 @@ const isTitleCase = function (str) {
 }
 
 const hasNoVerb = function (terms) {
-  return !terms.find(t => t.tags.has('#Verb'))
+  return !terms.find(t => t.tags.has('Verb'))
 }
 
 const fallback = function (terms, i, world) {

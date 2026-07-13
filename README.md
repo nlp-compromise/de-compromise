@@ -73,7 +73,7 @@ oder im Browser:
 <script>
   let txt = 'Hast du etwas Zeit für mich? Dann singe ich ein Lied für dich'
   let doc = deCompromise(txt) //globalen Namensraum
-  console.log(doc.sentences(1).json())
+  console.log(doc.fullSentences(1).json())
   // { text:'Dann singe...', terms:[ ... ] }
 </script>
 ```

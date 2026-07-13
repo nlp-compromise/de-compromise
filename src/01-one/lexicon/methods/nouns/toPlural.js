@@ -1,5 +1,7 @@
-// import models from './new.js'
+import { convert } from 'suffix-thumb'
+import model from '../models.js'
 
+// fallback rules, when no trained model is available
 let rules = [
   ['ein', ''],
   ['cht', 'e'],
@@ -28,6 +30,9 @@ let rules = [
 ]
 
 const firstForm = function (str) {
+  if (model.nouns && model.nouns.plural) {
+    return convert(str, model.nouns.plural)
+  }
   for (let i = 0; i < rules.length; i += 1) {
     let [from, to] = rules[i]
     if (str.endsWith(from)) {
@@ -42,5 +47,3 @@ const toPlural = function (str) {
   }
 }
 export default toPlural
-
-// console.log(inflect('abdruckende').one === 'abdruckenden')

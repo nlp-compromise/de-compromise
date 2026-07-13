@@ -73,13 +73,19 @@ export default [
   'durftet',//ihr
 
   // mögen (to like, to like to).
-  'mag',//ich 
-  'magst',//du 
-  'mögen',//wir 
-  'mögt',//ihr 
-  'mochte',//ich 
-  'mochtest',//du 
-  'mochten',//wir 
-  'mochtet',//ihr 
+  'mag',//ich
+  'magst',//du
+  'mögen',//wir
+  'mögt',//ihr
+  'mochte',//ich
+  'mochtest',//du
+  'mochten',//wir
+  'mochtet',//ihr
+
+  // möchten - Konjunktiv II of mögen (would like to)
+  'möchte',//ich
+  'möchtest',//du
+  'möchten',//wir
+  'möchtet',//ihr
 
 ]

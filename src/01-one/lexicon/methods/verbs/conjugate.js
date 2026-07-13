@@ -1,9 +1,21 @@
 import { convert } from 'suffix-thumb'
 import model from '../models.js'
-import toPastParticiple from './custom/toPastParticiple.js'
-let { presentTense, pastTense, subjunctive1, subjunctive2, imperative, presentParticiple } = model
+import getIrregular from './irregulars.js'
+import ppRules from './custom/toPastParticiple.js'
+let { presentTense, pastTense, subjunctive1, subjunctive2, imperative, presentParticiple, pastParticiple } = model
 
-const doEach = function (str, m) {
+const doEach = function (str, m, tense) {
+  let irr = getIrregular(str, tense)
+  if (irr) {
+    return {
+      first: irr[0],
+      second: irr[1],
+      third: irr[2],
+      firstPlural: irr[3],
+      secondPlural: irr[4],
+      thirdPlural: irr[5],
+    }
+  }
   return {
     first: convert(str, m.first),
     second: convert(str, m.second),
@@ -14,14 +26,29 @@ const doEach = function (str, m) {
   }
 }
 
-const toPresent = (str) => doEach(str, presentTense)
-const toPast = (str) => doEach(str, pastTense)
-const toSubjunctive1 = (str) => doEach(str, subjunctive1)
-const toSubjunctive2 = (str) => doEach(str, subjunctive2)
+const toPresent = (str) => doEach(str, presentTense, 'present')
+const toPast = (str) => doEach(str, pastTense, 'past')
+const toSubjunctive1 = (str) => doEach(str, subjunctive1, 'subj1')
+const toSubjunctive2 = (str) => doEach(str, subjunctive2, 'subj2')
 
-const toPresentParticiple = (str) => convert(str, presentParticiple.presentParticiple)
-// const toPastParticiple = (str) => convert(str, pastParticiple.pastParticiple)
+const toPresentParticiple = (str) => {
+  return getIrregular(str, 'presentParticiple') || convert(str, presentParticiple.presentParticiple)
+}
+const toPastParticiple = (str) => {
+  let irr = getIrregular(str, 'pastParticiple')
+  if (irr) {
+    return irr
+  }
+  if (pastParticiple) {
+    return convert(str, pastParticiple.pastParticiple)
+  }
+  return ppRules(str)
+}
 const toImperative = (str) => {
+  let irr = getIrregular(str, 'imperative')
+  if (irr) {
+    return { secondSingular: irr[0], secondPlural: irr[1] }
+  }
   return {
     secondSingular: convert(str, imperative.singular),
     secondPlural: convert(str, imperative.plural),

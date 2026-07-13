@@ -44,7 +44,8 @@ const root = function (view) {
         term.root = adjective.toRoot(str)
       }
       if (term.tags.has('Noun')) {
-        term.root = noun.toSingular(str)
+        // only de-pluralize known plurals - the reverse-model mangles singulars
+        term.root = term.tags.has('Plural') ? noun.toSingular(str) : str
       }
 
     })

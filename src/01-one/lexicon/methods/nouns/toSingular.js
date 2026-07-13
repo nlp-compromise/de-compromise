@@ -1,4 +1,9 @@
+import { convert, reverse } from 'suffix-thumb'
+import model from '../models.js'
 
+let pluralRev = model.nouns && model.nouns.plural ? reverse(model.nouns.plural) : null
+
+// fallback rules, when no trained model is available
 const leave = [
   'tion',
   'sion',
@@ -14,7 +19,6 @@ const leave = [
   'is',
 ]
 
-
 const suffixes = [
   'ns',
   'ne',
@@ -23,6 +27,9 @@ const suffixes = [
 ]
 
 const toSingular = function (str) {
+  if (pluralRev) {
+    return convert(str, pluralRev)
+  }
   for (let i = 0; i < leave.length; i += 1) {
     if (str.endsWith(leave[i])) {
       return str
@@ -37,4 +44,3 @@ const toSingular = function (str) {
   return str
 }
 export default toSingular
-// console.log(toRoot('Gasen'))

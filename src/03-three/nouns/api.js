@@ -1,9 +1,17 @@
 export const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc)
 
-// get root form of noun
+// get (lower-cased) singular form of noun
 const getRoot = function (m) {
   m = m.eq(0).compute('root')
   return m.text('root')
+}
+
+// german nouns are capitalized - keep the casing of the original word
+const matchCase = function (m, str) {
+  if (/^[A-ZÄÖÜ]/.test(m.text().trim())) {
+    return str.charAt(0).toUpperCase() + str.substring(1)
+  }
+  return str
 }
 
 const api = function (View) {
@@ -14,13 +22,11 @@ const api = function (View) {
     }
     conjugate(n) {
       const methods = this.methods.two.transform.noun
-      const { inflect, toRoot } = methods
       return getNth(this, n).map(m => {
-        let str = getRoot(m, methods)
-        let root = toRoot(str) || str
+        let root = getRoot(m)
         return {
-          plural: inflect(root).one,
-          singular: root
+          singular: root,
+          plural: methods.toPlural(root).one,
         }
       }, [])
     }
@@ -30,21 +36,17 @@ const api = function (View) {
     }
     toPlural(n) {
       const methods = this.methods.two.transform.noun
-      return getNth(this, n).if('#Singular').map(m => {
+      return getNth(this, n).not('#Plural').map(m => {
         let str = getRoot(m)
-        let plural = methods.toPlural(str)
-        return m.replaceWith(plural)
+        let plural = methods.toPlural(str).one
+        return m.replaceWith(matchCase(m, plural))
       })
     }
     toSingular(n) {
       const methods = this.methods.two.transform.noun
-      return getNth(this, n).map(m => {
-        if (m.has('#Plural')) {
-          return m
-        }
-        let str = getRoot(m)
-        let singular = methods.toSingular(str)
-        return m.replaceWith(singular)
+      return getNth(this, n).not('#Singular').map(m => {
+        let singular = methods.toSingular(m.text('normal'))
+        return m.replaceWith(matchCase(m, singular))
       })
     }
   }

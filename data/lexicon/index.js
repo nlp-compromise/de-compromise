@@ -8,7 +8,6 @@ import prepositions from './prepositions.js'
 import infinitives from './verbs/infinitives.js'
 import verbs from './verbs/verbs.js'
 import modals from './verbs/modals.js'
-// import auxiliary from './verbs/auxiliary.js'
 
 // nouns
 import female from './nouns/female-nouns.js'
@@ -59,15 +58,18 @@ const data = [
   [lastNames, 'LastName'],
   [people, 'Person'],
 
-  [verbs, 'Verb'],
-  [modals, 'Modal'],
-  [infinitives, 'Infinitive'],
-  // [auxiliary, 'Auxiliary'],
-
   [male, 'MaleNoun'],
   [female, 'FemaleNoun'],
   [neuter, 'NeuterNoun'],
   [nouns, 'Noun'],
+
+  // verbs come after nouns, so a verb/noun homograph keeps its lowercase (verb)
+  // reading — 'essen' vs 'Essen'. capitalized occurrences are re-tagged Noun
+  // by the titlecase pass.
+  [verbs, 'Verb'],
+  [modals, 'Modal'],
+  [infinitives, 'Infinitive'],
+
   [pronouns, 'Pronoun'],
   [possessive, 'Possessive'],
 
