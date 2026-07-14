@@ -1,0 +1,85 @@
+import test from 'tape'
+import nlp from '../_lib.js'
+let here = '[noun-verb-splitter] '
+nlp.verbose(false)
+
+// can you please create 50 examples of compound nouns in german ? Return results tokenized with a '|', like 'schnee|eule'.
+
+test('splitter:', function (t) {
+  let arr = [
+    'Haus|bau',// (house construction)
+    'Auto|fahrt',// (car ride)
+    'Tisch|decken',// (table setting)
+    'Wasser|lauf',// (water running)
+    'Stadt|bummel',// (city stroll)
+    'Buch|druck',// (book printing)
+    'Kaffee|trinken',// (coffee drinking)
+    'Spiel|regeln',// (game rules)
+    'Geld|verdienen',// (earning money)
+    'Zeit|nehmen',// (taking time)
+    'Fenster|putzen',// (window cleaning)
+    'Garten|arbeit',// (gardening work)
+    'Schnee|schieben',// (snow shoveling)
+    'Rad|fahren',// (bicycle riding)
+    'Kinder|betreuung',// (childcare)
+    'Haus|renovierung',// (house renovation)
+    'Kuchen|backen',// (cake baking)
+    'Arbeits|pause',// (work break)
+    'Auto|reparatur',// (car repair)
+    'Musik|machen',// (making music)
+    'Sport|treiben',// (doing sports)
+    'Schwimm|unterricht',// (swimming lessons)
+    'Stadt|entwicklung',// (urban development)
+    'Tanz|kurs',// (dance class)
+    'Bücher|lesen',// (reading books)
+    'Abend|essen',// (dinner)
+    'Pferde|reiten',// (horseback riding)
+    'Reise|planung',// (trip planning)
+    'Haus|arbeiten',// (household chores)
+    'Theater|spielen',// (acting in theater)
+    'Straßen|bau',// (road construction)
+    'Film|drehen',// (making a movie)
+    'Sprachen|lernen',// (learning languages)
+    'Boot|fahren',// (boating)
+    'Mahlzeit|vorbereitung',// (meal preparation)
+    'Team|arbeit',// (teamwork)
+    'Tiere|füttern',// (feeding animals)
+    'Berg|steigen',// (mountain climbing)
+    'Bild|bearbeitung',// (image editing)
+    'Hand|schreiben',// (handwriting)
+    'Musik|unterricht',// (music lessons)
+    'Fernseh|schauen',// (watching TV)
+    'Fotografie|machen',// (taking photographs)
+    'Kunst|ausstellung',// (art exhibition)
+    'Video|aufnehmen',// (recording video)
+    'Wissenschaft|studieren',// (studying science)
+    'Computer|programmierung',// (computer programming)
+    'Essen|zubereitung',// (food preparation)
+    'Rätsel|lösen',// (solving puzzles)
+    'Modell|bauen',// (building models)
+    'Kaffee|kochen',// (coffee brewing)
+    'Schmuck|herstellung',// (jewelry making)
+    'Hand|werken',// (handicrafts)
+    'Spiele|entwicklung',// (game development)
+    'Interview|führen',// (conducting interviews)
+    'Schreib|maschine',// (typewriter)
+    'Foto|ausstellung',// (photo exhibition)
+    'Radio|hören',// (listening to the radio)
+    'Feuer|löschen',// (fire extinguishing)
+    'Geschichte|schreiben',// (writing history)
+
+  ]
+  arr.forEach(str => {
+    let parts = str.split('|')
+    let word = str.replace(/\|/, '')
+    let doc = nlp(word).compute('splitter')
+    // t.ok(doc.has('#Adjective #Noun'), word)
+    let splits = doc.docs[0][0].splits || []
+    t.deepEqual(parts, splits, str)
+  })
+  t.end()
+})
+
+
+
+
