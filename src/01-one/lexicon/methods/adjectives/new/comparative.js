@@ -1,4 +1,4 @@
-/* eslint-disable no-console, no-unused-vars */
+/* eslint-disable no-unused-vars */
 let models = [
   { fallback: 'erer', rules: [['e', 'erer']] },
   { fallback: 'eren', rules: [['e', 'eren']] },

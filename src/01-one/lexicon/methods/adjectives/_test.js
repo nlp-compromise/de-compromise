@@ -1,4 +1,4 @@
-/* eslint-disable no-console, no-unused-vars */
+/* eslint-disable no-console */
 import model from '/Users/spencer/mountain/de-compromise/data/models/adjectives/adjectives.js'
 import convert from './inflect.js'
 

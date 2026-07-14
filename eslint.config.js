@@ -4,7 +4,7 @@ import globals from 'globals'
 
 export default [
   {
-    ignores: ['builds/*', 'learn/**', 'scripts/**'],
+    ignores: ['builds/*', 'learn/**', 'scripts/**', 'data/**'],
   },
   js.configs.recommended,
   regexp.configs['flat/recommended'],
@@ -31,6 +31,7 @@ export default [
       'no-implied-eval': 2,
       'no-mixed-operators': 2,
       'no-multi-assign': 2,
+      'no-useless-assignment': 0,
       'no-nested-ternary': 1,
       'no-prototype-builtins': 0,
       'no-self-compare': 1,

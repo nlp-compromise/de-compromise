@@ -33,7 +33,7 @@ const findSplits = function (str, root) {
 }
 
 const splitter = function (view) {
-  let { nouns, values } = view.model.one.splitter
+  let { values } = view.model.one.splitter
   view.docs.forEach((terms) => {
     terms.forEach((term) => {
       // split numbers

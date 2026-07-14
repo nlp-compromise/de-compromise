@@ -78,7 +78,7 @@ test('splitter:', function (t) {
     let doc = nlp(word).compute('splitter')
     // t.ok(doc.has('#Adjective #Noun'), word)
     let splits = doc.docs[0][0].splits || []
-    t.deepEqual(parts, splits, str)
+    t.deepEqual(parts, splits, here + str)
   })
   t.end()
 })

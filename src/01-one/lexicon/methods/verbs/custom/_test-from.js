@@ -1,4 +1,4 @@
-/* eslint-disable no-console, no-unused-vars */
+/* eslint-disable no-console */
 import pairs from '/Users/spencer/mountain/de-compromise/data/models/verbs/past-participle.js'
 import fromPastParticiple from './fromPastParticiple.js'
 // import fs from 'fs'
