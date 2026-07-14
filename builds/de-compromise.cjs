@@ -11765,7 +11765,7 @@
     api,
   };
 
-  var version = '0.0.11';
+  var version = '0.1.0';
 
   nlp.plugin(tokenizer);
   nlp.plugin(tagset);

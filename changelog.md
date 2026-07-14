@@ -1,10 +1,11 @@
-### unreleased
+### 0.1.0 [July 2026]
 - **[fix]** - german number format - '12,5' parses as 12.5, '1.000' as 1000
 - **[fix]** - past participle of prefixed kommen - 'mitgekommen'
 - **[fix]** - toPlural/toSingular no longer mangle untagged forms - 'die Hunde', 'der Kunde'
 - **[fix]** - negative numbers keep their sign
 - **[new]** - #Unit and #Currency lexicon entries - numbers().units(), '#Money' matches
 - **[new]** - more tests
+- **[update]** - dependencies
 
 ### 0.0.11 [May 2023]
 - **[fix]** - linting
