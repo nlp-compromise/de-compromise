@@ -62,6 +62,16 @@ test('plural casing kept', function (t) {
 
 test('toSingular is noop on singular', function (t) {
   t.equal(nlp('der Hund').nouns().toSingular().all().text(), 'der Hund', here + 'singular Hund unchanged')
+  // singular nouns ending in -e must not get clipped - 'der Kunde' is not a plural
+  t.equal(nlp('der Kunde').nouns().toSingular().all().text(), 'der Kunde', here + 'singular Kunde unchanged')
+  t.equal(nlp('die Kunden').nouns().toSingular().all().text(), 'die Kunde', here + 'Kunden → Kunde')
+  t.end()
+})
+
+test('toPlural is noop on plural', function (t) {
+  // 'Hunde' is already plural, even though the tagger cannot prove it
+  t.equal(nlp('die Hunde').nouns().toPlural().all().text(), 'die Hunde', here + 'plural Hunde unchanged')
+  t.equal(nlp('die Bücher').nouns().toPlural().all().text(), 'die Bücher', here + 'plural Bücher unchanged')
   t.end()
 })
 

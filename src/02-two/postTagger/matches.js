@@ -5,6 +5,8 @@ const postTagger = function (doc) {
   doc.match('eine #Value').tag('TextValue', 'eine-value')
   // 6.30 Uhr
   doc.match('#Value uhr').tag('Time', 'time-Uhr')
+  // a value before a currency is money - '12,5 Euro'
+  doc.match('[#Value] #Currency', 0).tag('Money', 'value-currency')
 
   // prenominal possessive is a determiner - 'mein Bruder', 'seine kleine Schwester'
   doc.match('[(mein|dein|sein|ihr|unser|euer)] #Adjective? #Noun', 0).tag('Determiner', 'possessive-det')

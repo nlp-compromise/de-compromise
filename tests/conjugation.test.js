@@ -72,6 +72,11 @@ test('prefixed verbs', function (t) {
   t.equal(conj('studieren').pastParticiple, 'studiert', here + 'studieren → studiert')
   // separable prefix puts ge- inside
   t.equal(conj('einkaufen').pastParticiple, 'eingekauft', here + 'einkaufen → eingekauft')
+  // prefixed forms of kommen
+  t.equal(conj('mitkommen').pastParticiple, 'mitgekommen', here + 'mitkommen → mitgekommen')
+  t.equal(conj('ankommen').pastParticiple, 'angekommen', here + 'ankommen → angekommen')
+  t.equal(conj('bekommen').pastParticiple, 'bekommen', here + 'bekommen → bekommen')
+  t.equal(conj('bekommen').pastTense.first, 'bekam', here + 'bekommen → bekam')
   t.end()
 })
 

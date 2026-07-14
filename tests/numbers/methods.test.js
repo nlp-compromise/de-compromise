@@ -42,6 +42,32 @@ test('get compound numbers:', function (t) {
   t.end()
 })
 
+test('german number format:', function (t) {
+  // ',' is the decimal separator
+  t.deepEqual(nlp('es kostet 12,5 Euro').numbers().get(), [12.5], here + '12,5 → 12.5')
+  t.deepEqual(nlp('1.234,56').numbers().get(), [1234.56], here + '1.234,56 → 1234.56')
+  t.equal(nlp('12,5').numbers().add(1).text(), '13,5', here + 'decimal comma survives arithmetic')
+  // '.' groups thousands
+  t.deepEqual(nlp('1.000 Menschen').numbers().get(), [1000], here + '1.000 → 1000')
+  t.deepEqual(nlp('1.234.567').numbers().get(), [1234567], here + '1.234.567 → 1234567')
+  t.equal(nlp('1.000').numbers().set(1234567).text(), '1.234.567', here + 'thousands re-grouped on set')
+  // negatives
+  t.deepEqual(nlp('-8').numbers().get(), [-8], here + '-8 keeps its sign')
+  // dates and ordinals unaffected
+  t.deepEqual(nlp('am 7. September').numbers().get(), [7], here + 'ordinal 7. still parses')
+  t.ok(nlp('am 01.05.2020').has('#Date'), here + 'dotted date is not a number')
+  t.end()
+})
+
+test('units and money:', function (t) {
+  t.equal(nlp('Wir fuhren 50 Kilometer').numbers().units().text(), 'Kilometer', here + 'units() finds Kilometer')
+  t.ok(nlp('zwei Liter Wasser').match('liter').has('#Unit'), here + 'Liter is a unit')
+  t.ok(nlp('es kostet zwanzig Euro').match('euro').has('#Currency'), here + 'Euro is a currency')
+  t.ok(nlp('es kostet 12,5 Euro').match('12,5').has('#Money'), here + 'value before currency is money')
+  t.equal(nlp('es kostet 12,5 Euro').numbers().parse()[0].isMoney, true, here + 'parse() sees isMoney')
+  t.end()
+})
+
 test('filters:', function (t) {
   let doc = nlp('drei Hunde und sieben Katzen')
   t.equal(doc.numbers().greaterThan(5).text(), 'sieben', here + 'greaterThan')

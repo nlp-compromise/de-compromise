@@ -174,9 +174,9 @@ const api = function (View) {
           fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal'
         }
         let str = format(obj, fmt)
-        // add commas to number
+        // re-group thousands - '1.234.567'
         if (obj.hasComma && fmt === 'Cardinal') {
-          str = Number(str).toLocaleString()
+          str = obj.num.toLocaleString('de-DE')
         }
         if (str) {
           val = val.not('#Currency')

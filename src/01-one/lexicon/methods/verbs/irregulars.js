@@ -61,6 +61,13 @@ const irregulars = {
     imperative: ['gib', 'gebt'],
     pastParticiple: 'gegeben',
   },
+  kommen: {
+    present: ['komme', 'kommst', 'kommt', 'kommen', 'kommt', 'kommen'],
+    past: ['kam', 'kamst', 'kam', 'kamen', 'kamt', 'kamen'],
+    subj2: ['käme', 'kämest', 'käme', 'kämen', 'kämet', 'kämen'],
+    imperative: ['komm', 'kommt'],
+    pastParticiple: 'gekommen',
+  },
   heißen: {
     pastParticiple: 'geheißen',
   },

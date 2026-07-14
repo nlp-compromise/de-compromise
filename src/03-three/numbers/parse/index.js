@@ -1,22 +1,24 @@
 import fromText from './fromText.js'
 
 const fromNumber = function (m) {
-  let str = m.text('normal').toLowerCase()
+  // use the raw text - normalization strips the german decimal-comma
+  let str = (m.text() || m.text('normal')).toLowerCase().trim()
   str = str.replace(/(e|er)$/, '')
-  let hasComma = false
-  if (/,/.test(str)) {
-    hasComma = true
-    str = str.replace(/,/g, '')
-  }
   // get prefix/suffix
   let arr = str.split(/([0-9.,]*)/)
   let [prefix, num] = arr
   let suffix = arr.slice(2).join('')
+  // german format - '.' groups thousands, ',' marks the decimal
+  num = num.replace(/[.,]$/, '')
+  let hasComma = /\d\.\d/.test(num)
+  num = num.replace(/\./g, '').replace(/,/, '.')
   if (num !== '' && m.length < 2) {
-    num = Number(num || str)
+    num = Number(num)
     //ensure that num is an actual number
-    if (typeof num !== 'number') {
+    if (typeof num !== 'number' || isNaN(num)) {
       num = null
+    } else if (/-$/.test(prefix)) {
+      num = num * -1
     }
     // strip an ordinal off the suffix
     if (suffix === 'e' || suffix === 'er') {

@@ -19,8 +19,9 @@ const formatNumber = function (parsed, fmt) {
     return str += '.'
   }
   if (fmt === 'Cardinal') {
-    return String(parsed.num)
+    // german decimals use a comma - '12,5'
+    return String(parsed.num).replace('.', ',')
   }
-  return String(parsed.num || '')
+  return String(parsed.num || '').replace('.', ',')
 }
 export default formatNumber

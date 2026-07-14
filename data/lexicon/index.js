@@ -16,6 +16,8 @@ import neuter from './nouns/neuter-nouns.js'
 import nouns from './nouns/nouns.js'
 import pronouns from './nouns/pronouns.js'
 import possessive from './nouns/possessive.js'
+import units from './nouns/units.js'
+import currencies from './nouns/currencies.js'
 
 import femaleNames from './people/femaleNames.js'
 import maleNames from './people/maleNames.js'
@@ -62,6 +64,8 @@ const data = [
   [female, 'FemaleNoun'],
   [neuter, 'NeuterNoun'],
   [nouns, 'Noun'],
+  [units, 'Unit'],
+  [currencies, 'Currency'],
 
   // verbs come after nouns, so a verb/noun homograph keeps its lowercase (verb)
   // reading — 'essen' vs 'Essen'. capitalized occurrences are re-tagged Noun
