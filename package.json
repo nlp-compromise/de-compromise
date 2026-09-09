@@ -3,16 +3,21 @@
   "name": "de-compromise",
   "description": "Computerlinguistik im browser",
   "version": "0.1.0",
-  "main": "./src/index.js",
+  "packageManager": "pnpm@11.5.0",
+  "engines": {
+    "node": "^22.13.0 || ^24.0.0 || ^26.0.0",
+    "pnpm": "^11.5.0"
+  },
+  "main": "./builds/de-compromise.mjs",
   "browser": "./builds/de-compromise.min.js",
   "unpkg": "./builds/de-compromise.min.js",
   "type": "module",
   "sideEffects": false,
   "exports": {
     ".": {
+      "types": "./types/index.d.ts",
       "import": "./builds/de-compromise.mjs",
-      "require": "./builds/de-compromise.cjs",
-      "types": "./types/index.d.ts"
+      "require": "./builds/de-compromise.cjs"
     }
   },
   "types": "types/index.d.ts",
@@ -33,9 +38,11 @@
     "printWidth": 100
   },
   "scripts": {
-    "test": "tape \"./tests/**/*.test.js\" | tap-dancer",
-    "testb": "cross-env TESTENV=prod npm run test",
-    "build": "npm run version && rollup -c --silent",
+    "test": "pnpm run check-types && tape \"./tests/**/*.test.js\" | tap-dancer",
+    "check-types": "tsc -p tsconfig.json",
+    "testb": "cross-env TESTENV=prod pnpm run test",
+    "build": "pnpm run version && rollup -c --silent",
+    "prepack": "pnpm run build && pnpm run testb && pnpm run lint",
     "version": "node ./scripts/version.js",
     "pack": "node ./scripts/pack.js",
     "score": " node ./learn/test/index.js",
@@ -60,7 +67,8 @@
     "globals": "^17.7.0",
     "rollup": "4.63.1",
     "tap-dancer": "0.3.4",
-    "tape": "5.10.2"
+    "tape": "5.10.2",
+    "typescript": "7.0.2"
   },
   "license": "MIT"
 }
