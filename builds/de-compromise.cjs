@@ -429,7 +429,7 @@
   }
   Object.assign(View.prototype, methods$m);
 
-  var version$1 = '14.16.0';
+  var version$1 = '14.17.0';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
@@ -3549,9 +3549,9 @@
       if (reg.tag !== undefined && cache.has('#' + reg.tag) === false) {
         return true
       }
-      // perform a speedup for fast-or
-      if (reg.fastOr && anyIntersection(reg.fastOr, cache) === false) {
-        return false
+      // are all of the fast-or words missing?
+      if (reg.fastOr !== undefined && anyIntersection(reg.fastOr, cache) === false) {
+        return true
       }
     }
     return false
@@ -3711,10 +3711,6 @@
       if (term.machine !== null && term.machine === reg.word) {
         return true
       }
-      // term aliases for slashes and things
-      if (term.alias !== undefined && term.alias.hasOwnProperty(reg.word)) {
-        return true
-      }
       // support ~ fuzzy match
       if (reg.fuzzy === true) {
         if (reg.word === term.root) {
@@ -3812,11 +3808,14 @@
     const reg = Object.assign({}, state.regs[state.r], { start: false, end: false });
     const start = state.t;
     for (; state.t < state.terms.length; state.t += 1) {
-      //stop for next-reg match
-      if (endReg && wrapMatch(state.terms[state.t], endReg, state.start_i + state.t, state.phrase_length)) {
-        return state.t
-      }
+      // the number of terms we've matched, if we stop here
       const count = state.t - start + 1;
+      //stop for next-reg match - unless we're still under our min
+      if (endReg && wrapMatch(state.terms[state.t], endReg, state.start_i + state.t, state.phrase_length)) {
+        if (reg.min === undefined || count >= reg.min) {
+          return state.t
+        }
+      }
       // is it max-length now?
       if (reg.max !== undefined && count === reg.max) {
         return state.t
@@ -3829,6 +3828,10 @@
         }
         return state.t
       }
+    }
+    // we ran out of terms - did we reach our min?
+    if (reg.min !== undefined && state.t - start + 1 < reg.min) {
+      return null
     }
     return state.t
   };
@@ -3898,7 +3901,9 @@
     // set the group result
     if (state.hasGroup === true) {
       const g = getGroup$1(state, state.t);
-      g.length = skipto - state.t;
+      // accumulate onto any tokens already captured before the wildcard,
+      // so '[one .* after]' keeps its leading (and trailing) tokens
+      g.length += skipto - state.t;
     }
     state.t = skipto;
     // log(`✓ |greedy|`)
@@ -3909,48 +3914,64 @@
     return Object.prototype.toString.call(arr) === '[object Array]'
   };
 
-  const doOrBlock = function (state, skipN = 0) {
-    const block = state.regs[state.r];
-    let wasFound = false;
-    // do each multiword sequence
-    for (let c = 0; c < block.choices.length; c += 1) {
-      // try to match this list of tokens
-      const regs = block.choices[c];
-      if (!isArray$4(regs)) {
-        return false
+  // try to match a list of tokens, starting at state.t + skipN
+  // returns the number of terms it consumed, or 0 for no-match
+  const tryChoice = function (state, regs, skipN) {
+    let len = 0;
+    for (let w = 0; w < regs.length; w += 1) {
+      const cr = regs[w];
+      const t = state.t + skipN + len;
+      if (state.terms[t] === undefined) {
+        return 0
       }
-      wasFound = regs.every((cr, w_index) => {
-        let extra = 0;
-        const t = state.t + w_index + skipN + extra;
-        if (state.terms[t] === undefined) {
-          return false
-        }
-        const foundBlock = wrapMatch(state.terms[t], cr, t + state.start_i, state.phrase_length);
-        // this can be greedy - '(foo+ bar)'
-        if (foundBlock === true && cr.greedy === true) {
-          for (let i = 1; i < state.terms.length; i += 1) {
-            const term = state.terms[t + i];
-            if (term) {
-              const keepGoing = wrapMatch(term, cr, state.start_i + i, state.phrase_length);
-              if (keepGoing === true) {
-                extra += 1;
-              } else {
-                break
-              }
-            }
+      if (wrapMatch(state.terms[t], cr, state.start_i + t, state.phrase_length) !== true) {
+        return 0
+      }
+      len += 1;
+      // this can be greedy - '(foo+ bar)'
+      if (cr.greedy === true) {
+        // like getGreedy, anchors should not apply to the repeated terms
+        const gr = Object.assign({}, cr, { start: false, end: false });
+        for (let i = t + 1; i < state.terms.length; i += 1) {
+          if (wrapMatch(state.terms[i], gr, state.start_i + i, state.phrase_length) !== true) {
+            break
           }
+          len += 1;
         }
-        skipN += extra;
-        return foundBlock
-      });
-      if (wasFound) {
-        skipN += regs.length;
-        break
       }
     }
-    // we found a match -  is it greedy though?
-    if (wasFound && block.greedy === true) {
-      return doOrBlock(state, skipN) // try it again!
+    return len
+  };
+
+  // match the first choice that works - '(a b|c)'
+  const tryChoices = function (state, skipN) {
+    const block = state.regs[state.r];
+    for (let c = 0; c < block.choices.length; c += 1) {
+      const regs = block.choices[c];
+      if (!isArray$4(regs)) {
+        return 0
+      }
+      const len = tryChoice(state, regs, skipN);
+      if (len > 0) {
+        return len
+      }
+    }
+    return 0
+  };
+
+  const doOrBlock = function (state) {
+    const block = state.regs[state.r];
+    let skipN = tryChoices(state, 0);
+    if (skipN === 0) {
+      return 0
+    }
+    // greedy or-block - keep matching choices - '(a b|c)+'
+    if (block.greedy === true) {
+      let more = tryChoices(state, skipN);
+      while (more > 0) {
+        skipN += more;
+        more = tryChoices(state, skipN);
+      }
     }
     return skipN
   };
@@ -3966,7 +3987,7 @@
         if (state.terms[tryTerm] === undefined) {
           return false
         }
-        return wrapMatch(state.terms[tryTerm], cr, tryTerm, state.phrase_length)
+        return wrapMatch(state.terms[tryTerm], cr, state.start_i + tryTerm, state.phrase_length)
       });
       if (allWords === true && block.length > longest) {
         longest = block.length;
@@ -4005,7 +4026,16 @@
       state.t += skipNum;
       // log(`✓ |found-or|`)
       return true
-    } else if (!reg.optional) {
+    }
+    // we didn't find it - for a negative-block, that's good news
+    if (reg.negative === true) {
+      // a '!(a b)?' can pass-through without consuming anything
+      if (!reg.optional) {
+        state.t += 1;
+      }
+      return true
+    }
+    if (!reg.optional) {
       return null //die
     }
     return true
@@ -4028,15 +4058,24 @@
       }
       // ensure we're at the end
       if (reg.end === true) {
-        const end = state.phrase_length - 1;
-        if (state.t + state.start_i !== end) {
+        const end = state.phrase_length;
+        if (state.t + state.start_i + skipNum !== end) {
           return null
         }
       }
       state.t += skipNum;
       // log(`✓ |found-and|`)
       return true
-    } else if (!reg.optional) {
+    }
+    // we didn't find it - for a negative-block, that's good news
+    if (reg.negative === true) {
+      // a '!(a && b)?' can pass-through without consuming anything
+      if (!reg.optional) {
+        state.t += 1;
+      }
+      return true
+    }
+    if (!reg.optional) {
       return null //die
     }
     return true
@@ -4045,7 +4084,7 @@
   const negGreedy = function (state, reg, nextReg) {
     let skip = 0;
     for (let t = state.t; t < state.terms.length; t += 1) {
-      let found = wrapMatch(state.terms[t], reg, state.start_i + state.t, state.phrase_length);
+      let found = wrapMatch(state.terms[t], reg, state.start_i + t, state.phrase_length);
       // we don't want a match, here
       if (found) {
         break//stop going
@@ -4053,7 +4092,7 @@
       // are we doing 'greedy-to'?
       // - "!foo+ after"  should stop at 'after'
       if (nextReg) {
-        found = wrapMatch(state.terms[t], nextReg, state.start_i + state.t, state.phrase_length);
+        found = wrapMatch(state.terms[t], nextReg, state.start_i + t, state.phrase_length);
         if (found) {
           break
         }
@@ -4130,7 +4169,7 @@
       // but does the next reg match the next term??
       // only skip if it doesn't
       const nextTerm = state.terms[state.t + 1];
-      if (!nextTerm || !wrapMatch(nextTerm, regs[state.r + 1], state.start_i + state.t, state.phrase_length)) {
+      if (!nextTerm || !wrapMatch(nextTerm, regs[state.r + 1], state.start_i + state.t + 1, state.phrase_length)) {
         state.r += 1;
       }
     }
@@ -4140,12 +4179,9 @@
   const greedyMatch = function (state) {
     const { regs, phrase_length } = state;
     const reg = regs[state.r];
+    // foo{2,4} min-lengths are enforced inside getGreedy
     state.t = getGreedy(state, regs[state.r + 1]);
     if (state.t === null) {
-      return null //greedy was too short
-    }
-    // foo{2,4} - has a greed-minimum
-    if (reg.min && reg.min > state.t) {
       return null //greedy was too short
     }
     // 'foo+$' - if also an end-anchor, ensure we really reached the end
@@ -5288,6 +5324,7 @@
   };
 
   const lastBrace = /\{(?=[^{]*$)/; // split on the last { only
+  const comment = /\}[ \t]*#.*$/; // an optional '# comment' after the last {tags} block
 
   // parse the spec output
   const parseLine = function (line = '') {
@@ -5295,6 +5332,7 @@
     if (tags === undefined) {
       return { text, tags: [] } // no {tags} block on this line
     }
+    tags = tags.replace(comment, '}'); // drop the comment - only ever one, always last
     tags = tags.split(',').map(tag => tag.trim());
     let lastTag = tags[tags.length - 1];
     tags[tags.length - 1] = lastTag.replace(/\}$/, '');
@@ -6633,22 +6671,43 @@
   };
 
   // split by periods, question marks, unicode ⁇, etc
-  const initSplit = /([.!?\u203D\u2E18\u203C\u2047-\u2049\u3002]+\s)/g;
+  // also ।॥ (devanagari), ؟ (arabic), ۔ (urdu), ։ (armenian), ።፧ (ethiopic), ။ (burmese), ។ (khmer)
+  const initSplit = /([.!?\u203D\u2E18\u203C\u2047-\u2049\u0964\u0965\u061F\u06D4\u0589\u1362\u1367\u104B\u17D4\u3002]+\s)/g;
   // merge these back into prev sentence
-  const splitsOnly = /^[.!?\u203D\u2E18\u203C\u2047-\u2049\u3002]+\s$/;
+  const splitsOnly = /^[.!?\u203D\u2E18\u203C\u2047-\u2049\u0964\u0965\u061F\u06D4\u0589\u1362\u1367\u104B\u17D4\u3002]+\s$/;
   const newLine = /((?:\r?\n|\r)+)/; // Match different new-line formats
+
+  // CJK full-stops 。！？｡ are never used in numbers or abbreviations,
+  // so they can end a sentence without any whitespace after them.
+  // A full-stop followed by a closing bracket 」』）” only ends the sentence when the
+  // bracket is followed by whitespace, another opening bracket, or the end of the text
+  //  - '「行きません。」と言った' stays together,  '「はい。」「いいえ。」' splits
+  const hasCjkStop = /[\u3002\uFF01\uFF1F\uFF61]/;
+  const cjkStops = '\\u3002\\uFF01\\uFF1F\\uFF61'; // 。！？｡
+  const allStops = '.!?\\u203D\\u2E18\\u203C\\u2047-\\u2049' + '\u0964\u0965\u061F\u06D4\u0589\u1362\u1367\u104B\u17D4' + cjkStops;
+  const openers = '\\u300C\\u300E\\uFF08\\u3010\\u3014\\u300A\\u3008\\u201C'; // 「『（【〔《〈“
+  const closers = '\\u300D\\u300F\\uFF09\\u3011\\u3015\\u300B\\u3009\\u201D'; // 」』）】〕》〉”
+  const initSplitCjk = new RegExp(
+    `([${allStops}]+\\s|[${cjkStops}]+(?![${closers}${cjkStops}])|[${cjkStops}]+[${closers}]+(?=[\\s${openers}]|$))`,
+    'g'
+  );
+  const splitsOnlyCjk = new RegExp(`^(?:[${allStops}]+\\s|[${cjkStops}]+[${closers}]*)$`);
 
   // Start with a regex:
   const basicSplit = function (text) {
     const all = [];
+    // japanese/chinese text has no whitespace after its full-stops
+    const isCjk = hasCjkStop.test(text);
+    const splitReg = isCjk ? initSplitCjk : initSplit;
+    const onlyReg = isCjk ? splitsOnlyCjk : splitsOnly;
     //first, split by newline
     const lines = text.split(newLine);
     for (let i = 0; i < lines.length; i++) {
       //split by period, question-mark, and exclamation-mark
-      const arr = lines[i].split(initSplit);
+      const arr = lines[i].split(splitReg);
       for (let o = 0; o < arr.length; o++) {
         // merge 'foo' + '.'
-        if (arr[o + 1] && splitsOnly.test(arr[o + 1]) === true) {
+        if (arr[o + 1] && onlyReg.test(arr[o + 1]) === true) {
           arr[o] += arr[o + 1];
           arr[o + 1] = '';
         }
@@ -6660,7 +6719,8 @@
     return all
   };
 
-  const hasLetter$2 = /[a-z0-9\u00C0-\u00FF\u00a9\u00ae\u2000-\u3300\ud000-\udfff]/i;
+  // a letter, number, or symbol/emoji in any script - otherwise it's only punctuation
+  const hasLetter$2 = /[\p{L}\p{N}\p{So}]/u;
   const hasSomething$1 = /\S/;
 
   const notEmpty = function (splits) {
@@ -6738,6 +6798,8 @@
     '\u301D': '\u301E', // 'PrimeDoubleQuotes'
     // '\u0060': '\u00B4', // 'PrimeSingleQuotes'
     '\u301F': '\u301E', // 'LowPrimeDoubleQuotesReversed'
+    '\u300C': '\u300D', // 'CornerBrackets' 「」
+    '\u300E': '\u300F', // 'WhiteCornerBrackets' 『』
   };
   const openQuote = RegExp('[' + Object.keys(pairs).join('') + ']', 'g');
   const closeQuote = RegExp('[' + Object.values(pairs).join('') + ']', 'g');
@@ -6762,6 +6824,12 @@
       // do we have an open-quote and not a closed one?
       const m = split.match(openQuote);
       if (m !== null && m.length === 1) {
+        // is the quote already closed in this chunk? - '“Yes!” said Tom. “No!” said Ann.'
+        const closed = split.match(closeQuote);
+        if (closed !== null && closed[0] !== m[0]) {
+          arr.push(split);
+          continue
+        }
 
         // look at the next sentence for a closing quote,
         if (closesQuote(splits[i + 1]) && splits[i + 1].length < MAX_QUOTE) {
@@ -6794,8 +6862,8 @@
 
   // support unicode variants?
   // https://stackoverflow.com/questions/13535172/list-of-all-unicodes-open-close-brackets
-  const hasOpen = /\(/g;
-  const hasClosed = /\)/g;
+  const hasOpen = /[(\uFF08]/g;
+  const hasClosed = /[)\uFF09]/g;
   const mergeParens = function (splits) {
     const arr = [];
     for (let i = 0; i < splits.length; i += 1) {
@@ -6833,8 +6901,6 @@
     if (!text || typeof text !== 'string' || hasSomething.test(text) === false) {
       return []
     }
-    // cleanup unicode-spaces
-    text = text.replace('\xa0', ' ');
     // First do a greedy-split..
     const splits = basicSplit(text);
     // Filter-out the crap ones
@@ -7649,6 +7715,10 @@
       unicode$1[s] = k;
     });
   });
+  // fullwidth ascii - 'Ｈｅｌｌｏ ２０２４' to 'Hello 2024'
+  for (let i = 0x21; i <= 0x7E; i += 1) {
+    unicode$1[String.fromCharCode(i + 0xFEE0)] = String.fromCharCode(i);
+  }
 
   // https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5Cp%7Bpunctuation%7D
 
@@ -11765,7 +11835,7 @@
     api,
   };
 
-  var version = '0.1.0';
+  var version = '0.1.1';
 
   nlp.plugin(tokenizer);
   nlp.plugin(tagset);
