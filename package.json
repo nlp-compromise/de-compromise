@@ -1,12 +1,11 @@
 {
-  "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
+  "author": "Spencer Kelly <spencermountain@gmail.com> (https://spencermountain.dev)",
   "name": "de-compromise",
   "description": "Computerlinguistik im browser",
   "version": "0.1.1",
   "packageManager": "pnpm@11.5.0",
   "engines": {
-    "node": "^22.13.0 || ^24.0.0 || ^26.0.0",
-    "pnpm": "^11.5.0"
+    "node": ">=12"
   },
   "main": "./builds/de-compromise.mjs",
   "browser": "./builds/de-compromise.min.js",
@@ -21,10 +20,7 @@
     }
   },
   "types": "types/index.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/nlp-compromise/de-compromise.git"
-  },
+  "repository": "github:nlp-compromise/de-compromise",
   "files": [
     "builds/",
     "types/",
@@ -66,7 +62,7 @@
     "eslint-plugin-regexp": "3.3.0",
     "globals": "^17.7.0",
     "rollup": "4.63.1",
-    "tap-dancer": "0.3.4",
+    "tap-dancer": "0.4.0",
     "tape": "5.10.2",
     "typescript": "7.0.2"
   },
