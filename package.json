@@ -58,10 +58,10 @@
     "@rollup/plugin-terser": "1.0.0",
     "cross-env": "10.1.0",
     "de-corpus": "0.0.1",
-    "eslint": "10.10.0",
-    "eslint-plugin-regexp": "3.3.0",
+    "eslint": "10.11.0",
+    "eslint-plugin-regexp": "3.3.1",
     "globals": "^17.7.0",
-    "rollup": "4.63.1",
+    "rollup": "4.63.4",
     "tap-dancer": "0.4.0",
     "tape": "5.10.2",
     "typescript": "7.0.2"
