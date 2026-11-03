@@ -1,9 +1,9 @@
 import test from 'tape'
 import nlp from '../_lib.js'
-let here = '[de-number-parse] '
+const here = '[de-number-parse] '
 nlp.verbose(false)
 
-let arr = [
+const arr = [
   // [0, "null"],
   [1, "eins"],
   [2, "zwei"],
@@ -151,10 +151,10 @@ let arr = [
 
 test('match:', function (t) {
   arr.forEach(a => {
-    let [n, str] = a
+    const [n, str] = a
     let doc = nlp(str)
     // t.equal(doc.has('#Value'), true, here + ' [tag] ' + str)
-    let num = doc.numbers().get()[0]
+    const num = doc.numbers().get()[0]
     t.equal(num, n, here + ' [parse] ' + str)
 
     doc = nlp(String(n))

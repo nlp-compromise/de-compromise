@@ -1,9 +1,9 @@
 import test from 'tape'
 import nlp from './_lib.js'
-let here = '[de-adj] '
+const here = '[de-adj] '
 
 test('adj-inflection:', function (t) {
-  let arr = [
+  const arr = [
     // [inflected-form, infinitive, one, two, three, four]
     ['konkretes', 'konkret', 'konkreter', 'konkreten', 'konkrete', 'konkretes'],
     ['kleines', 'klein', 'kleiner', 'kleinen', 'kleine', 'kleines'],
@@ -12,8 +12,8 @@ test('adj-inflection:', function (t) {
     ['altes', 'alt', 'alter', 'alten', 'alte', 'altes'],
   ]
   arr.forEach(a => {
-    let [str, inf, one, two, three, four] = a
-    let res = nlp(str).adjectives().conjugate()[0] || {}
+    const [str, inf, one, two, three, four] = a
+    const res = nlp(str).adjectives().conjugate()[0] || {}
     t.equal(res.infinitive, inf, here + str + ' → ' + inf)
     t.equal(res.one, one, here + str + ' → ' + one)
     t.equal(res.two, two, here + str + ' → ' + two)
@@ -24,7 +24,7 @@ test('adj-inflection:', function (t) {
 })
 
 test('adj-in-sentence:', function (t) {
-  let res = nlp('das schnelle Auto').adjectives().conjugate()[0] || {}
+  const res = nlp('das schnelle Auto').adjectives().conjugate()[0] || {}
   t.equal(res.infinitive, 'schnell', here + 'schnelle → schnell')
   t.end()
 })

@@ -5,17 +5,17 @@ const hasLink = /^(e[rns]|s|n)/
 import { findMatch } from '../trie.js'
 
 const findSplits = function (str, root) {
-  let found = []
+  const found = []
   while (str.length > 0) {
     let match = findMatch(str, root)
     if (!match) {
       //we done
       // allow a connector - [foo, en, bar]
       if (found.length > 0 && hasLink.test(str)) {
-        let tmp = str.replace(hasLink, '')
+        const tmp = str.replace(hasLink, '')
         match = findMatch(tmp, root)
         if (match) {
-          let link = str.match(hasLink)[0]
+          const link = str.match(hasLink)[0]
           found.push(link)
           str = str.substr(link.length)
         }
@@ -33,7 +33,7 @@ const findSplits = function (str, root) {
 }
 
 const splitter = function (view) {
-  let { values } = view.model.one.splitter
+  const { values } = view.model.one.splitter
   view.docs.forEach((terms) => {
     terms.forEach((term) => {
       // split numbers

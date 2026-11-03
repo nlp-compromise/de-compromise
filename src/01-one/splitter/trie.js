@@ -1,5 +1,5 @@
 const addWord = function (str, root) {
-  let chars = str.split('')
+  const chars = str.split('')
   let node = root
   chars.forEach(c => {
     node.more[c] = node.more[c] || { more: {} }
@@ -9,7 +9,7 @@ const addWord = function (str, root) {
 }
 
 const makeTrie = function (arr) {
-  let root = {
+  const root = {
     more: {}
   }
   arr.forEach(str => addWord(str, root))
@@ -18,7 +18,7 @@ const makeTrie = function (arr) {
 
 const findMatch = function (str, root) {
   let match = null
-  let chars = str.split('')
+  const chars = str.split('')
   let node = root
   for (let i = 0; i < chars.length; i += 1) {
     if (!node.more[chars[i]]) {

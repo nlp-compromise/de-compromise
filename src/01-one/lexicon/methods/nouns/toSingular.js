@@ -1,7 +1,7 @@
 import { convert, reverse } from 'suffix-thumb'
 import model from '../models.js'
 
-let pluralRev = model.nouns && model.nouns.plural ? reverse(model.nouns.plural) : null
+const pluralRev = model.nouns && model.nouns.plural ? reverse(model.nouns.plural) : null
 
 // fallback rules, when no trained model is available
 const leave = [
@@ -36,7 +36,7 @@ const toSingular = function (str) {
     }
   }
   for (let i = 0; i < suffixes.length; i += 1) {
-    let suff = suffixes[i]
+    const suff = suffixes[i]
     if (str.endsWith(suff)) {
       return str.substring(0, str.length - suff.length)
     }

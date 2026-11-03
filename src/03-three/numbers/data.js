@@ -1,4 +1,4 @@
-let data = {
+const data = {
   ones: [
     [1, 'eins', 'erste'],
     [2, 'zwei', 'zweite'],
@@ -57,7 +57,7 @@ const toNumber = {}
 
 Object.keys(data).forEach(k => {
   data[k].forEach(a => {
-    let [num, w, ord] = a
+    const [num, w, ord] = a
     toCardinal[ord] = w
     toOrdinal[w] = ord
     toNumber[w] = num

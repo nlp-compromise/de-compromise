@@ -2,7 +2,7 @@ import { convert } from 'suffix-thumb'
 import model from '../models.js'
 
 // fallback rules, when no trained model is available
-let rules = [
+const rules = [
   ['ein', ''],
   ['cht', 'e'],
   ['ll', 'e'],
@@ -34,7 +34,7 @@ const firstForm = function (str) {
     return convert(str, model.nouns.plural)
   }
   for (let i = 0; i < rules.length; i += 1) {
-    let [from, to] = rules[i]
+    const [from, to] = rules[i]
     if (str.endsWith(from)) {
       return str + to
     }

@@ -2,10 +2,10 @@ import { convert } from 'suffix-thumb'
 import model from '../models.js'
 import getIrregular from './irregulars.js'
 import ppRules from './custom/toPastParticiple.js'
-let { presentTense, pastTense, subjunctive1, subjunctive2, imperative, presentParticiple, pastParticiple } = model
+const { presentTense, pastTense, subjunctive1, subjunctive2, imperative, presentParticiple, pastParticiple } = model
 
 const doEach = function (str, m, tense) {
-  let irr = getIrregular(str, tense)
+  const irr = getIrregular(str, tense)
   if (irr) {
     return {
       first: irr[0],
@@ -35,7 +35,7 @@ const toPresentParticiple = (str) => {
   return getIrregular(str, 'presentParticiple') || convert(str, presentParticiple.presentParticiple)
 }
 const toPastParticiple = (str) => {
-  let irr = getIrregular(str, 'pastParticiple')
+  const irr = getIrregular(str, 'pastParticiple')
   if (irr) {
     return irr
   }
@@ -45,7 +45,7 @@ const toPastParticiple = (str) => {
   return ppRules(str)
 }
 const toImperative = (str) => {
-  let irr = getIrregular(str, 'imperative')
+  const irr = getIrregular(str, 'imperative')
   if (irr) {
     return { secondSingular: irr[0], secondPlural: irr[1] }
   }

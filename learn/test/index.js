@@ -17,16 +17,16 @@ let right = 0
 let wrong = 0
 
 const callback = function (sentence) {
-  let want = {}
+  const want = {}
   sentence.forEach(t => {
-    let str = normalize(t.w)
+    const str = normalize(t.w)
     want[str] = t.tag
   })
-  let txt = sentence.map(t => t.w).join(' ')
-  let doc = nlp(txt)
+  const txt = sentence.map(t => t.w).join(' ')
+  const doc = nlp(txt)
   doc.terms().forEach(t => {
-    let str = normalize(t.text())
-    let tag = want[str]
+    const str = normalize(t.text())
+    const tag = want[str]
     if (tag && !t.has('@hasContraction')) {
       if (t.has(`#${tag}`)) {
         right += 1

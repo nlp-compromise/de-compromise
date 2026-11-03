@@ -1,9 +1,9 @@
 import test from 'tape'
 import nlp from './_lib.js'
-let here = '[verb-forms] '
+const here = '[verb-forms] '
 
 test('schmecken-taste', function (t) {
-  let forms = [
+  const forms = [
     // INDIKATIV
     // Präsens
     ['schmecke', 'schmeckst', 'schmeckt', 'schmecken', 'schmeckt', 'schmecken'],
@@ -48,7 +48,7 @@ test('schmecken-taste', function (t) {
 
 
 test('schwimmen -swim', function (t) {
-  let forms = [
+  const forms = [
     // INDIKATIV
     // Präsens
     ['schwimme', 'schwimmst', 'schwimmt', 'schwimmen', 'schwimmt', 'schwimmen'],

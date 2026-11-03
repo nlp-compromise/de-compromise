@@ -1,8 +1,8 @@
 import model from './model.js'
 
-let res = {}
+const res = {}
 Object.keys(model).forEach(inf => {
-  let all = new Set()
+  const all = new Set()
   Object.keys(model[inf]).forEach(k => {
     model[inf][k].forEach(str => {
       all.add(str)

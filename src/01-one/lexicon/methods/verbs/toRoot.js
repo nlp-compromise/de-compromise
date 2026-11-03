@@ -2,7 +2,7 @@ import { convert, reverse } from 'suffix-thumb'
 import model from '../models.js'
 import { toInfinitive } from './irregulars.js'
 import ppRules from './custom/fromPastParticiple.js'
-let { presentTense, pastTense, subjunctive1, subjunctive2, imperative, presentParticiple, pastParticiple } = model
+const { presentTense, pastTense, subjunctive1, subjunctive2, imperative, presentParticiple, pastParticiple } = model
 
 // =-=-
 const revAll = function (m) {
@@ -12,13 +12,13 @@ const revAll = function (m) {
   }, {})
 }
 
-let presentRev = revAll(presentTense)
-let pastRev = revAll(pastTense)
-let subjRev1 = revAll(subjunctive1)
-let subjRev2 = revAll(subjunctive2)
-let impRev = revAll(imperative)
-let presentPartRev = reverse(presentParticiple.presentParticiple)
-let pastPartRev = pastParticiple ? reverse(pastParticiple.pastParticiple) : null
+const presentRev = revAll(presentTense)
+const pastRev = revAll(pastTense)
+const subjRev1 = revAll(subjunctive1)
+const subjRev2 = revAll(subjunctive2)
+const impRev = revAll(imperative)
+const presentPartRev = reverse(presentParticiple.presentParticiple)
+const pastPartRev = pastParticiple ? reverse(pastParticiple.pastParticiple) : null
 
 const allForms = function (str, form, m) {
   if (toInfinitive.hasOwnProperty(str)) {

@@ -6,12 +6,12 @@ import fromPastParticiple from './fromPastParticiple.js'
 const inspect = ''
 
 const topk = function (arr) {
-  let obj = {}
+  const obj = {}
   arr.forEach(a => {
     obj[a] = obj[a] || 0
     obj[a] += 1
   })
-  let res = Object.keys(obj).map(k => [k, obj[k]])
+  const res = Object.keys(obj).map(k => [k, obj[k]])
   return res.sort((a, b) => (a[1] > b[1] ? -1 : 0))
 }
 
@@ -23,10 +23,10 @@ const percent = (part, total) => {
 
 // collect errors to look at
 let right = 0
-let bads = []
+const bads = []
 pairs.forEach(a => {
-  let [inf, prt] = a
-  let have = fromPastParticiple(prt)
+  const [inf, prt] = a
+  const have = fromPastParticiple(prt)
   if (have === inf) {
     right += 1
   } else {
@@ -37,7 +37,7 @@ pairs.forEach(a => {
 })
 
 // let suffs = bads.map(a => a[1].substring(a[1].length - inspect.length, a[1].length))
-let suffs = bads.map(a => a[1].substring(a[1].length - inspect.length - 4, a[1].length))
+const suffs = bads.map(a => a[1].substring(a[1].length - inspect.length - 4, a[1].length))
 // bads = bads.filter(a => a[2].startsWith('ge') && !a[1].startsWith('ge'))
 // let suffs = bads.map(a => a[0].substring(0, 3))
 console.log(topk(suffs))

@@ -16,9 +16,9 @@ const api = function (View) {
       const methods = this.methods.two.transform.adjective
       const { inflect, toRoot } = methods
       return getNth(this, n).map(m => {
-        let str = getRoot(m, methods)
-        let root = toRoot(str) || str
-        let res = inflect(root)
+        const str = getRoot(m, methods)
+        const root = toRoot(str) || str
+        const res = inflect(root)
         res.infinitive = root
         return res
       }, [])

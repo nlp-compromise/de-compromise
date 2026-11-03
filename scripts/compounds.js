@@ -1,6 +1,6 @@
 import wtf from 'wtf_wikipedia'
 
-let arr = [
+const arr = [
   'Worttrennung',
   'Aussprache',
   'Bedeutungen',
@@ -25,7 +25,7 @@ wtf.extend((_, templates) => {
   })
 })
 
-let doc = wtf(`{{Herkunft}}
+const doc = wtf(`{{Herkunft}}
 :[[Determinativkompositum]], zusammengesetzt aus den Substantiven ''[[Land]]'' und ''[[Kreis]]''
 `)
 console.log(doc.text())
@@ -33,7 +33,7 @@ console.log(doc.text())
 
 doc.sentences().forEach(s => {
   console.log(s)
-  let found = s.links().find(l => l.link === 'Determinativkompositum')
+  const found = s.links().find(l => l.link === 'Determinativkompositum')
   console.log(found)
 })
   // console.log(doc.sections().map(s => s.json()))

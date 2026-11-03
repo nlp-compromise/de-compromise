@@ -1,6 +1,6 @@
 import test from 'tape'
 import nlp from '../_lib.js'
-let here = '[de-number-methods] '
+const here = '[de-number-methods] '
 nlp.verbose(false)
 
 test('toNumber:', function (t) {
@@ -69,12 +69,12 @@ test('units and money:', function (t) {
 })
 
 test('filters:', function (t) {
-  let doc = nlp('drei Hunde und sieben Katzen')
+  const doc = nlp('drei Hunde und sieben Katzen')
   t.equal(doc.numbers().greaterThan(5).text(), 'sieben', here + 'greaterThan')
   t.equal(doc.numbers().lessThan(5).text(), 'drei', here + 'lessThan')
   t.equal(nlp('zwei vier acht').numbers().between(3, 7).text(), 'vier', here + 'between')
   t.equal(nlp('vier Pferde').numbers().isEqual(4).text(), 'vier', here + 'isEqual')
-  let mixed = nlp('der dritte Mann und vier Frauen')
+  const mixed = nlp('der dritte Mann und vier Frauen')
   t.equal(mixed.numbers().isOrdinal().text(), 'dritte', here + 'isOrdinal')
   t.equal(mixed.numbers().isCardinal().text(), 'vier', here + 'isCardinal')
   t.end()

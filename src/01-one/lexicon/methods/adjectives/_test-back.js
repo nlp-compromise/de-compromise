@@ -17,7 +17,7 @@ let correct = 0
 let total = 0
 Object.keys(model).forEach(inf => {
   model[inf].forEach(str => {
-    let have = toRoot(str)
+    const have = toRoot(str)
     total += 1
     if (have === inf) {
       correct += 1

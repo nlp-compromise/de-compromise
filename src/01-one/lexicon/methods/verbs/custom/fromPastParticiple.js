@@ -2,7 +2,7 @@ import { prefixes, suffixes } from './rules.js'
 
 const doSuffix = function (str) {
   for (let i = 0; i < suffixes.length; i += 1) {
-    let [inf, prt] = suffixes[i]
+    const [inf, prt] = suffixes[i]
     if (str.endsWith(prt)) {
       return str.substring(0, str.length - prt.length) + inf
     }

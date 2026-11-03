@@ -1,9 +1,9 @@
 const file = '/Users/spencer/data/tiger-de/tiger_release_aug07.corrected.16012013.xml'
 import parseXml from '../parseXml.js'
-import fs from 'fs'
+import fs from 'node:fs'
 
 const append = function (arr) {
-  let txt = JSON.stringify(arr) + ',\n'
+  const txt = JSON.stringify(arr) + ',\n'
   fs.writeFileSync('./results.js', txt, { flag: 'a' })
 }
 

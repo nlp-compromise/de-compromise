@@ -1,6 +1,6 @@
 const file = '/Users/spencer/data/tiger-de/tiger_release_aug07.corrected.16012013.xml'
 import parseXml from '../parseXml.js'
-import fs from 'fs'
+import fs from 'node:fs'
 
 // const append = function (arr) {
 //   let txt = JSON.stringify(arr) + ',\n'
@@ -39,14 +39,14 @@ const getProp2 = (term) => {
   return 0
 }
 
-let all = {}
+const all = {}
 
 const callback = function (sentence) {
   sentence.forEach(term => {
     if (term.tag === 'Adjective') {
       all[term.lemma] = all[term.lemma] || { m: [], f: [], n: [], pl: [] }
-      let prop = getProp1(term)
-      let prop2 = getProp2(term)
+      const prop = getProp1(term)
+      const prop2 = getProp2(term)
 
       // console.log(prop, all[term.lemma][prop])
       // all[term.lemma] = all[term.lemma] || {}
@@ -66,7 +66,7 @@ parseXml(file, callback, () => {
   console.log('done')
 
   Object.keys(all).forEach(k => {
-    if (!all[k].m.length || !all[k].f.length || !all[k].n.length || !all[k].n.length) {
+    if (all[k].m.length === 0 || all[k].f.length === 0 || all[k].n.length === 0 || all[k].n.length === 0) {
       delete all[k]
     }
   })

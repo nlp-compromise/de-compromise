@@ -1,6 +1,6 @@
 
 const verbForm = function (term) {
-  let want = [
+  const want = [
     'FirstPerson',
     'SecondPerson',
     'ThirdPerson',
@@ -17,10 +17,10 @@ const root = function (view) {
   const { verb, noun, adjective } = view.world.methods.two.transform
   view.docs.forEach(terms => {
     terms.forEach(term => {
-      let str = term.implicit || term.normal || term.text
+      const str = term.implicit || term.normal || term.text
       // get infinitive form of the verb
       if (term.tags.has('Verb')) {
-        let form = verbForm(term)
+        const form = verbForm(term)
         // look at past + present participles, first
         if (term.tags.has('Participle') && term.tags.has('PresentTense')) {
           term.root = verb.fromPresentParticiple(str, form)

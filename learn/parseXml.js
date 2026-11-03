@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'node:fs';
 import tags from './tags.js';
 import XmlStream from 'xml-stream';
 
@@ -11,17 +11,17 @@ const parseXml = function (file, cb, end) {
 
     xml.collect('t');
     xml.on('endElement: terminals', function (s) {
-      let terms = s.t;
-      let sentence = [];
+      const terms = s.t;
+      const sentence = [];
       terms.forEach((t) => {
-        let obj = t['$'];
+        const obj = t['$'];
         if (!obj || !obj.word || !obj.pos || obj.pos === '$') {
           return;
         }
         if (typeof obj.pos !== 'string') {
           return
         }
-        let res = {
+        const res = {
           w: obj.word,
           lemma: obj.word,
           tag: tags[obj.pos] || obj.pos,

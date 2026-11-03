@@ -2,8 +2,8 @@
 import model from '/Users/spencer/mountain/de-compromise/data/models/adjectives/adjectives.js'
 import convert from './inflect.js'
 
-let all = []
-let suff = ''
+const all = []
+const suff = ''
 
 
 const percent = (part, total) => {
@@ -24,7 +24,7 @@ const percent = (part, total) => {
 
 
 
-let tests = [
+const tests = [
   { prop: 'one', n: 0 },
   { prop: 'two', n: 1 },
   { prop: 'three', n: 2 },
@@ -33,7 +33,7 @@ let tests = [
 tests.forEach(obj => {
   let good = 0
   Object.keys(model).forEach(inf => {
-    let have = convert(inf)[obj.prop]
+    const have = convert(inf)[obj.prop]
     if (have === model[inf][obj.n]) {
       good += 1
     } else {

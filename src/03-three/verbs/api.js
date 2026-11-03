@@ -17,7 +17,7 @@ const api = function (View) {
       const methods = this.methods.two.transform.verb
       const { toPresent, toPast, toSubjunctive1, toSubjunctive2, toImperative, toPastParticiple, toPresentParticiple } = methods
       return getNth(this, n).map(m => {
-        let str = getRoot(m, methods)
+        const str = getRoot(m, methods)
         return {
           infinitive: str,
           presentTense: toPresent(str),

@@ -1,12 +1,12 @@
 import test from 'tape'
 import nlp from '../_lib.js'
-let here = '[adj-noun-splitter] '
+const here = '[adj-noun-splitter] '
 nlp.verbose(false)
 
 // can you please create 50 examples of compound nouns in german ? Return results tokenized with a '|', like 'schnee|eule'.
 
 test('splitter:', function (t) {
-  let arr = [
+  const arr = [
 
     // adj-noun
     'kalt|blütig',// (cold-blooded)
@@ -73,11 +73,11 @@ test('splitter:', function (t) {
 
   ]
   arr.forEach(str => {
-    let parts = str.split('|')
-    let word = str.replace(/\|/, '')
-    let doc = nlp(word).compute('splitter')
+    const parts = str.split('|')
+    const word = str.replace(/\|/, '')
+    const doc = nlp(word).compute('splitter')
     // t.ok(doc.has('#Adjective #Noun'), word)
-    let splits = doc.docs[0][0].splits || []
+    const splits = doc.docs[0][0].splits || []
     t.deepEqual(parts, splits, here + str)
   })
   t.end()

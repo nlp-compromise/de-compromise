@@ -152,12 +152,12 @@ const find = function (str) {
   if (irregulars.hasOwnProperty(str)) {
     return { base: irregulars[str], prefix: '', separable: false }
   }
-  let m = str.match(inseparable)
+  const m = str.match(inseparable)
   if (m && irregulars.hasOwnProperty(str.substring(m[0].length))) {
     return { base: irregulars[str.substring(m[0].length)], prefix: m[0], separable: false }
   }
   for (let i = 0; i < prefixes.length; i += 1) {
-    let p = prefixes[i]
+    const p = prefixes[i]
     if (str.startsWith(p) && irregulars.hasOwnProperty(str.substring(p.length))) {
       return { base: irregulars[str.substring(p.length)], prefix: p, separable: true }
     }
@@ -168,12 +168,12 @@ const find = function (str) {
 // returns conjugated forms for one tense, or null.
 // tense: present | past | subj1 | subj2 | imperative | pastParticiple | presentParticiple
 const getIrregular = function (str, tense) {
-  let found = find(str)
+  const found = find(str)
   if (!found || !found.base[tense]) {
     return null
   }
-  let { base, prefix, separable } = found
-  let forms = base[tense]
+  const { base, prefix, separable } = found
+  const forms = base[tense]
   if (typeof forms === 'string') {
     // participles - 'auf' + 'gestanden', but 'ver' + 'standen'
     if (tense === 'pastParticiple' && separable === false && prefix) {
@@ -185,7 +185,7 @@ const getIrregular = function (str, tense) {
 }
 
 // form → infinitive, for root-recovery
-let toInfinitive = {}
+const toInfinitive = {}
 Object.keys(irregulars).forEach(inf => {
   Object.keys(irregulars[inf]).forEach(tense => {
     let forms = irregulars[inf][tense]
