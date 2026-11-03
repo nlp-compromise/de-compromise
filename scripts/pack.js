@@ -2,7 +2,7 @@
 import fs from 'node:fs'
 import { pack } from 'efrt'
 // import { learn, compress } from 'suffix-thumb'
-import { learn, compress } from '/Users/spencer/mountain/nlp/suffix-thumb/src/index.js'
+import { learn, compress } from '/Users/spencer/mountain/nlp/suffix-thumb/src/index.js' //TODO fixme
 import lexicon from '../data/lexicon/index.js'
 import models from '../data/models/index.js'
 // import switches from '../lib/switches/index.js'
@@ -27,7 +27,7 @@ const steps = [
       })
       //pack each array into a tiny string
       Object.keys(packed).forEach((tag) => {
-        packed[tag] = pack(packed[tag])
+        packed[tag] = pack(packed[tag], { dictionary: true, direction: 'auto' })
       })
       return packed
     }

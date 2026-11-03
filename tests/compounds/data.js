@@ -676,6 +676,5 @@ export default [
   ['monatsbericht', ['monats', 'bericht']],
   ['entwicklungsprojekt', ['entwicklung', 'projekt']],
   ['städtepartnerschaft', ['städte', 'partnerschaft']],
-  ['höherversicherung', ['höher', 'versicherung']],
-
+  ['höherversicherung', ['höher', 'versicherung']]
 ]
