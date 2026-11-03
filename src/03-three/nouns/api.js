@@ -17,7 +17,7 @@ const matchCase = function (m, str) {
 // 'hunde' → 'hund' → 'hunde' round-trips, so it is already a plural,
 // even when the tagger could not tell - 'die Hunde' vs 'der Kunde'
 const isPluralForm = function (methods, str) {
-  let single = methods.toSingular(str)
+  const single = methods.toSingular(str)
   return single !== str && methods.toPlural(single).one === str
 }
 
@@ -30,7 +30,7 @@ const api = function (View) {
     conjugate(n) {
       const methods = this.methods.two.transform.noun
       return getNth(this, n).map(m => {
-        let root = getRoot(m)
+        const root = getRoot(m)
         return {
           singular: root,
           plural: methods.toPlural(root).one,
@@ -47,19 +47,19 @@ const api = function (View) {
         if (isPluralForm(methods, m.text('normal'))) {
           return m
         }
-        let str = getRoot(m)
-        let plural = methods.toPlural(str).one
+        const str = getRoot(m)
+        const plural = methods.toPlural(str).one
         return m.replaceWith(matchCase(m, plural))
       })
     }
     toSingular(n) {
       const methods = this.methods.two.transform.noun
       return getNth(this, n).not('#Singular').map(m => {
-        let str = m.text('normal')
+        const str = m.text('normal')
         if (!m.has('#Plural') && !isPluralForm(methods, str)) {
           return m
         }
-        let singular = methods.toSingular(str)
+        const singular = methods.toSingular(str)
         return m.replaceWith(matchCase(m, singular))
       })
     }

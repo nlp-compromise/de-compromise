@@ -5,9 +5,9 @@ import verbs from './verbs/index.js'
 import nouns from './nouns.js'
 
 // singular → plural pairs, from the declension paradigms
-let nounPlurals = []
+const nounPlurals = []
 Object.keys(nouns).forEach(w => {
-  let { s, p } = nouns[w]
+  const { s, p } = nouns[w]
   if (s && p && s[0] && p[0]) {
     nounPlurals.push([s[0], p[0]])
   }

@@ -1,13 +1,13 @@
 import adjectives from './adjectives.js'
 
-let all = {
+const all = {
   one: [],
   two: [],
   three: [],
   four: [],
 }
 Object.keys(adjectives).forEach(inf => {
-  let [one, two, three, four] = adjectives[inf]
+  const [one, two, three, four] = adjectives[inf]
   all.one.push([inf, one])
   all.two.push([inf, two])
   all.three.push([inf, three])

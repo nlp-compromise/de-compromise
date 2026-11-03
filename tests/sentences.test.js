@@ -1,6 +1,6 @@
 import test from 'tape'
 import nlp from './_lib.js'
-let here = '[sentences] '
+const here = '[sentences] '
 
 test('questions', function (t) {
   let doc = nlp('Wo ist der Bahnhof?')
@@ -40,7 +40,7 @@ test('subordinate clauses', function (t) {
 
 test('verb-second word order', function (t) {
   // fronted adverb pushes the subject after the verb
-  let doc = nlp('Morgen fahren wir nach München')
+  const doc = nlp('Morgen fahren wir nach München')
   t.ok(doc.match('morgen').has('#Adverb'), here + 'fronted morgen is an adverb')
   t.ok(doc.match('fahren').has('#Verb'), here + 'fahren is a verb')
   t.ok(doc.match('wir').has('#Pronoun'), here + 'postverbal wir is a pronoun')
@@ -58,7 +58,7 @@ test('predicate adjectives', function (t) {
 })
 
 test('modal + infinitive', function (t) {
-  let doc = nlp('Sie möchte Ärztin werden')
+  const doc = nlp('Sie möchte Ärztin werden')
   t.ok(doc.match('möchte').has('#Verb'), here + 'möchte is a verb')
   t.ok(doc.match('werden').has('#Verb'), here + 'clause-final werden is a verb')
   t.ok(doc.match('ärztin').has('#Noun'), here + 'Ärztin is a noun')

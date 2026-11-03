@@ -36,7 +36,7 @@ const toRoot = function (str) {
     return str.replace(weise, 'weise')
   }
   for (let i = 0; i < suffixes.length; i += 1) {
-    let suff = suffixes[i]
+    const suff = suffixes[i]
     if (str.endsWith(suff)) {
       return str.substring(0, str.length - suff.length)
     }

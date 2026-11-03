@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-let models = [
+const models = [
   {
     fallback: 'ster',
     rules: [

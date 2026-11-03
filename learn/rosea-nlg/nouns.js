@@ -1,9 +1,9 @@
-import fs from 'fs'
-let arr = fs.readFileSync('/Users/spencer/mountain/de-compromise/learn/rosea-nlg/dictionary.dump').toString().split('\n')
+import fs from 'node:fs'
+const arr = fs.readFileSync('/Users/spencer/mountain/de-compromise/learn/rosea-nlg/dictionary.dump').toString().split('\n')
 
 const prop2 = function (a) {
-  let prop = a[1]
-  let map = {
+  const prop = a[1]
+  const map = {
     NOM: 0,
     GEN: 1,
     DAT: 2,
@@ -15,10 +15,10 @@ const prop2 = function (a) {
   return null
 }
 
-let byInf = {}
+const byInf = {}
 arr.forEach(str => {
   let [w, inf, meta] = str.split(/\t/)
-  let arr = (meta || '').split(':')
+  const arr = (meta || '').split(':')
   if (arr[0] !== 'SUB') {
     return
   }
@@ -28,14 +28,14 @@ arr.forEach(str => {
   if (arr[2] === 'PLU') {
     prop = 'p'
   }
-  let n = prop2(arr)
+  const n = prop2(arr)
   byInf[inf][prop][n] = w.toLowerCase()
 })
 // console.log(byInf)
 
-let model = {}
+const model = {}
 Object.keys(byInf).forEach(inf => {
-  let o = byInf[inf]
+  const o = byInf[inf]
   if (o.s.length === 4 && o.p.length === 4) {
     model[inf] = byInf[inf]
   }

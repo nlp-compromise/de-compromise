@@ -1,9 +1,9 @@
 // npm install papaparse --no-save
 import Papa from 'papaparse'
-import fs from 'fs'
-let file = '/Users/spencer/mountain/de-compromise/learn/wiktionary/wiktionary-verbs.csv'
-let csv = fs.readFileSync(file).toString()
-let data = Papa.parse(csv, { header: true }).data
+import fs from 'node:fs'
+const file = '/Users/spencer/mountain/de-compromise/learn/wiktionary/wiktionary-verbs.csv'
+const csv = fs.readFileSync(file).toString()
+const data = Papa.parse(csv, { header: true }).data
 
 // names
 // Infinitive: 'schmecken',
@@ -17,9 +17,9 @@ let data = Papa.parse(csv, { header: true }).data
 // 'Imperativ Plural': 'schmeckt',
 // 'Hilfsverb: 'haben'
 
-let out = {}
+const out = {}
 data.forEach(o => {
-  let inf = o.Infinitive
+  const inf = o.Infinitive
   out[inf] = []
 })
 

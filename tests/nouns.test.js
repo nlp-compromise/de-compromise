@@ -1,9 +1,9 @@
 import test from 'tape'
 import nlp from './_lib.js'
-let here = '[nouns] '
+const here = '[nouns] '
 
 test('toPlural', function (t) {
-  let arr = [
+  const arr = [
     // -en / -n plurals
     ['die Frau', 'Frauen'],
     ['die Katze', 'Katzen'],
@@ -25,14 +25,14 @@ test('toPlural', function (t) {
     ['der Lehrer', 'Lehrer'],
   ]
   arr.forEach(a => {
-    let [str, want] = a
+    const [str, want] = a
     t.equal(nlp(str).nouns().toPlural().text(), want, here + str + ' → ' + want)
   })
   t.end()
 })
 
 test('toSingular', function (t) {
-  let arr = [
+  const arr = [
     ['die Frauen', 'Frau'],
     ['die Bücher', 'Buch'],
     ['die Städte', 'Stadt'],
@@ -40,14 +40,14 @@ test('toSingular', function (t) {
     ['die Äpfel', 'Apfel'],
   ]
   arr.forEach(a => {
-    let [str, want] = a
+    const [str, want] = a
     t.equal(nlp(str).nouns().toSingular().text(), want, here + str + ' → ' + want)
   })
   t.end()
 })
 
 test('noun conjugate', function (t) {
-  let obj = nlp('das Buch').nouns().conjugate()[0] || {}
+  const obj = nlp('das Buch').nouns().conjugate()[0] || {}
   t.equal(obj.singular, 'buch', here + 'Buch singular')
   t.equal(obj.plural, 'bücher', here + 'Buch plural')
   t.end()

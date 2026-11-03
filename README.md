@@ -27,7 +27,7 @@
     <img src="https://codecov.io/gh/spencermountain/de-compromise/branch/master/graph/badge.svg" />
   </a> -->
   <a href="https://bundlephobia.com/result?p=de-compromise">
-    <img src="https://badge-size.herokuapp.com/spencermountain/de-compromise/master/builds/de-compromise.min.js" />
+    <img src="https://img.shields.io/bundlephobia/min/de-compromise" />
   </a>
   </div>
 </div>
@@ -35,13 +35,11 @@
 <!-- spacer -->
 <img height="85px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
-
 `de-compromise` (kompromiss) is a port of [compromise](https://github.com/nlp-compromise/compromise) in german.
 
 The goal of this project is to provide a small, basic, rule-based POS-tagger.
 
 Das Ziel dieses Projekts ist es, einen kleinen, einfachen, regelbasierten POS-Tagger bereitzustellen.
-
 
 <!-- spacer -->
 <img height="15px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
@@ -55,7 +53,9 @@ dok.match('#Noun').out('array')
 ```
 
 ### Parsing von Zahlen / Number parsing
+
 es kann Zahlen in natürlicher Sprache analysieren und formatieren
+
 ```js
 let doc = ldv('Ich habe einhunderteinundzwanzig Euro')
 doc.numbers().minus(10)
@@ -63,11 +63,11 @@ doc.text()
 // 'Ich habe einhundertelf Euro'
 ```
 
-
 <!-- spacer -->
 <img height="15px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
 oder im Browser:
+
 ```html
 <script src="https://unpkg.com/de-compromise"></script>
 <script>
@@ -79,9 +79,11 @@ oder im Browser:
 ```
 
 ### Konjugation von Verbformen
+
 erkennen und transformieren jede Verbform:
+
 ```js
-txt = 
+txt =
 let doc = nlp('Die Kinder waren geschwommen')
 console.log(doc.verbs().conjugate())
 /*
@@ -136,10 +138,8 @@ Bitte beitreten, um zu helfen! - please join to help!
   <a href="https://rawgit.com/nlp-compromise/de-compromise/master/demo/index.html">Demo</a>
 </h2>
 
-
-
-
 ### Beitragen / Contributing
+
 ```
 git clone https://github.com/nlp-compromise/de-compromise.git
 cd de-compromise
@@ -147,7 +147,6 @@ npm install
 npm test
 npm watch
 ```
-
 
 <!-- spacer -->
 <img height="15px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
@@ -170,7 +169,12 @@ npm watch
 </table>
 
 ### See also
-* [dweiss/compound-splitter](https://github.com/dweiss/compound-splitter) - german compound-word splitter
-* [danielnaber/jwordsplitter](https://github.com/danielnaber/jwordsplitter) - Java compound-word splitter
+
+- [dweiss/compound-splitter](https://github.com/dweiss/compound-splitter) - german compound-word splitter
+- [danielnaber/jwordsplitter](https://github.com/danielnaber/jwordsplitter) - Java compound-word splitter
 
 MIT
+
+### TypeScript
+
+Both ESM imports and CommonJS `import = require()` are supported. CommonJS typings require TypeScript 5.3 or newer.

@@ -1,9 +1,9 @@
 import test from 'tape'
 import nlp from '../_lib.js'
-let here = '[adj-splitter] '
+const here = '[adj-splitter] '
 
 test('adjectives:', function (t) {
-  let arr = [
+  const arr = [
 
     'schnell|laufend',
     'hoch|intelligent',
@@ -88,11 +88,11 @@ test('adjectives:', function (t) {
     'breit|gefächerter',// (broad-based)
   ]
   arr.forEach(str => {
-    let parts = str.split('|')
-    let word = str.replace(/\|/, '')
-    let doc = nlp(word).compute('splitter')
+    const parts = str.split('|')
+    const word = str.replace(/\|/, '')
+    const doc = nlp(word).compute('splitter')
     t.ok(doc.has('#Adjective'), word)
-    let splits = doc.docs[0][0].splits || []
+    const splits = doc.docs[0][0].splits || []
     t.deepEqual(parts, splits, here + str)
   })
   t.end()

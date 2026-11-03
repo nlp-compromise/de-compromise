@@ -21,7 +21,7 @@ const doPrefix = function (str) {
     return str
   }
   // otherwse, add 'ge-'
-  if (!str.match(/^(über|unt|v|au|miß)/)) {
+  if (!/^(über|unt|v|au|miß)/.test(str)) {
     str = 'ge' + str
   }
   return str
@@ -29,7 +29,7 @@ const doPrefix = function (str) {
 
 const doSuffix = function (str) {
   for (let i = 0; i < suffixes.length; i += 1) {
-    let [from, to] = suffixes[i]
+    const [from, to] = suffixes[i]
     if (str.endsWith(from)) {
       return str.substring(0, str.length - from.length) + to
     }

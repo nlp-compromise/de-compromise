@@ -4,8 +4,8 @@ import { toOrdinal } from '../data.js'
 
 const formatNumber = function (parsed, fmt) {
   if (fmt === 'TextOrdinal') {
-    let words = toText(parsed.num)
-    let last = words[words.length - 1]
+    const words = toText(parsed.num)
+    const last = words[words.length - 1]
     words[words.length - 1] = toOrdinal[last]
     return words.join('')
   }

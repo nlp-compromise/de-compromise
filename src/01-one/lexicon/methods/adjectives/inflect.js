@@ -3,7 +3,7 @@ import model from './model.js'
 const inflectAdj = function (inf) {
   const keys = Object.keys(model)
   for (let i = 0; i < keys.length; i += 1) {
-    let suff = keys[i]
+    const suff = keys[i]
     if (inf.endsWith(suff)) {
       return {
         one: inf + model[suff][0],

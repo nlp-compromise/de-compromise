@@ -3,10 +3,10 @@
 // import verbs from './splitter/verbs.js'
 // import adjectives from './splitter/adjectives.js'
 
-let values = { more: [] }
-let nouns = { more: [] }
-let verbs = { more: [] }
-let adjectives = { more: [] }
+const values = { more: [] }
+const nouns = { more: [] }
+const verbs = { more: [] }
+const adjectives = { more: [] }
 
 export default {
   one: {

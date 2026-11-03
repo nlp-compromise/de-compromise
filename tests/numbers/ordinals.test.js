@@ -1,9 +1,9 @@
 import test from 'tape'
 import nlp from '../_lib.js'
-let here = '[de-number-ordinal] '
+const here = '[de-number-ordinal] '
 nlp.verbose(false)
 
-let arr = [
+const arr = [
   [1, 'erste', "eins"],
   [2, 'zweite', "zwei"],
   [3, 'dritte', "drei"],
@@ -62,11 +62,11 @@ let arr = [
 
 test('match:', function (t) {
   arr.forEach(a => {
-    let [n, ord, card] = a
+    const [n, ord, card] = a
     t.equal(nlp(ord).has('#Ordinal'), true, here + ' [ordinal-tag] ' + ord)
     t.equal(nlp(card).has('#Cardinal'), true, here + ' [cardinal-tag] ' + card)
     // parse the ordinal number
-    let num = nlp(ord).numbers().get()[0]
+    const num = nlp(ord).numbers().get()[0]
     t.equal(num, n, here + ' [parse] ' + ord)
   })
   t.end()

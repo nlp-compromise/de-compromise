@@ -1,9 +1,9 @@
 import test from 'tape'
 import nlp from '../_lib.js'
-let here = '[verb-splitter] '
+const here = '[verb-splitter] '
 
 test('verbs:', function (t) {
-  let arr = [
+  const arr = [
     'zusammen|arbeiten',
     'aus|lachen',
     'ein|schlafen',
@@ -110,11 +110,11 @@ test('verbs:', function (t) {
     // zusammen|leben|lernen (to learn to live together)
   ]
   arr.forEach(str => {
-    let parts = str.split(/\|/)
-    let word = str.replace(/\|/, '')
-    let doc = nlp(word).compute('splitter')
+    const parts = str.split(/\|/)
+    const word = str.replace(/\|/, '')
+    const doc = nlp(word).compute('splitter')
     t.ok(doc.has('#Verb'), word)
-    let splits = doc.docs[0][0].splits || []
+    const splits = doc.docs[0][0].splits || []
     t.deepEqual(parts, splits, here + str)
   })
   t.end()

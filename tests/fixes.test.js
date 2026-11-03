@@ -1,6 +1,6 @@
 import test from 'tape'
 import nlp from './_lib.js'
-let here = '[fixes] '
+const here = '[fixes] '
 
 test('verb-noun homographs', function (t) {
   let doc = nlp('Wir essen Pizza')
@@ -110,7 +110,7 @@ test('noun api', function (t) {
   t.equal(nlp('der Mann').nouns().toPlural().text(), 'Männer', here + 'toPlural Mann (umlaut)')
   t.equal(nlp('die Hunde').nouns().toSingular().text(), 'Hund', here + 'toSingular Hunde')
   t.equal(nlp('die Männer').nouns().toSingular().text(), 'Mann', here + 'toSingular Männer')
-  let obj = nlp('der Hund').nouns().conjugate()[0] || {}
+  const obj = nlp('der Hund').nouns().conjugate()[0] || {}
   t.equal(obj.plural, 'hunde', here + 'nouns().conjugate() plural')
   t.equal(obj.singular, 'hund', here + 'nouns().conjugate() singular')
   t.ok(nlp('Die Kinder spielen').match('Kinder').has('#Plural'), here + 'Kinder tagged plural')

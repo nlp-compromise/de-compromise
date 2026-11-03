@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-let models = [
+const models = [
   { fallback: 'er', rules: [['e', 'er']] },
   { fallback: 'en', rules: [['e', 'en']] },
   { fallback: 'e', rules: [['e', 'e']] },

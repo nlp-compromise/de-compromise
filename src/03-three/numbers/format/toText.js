@@ -1,17 +1,17 @@
 import { data } from '../data.js'
-let tens = data.tens.reverse()
-let teens = data.teens.reverse()
-let ones = data.ones.reverse()
-let hundreds = data.hundreds.reverse()
+const tens = data.tens.reverse()
+const teens = data.teens.reverse()
+const ones = data.ones.reverse()
+const hundreds = data.hundreds.reverse()
 
 
 const doThousands = function (num) {
-  let words = []
+  const words = []
   // hunderttausend
   if (num >= 100000) {
     for (let i = 0; i < ones.length; i += 1) {
       if (num >= ones[i][0] * 100000) {
-        let found = ones[i][0] === 1 ? 'ein' : ones[i][1]
+        const found = ones[i][0] === 1 ? 'ein' : ones[i][1]
         words.push(found)
         words.push('hunderttausend')
         num -= teens[i][0] * 100000
@@ -31,7 +31,7 @@ const doThousands = function (num) {
   // dreitausend, viertausend...
   for (let i = 0; i < ones.length; i += 1) {
     if (num >= ones[i][0] * 1000) {
-      let found = ones[i][0] === 1 ? 'ein' : ones[i][1]
+      const found = ones[i][0] === 1 ? 'ein' : ones[i][1]
       return [found, 'tausend']
     }
   }
@@ -39,7 +39,7 @@ const doThousands = function (num) {
 }
 
 const doHundreds = function (num) {
-  let words = []
+  const words = []
   for (let i = 0; i < hundreds.length; i += 1) {
     if (num >= hundreds[i][0]) {
       words.push(hundreds[i][1])
@@ -52,7 +52,7 @@ const doHundreds = function (num) {
 
 // 23 -> '[drei][und][zwanzig]'
 const twoDigit = function (num) {
-  let words = []
+  const words = []
   // ninety, eighty ...
   for (let i = 0; i < tens.length; i += 1) {
     if (num >= tens[i][0]) {
@@ -74,7 +74,7 @@ const twoDigit = function (num) {
       // drei und zwanzig
       if (words.length === 1) {
         // use '[ein][und][zwanzig]', not 'eins..'
-        let found = ones[i][0] === 1 ? 'ein' : ones[i][1]
+        const found = ones[i][0] === 1 ? 'ein' : ones[i][1]
         return [found, 'und', words[0]]
       }
       // just 'drei'
@@ -99,13 +99,13 @@ const toText = function (num) {
   }
   // do '[sieben][tausend]'
   if (num >= 1000) {
-    let res = doThousands(num)
+    const res = doThousands(num)
     words = words.concat(res)
     num %= 1000
   }
   // do '[zwei][hundert]'
   if (num >= 100) {
-    let res = doHundreds(num)
+    const res = doHundreds(num)
     words = words.concat(res)
     num %= 100
   }

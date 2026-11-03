@@ -5,12 +5,12 @@ const fromNumber = function (m) {
   let str = (m.text() || m.text('normal')).toLowerCase().trim()
   str = str.replace(/(e|er)$/, '')
   // get prefix/suffix
-  let arr = str.split(/([0-9.,]*)/)
+  const arr = str.split(/([0-9.,]*)/)
   let [prefix, num] = arr
   let suffix = arr.slice(2).join('')
   // german format - '.' groups thousands, ',' marks the decimal
   num = num.replace(/[.,]$/, '')
-  let hasComma = /\d\.\d/.test(num)
+  const hasComma = /\d\.\d/.test(num)
   num = num.replace(/\./g, '').replace(/,/, '.')
   if (num !== '' && m.length < 2) {
     num = Number(num)
@@ -34,16 +34,16 @@ const fromNumber = function (m) {
 }
 
 const parseNumber = function (m) {
-  let terms = m.docs[0]
+  const terms = m.docs[0]
   let num = null
   let prefix = ''
   let suffix = ''
   let hasComma = false
-  let isText = m.has('#TextValue')
+  const isText = m.has('#TextValue')
   if (isText) {
     num = fromText(terms)
   } else {
-    let res = fromNumber(m)
+    const res = fromNumber(m)
     prefix = res.prefix
     suffix = res.suffix
     num = res.num

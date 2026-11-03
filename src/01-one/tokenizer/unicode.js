@@ -10,7 +10,7 @@
 // ü  | Ü
 // ß
 
-let compact = {
+const compact = {
   '!': '¡',
   '?': '¿Ɂ',
   '"': '“”"❝❞',
@@ -46,7 +46,7 @@ let compact = {
   ß: 'β' //greek beta to german Eszett surrogate
 }
 //decompress data into two hashes
-let unicode = {}
+const unicode = {}
 Object.keys(compact).forEach(function (k) {
   compact[k].split('').forEach(function (s) {
     unicode[s] = k

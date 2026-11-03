@@ -32,7 +32,7 @@ const secondPass = function (terms, world) {
 
 
 const tagger = function (view) {
-  let world = view.world
+  const world = view.world
   view.docs.forEach(terms => {
     firstPass(terms, world)
     secondPass(terms, world)

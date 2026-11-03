@@ -1,6 +1,6 @@
 const file = '/Users/spencer/data/tiger-de/tiger_release_aug07.corrected.16012013.xml'
 import parseXml from '../parseXml.js'
-import fs from 'fs'
+import fs from 'node:fs'
 
 const normalize = function (str) {
   str = str.toLowerCase().trim()
@@ -8,7 +8,7 @@ const normalize = function (str) {
 }
 
 
-let byTag = {
+const byTag = {
   Verb: {},
   Noun: {},
   Adjective: {},
@@ -17,9 +17,9 @@ let byTag = {
 
 const callback = function (sentence) {
   sentence.forEach(t => {
-    let tag = t.tag
+    const tag = t.tag
     if (byTag[tag]) {
-      let str = normalize(t.w)
+      const str = normalize(t.w)
       byTag[tag][str] = byTag[tag][str] || 0
       byTag[tag][str] += 1
     }

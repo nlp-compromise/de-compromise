@@ -1,11 +1,11 @@
 import test from 'tape'
 import nlp from './_lib.js'
-let here = '[conjugation] '
+const here = '[conjugation] '
 
 const conj = (w) => nlp(w).verbs().conjugate()[0] || {}
 
 test('weak verbs', function (t) {
-  let arr = [
+  const arr = [
     // [infinitive, present-3rd, present-2nd, past-1st, past-participle]
     ['machen', 'macht', 'machst', 'machte', 'gemacht'],
     ['spielen', 'spielt', 'spielst', 'spielte', 'gespielt'],
@@ -14,8 +14,8 @@ test('weak verbs', function (t) {
     ['arbeiten', 'arbeitet', 'arbeitest', 'arbeitete', 'gearbeitet'],
   ]
   arr.forEach(a => {
-    let [inf, third, second, past, pp] = a
-    let c = conj(inf)
+    const [inf, third, second, past, pp] = a
+    const c = conj(inf)
     t.equal(c.presentTense.third, third, here + inf + ' → ' + third)
     t.equal(c.presentTense.second, second, here + inf + ' → ' + second)
     t.equal(c.pastTense.first, past, here + inf + ' → ' + past)
@@ -25,7 +25,7 @@ test('weak verbs', function (t) {
 })
 
 test('strong verbs', function (t) {
-  let arr = [
+  const arr = [
     // [infinitive, present-3rd, past-1st, past-participle]
     ['kommen', 'kommt', 'kam', 'gekommen'],
     ['fahren', 'fährt', 'fuhr', 'gefahren'],
@@ -41,8 +41,8 @@ test('strong verbs', function (t) {
     ['gehen', 'geht', 'ging', 'gegangen'],
   ]
   arr.forEach(a => {
-    let [inf, third, past, pp] = a
-    let c = conj(inf)
+    const [inf, third, past, pp] = a
+    const c = conj(inf)
     t.equal(c.presentTense.third, third, here + inf + ' → ' + third)
     t.equal(c.pastTense.first, past, here + inf + ' → ' + past)
     t.equal(c.pastParticiple, pp, here + inf + ' → ' + pp)
@@ -88,23 +88,23 @@ test('imperative with stem change', function (t) {
 })
 
 test('full present paradigms', function (t) {
-  let arr = [
+  const arr = [
     ['sein', ['bin', 'bist', 'ist', 'sind', 'seid', 'sind']],
     ['haben', ['habe', 'hast', 'hat', 'haben', 'habt', 'haben']],
     ['werden', ['werde', 'wirst', 'wird', 'werden', 'werdet', 'werden']],
     ['können', ['kann', 'kannst', 'kann', 'können', 'könnt', 'können']],
   ]
   arr.forEach(a => {
-    let [inf, forms] = a
-    let p = conj(inf).presentTense
-    let got = [p.first, p.second, p.third, p.firstPlural, p.secondPlural, p.thirdPlural]
+    const [inf, forms] = a
+    const p = conj(inf).presentTense
+    const got = [p.first, p.second, p.third, p.firstPlural, p.secondPlural, p.thirdPlural]
     t.deepEqual(got, forms, here + inf + ' present paradigm')
   })
   t.end()
 })
 
 test('conjugate from inflected form', function (t) {
-  let c = conj('Er liest ein Buch')
+  const c = conj('Er liest ein Buch')
   t.equal(c.infinitive, 'lesen', here + 'liest → lesen')
   t.equal(c.pastParticiple, 'gelesen', here + 'liest → gelesen')
   t.end()

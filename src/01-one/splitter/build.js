@@ -1,10 +1,10 @@
 import { addWord } from './trie.js'
 
 const buildIndex = function (world) {
-  let words = Object.entries(world.model.one.lexicon)
-  let { nouns, values } = world.model.one.splitter
+  const words = Object.entries(world.model.one.lexicon)
+  const { nouns, values } = world.model.one.splitter
   words.forEach((a) => {
-    let [w, tag] = a
+    const [w, tag] = a
     if (tag === 'TextOrdinal' || tag === 'TextCardinal') {
       addWord(w, values)
     }

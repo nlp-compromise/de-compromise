@@ -1,4 +1,4 @@
-let prefixes = [
+const prefixes = [
   'dazwischen',
   'zusammen',
   'entgegen',
@@ -103,7 +103,7 @@ let prefixes = [
   'an'
 ]
 
-let suffixes = [
+const suffixes = [
   'bringen|bracht',
   'leichen|lichen',
   'riechen|rochen',

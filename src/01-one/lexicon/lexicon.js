@@ -5,7 +5,7 @@ import inflectAdj from './methods/adjectives/inflect.js'
 import inflectNoun from './methods/nouns/toPlural.js'
 import misc from './misc.js'
 
-let lexicon = Object.assign({}, misc)
+const lexicon = Object.assign({}, misc)
 
 const tagMap = {
   first: 'FirstPerson',
@@ -22,7 +22,7 @@ const canEnrich = (lex, w) => !lex[w] || lex[w] === 'Verb'
 
 const addWords = function (obj, tag, lex) {
   Object.keys(obj).forEach(k => {
-    let w = obj[k]
+    const w = obj[k]
     if (canEnrich(lex, w) && tagMap[k]) {
       lex[w] = [tag, tagMap[k]]
     }
@@ -30,9 +30,9 @@ const addWords = function (obj, tag, lex) {
 }
 
 // 1st pass - add all words directly from the lexicon
-let unpacked = {}
+const unpacked = {}
 Object.keys(lexData).forEach(tag => {
-  let wordsObj = unpack(lexData[tag])
+  const wordsObj = unpack(lexData[tag])
   unpacked[tag] = Object.keys(wordsObj)
   unpacked[tag].forEach(w => {
     lexicon[w] = lexicon[w] || tag
@@ -74,12 +74,12 @@ Object.keys(unpacked).forEach(tag => {
     }
     // inflect our adjectives
     if (tag === 'Adjective') {
-      let obj = inflectAdj(w)
+      const obj = inflectAdj(w)
       addWords(obj, 'Adjective', lexicon)
     }
     // add plural forms for our nouns
     if (tag === 'Noun' || tag === 'MaleNoun' || tag === 'FemaleNoun' || tag === 'NeuterNoun') {
-      let plural = inflectNoun(w).one
+      const plural = inflectNoun(w).one
       if (plural && plural !== w) {
         if (!lexicon[plural]) {
           lexicon[plural] = 'Plural'
