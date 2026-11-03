@@ -47,6 +47,9 @@ const aliases = {
   ErstePerson: 'FirstPerson',
   ZweitePerson: 'SecondPerson',
   DrittePerson: 'ThirdPerson',
+  ErstePersonPlural: 'FirstPersonPlural',
+  ZweitePersonPlural: 'SecondPersonPlural',
+  DrittePersonPlural: 'ThirdPersonPlural',
   // values
   Zahl: 'Value',
   Ordinalzahl: 'Ordinal',
@@ -212,5 +215,22 @@ test('english tag names are unchanged:', function (t) {
   const tags = doc.json()[0].terms[1].tags
   t.ok(tags.includes('Noun'), here + 'json has #Noun')
   t.notOk(tags.includes('Nomen'), here + 'json has no #Nomen')
+  t.end()
+})
+
+test('every tag in the lexicon is registered:', function (t) {
+  const { lexicon, tagSet } = nlp.world().model.one
+  const tags = new Set(Object.values(lexicon).flat())
+  const missing = [...tags].filter(tag => !tagSet[tag])
+  t.deepEqual(missing, [], here + 'no unregistered tags')
+  t.end()
+})
+
+test('plural persons are verbs, with aliases:', function (t) {
+  const doc = nlp('sangen')
+  t.ok(doc.has('#FirstPersonPlural'), here + 'sangen is #FirstPersonPlural')
+  t.ok(doc.has('#ErstePersonPlural'), here + 'sangen is #ErstePersonPlural')
+  t.notOk(doc.has('#ErstePerson'), here + 'sangen is not #ErstePerson')
+  t.ok(nlp('wort').tag('ZweitePersonPlural').has('#Verb'), here + 'plural person implies #Verb')
   t.end()
 })

@@ -79,4 +79,16 @@ export default {
     aliases: [null, 'DrittePerson'],
     is: 'Verb'
   },
+  FirstPersonPlural: {
+    aliases: [null, 'ErstePersonPlural'],
+    is: 'Verb'
+  },
+  SecondPersonPlural: {
+    aliases: [null, 'ZweitePersonPlural'],
+    is: 'Verb'
+  },
+  ThirdPersonPlural: {
+    aliases: [null, 'DrittePersonPlural'],
+    is: 'Verb'
+  },
 }
