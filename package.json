@@ -50,7 +50,7 @@
     "compromise": "^14.19.0",
     "efrt": "2.9.0",
     "rollup-plugin-filesize-check": "^2.0.1",
-    "suffix-thumb": "6.0.0"
+    "suffix-thumb": "6.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

@@ -1,8 +1,7 @@
 /* eslint-disable no-console */
 import fs from 'node:fs'
 import { pack } from 'efrt'
-// import { learn, compress } from 'suffix-thumb'
-import { learn, compress } from '/Users/spencer/mountain/nlp/suffix-thumb/src/index.js' //TODO fixme
+import { learn, compress } from 'suffix-thumb'
 import lexicon from '../data/lexicon/index.js'
 import models from '../data/models/index.js'
 // import switches from '../lib/switches/index.js'
