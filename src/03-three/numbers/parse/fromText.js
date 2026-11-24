@@ -5,6 +5,11 @@ const parseNumbers = function (terms = []) {
   let carry = 0
   let minus = false
 
+  // a leading 'minus' is its own term - 'minus fünf'
+  if (terms.length > 1 && terms[0].normal === 'minus') {
+    minus = true
+    terms = terms.slice(1)
+  }
   const words = terms[0].splits || []
   // console.log(words)
   const tags = terms[0].tags

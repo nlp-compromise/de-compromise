@@ -23,23 +23,24 @@
   "types": "./types/index.d.ts",
   "sideEffects": false,
   "engines": {
-    "node": ">=12"
+    "node": ">=18"
   },
   "packageManager": "pnpm@11.5.0",
   "scripts": {
-    "test": "pnpm run check-package-types && pnpm run check-types && tape \"./tests/**/*.test.js\" | tap-dancer",
-    "check-types": "tsc -p tsconfig.json",
-    "testb": "cross-env TESTENV=prod pnpm run test",
-    "build": "pnpm run version && rollup -c --silent",
-    "prepack": "pnpm run build && pnpm run testb && pnpm run lint",
-    "version": "node ./scripts/version.js",
-    "pack": "node ./scripts/pack.js",
-    "score": " node ./learn/test/index.js",
-    "lint": "eslint ./src/**/*",
+    "dev": "node ./scratch.js",
     "watch": "node --watch ./scratch.js",
-    "stress": "node scripts/stress.js",
-    "match": "node scripts/match.js",
-    "check-package-types": "tsc -p tests/package-types/tsconfig.json"
+    "pack": "node ./scripts/pack.js",
+    "version": "node ./scripts/version.js",
+    "build": "node ./scripts/pack.js && node ./scripts/version.js && rollup -c --silent",
+    "lint": "eslint ./src/**/*",
+    "test": "tape \"./tests/unit/**/*.test.js\" | tap-dancer",
+    "testb": "cross-env TESTENV=prod tape \"./tests/unit/**/*.test.js\" | tap-dancer",
+    "test:hmm": "tape \"./tests/_hmm/**/*.hmm.js\" | tap-dancer",
+    "test:types": "tsc -p tsconfig.json",
+    "testb:types": "tsc -p tests/types/package/tsconfig.json",
+    "test:all": "pnpm run test && pnpm run lint && pnpm run test:types",
+    "testb:all": "pnpm run testb && pnpm run testb:types",
+    "prepack": "pnpm run build && pnpm run testb:all && pnpm run lint"
   },
   "files": [
     "builds/",
@@ -57,7 +58,6 @@
     "@rollup/plugin-node-resolve": "16.0.3",
     "@rollup/plugin-terser": "1.0.2",
     "cross-env": "10.1.0",
-    "de-corpus": "0.0.1",
     "eslint": "10.14.0",
     "eslint-plugin-regexp": "3.3.3",
     "globals": "17.14.0",

@@ -4,7 +4,7 @@ import globals from 'globals'
 
 export default [
   {
-    ignores: ['builds/*', 'learn/**', 'scripts/**', 'data/**'],
+    ignores: ['builds/**', 'scripts/**', 'data/**', 'scratch.js'],
   },
   js.configs.recommended,
   regexp.configs['flat/recommended'],
@@ -31,7 +31,6 @@ export default [
       'no-implied-eval': 2,
       'no-mixed-operators': 2,
       'no-multi-assign': 2,
-      'no-useless-assignment': 0,
       'no-nested-ternary': 1,
       'no-prototype-builtins': 0,
       'no-self-compare': 1,
@@ -39,6 +38,7 @@ export default [
       'no-shadow': 2,
       'no-unmodified-loop-condition': 1,
       'no-use-before-define': 1,
+      'no-useless-assignment': 0,
       'prefer-const': 0,
       radix: 1,
       'no-unused-vars': 1,

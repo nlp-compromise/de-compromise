@@ -186,12 +186,14 @@ Sie werden für jede Sprache eigens geschrieben. Die hier verfügbaren sind desh
 
 ### `.numbers()`
 
-- **`.numbers()`** — gibt die Zahlen zurück, in Ziffern oder in Worten geschrieben
+- **`.numbers()`** — gibt die Zahlen zurück, in Ziffern oder in Worten geschrieben; ein ausgeschriebenes Vorzeichen gehört zur Zahl (`minus fünf`)
 - **`.values()`** — Alias für .numbers()
-- **`.numbers().get()`** — gibt den Zahlenwert jeder Zahl zurück
+- **`.numbers().get()`** — gibt den Zahlenwert jeder Zahl als Array zurück (`[]`, wenn es keine Zahlen gibt); `null` ist 0, `minus fünf` ist -5
+- **`.numbers().parse()`** — gibt die geparsten Angaben jeder Zahl als Array zurück
+- **`.numbers().json(n?)`** — gibt JSON mit den geparsten Zahlendaten zurück; eine Zahl n wählt nur den n-ten Treffer, ein Objekt oder String wird als Option weitergereicht
 - **`.numbers().units()`** — gibt die Einheit zurück, die auf jede Zahl folgt
-- **`.numbers().toNumber()`** — schreibt die Zahlen in Ziffern (`40`)
-- **`.numbers().toText()`** — schreibt die Zahlen in Worten (`vierzig`)
+- **`.numbers().toNumber()`** — schreibt die Zahlen in Ziffern (`40`, `-5`)
+- **`.numbers().toText()`** — schreibt die Zahlen in Worten (`vierzig`, `minus fünf`)
 - **`.numbers().toCardinal()`** — macht daraus eine Kardinalzahl (`vierzig`)
 - **`.numbers().toOrdinal()`** — macht daraus eine Ordinalzahl (`vierzigste`)
 - **`.numbers().isCardinal()`** — gibt nur die Kardinalzahlen zurück
@@ -200,18 +202,19 @@ Sie werden für jede Sprache eigens geschrieben. Die hier verfügbaren sind desh
 - **`.numbers().greaterThan(n)`** — gibt nur die Zahlen zurück, die größer als n sind
 - **`.numbers().lessThan(n)`** — gibt nur die Zahlen zurück, die kleiner als n sind
 - **`.numbers().between(min, max)`** — gibt nur die Zahlen zwischen min und max zurück
-- **`.numbers().set(n)`** — ersetzt jede Zahl durch n
-- **`.numbers().add(n)`** — addiert n zu jeder Zahl
-- **`.numbers().subtract(n)`** — subtrahiert n von jeder Zahl
+- **`.numbers().set(n)`** — ersetzt jede Zahl durch n – eine Zahl oder ein Zahl-String (`5`, `'fünf'`, `'null'`)
+- **`.numbers().add(n)`** — addiert n zu jeder Zahl (Zahl oder Zahl-String); Alias `.plus(n)`
+- **`.numbers().subtract(n)`** — subtrahiert n von jeder Zahl (Zahl oder Zahl-String); Alias `.minus(n)`
 - **`.numbers().increment()`** — addiert 1 zu jeder Zahl
 - **`.numbers().decrement()`** — subtrahiert 1 von jeder Zahl
+
+Tausenderpunkte bleiben erhalten: Eine Zahl, die mit Punkten gruppiert war (`1.234`), behält sie bei `.add()`, `.subtract()`, `.set()`, `.toOrdinal()` und `.toCardinal()` und bekommt sie nach `.toText()` und `.toNumber()` zurück. Eine Zahl ohne Punkte (`1234`) bekommt keine.
 
 ## Methoden des Konstruktors
 
 _(werden auf dem importierten `nlp`-Objekt aufgerufen, nicht auf einer Ansicht)_
 
 - **`nlp.tokenize(text, lexicon?)`** — analysiert den Text, ohne den Tagger zu starten
-<!-- - **`nlp.lazy(text, match?)`** — durchsucht den Text mit minimaler Analyse -->
 - **`nlp.plugin(plugin)`** — bindet ein compromise-Plugin ein
 - **`nlp.extend(plugin)`** — Alias für nlp.plugin()
 - **`nlp.addWords(words, isFrozen?)`** — fügt dem internen Lexikon neue Wörter hinzu

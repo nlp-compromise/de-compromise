@@ -94,7 +94,7 @@ const toText = function (num) {
     return ['null']
   }
   if (num < 0) {
-    words.push('moins')
+    words.push('minus')
     num = Math.abs(num)
   }
   // do '[sieben][tausend]'

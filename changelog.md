@@ -1,3 +1,21 @@
+### Unreleased
+
+- **[breaking]** - `nlp.TypedPlugin` type is removed
+- **[change]** - typescript types rewritten from the real api - core `View` types now come from `compromise`, and the document type is `DeView`
+- **[new]** - types for `nlp.fromSpec()`, `nlp.testSpec()` and `nlp.compile()`
+- **[change]** - remove `nlp.lazy()` from types and docs - it lives in a plugin now
+- **[fix]** - `.numbers().set()`, `.add()` and `.subtract()` accept a written number - `.add('zwei')` - and ignore a string that isn't one
+- **[fix]** - `.numbers().json(n)` returns the nth number, instead of throwing
+- **[fix]** - `.numbers().get()` and `.parse()` return `[]` when there are no numbers
+- **[fix]** - `.numbers().toText()` then `.toNumber()` round-trips, on the same view or chained - '25 Kilo', 'der 3. Mann'
+- **[fix]** - negative numbers are written 'minus fünf' (was 'moinsfünf'), and 'minus fünf Grad' / 'minus 5' parse as -5
+- **[fix]** - negative numbers with the sign outside the term - '-1.234', '-12,5', '(-5)' - keep it through `.add()` and `.toText()`
+- **[fix]** - thousands grouping '1.234' is kept by `.add()`, `.subtract()`, `.toOrdinal()`, `.toCardinal()` and restored after `.toText()` → `.toNumber()`
+- **[fix]** - 'null' is the number 0 - `.get()`, `.set('null')`, 'nullte'
+- **[change]** - minimum node version is 18
+- **[update]** - tests moved to `tests/unit`, `tests/types`, `tests/_hmm` and `tests/_backlog`
+- **[update]** - suffix-thumb 6.1.0
+
 ### 0.1.2 [Nov 2026]
 
 - **[update]** - smaller suffix-thumb format

@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         node-version: [22.x, 24.x, 26.x]
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest]
 
     steps:
       - uses: actions/checkout@v4
@@ -26,15 +26,14 @@ jobs:
         run: |
           pnpm install --frozen-lockfile
 
-      - name: static checks
-        run: |
-          pnpm run lint
-
       - name: build
         run: |
           pnpm run build
 
-      - name: test
+      - name: test source, lint, types
         run: |
-          pnpm run test
-          pnpm run testb
+          pnpm run test:all
+
+      - name: test builds, package types
+        run: |
+          pnpm run testb:all

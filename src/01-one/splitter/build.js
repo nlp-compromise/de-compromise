@@ -16,5 +16,7 @@ const buildIndex = function (world) {
   addWord('und', values) //'and'
   addWord('ein', values) //'one'
   addWord('hunderttausend', values)
+  addWord('null', values) // compromise drops this key from the lexicon
+  addWord('minus', values) // 'minusfünf'
 }
 export default buildIndex
