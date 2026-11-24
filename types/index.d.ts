@@ -87,6 +87,12 @@ export interface ParsedNumber {
 export interface Verbs extends View {
   /** get all conjugated forms of these verbs - 'gehe', 'ging', 'gegangen' */
   conjugate(n?: number): VerbConjugation[]
+  /** re-write these verbs in the past-tense (Präteritum) - 'sie geht' -> 'sie ging' */
+  toPastTense(n?: number): Verbs
+  /** re-write these verbs in the present-tense - 'sie ging' -> 'sie geht' */
+  toPresentTense(n?: number): Verbs
+  /** re-write these verbs in the future-tense - 'sie geht' -> 'sie wird gehen' */
+  toFutureTense(n?: number): Verbs
 }
 
 export interface Nouns extends View {

@@ -29,8 +29,11 @@ const imperative: ImperativeSet = conj[0].imperative
 const command: string = imperative.secondSingular
 const participles: string[] = [conj[0].pastParticiple, conj[0].presentParticiple]
 doc.verbs(0).conjugate(0)
-// @ts-expect-error there are no tense-transforms in german, yet
-verbs.toPastTense()
+const pastVerbs: Verbs = verbs.toPastTense()
+const presentVerbs: Verbs = verbs.toPresentTense(0)
+const futureVerbs: Verbs = pastVerbs.toFutureTense()
+futureVerbs.conjugate()
+presentVerbs.text()
 
 // nouns
 const nouns: Nouns = doc.nouns()

@@ -1,3 +1,5 @@
+import convertTo from './tense.js'
+
 export const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc)
 
 // get root form of adjective
@@ -29,6 +31,24 @@ const api = function (View) {
           presentParticiple: toPresentParticiple(str)
         }
       }, [])
+    }
+    /** 'ich gehe' -> 'ich ging' (Präteritum) */
+    toPastTense(n) {
+      return convertTo(getNth(this, n), 'past')
+    }
+    /** 'ich ging' -> 'ich gehe' */
+    toPresentTense(n) {
+      return convertTo(getNth(this, n), 'present')
+    }
+    /** 'ich gehe' -> 'ich werde gehen' */
+    toFutureTense(n) {
+      return convertTo(getNth(this, n), 'future')
+    }
+    // overloaded - keep Verb class
+    update(pointer) {
+      const m = new Verbs(this.document, pointer)
+      m._cache = this._cache
+      return m
     }
   }
 

@@ -135,6 +135,25 @@ console.log(doc.verbs().conjugate())
 */
 ```
 
+und die Zeitform eines Satzes ändern, in der gleichen Person:
+
+```js
+let doc = nlp('Ich rufe dich an, weil sie nach Hause geht.')
+doc.verbs().toPastTense()
+doc.text()
+// 'Ich rief dich an, weil sie nach Hause ging.'
+
+doc.verbs().toFutureTense()
+doc.text()
+// 'Ich werde dich anrufen, weil sie nach Hause gehen wird.'
+
+doc.verbs().toPresentTense()
+doc.text()
+// 'Ich rufe dich an, weil sie nach Hause geht.'
+```
+
+`.toPastTense()` verwendet das Präteritum - Verben im Perfekt sind schon in der Vergangenheit, und bleiben unverändert.
+
 see [en-compromise/api](https://github.com/spencermountain/compromise#api) for full API documentation.
 
 Bitte beitreten, um zu helfen! - please join to help!
