@@ -52,6 +52,14 @@ dok.match('#Noun').out('array')
 // [ 'wir', 'Helden', 'Tag.' ]
 ```
 
+### Dokumentation
+
+- [Einführung](./docs/index.md)
+- [Tagset](./docs/tagset.md)
+- [Suchmuster-Syntax](./docs/match.md)
+- [API](./docs/api.md)
+- [Mitmachen](./docs/contributing.md)
+
 ### Parsing von Zahlen / Number parsing
 
 es kann Zahlen in natürlicher Sprache analysieren und formatieren
