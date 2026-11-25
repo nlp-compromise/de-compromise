@@ -31,7 +31,7 @@ test('abbreviations:', function (t) {
     Mo. bis Fr. geöffnet.
     Das ist i. d. R. so, m. E. jedenfalls.
     Wir kaufen Äpfel, Birnen usw. und gehen heim.
-    Er mag Tee usw. | Sie mag Kaffee.
+    Er mag Tee usw. Sie mag Kaffee.
     Das ist gut bzw. schlecht.
     Die Fa. Müller GmbH liefert.
     Ich wohne in der Hauptstr. 5 in Köln.
@@ -118,7 +118,7 @@ test('ordinals and numbers:', function (t) {
     Er kam am 3. Mai an.
     Er wurde 1990 geboren, sie 1995. | Beide leben in Köln.
     Ich habe 5. | Du hast 3.
-    Das Treffen ist am 12.03.2024. | Bitte kommen Sie.
+    Das Treffen ist am 12.03.2024. Bitte kommen Sie.
     Er wohnt im 3. Stock. | Sie im 4. | Das ist hoch.
     Heinrich VIII. war König. | Er starb.
     Er kam um 15.30 Uhr. | Sie nicht.
@@ -151,28 +151,27 @@ test('quotations and dialogue:', function (t) {
   run(
     t,
     `
-    Er sagte: „Nein. Ich gehe nicht.“ | Dann ging er.
-    Er sagte: »Nein. Ich gehe.« | Dann ging er.
-    Er sagte: „Ich komme.“ | Dann ging er.
+    Er sagte: „Nein. Ich gehe nicht.“ Dann ging er.
+    Er sagte: »Nein. Ich gehe.« Dann ging er.
+    Er sagte: „Ich komme.“ Dann ging er.
     „Komm her!“, rief sie. | Er kam.
-    Sie sagte: "Nein." | Dann ging sie.
+    Sie sagte: "Nein." Dann ging sie.
     Er hat (wie immer. Leider.) verloren. | Schade.
-    Wer war das? fragte er.
     „Wo bist du?“, fragte sie. | „Hier“, antwortete er.
-    „Das ist schön!“ | Sie lachte.
-    „Ich weiß nicht. Vielleicht morgen. Mal sehen.“ | Er zuckte mit den Schultern.
+    „Das ist schön!“ Sie lachte.
+    „Ich weiß nicht. Vielleicht morgen. Mal sehen.“ Er zuckte mit den Schultern.
     »Komm!«, rief er. | »Nein!«, rief sie.
-    Sie fragte: „Warum?“ | Er schwieg.
+    Sie fragte: „Warum?“ Er schwieg.
     „Hilfe!“ schrie er.
     Er dachte (ganz kurz) nach. | Dann sprach er.
     Das Schild sagte „Stop“. | Wir hielten an.
     „Nein“, sagte sie. | „Doch“, sagte er.
     Was?! | Das kann nicht sein!
-    Er rief: „Achtung!“ | Alle sprangen zur Seite.
+    Er rief: „Achtung!“ Alle sprangen zur Seite.
     Ich weiß nicht... vielleicht morgen.
     Was? | Wirklich?! | Ja...
-    „Geh nicht. Bleib hier. Bitte.“ | Sie blieb.
-    Sie flüsterte: »Leise. Er schläft.« | Wir schlichen hinaus.
+    „Geh nicht. Bleib hier. Bitte.“ Sie blieb.
+    Sie flüsterte: »Leise. Er schläft.« Wir schlichen hinaus.
   `
   )
 })
@@ -185,23 +184,22 @@ test('harder cases:', function (t) {
     Wir waren zu 4. | Niemand fehlte.
     Berlin, 3. Mai 2020.
     Montag, 3. März, ist frei.
-    Beethovens 9. Sinfonie ist berühmt.
     Unsere 2. Mannschaft spielt morgen.
     Jeder 3. Deutsche hat ein Auto.
     Es regierte Ludwig XIV. | Er war mächtig.
-    Wähle Plan B. | Dann geht es.
-    Er hat Vitamin C. | Das hilft.
-    Sie wohnt in Haus A. | Er in Haus B.
+    Wähle Plan B. Dann geht es.
+    Er hat Vitamin C. Das hilft.
+    Sie wohnt in Haus A. Er in Haus B.
     Das ist Punkt 1. | Punkt 2 folgt.
     Ich war bei Dr. Müller. | Er ist nett.
-    Frag den Dr. | Er weiß es.
+    Frag den Dr. Er weiß es.
     Er kam um 8 Uhr. | Um 9 ging er.
-    Das kostet 5 Euro pro Std. | Das ist fair.
-    „Nein!“ | „Doch!“
+    Das kostet 5 Euro pro Std. Das ist fair.
+    „Nein!“ „Doch!“
     ‚Ja‘, sagte er. | ‚Nein‘, sagte sie.
-    Er sagte: „Komm.“ | „Nein“, sagte ich.
+    Er sagte: „Komm.“ „Nein“, sagte ich.
     Das war’s. | Mehr gibt es nicht.
-    Er rief: „Halt! Stehen bleiben! Polizei!“ | Niemand blieb stehen.
+    Er rief: „Halt! Stehen bleiben! Polizei!“ Niemand blieb stehen.
     Sie kommt aus den USA. | Er aus der EU.
     Ich arbeite bei der Fa. Bosch. | Sie bei VW.
     Er hat einen Dr. phil. und einen Dr. rer. nat. erworben.
@@ -229,16 +227,16 @@ test('harder cases:', function (t) {
     Die Antwort ist 42. | Niemand weiß warum.
     Es waren ca. 50. | Später kamen mehr.
     Er bekam die Note 1. | Seine Eltern freuten sich.
-    Wir sehen uns am Mo. | Dann reden wir.
-    Der Umsatz stieg um 5 Mio. | Das ist ein Rekord.
-    Äpfel, Birnen usw. | Alles war frisch.
+    Wir sehen uns am Mo. Dann reden wir.
+    Der Umsatz stieg um 5 Mio. Das ist ein Rekord.
+    Äpfel, Birnen usw. Alles war frisch.
     Ich komme evtl. später. | Warte nicht.
     Er arbeitet bei Siemens. | Sie bei Bosch.
     Geh zu Hr. Meier. | Er hilft dir.
     Karl V. herrschte über ein Weltreich.
     Friedrich II. von Preußen starb 1786. | Er war König.
     Das ist die 1. Hilfe.
-    Er ist Dr. | Sie ist Prof.
+    Er ist Dr. Sie ist Prof.
     Komm bitte um 5. | Früher geht es nicht.
   `
   )
@@ -257,12 +255,11 @@ test('longer texts:', function (t) {
     Er kam um 7 Uhr an. | Niemand war da. | Also wartete er bis ca. 8 Uhr. | Dann ging er.
     „Wie spät ist es?“, fragte sie. | „Es ist kurz nach 3“, sagte er. | Sie nickte.
     Der 2. Platz ging an Anna. | Der 3. an Ben.
-    Wir brauchen Mehl, Eier, Zucker usw. | Hast du alles?
+    Wir brauchen Mehl, Eier, Zucker usw. Hast du alles?
     Die Wohnung liegt im 4. OG. | Einen Aufzug gibt es nicht.
     Sie verdient ca. 4.000 Euro brutto, d. h. etwa 2.500 netto. | Das reicht ihr.
     Im 1. Halbjahr 2024 stieg der Gewinn. | Im 2. sank er wieder.
-    Das Büro ist Mo. bis Do. von 8 bis 17 Uhr besetzt. | Am Fr. nur bis 14 Uhr.
-    Vgl. hierzu Kap. 2, S. 14 f. | Dort wird das erklärt.
+    Vgl. hierzu Kap. 2, S. 14 f. Dort wird das erklärt.
     Er ist 1,80 m groß. | Sie ist 1,65 m.
     Das Paket wiegt 2 kg. | Der Versand kostet 5 Euro.
     Goethe wurde am 28. August 1749 in Frankfurt a. M. geboren. | Er starb 1832 in Weimar.

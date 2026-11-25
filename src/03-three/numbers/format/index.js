@@ -1,5 +1,8 @@
+import { europeanNumbers } from 'compromise/shared'
 import toText from './toText.js'
 import { toOrdinal, bigNumbers } from '../data.js'
+
+const { write } = europeanNumbers.methods.two.europeanNumbers
 
 // 'Millionen' → 'millionste'
 const bigOrdinal = {}
@@ -10,18 +13,9 @@ bigNumbers.forEach(a => {
 
 
 // german format - '.' groups thousands, ',' marks the decimal
-const toNumeric = function (num, grouped) {
-  const str = String(num)
-  // leave '1e+21' alone
-  if (!/^-?[0-9]+(\.[0-9]+)?$/.test(str)) {
-    return str
-  }
-  let [int, decimal] = str.split('.')
-  // re-group thousands - '1.234.567'
-  if (grouped) {
-    int = int.replace(/\B(?=([0-9]{3})+$)/g, '.')
-  }
-  return decimal ? int + ',' + decimal : int
+// .. unless the digits were found some other way - '1 234'
+const toNumeric = function (parsed) {
+  return write(parsed.num, { hasComma: parsed.hasComma, decimal: parsed.decimal, group: parsed.group })
 }
 
 // 'minus' is its own word - 'minus fünf'
@@ -72,11 +66,11 @@ const formatNumber = function (parsed, fmt) {
   // numeric formats
   // '55.'
   if (fmt === 'Ordinal') {
-    return toNumeric(parsed.num, parsed.hasComma) + '.'
+    return toNumeric(parsed) + '.'
   }
   if (fmt === 'Cardinal') {
     // german decimals use a comma - '12,5'
-    return toNumeric(parsed.num, parsed.hasComma)
+    return toNumeric(parsed)
   }
   return String(parsed.num || '').replace('.', ',')
 }

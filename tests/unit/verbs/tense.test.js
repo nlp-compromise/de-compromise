@@ -744,3 +744,27 @@ test('round-trip fixes, second batch:', function (t) {
   t.equal(nlp('Bitte warte hier.').match('bitte').has('#Verb'), false, here + 'bitte is an adverb')
   t.end()
 })
+
+test('reflexive verbs:', function (t) {
+  run(t, [
+    ['Er hat sich verliebt.', 'Er verliebt sich.'],
+    ['Ich habe mich erkältet.', 'Ich erkälte mich.'],
+    ['Sie hat sich verletzt.', 'Sie verletzt sich.'],
+    ['Er hat sich gefreut.', 'Er freut sich.'],
+    ['Ich habe mich gewaschen.', 'Ich wasche mich.'],
+    ['Er hat sich ein Auto gekauft.', 'Er kauft sich ein Auto.'],
+  ], 'toPresentTense')
+  run(t, [
+    ['Er hat sich verliebt.', 'Er wird sich verlieben.'],
+    ['Er freut sich sehr.', 'Er wird sich sehr freuen.'],
+    ['Ich ziehe mich an.', 'Ich werde mich anziehen.'],
+    ['Weil er sich freut, lacht er.', 'Weil er sich freuen wird, wird er lachen.'],
+  ], 'toFutureTense')
+  run(t, [
+    ['Ich wasche mich.', 'Ich wusch mich.'],
+    ['Sie setzt sich auf das Sofa.', 'Sie setzte sich auf das Sofa.'],
+    ['Er hat sich verliebt.', 'Er hat sich verliebt.'],
+    ['Setz dich!', 'Setz dich!'],
+  ], 'toPastTense')
+  t.end()
+})

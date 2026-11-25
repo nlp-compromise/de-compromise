@@ -4,6 +4,7 @@ import { toPresent, toPast, toSubjunctive1, toSubjunctive2, toImperative, toPast
 import inflectAdj from './methods/adjectives/inflect.js'
 import inflectNoun from './methods/nouns/toPlural.js'
 import misc from './misc.js'
+import { properNouns } from 'compromise/shared'
 
 const lexicon = Object.assign({}, misc)
 
@@ -92,4 +93,11 @@ Object.keys(unpacked).forEach(tag => {
   })
 })
 // console.log(lexicon['zweite'])
+// names of people and places, shared by every language - our own words win
+Object.keys(properNouns).forEach(tag => {
+  Object.keys(unpack(properNouns[tag])).forEach(w => {
+    lexicon[w] = lexicon[w] || tag
+  })
+})
+
 export default lexicon

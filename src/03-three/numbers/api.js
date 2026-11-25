@@ -40,8 +40,8 @@ const replace = function (val, str, grouped) {
   }
   // a numeric sign can sit in the punctuation before the term - the new text brings its own
   const first = sentence[val.fullPointer[0][1]]
-  if (/-$/.test(first.pre) && !val.has('#TextValue')) {
-    first.pre = first.pre.replace(/-$/, '')
+  if (/[-−]$/.test(first.pre) && !val.has('#TextValue')) {
+    first.pre = first.pre.replace(/[-−]$/, '')
   }
   // keep an existing sign-word as it is - 'Minus 5 Grad' → 'Minus fünf Grad'
   let target = val
@@ -70,6 +70,20 @@ const canMultiply = term => !isBig(term) && !term.tags.has('Ordinal')
 // 'dreihunderttausend' in 'zwei Millionen dreihunderttausend'
 const isTextCardinal = term => !isBig(term) && term.tags.has('TextValue') && !term.tags.has('Ordinal')
 
+// thousands may be split-up by a space - '1 000 000', '1 234,5'
+const isHead = term => /^[0-9]{1,3}$/.test(term.text)
+const isGroup = term => /^[0-9]{3}(?:,[0-9]+)?$/.test(term.text) && term.pre === ''
+const spaceGroups = function (terms, i, end) {
+  let j = i + 1
+  if (!isHead(terms[i])) {
+    return j
+  }
+  while (j < end && isGroup(terms[j]) && /^\s+$/.test(terms[j - 1].post) && /^[0-9]+$/.test(terms[j - 1].text)) {
+    j += 1
+  }
+  return j
+}
+
 // most numbers are 1-term
 // but very-large numbers are several - 'zwei Millionen dreihunderttausend'
 const splitValues = function (m) {
@@ -97,7 +111,7 @@ const splitValues = function (m) {
           j += 1
         }
       } else {
-        j = i + 1
+        j = spaceGroups(terms, i, end)
       }
       ptrs.push([n, i, j])
       i = j

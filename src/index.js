@@ -1,4 +1,5 @@
 import nlp from './_lib.js'
+import { europeanNumbers } from 'compromise/shared'
 import lexicon from './01-one/lexicon/plugin.js'
 import tagset from './01-one/tagset/plugin.js'
 import tokenizer from './01-one/tokenizer/plugin.js'
@@ -15,6 +16,8 @@ nlp.plugin(tokenizer)
 nlp.plugin(tagset)
 nlp.plugin(lexicon)
 nlp.plugin(tagger)
+// tags '1.234,56' and '5,30€' from their raw text
+nlp.plugin(europeanNumbers)
 nlp.plugin(postTagger)
 nlp.plugin(splitter)
 nlp.plugin(numbers)

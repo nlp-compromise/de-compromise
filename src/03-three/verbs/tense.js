@@ -78,9 +78,9 @@ const isInfinitive = function (str, lexicon) {
 const oneWord = ['present', 'past']
 
 // the infinitive of 'gegessen', if it is one
-const fromParticiple = function (term, methods) {
+const fromParticiple = function (term, methods, isLoose) {
   const str = term.normal
-  if (!str || !term.tags.has('Verb')) {
+  if (!str || (!isLoose && !term.tags.has('Verb'))) {
     return null
   }
   const root = (methods.fromPastParticiple(str) || '').split(' ').pop()
@@ -450,6 +450,8 @@ const getShared = function (terms, clause, other, toRoot) {
   return verbs
 }
 
+const reflexives = new Set(['mich', 'dich', 'sich', 'uns', 'euch'])
+
 // what sort of verb-phrase is this clause?
 const getShape = function (terms, clause, methods, lexicon) {
   const { start, end, index, isSub, parsed } = clause
@@ -465,8 +467,10 @@ const getShape = function (terms, clause, methods, lexicon) {
   const str = term.normal
   // 'ich habe einen Apfel gegessen', 'ich bin nach Hause gegangen'
   if (root === 'haben' || root === 'sein') {
+    // 'er hat sich verliebt' - with a reflexive pronoun, the last word is a participle, even one we call an adjective
+    const hasReflexive = root === 'haben' && terms.slice(start, other).some((t) => reflexives.has(t.normal))
     const toRoot = (t) => {
-      const inf = fromParticiple(t, methods)
+      const inf = fromParticiple(t, methods, hasReflexive && t === term && isInfinitive(fromParticiple(t, methods, true) || '', lexicon))
       return inf && (root === 'haben' || usesSein(inf, lexicon)) ? inf : null
     }
     if (toRoot(term)) {
