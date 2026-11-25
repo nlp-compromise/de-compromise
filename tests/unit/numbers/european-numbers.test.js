@@ -63,3 +63,56 @@ test('decimal-comma output', function (t) {
   })
   t.end()
 })
+
+// the number takes its tag from the word beside it
+test('spaced money and percent', function (t) {
+  const money = ["5,30 €", "€ 5,30", "1.000 Euro", "12,50 EUR", "CHF 12", "hundert Euro", "5 Franken"]
+  const percent = ["3,5 %", "50 Prozent", "fünfzig Prozent"]
+  const values = [["50 Prozent", 50]]
+  const neither = ["fünf Katzen"]
+  money.forEach(str => {
+    const doc = nlp(str)
+    t.ok(doc.has('#Money'), here + 'money: ' + str)
+    t.ok(doc.has('#Currency'), here + 'currency: ' + str)
+    t.equal(doc.numbers().length, 1, here + 'one number: ' + str)
+  })
+  percent.forEach(str => {
+    const doc = nlp(str)
+    t.ok(doc.has('#Percent'), here + 'percent: ' + str)
+    t.equal(doc.numbers().length, 1, here + 'one number: ' + str)
+  })
+  values.forEach(a => {
+    t.deepEqual(nlp(a[0]).numbers().get(), [a[1]], here + 'value: ' + a[0])
+  })
+  neither.forEach(str => {
+    t.equal(nlp(str).has('(#Money|#Percent)'), false, here + 'neither: ' + str)
+  })
+  t.end()
+})
+
+test('no words for a decimal', function (t) {
+  const arr = ['3,5', '1.234,5', '-3,5', '12,5 kg', '3,5 %']
+  arr.forEach(str => {
+    let doc = nlp(str)
+    doc.numbers().toText()
+    t.equal(doc.text(), str, here + 'toText ' + str)
+    doc = nlp(str)
+    doc.numbers().toOrdinal()
+    t.equal(doc.text(), str, here + 'toOrdinal ' + str)
+  })
+  let doc = nlp('3')
+  doc.numbers().toText()
+  t.equal(doc.text(), 'drei', here + 'integers still have words')
+  // a written number that stops being whole is written in digits
+  doc = nlp('fünf Euro')
+  doc.numbers().add(2.25)
+  t.equal(doc.text(), '7,25 Euro', here + 'add a decimal to words')
+  t.deepEqual(doc.numbers().get(), [7.25], here + '... and read it back')
+  doc = nlp('fünf')
+  doc.numbers().set(0.5)
+  t.equal(doc.text(), '0,5', here + 'set a decimal on words')
+  doc = nlp('drei')
+  doc.numbers().add(1)
+  t.equal(doc.text(), 'vier', here + 'whole numbers stay in words')
+  t.end()
+})
