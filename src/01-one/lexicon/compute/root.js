@@ -1,3 +1,5 @@
+import parseImperative from '../methods/verbs/imperative.js'
+
 
 // the conjugation models are keyed by these names
 const forms = {
@@ -8,20 +10,19 @@ const forms = {
   SecondPersonPlural: 'secondPlural',
   ThirdPersonPlural: 'thirdPlural',
 }
-const persons = Object.values(forms)
 
 const verbForm = function (term) {
   const tag = Object.keys(forms).find(k => term.tags.has(k))
   return tag ? forms[tag] : null
 }
 
-// each tense, and how to get to + from it
-const tenses = [
-  { tag: 'PresentTense', from: 'fromPresent', to: 'toPresent' },
-  { tag: 'PastTense', from: 'fromPast', to: 'toPast' },
-  { tag: 'Subjunctive1', from: 'fromSubjunctive1', to: 'toSubjunctive1' },
-  { tag: 'Subjunctive2', from: 'fromSubjunctive2', to: 'toSubjunctive2' },
-]
+// the tag of each tense
+const tenses = {
+  present: 'PresentTense',
+  past: 'PastTense',
+  subjunctive1: 'Subjunctive1',
+  subjunctive2: 'Subjunctive2',
+}
 
 const isInfinitive = function (str, lexicon) {
   if (!lexicon.hasOwnProperty(str)) {
@@ -32,33 +33,28 @@ const isInfinitive = function (str, lexicon) {
 }
 
 // find the infinitive of a conjugated verb - 'sprichst' -> 'sprechen'
-// the tagger's guess at the tense + person is often wrong, so try them all,
-// and only keep an infinitive that conjugates back into our word
+// the tagger's guess at the tense + person is often wrong, so every tense is tried,
+// and only an infinitive that conjugates back into our word is kept
 const getVerbRoot = function (term, str, world) {
   const verb = world.methods.two.transform.verb
   const lexicon = world.model.one.lexicon
   const form = verbForm(term)
-  // the tagged tense + person go first
-  const order = tenses.filter(o => term.tags.has(o.tag)).concat(tenses.filter(o => !term.tags.has(o.tag)))
-  const people = persons.filter(p => p === form).concat(persons.filter(p => p !== form))
-  let guess = null
-  for (let i = 0; i < order.length; i += 1) {
-    for (let k = 0; k < people.length; k += 1) {
-      // 'rad fahren' -> 'fahren'
-      const inf = (verb[order[i].from](str, people[k]) || '').split(' ').pop()
-      if (!inf || inf === str || verb[order[i].to](inf)[people[k]] !== str) {
-        continue
-      }
-      // prefer a real verb - 'sagte' is 'sagen', not 'sagten'
-      if (isInfinitive(inf, lexicon)) {
-        return inf
-      }
-      guess = guess || inf
-    }
+  const found = verb.candidates(str).filter(o => o.root !== str)
+  // how well does this one agree with the tagger?
+  const score = function (o) {
+    const hits = o.hits.filter(h => term.tags.has(tenses[h.tense]))
+    return (hits.length > 0 ? 2 : 0) + (hits.some(h => h.person === form) ? 1 : 0)
+  }
+  // prefer a real verb - 'sagte' is 'sagen', not 'sagten'
+  const known = found.filter(o => isInfinitive(o.root, lexicon))
+  const list = (known.length > 0 ? known : found).map((o, i) => ({ o, i, score: score(o) }))
+  list.sort((a, b) => b.score - a.score || a.i - b.i)
+  if (list.length === 0) {
+    return null
   }
   // without a tense, the tagger is not sure about this verb - so neither are we
-  const hasTense = tenses.some(o => term.tags.has(o.tag))
-  return hasTense ? guess : null
+  const hasTense = Object.values(tenses).some(tag => term.tags.has(tag))
+  return known.length > 0 || hasTense ? list[0].o.root : null
 }
 
 const root = function (view) {
@@ -69,8 +65,15 @@ const root = function (view) {
       const str = term.implicit || term.normal || term.text
       // get infinitive form of the verb
       if (term.tags.has('Verb')) {
-        // look at past + present participles, first
-        if (term.tags.has('Participle') && term.tags.has('PresentTense')) {
+        const lexicon = view.world.model.one.lexicon
+        const imp = term.tags.has('Imperative') ? parseImperative(str, (inf) => isInfinitive(inf, lexicon)) : null
+        if (imp) {
+          // 'Ruf mich [an]!' is 'anrufen'
+          const last = terms[terms.length - 1]
+          const joined = last !== term && last.tags.has('Particle') ? last.normal + imp.root : null
+          term.root = joined && isInfinitive(joined, lexicon) ? joined : imp.root
+        } else if (term.tags.has('Participle') && term.tags.has('PresentTense')) {
+          // look at past + present participles, first
           term.root = verb.fromPresentParticiple(str)
         } else if (term.tags.has('Participle') && term.tags.has('PastTense')) {
           term.root = verb.fromPastParticiple(str)

@@ -2795,7 +2795,7 @@ er
   // add alias
   lib$4.compile = lib$4.buildTrie;
 
-  var lookup = {
+  var lookup$1 = {
     api: api$6,
     lib: lib$4
   };
@@ -7054,7 +7054,7 @@ er
     }, false);
   };
 
-  const toArray$2 = function (json) {
+  const toArray$3 = function (json) {
     // The tag formatter only reads these graph-owned nodes.
     const nodes = byDepth(json);
     // should we show the root?
@@ -7087,7 +7087,7 @@ er
     // the graph's nodes, parents first
     toArray() {
       // fillDown changes properties, so the cached graph relationships still hold.
-      return toArray$2(this.json)
+      return toArray$3(this.json)
     }
   }
 
@@ -8838,7 +8838,7 @@ designate
   nlp.extend(tokenize); //7kb
   nlp.extend(freeze); //
   nlp.plugin(cache$1); //~1kb
-  nlp.extend(lookup); //7kb
+  nlp.extend(lookup$1); //7kb
   nlp.extend(typeahead); //1kb
   nlp.extend(lexicon$3); //1kb
   nlp.extend(sweep); //1kb
@@ -9016,7 +9016,7 @@ designate
     },
     "imperative": {
       "singular": "1e:n|1:en{herberg,l{fal{m,ge,ber,n},rfeh},ss{la{b,n,ber,i},pre,tre},hdresch,bertret,verschreck,rtreff}|2:missen|13lerne:kennen lernen|10fahre:rad fahren|0:e|0re:ie~1:en,in|3le:eln|7maile:-mailen|1e:eln{twand,tbüg,c}|4iehe:tsehen|11hettoisiere:ettoisieren|6gefallen:fallen|15schwimm delfin:delfinschwimmen|16schwimm delphin:delphinschwimmen|4ib:geben|2:en{derschreib,slauf,sitz,ch{ma{sig,h,z,d,ß,tt},tko},enlass{h,g},lax}|5irb:erben{w,st,d}|5ilf:elfen|5iff:effen|5irf:erfen|4ß:lassen|5imm:ehmen|5ilz:elzen|5ich:echen{r,t}|6ich:echten{l,f}|6isch:schen{rlö,dre}|4ieh:ehen{s,h}|5iehl:ehlen|5ill:ellen{u,hw}|4itt:reten|14schwimm brust:brustschwimmen|5ilt:helten|5ick:hrecken|5ilk:melken|9fahre rad:radfahren|5irg:ergen|4ies:lesen|5iss:essen~1n:e{tu,er{,sch{t,ä},ei}}|0n:e{vertu,l{l,i,h,a,e,o,u,r,ö,ä,ü,c},er{qu,sch,i,rei,e,hw}}|2eln:chle|0:isiere{tbürokrat,al{tkoloni,tkommun,tkrimin,ution}}|2:tkommerzialisiere~10fahre:rad fahren|4ß:blassen|1:len{fal,feh}|6icht:echten{f,fl}|2:gerieren",
-      "plural": "1t:n,e|2t:en{ass{l{bb,en,in,i},bf,nf,bp,np},bfind,nwend,ihalt}|10fahrt:rad fahren|0rt:ie~2t:en|7mailt:-mailen|14schwimmt brust:brustschwimmen|11hettoisiert:ettoisieren|1t:en{t,d,ni,n{ch,f,g,d,k,b,p,m},tm,dm,cl}|4ßt:ssen{a,e{rfr,tr,rm,g},ä}|15schwimmt delfin:delfinschwimmen|16schwimmt delphin:delphinschwimmen|9fahrt rad:radfahren|1d:in~1n:t{tu,el,er{,sch{t,ä},ei}}|1en:t{vertu,el{i,e,w},er{qu,sch,i,rei,e,hw},spaß,maß}|1e:isiert{tbürokrat,al{tkoloni,tkommun,tkrimin,ution}}|2:tkommerzialisiert~4ßt:pressen{,er}|10fahrt:rad fahren"
+      "plural": "1t:n,e|2t:assen{l{bb,en,in,i},bf,nf,bp,np}|10fahrt:rad fahren|0rt:ie~2t:en|7mailt:-mailen|14schwimmt brust:brustschwimmen|1t:en{d,t,ni,n{ch,f,g,d,k,b,p,m},tm,dm,cl}|11hettoisiert:ettoisieren|4ßt:ssen{a,e{rfr,tr,rm,g},ä}|15schwimmt delfin:delfinschwimmen|16schwimmt delphin:delphinschwimmen|9fahrt rad:radfahren|1d:in~1n:t{tu,el,er{,sch{t,ä},ei}}|1en:t{vertu,el{i,e,w},er{qu,sch,i,rei,e,hw},spaß,maß}|1e:isiert{tbürokrat,al{tkoloni,tkommun,tkrimin,ution}}|2:tkommerzialisiert~4ßt:pressen{,er}|10fahrt:rad fahren"
     },
     "presentParticiple": {
       "presentParticiple": "1end:in,un|0nd:e,l|0erend:i~0d:n|9 schwimmend:schwimmen{st,fin,phin}|12schämend:fremdschämen|7mailend:-mailen|8sackend:absacken|11hettoisierend:ettoisieren~2:nd{e{hterhalt,rvereinig,herschwimm,enschrumpf,ier{hstruktur,is{al{tkoloni,tkommun,tkrimin},tbürokrat}}},rentwickel}|3n:end{tu,sei}|1:vertuend|5:ierend{skristallis,skompliment}~0nd:auskristallisiere"
@@ -9622,6 +9622,110 @@ designate
 
   // console.log(fromPresent('tanzt', 'secondPlural'))
 
+  // find a conjugated verb in the conjugation table of its infinitive.
+  //
+  // the reverse-models (fromPresent, fromPast..) each guess at an infinitive,
+  // and they need to be told the tense + person, which we often do not know.
+  // so try them all, and only keep an infinitive that conjugates back into our word.
+  //
+  // (this file is the same in each of the *-compromise libraries - the list of tenses is not)
+
+  const persons$1 = ['first', 'second', 'third', 'firstPlural', 'secondPlural', 'thirdPlural'];
+
+  // tenses is a list of { name, to(infinitive), from(word, person) }
+  // opts.extra(word) may give more infinitives to try
+  const makeLookup = function (tenses, opts = {}) {
+    // what an infinitive looks like - 'hablar', 'parlare', 'sprechen'
+    const shape = opts.shape || /./;
+    const pick = (only) => (only ? tenses.filter((o) => only.includes(o.name)) : tenses);
+
+    // every form of this verb, by tense, and then person
+    const table = function (inf, only) {
+      const res = {};
+      pick(only).forEach((o) => {
+        res[o.name] = o.to(inf) || {};
+      });
+      return res
+    };
+
+    // where is this word, in the conjugations of this infinitive?
+    const findHits = function (str, inf, only) {
+      const forms = table(inf, only);
+      const hits = [];
+      Object.keys(forms).forEach((tense) => {
+        persons$1.forEach((person) => {
+          if (forms[tense][person] === str) {
+            hits.push({ tense, person });
+          }
+        });
+      });
+      return hits
+    };
+
+    // every infinitive that has this word as one of its forms
+    const candidates = function (str, only) {
+      // the word itself may be one - 'wir gehen'
+      let roots = shape.test(str) ? [str] : [];
+      // any irregular verbs, that the models do not reverse
+      if (opts.extra) {
+        roots = roots.concat(opts.extra(str) || []);
+      }
+      pick(only).forEach((o) => {
+        persons$1.forEach((person) => {
+          // 'rad fahren' -> 'fahren'
+          const inf = (o.from(str, person) || '').split(' ').pop();
+          if (inf && inf !== str && shape.test(inf)) {
+            roots.push(inf);
+          }
+        });
+      });
+      roots = roots.filter((s, i) => roots.indexOf(s) === i);
+      const found = [];
+      roots.forEach((root) => {
+        const hits = findHits(str, root, only);
+        if (hits.length > 0) {
+          found.push({ root, hits });
+        }
+      });
+      return found
+    };
+
+    // the best of them - or null
+    // - isVerb(infinitive) says if this is a verb that we know. these are preferred.
+    // - known: only accept a verb that we know
+    // - tenses: only look in these tenses
+    const lookup = function (str, options = {}) {
+      const isVerb = options.isVerb || (() => false);
+      let found = candidates(str, options.tenses);
+      found = found.map((o, i) => ({ o, i, known: isVerb(o.root) }));
+      if (options.known) {
+        found = found.filter((a) => a.known);
+      }
+      // prefer a real verb - 'pude' is 'poder', not 'pudir'
+      found.sort((a, b) => {
+        const diff = Number(b.known) - Number(a.known);
+        if (diff !== 0) {
+          return diff
+        }
+        // then the shortest - 'sagte' is 'sagen', not 'sagten'
+        return a.o.root.length - b.o.root.length || a.i - b.i
+      });
+      return found.length > 0 ? found[0].o : null
+    };
+
+    return { table, findHits, candidates, lookup }
+  };
+
+  // the tenses that are one word
+  const tenses$1 = [
+    { name: 'present', to: toPresent, from: fromPresent },
+    { name: 'past', to: toPast, from: fromPast },
+    { name: 'subjunctive1', to: toSubjunctive1, from: fromSubjunctive1 },
+    { name: 'subjunctive2', to: toSubjunctive2, from: fromSubjunctive2 },
+  ];
+
+  const { table, findHits, candidates, lookup } = makeLookup(tenses$1, { shape: /n$/ });
+
   // greedy adjective suffixes 
   // learned from spencermountain/suffix-thumb @ March 2023
   const r = 'ster';
@@ -9927,7 +10031,11 @@ designate
       fromSubjunctive2,
       fromImperative,
       fromPresentParticiple,
-      fromPastParticiple
+      fromPastParticiple,
+      table,
+      findHits,
+      candidates,
+      lookup
     },
     adjective: {
       inflect: inflectAdj,
@@ -10117,7 +10225,7 @@ designate
     })
   };
 
-  const toArray$1 = function (trie) {
+  const toArray$2 = function (trie) {
     const nodes = parseNodes(trie);
     const all = [];
     const stack = [{ index: 0, pref: '', edge: -1 }];
@@ -10158,7 +10266,7 @@ designate
     if (str.match(':')) {
       symbols(trie);
     }
-    return toArray$1(trie)
+    return toArray$2(trie)
   };
 
   const unpack = function (str) {
@@ -10382,6 +10490,45 @@ designate
     });
   });
 
+  // find the infinitive of an imperative - 'gib' -> 'geben', 'geh' -> 'gehen', 'kommt' -> 'kommen'
+  // the singular is often cut short - 'geh!' for 'gehe!'
+
+  // old + new spelling - 'laß' and 'lass'
+  const norm = (str) => (str || '').replace(/ß$/, 'ss');
+
+  // is this word the singular imperative of this verb?
+  const isSingular = function (str, inf) {
+    const want = norm(toImperative(inf).secondSingular);
+    return Boolean(want) && (want === norm(str) || want === str + 'e' || want + 'e' === str)
+  };
+
+  // is it the plural? - this is also the present-tense 'ihr' form
+  const isPlural = function (str, inf) {
+    return norm(toImperative(inf).secondPlural) === norm(str) || toPresent(inf).secondPlural === str
+  };
+
+  // returns { root, form } or null
+  // - 'isVerb' is a function that says if an infinitive is one that we know
+  const parseImperative = function (str, isVerb) {
+    const guesses = [
+      fromImperative(str, 'singular'),
+      fromImperative(str + 'e', 'singular'),
+      // 'geh' -> 'gehen', 'tu' -> 'tun', 'sammle' -> 'sammeln'
+      str + 'en',
+      str + 'n',
+      str.replace(/le$/, 'eln'),
+      str.replace(/re$/, 'ern'),
+    ];
+    let found = guesses.find((inf) => inf && inf !== str && isVerb(inf) && isSingular(str, inf));
+    if (found) {
+      return { root: found, form: 'singular' }
+    }
+    found = [fromImperative(str, 'plural'), fromPresent(str, 'secondPlural')].find((inf) => {
+      return inf && inf !== str && isVerb(inf) && isPlural(str, inf)
+    });
+    return found ? { root: found, form: 'plural' } : null
+  };
+
   // the conjugation models are keyed by these names
   const forms = {
     FirstPerson: 'first',
@@ -10391,22 +10538,21 @@ designate
     SecondPersonPlural: 'secondPlural',
     ThirdPersonPlural: 'thirdPlural',
   };
-  const persons$2 = Object.values(forms);
 
   const verbForm = function (term) {
     const tag = Object.keys(forms).find(k => term.tags.has(k));
     return tag ? forms[tag] : null
   };
 
-  // each tense, and how to get to + from it
-  const tenses = [
-    { tag: 'PresentTense', from: 'fromPresent', to: 'toPresent' },
-    { tag: 'PastTense', from: 'fromPast', to: 'toPast' },
-    { tag: 'Subjunctive1', from: 'fromSubjunctive1', to: 'toSubjunctive1' },
-    { tag: 'Subjunctive2', from: 'fromSubjunctive2', to: 'toSubjunctive2' },
-  ];
+  // the tag of each tense
+  const tenses = {
+    present: 'PresentTense',
+    past: 'PastTense',
+    subjunctive1: 'Subjunctive1',
+    subjunctive2: 'Subjunctive2',
+  };
 
-  const isInfinitive$1 = function (str, lexicon) {
+  const isInfinitive$2 = function (str, lexicon) {
     if (!lexicon.hasOwnProperty(str)) {
       return false
     }
@@ -10415,33 +10561,28 @@ designate
   };
 
   // find the infinitive of a conjugated verb - 'sprichst' -> 'sprechen'
-  // the tagger's guess at the tense + person is often wrong, so try them all,
-  // and only keep an infinitive that conjugates back into our word
+  // the tagger's guess at the tense + person is often wrong, so every tense is tried,
+  // and only an infinitive that conjugates back into our word is kept
   const getVerbRoot = function (term, str, world) {
     const verb = world.methods.two.transform.verb;
     const lexicon = world.model.one.lexicon;
     const form = verbForm(term);
-    // the tagged tense + person go first
-    const order = tenses.filter(o => term.tags.has(o.tag)).concat(tenses.filter(o => !term.tags.has(o.tag)));
-    const people = persons$2.filter(p => p === form).concat(persons$2.filter(p => p !== form));
-    let guess = null;
-    for (let i = 0; i < order.length; i += 1) {
-      for (let k = 0; k < people.length; k += 1) {
-        // 'rad fahren' -> 'fahren'
-        const inf = (verb[order[i].from](str, people[k]) || '').split(' ').pop();
-        if (!inf || inf === str || verb[order[i].to](inf)[people[k]] !== str) {
-          continue
-        }
-        // prefer a real verb - 'sagte' is 'sagen', not 'sagten'
-        if (isInfinitive$1(inf, lexicon)) {
-          return inf
-        }
-        guess = guess || inf;
-      }
+    const found = verb.candidates(str).filter(o => o.root !== str);
+    // how well does this one agree with the tagger?
+    const score = function (o) {
+      const hits = o.hits.filter(h => term.tags.has(tenses[h.tense]));
+      return (hits.length > 0 ? 2 : 0) + (hits.some(h => h.person === form) ? 1 : 0)
+    };
+    // prefer a real verb - 'sagte' is 'sagen', not 'sagten'
+    const known = found.filter(o => isInfinitive$2(o.root, lexicon));
+    const list = (known.length > 0 ? known : found).map((o, i) => ({ o, i, score: score(o) }));
+    list.sort((a, b) => b.score - a.score || a.i - b.i);
+    if (list.length === 0) {
+      return null
     }
     // without a tense, the tagger is not sure about this verb - so neither are we
-    const hasTense = tenses.some(o => term.tags.has(o.tag));
-    return hasTense ? guess : null
+    const hasTense = Object.values(tenses).some(tag => term.tags.has(tag));
+    return known.length > 0 || hasTense ? list[0].o.root : null
   };
 
   const root = function (view) {
@@ -10452,12 +10593,19 @@ designate
         const str = term.implicit || term.normal || term.text;
         // get infinitive form of the verb
         if (term.tags.has('Verb')) {
-          // look at past + present participles, first
-          if (term.tags.has('Participle') && term.tags.has('PresentTense')) {
+          const lexicon = view.world.model.one.lexicon;
+          const imp = term.tags.has('Imperative') ? parseImperative(str, (inf) => isInfinitive$2(inf, lexicon)) : null;
+          if (imp) {
+            // 'Ruf mich [an]!' is 'anrufen'
+            const last = terms[terms.length - 1];
+            const joined = last !== term && last.tags.has('Particle') ? last.normal + imp.root : null;
+            term.root = joined && isInfinitive$2(joined, lexicon) ? joined : imp.root;
+          } else if (term.tags.has('Participle') && term.tags.has('PresentTense')) {
+            // look at past + present participles, first
             term.root = verb.fromPresentParticiple(str);
           } else if (term.tags.has('Participle') && term.tags.has('PastTense')) {
             term.root = verb.fromPastParticiple(str);
-          } else if (term.tags.has('Particle')) ; else if (isInfinitive$1(str, view.world.model.one.lexicon)) {
+          } else if (term.tags.has('Particle')) ; else if (isInfinitive$2(str, view.world.model.one.lexicon)) {
             // 'wir [wohnen] hier'
             term.root = str;
           } else {
@@ -11538,9 +11686,9 @@ designate
     'nach', 'teil', 'weg', 'vor', 'mit', 'los', 'her', 'hin', 'ein', 'bei', 'aus', 'auf', 'ab', 'an', 'zu',
   ];
   const finite = ['PresentTense', 'PastTense'];
-  const persons$1 = ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'FirstPersonPlural', 'SecondPersonPlural', 'ThirdPersonPlural'];
+  const persons = ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'FirstPersonPlural', 'SecondPersonPlural', 'ThirdPersonPlural'];
 
-  const toArray = (tags) => (typeof tags === 'string' ? [tags] : tags || []);
+  const toArray$1 = (tags) => (typeof tags === 'string' ? [tags] : tags || []);
 
   const separable = function (terms, i, world) {
     const term = terms[i];
@@ -11550,7 +11698,7 @@ designate
       return null
     }
     const lexicon = world.model.one.lexicon;
-    const known = toArray(lexicon[str]);
+    const known = toArray$1(lexicon[str]);
     // only an unknown word, or one that we know as a noun
     // (an unknown word may have been guessed as a plain verb, already)
     const isGuess = known.length === 0 && term.tags.size === 1;
@@ -11562,10 +11710,10 @@ designate
       if (!str.startsWith(prefix) || str.length < prefix.length + 3) {
         continue
       }
-      const tags = toArray(lexicon[str.slice(prefix.length)]);
+      const tags = toArray$1(lexicon[str.slice(prefix.length)]);
       // an infinitive - 'sie werden mitkommen'
       // or a conjugated verb, with a person - 'rufe', 'kommt'
-      const isVerb = tags.includes('Infinitive') || (tags.some((tag) => finite.includes(tag)) && tags.some((tag) => persons$1.includes(tag)));
+      const isVerb = tags.includes('Infinitive') || (tags.some((tag) => finite.includes(tag)) && tags.some((tag) => persons.includes(tag)));
       if (isVerb) {
         term.tags.clear();
         world.methods.one.setTag([term], ['Verb'].concat(tags), world, false, '2-separable-verb');
@@ -11997,6 +12145,99 @@ designate
     hooks: ['tagger']
   };
 
+  // a command begins with its verb - 'Geh nach Hause!', 'Gib mir das Buch.', 'Kommen Sie herein!'
+  // - so does a question, and german capitalizes both nouns and first words ('Ruf mich an' / 'Ruf und Ehre')
+
+  const subjects$1 = new Set(['ich', 'du', 'er', 'wir', 'ihr', 'man']);
+  const politeWords = new Set(['bitte', 'also', 'nun', 'los']);
+  const toArray = (tags) => (typeof tags === 'string' ? [tags] : tags || []);
+
+  const isInfinitive$1 = function (str, lexicon) {
+    return Object.prototype.hasOwnProperty.call(lexicon, str) && toArray(lexicon[str]).includes('Infinitive')
+  };
+
+  // a conjugated verb, that is not at the end of an infinitive-phrase
+  const isFinite = function (term, lexicon) {
+    if (!term.tags.has('Verb') || term.tags.has('Participle') || term.tags.has('Particle')) {
+      return false
+    }
+    if (isInfinitive$1(term.normal, lexicon)) {
+      return false
+    }
+    return term.tags.has('PresentTense') || term.tags.has('PastTense') || term.tags.has('Modal') || term.tags.has('Auxiliary')
+  };
+
+  const tagImperatives = function (doc) {
+    const world = doc.world;
+    const lexicon = world.model.one.lexicon;
+    const isVerb = (inf) => isInfinitive$1(inf, lexicon);
+    const tag = function (term, reason) {
+      term.tags.clear();
+      world.methods.one.setTag([term], 'Imperative', world, false, reason);
+    };
+    doc.docs.forEach((terms) => {
+      const last = terms[terms.length - 1];
+      if (!last || /\?/.test(last.post)) {
+        return
+      }
+      // 'Bitte [warte] hier'
+      let i = 0;
+      if (terms.length > 1 && terms[0].normal === 'bitte' && !/[,!]/.test(terms[0].post)) {
+        i = 1;
+      }
+      const term = terms[i];
+      const next = terms[i + 1];
+      const str = term.normal;
+      if (!str || term.tags.has('Imperative') || politeWords.has(str)) {
+        return
+      }
+      // 'Gehen [Sie] nach Hause!'
+      if (next && next.text === 'Sie' && isVerb(str)) {
+        tag(term, 'sie-imperative');
+        return
+      }
+      // a subject right after it is something else - 'Gehe ich ..', 'Kommt er ..'
+      if (next && subjects$1.has(next.normal)) {
+        return
+      }
+      // words that we know as something else - 'Bitte', 'Morgen'
+      const known = toArray(lexicon[str]);
+      const isNoun = known.some((t) => t === 'Noun' || /Noun$/.test(t));
+      const verbTags = ['Verb', 'PresentTense', 'FirstPerson', 'SecondPersonPlural', 'ThirdPerson', 'Imperative', 'Infinitive'];
+      if (known.length > 0 && !isNoun && !known.some((t) => verbTags.includes(t))) {
+        return
+      }
+      const found = parseImperative(str, isVerb);
+      if (!found) {
+        return
+      }
+      // the first clause has no other conjugated verb - 'Wein ist gut'
+      let end = terms.findIndex((t, k) => k >= i && /[,;:]/.test(t.post));
+      end = end === -1 ? terms.length : end + 1;
+      const rest = terms.slice(i + 1, end);
+      if (rest.some((t) => isFinite(t, lexicon))) {
+        return
+      }
+      const isCommand = /!/.test(last.post);
+      if (found.form === 'singular') {
+        // 'Gehe ich nach Hause, ..'
+        if (/e$/.test(str) && terms.some((t) => t.normal === 'ich')) {
+          return
+        }
+        // 'Ruf mich an' - but 'Ruf und Ehre'
+        if (isNoun && !isCommand && !(next && next.tags.has('Pronoun'))) {
+          return
+        }
+        tag(term, 'singular-imperative');
+        return
+      }
+      // 'Kommt herein!' - also 'er kommt', so only in a command
+      if (isCommand || str === 'seid') {
+        tag(term, 'plural-imperative');
+      }
+    });
+  };
+
   const separablePrefixes = '(ab|an|auf|aus|bei|ein|fest|fort|her|heraus|hervor|hin|hinzu|los|mit|nach|nieder|vor|voraus|weg|weiter|zu|zurecht|zurück|zusammen|zuteil)';
 
   const postTagger$1 = function (doc) {
@@ -12041,6 +12282,9 @@ designate
     doc.match('[{werden}] * #Infinitive', 0).tag('Auxiliary', 'werden-future');
     // werden + participle is the passive - 'das Buch wird gelesen'
     doc.match('[{werden}] * #Participle', 0).tag('Auxiliary', 'werden-passive');
+
+    // 'Geh nach Hause!', 'Gib mir das Buch.'
+    tagImperatives(doc);
 
     // a separable verb-prefix, at the end of the clause - 'ich stehe um sieben Uhr auf'
     doc.match('#Verb * [#Preposition]$', 0).match(separablePrefixes).tag('Particle', 'separable-prefix');
@@ -12875,8 +13119,6 @@ designate
   //   (the Perfekt is already in the past, and is left alone)
   // - the future-tense is 'werden' + an infinitive at the end of the clause.
 
-  const persons = ['first', 'second', 'third', 'firstPlural', 'secondPlural', 'thirdPlural'];
-
   const personTags = {
     first: 'FirstPerson',
     second: 'SecondPerson',
@@ -12944,26 +13186,7 @@ designate
   };
 
   // the two indicative tenses that are one word
-  const getForms = function (root, methods) {
-    return {
-      present: methods.toPresent(root),
-      past: methods.toPast(root),
-    }
-  };
-
-  // find the word in the conjugation table of this infinitive
-  const findHits = function (str, root, methods) {
-    const forms = getForms(root, methods);
-    const hits = [];
-    Object.keys(forms).forEach((tense) => {
-      persons.forEach((person) => {
-        if (forms[tense][person] === str) {
-          hits.push({ tense, person });
-        }
-      });
-    });
-    return hits
-  };
+  const oneWord = ['present', 'past'];
 
   // the infinitive of 'gegessen', if it is one
   const fromParticiple = function (term, methods) {
@@ -12994,28 +13217,9 @@ designate
   };
 
   // find an infinitive that conjugates back into our word
+  // prefer a real verb - 'sagte' is 'sagen', not 'sagten'
   const findRoot = function (str, methods, lexicon) {
-    let roots = [str];
-    persons.forEach((person) => {
-      roots.push(methods.fromPresent(str, person));
-      roots.push(methods.fromPast(str, person));
-    });
-    // 'rad fahren' -> 'fahren'
-    roots = roots.filter((s) => s).map((s) => s.split(' ').pop());
-    roots = roots.filter((s, i) => roots.indexOf(s) === i);
-    let found = [];
-    roots.forEach((root) => {
-      const hits = findHits(str, root, methods);
-      if (hits.length > 0) {
-        found.push({ root, hits });
-      }
-    });
-    // prefer a real verb - 'sagte' is 'sagen', not 'sagten'
-    found = found.sort((a, b) => {
-      const known = Number(isInfinitive(b.root, lexicon)) - Number(isInfinitive(a.root, lexicon));
-      return known || a.root.length - b.root.length
-    });
-    return found[0] || null
+    return methods.lookup(str, { isVerb: (inf) => isInfinitive(inf, lexicon), tenses: oneWord })
   };
 
   // is this a conjugated verb? - which one, and in which tense + person?
@@ -13052,7 +13256,7 @@ designate
   // 'gegessen' is never a conjugated verb, but 'verstanden' may be - 'wir verstanden'
   const isOnlyParticiple = function (term, methods) {
     const root = fromParticiple(term, methods);
-    return root !== null && findHits(term.normal, root, methods).length === 0
+    return root !== null && methods.findHits(term.normal, root, oneWord).length === 0
   };
 
   const hasVerb = (terms, start, end) => {
@@ -13181,6 +13385,10 @@ designate
   // find the finite verb of this clause
   const parseClause = function (terms, part, methods, lexicon) {
     const [start, end] = part;
+    // a command has no tense - 'Gib mir das Buch!', 'Lass mich gehen!'
+    if (terms.slice(start, end).some((t) => t.tags.has('Imperative'))) {
+      return null
+    }
     // skip a leading conjunction - 'und [weil] ..'
     let first = start;
     if (coordinators.has(terms[first].normal) && first + 1 < end) {
@@ -13499,7 +13707,7 @@ designate
       if (tenses.includes(want)) {
         return null
       }
-      edits = [[index, 'replace', getForms(shape.root, methods)[want][person]]];
+      edits = [[index, 'replace', methods.table(shape.root, [want])[want][person]]];
       tags = ['Verb', tenseTags[want], personTags[person]];
     } else {
       // the Perfekt is already in the past - 'ich habe gegessen'
@@ -13508,7 +13716,7 @@ designate
       }
       // collapse it to one verb - 'ich habe gegessen' -> 'ich esse', 'ich werde gehen' -> 'ich ging'
       const [prefix, base] = splitPrefix(shape.root, shape.participle, lexicon);
-      const str = getForms(base, methods)[want][person];
+      const str = methods.table(base, [want])[want][person];
       tags = ['Verb', tenseTags[want], personTags[person]];
       if (isSub) {
         // 'weil er mich angerufen hat' -> 'weil er mich anruft'
@@ -13522,7 +13730,7 @@ designate
       // each of the other verbs leads its own part - 'ich esse Brot und [trinke] Wasser'
       shape.extras.forEach((o) => {
         const [pre, inf] = splitPrefix(o.root, shape.kind === 'perfect' ? o.str : null, lexicon);
-        const form = getForms(inf, methods)[want][person];
+        const form = methods.table(inf, [want])[want][person];
         if (isSub) {
           // 'weil ich gegessen und getrunken habe' -> 'weil ich esse und trinke'
           edits.push([o.at, 'replace', pre + form, true]);

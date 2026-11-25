@@ -1,3 +1,6 @@
+import tagImperatives from './imperative.js'
+import homographVerbs from './homograph-verb.js'
+
 const separablePrefixes = '(ab|an|auf|aus|bei|ein|fest|fort|her|heraus|hervor|hin|hinzu|los|mit|nach|nieder|vor|voraus|weg|weiter|zu|zurecht|zurück|zusammen|zuteil)'
 
 const postTagger = function (doc) {
@@ -42,6 +45,11 @@ const postTagger = function (doc) {
   doc.match('[{werden}] * #Infinitive', 0).tag('Auxiliary', 'werden-future')
   // werden + participle is the passive - 'das Buch wird gelesen'
   doc.match('[{werden}] * #Participle', 0).tag('Auxiliary', 'werden-passive')
+
+  // 'Geh nach Hause!', 'Gib mir das Buch.'
+  tagImperatives(doc)
+  // 'er [brach] sein Versprechen', 'ich [bitte] dich'
+  homographVerbs(doc)
 
   // a separable verb-prefix, at the end of the clause - 'ich stehe um sieben Uhr auf'
   doc.match('#Verb * [#Preposition]$', 0).match(separablePrefixes).tag('Particle', 'separable-prefix')

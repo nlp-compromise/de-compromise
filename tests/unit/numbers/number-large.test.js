@@ -98,12 +98,12 @@ test('toText → toNumber round-trip, across the range:', function (t) {
   // every power of ten, and its neighbours
   for (let e = 6; e <= 12; e += 1) {
     const n = Math.pow(10, e)
-    nums.push(n - 1, n, n + 1, 2 * n, n + 1000, 21 * n + 1)
+    nums.push(n - 1, n, n + 1, 2 * n, n + 1000, (21 * n) + 1)
   }
   // a repeatable sample, spread evenly over the orders of magnitude
   let seed = 1234567
   const rand = function () {
-    seed = (seed * 1103515245 + 12345) % 2147483648
+    seed = ((seed * 1103515245) + 12345) % 2147483648
     return seed / 2147483648
   }
   for (let i = 0; i < 400; i += 1) {
@@ -111,7 +111,7 @@ test('toText → toNumber round-trip, across the range:', function (t) {
   }
   // ...and some round ones, which leave words out
   for (let i = 0; i < 60; i += 1) {
-    const n = Math.floor(Math.pow(10, 3 + rand() * 9))
+    const n = Math.floor(Math.pow(10, 3 + (rand() * 9)))
     const size = Math.pow(10, String(n).length - 1 - Math.floor(rand() * 3))
     nums.push(n - (n % size))
   }

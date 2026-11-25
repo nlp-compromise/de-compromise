@@ -689,3 +689,58 @@ test('joined separable infinitives:', function (t) {
   ], 'toFutureTense')
   t.end()
 })
+
+test('round-trip fixes:', function (t) {
+  // an adjective that looks like an infinitive - 'einen langen Brief'
+  run(t, [
+    ['Du wirst einen langen Brief schreiben.', 'Du schreibst einen langen Brief.'],
+    // a lower-case word that we know as a noun - 'das Schloss'
+    ['Sie schloss die Tür.', 'Sie schließt die Tür.'],
+    // 'zu' + infinitive is its own clause
+    ['Wir werden versuchen, Deutsch zu lernen.', 'Wir versuchen, Deutsch zu lernen.'],
+    ['Mir gefiel die Stadt.', 'Mir gefällt die Stadt.'],
+  ], 'toPresentTense')
+  // 'gefällt' is a participle of 'fällen', and a form of 'gefallen'
+  run(t, [
+    ['Mir gefällt die Stadt.', 'Mir gefiel die Stadt.'],
+    ['Sie schließt die Tür.', 'Sie schloss die Tür.'],
+  ], 'toPastTense')
+  run(t, [
+    ['Mir gefällt die Stadt.', 'Mir wird die Stadt gefallen.'],
+    ['Wir versuchen, Deutsch zu lernen.', 'Wir werden versuchen, Deutsch zu lernen.'],
+  ], 'toFutureTense')
+  const doc = nlp('Sie schloss die Tür.').compute('root')
+  t.equal(doc.has('sie #PastTense'), true, here + 'schloss is a verb')
+  t.equal(doc.has('{schließen}'), true, here + 'schloss is schließen')
+  t.equal(nlp('Das Schloss ist alt.').match('schloss').has('#Noun'), true, here + 'Schloss is a noun')
+  t.end()
+})
+
+test('round-trip fixes, second batch:', function (t) {
+  run(t, [
+    // a verb that is also an adjective, or an adverb
+    ['Er bricht sein Versprechen.', 'Er brach sein Versprechen.'],
+    ['Ich bitte dich.', 'Ich bat dich.'],
+  ], 'toPastTense')
+  run(t, [
+    ['Er brach sein Versprechen.', 'Er bricht sein Versprechen.'],
+    // an adverb that looks like a verb - 'lange'
+    ['Am Wochenende werde ich lange schlafen.', 'Am Wochenende schlafe ich lange.'],
+    // two infinitives that make one verb
+    ['Wir werden einkaufen gehen.', 'Wir gehen einkaufen.'],
+    ['Ich werde anfangen zu verstehen.', 'Ich fange an zu verstehen.'],
+    ['Er wird aufhören zu rauchen.', 'Er hört auf zu rauchen.'],
+  ], 'toPresentTense')
+  run(t, [
+    // 'zu' + infinitive, with no comma
+    ['Ich fange an zu verstehen.', 'Ich werde anfangen zu verstehen.'],
+    ['Er hört auf zu rauchen.', 'Er wird aufhören zu rauchen.'],
+    ['Ich bitte dich.', 'Ich werde dich bitten.'],
+    ['Wir gehen einkaufen.', 'Wir werden einkaufen gehen.'],
+    // .. but this one is not split
+    ['Er scheint zu schlafen.', 'Er wird zu schlafen scheinen.'],
+  ], 'toFutureTense')
+  t.equal(nlp('er ist brach').match('brach').has('#Verb'), false, here + 'brach is an adjective')
+  t.equal(nlp('Bitte warte hier.').match('bitte').has('#Verb'), false, here + 'bitte is an adverb')
+  t.end()
+})

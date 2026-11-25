@@ -8,8 +8,6 @@
 //   (the Perfekt is already in the past, and is left alone)
 // - the future-tense is 'werden' + an infinitive at the end of the clause.
 
-const persons = ['first', 'second', 'third', 'firstPlural', 'secondPlural', 'thirdPlural']
-
 const personTags = {
   first: 'FirstPerson',
   second: 'SecondPerson',
@@ -77,26 +75,7 @@ const isInfinitive = function (str, lexicon) {
 }
 
 // the two indicative tenses that are one word
-const getForms = function (root, methods) {
-  return {
-    present: methods.toPresent(root),
-    past: methods.toPast(root),
-  }
-}
-
-// find the word in the conjugation table of this infinitive
-const findHits = function (str, root, methods) {
-  const forms = getForms(root, methods)
-  const hits = []
-  Object.keys(forms).forEach((tense) => {
-    persons.forEach((person) => {
-      if (forms[tense][person] === str) {
-        hits.push({ tense, person })
-      }
-    })
-  })
-  return hits
-}
+const oneWord = ['present', 'past']
 
 // the infinitive of 'gegessen', if it is one
 const fromParticiple = function (term, methods) {
@@ -127,28 +106,9 @@ const isSubjunctive = function (str, methods) {
 }
 
 // find an infinitive that conjugates back into our word
+// prefer a real verb - 'sagte' is 'sagen', not 'sagten'
 const findRoot = function (str, methods, lexicon) {
-  let roots = [str]
-  persons.forEach((person) => {
-    roots.push(methods.fromPresent(str, person))
-    roots.push(methods.fromPast(str, person))
-  })
-  // 'rad fahren' -> 'fahren'
-  roots = roots.filter((s) => s).map((s) => s.split(' ').pop())
-  roots = roots.filter((s, i) => roots.indexOf(s) === i)
-  let found = []
-  roots.forEach((root) => {
-    const hits = findHits(str, root, methods)
-    if (hits.length > 0) {
-      found.push({ root, hits })
-    }
-  })
-  // prefer a real verb - 'sagte' is 'sagen', not 'sagten'
-  found = found.sort((a, b) => {
-    const known = Number(isInfinitive(b.root, lexicon)) - Number(isInfinitive(a.root, lexicon))
-    return known || a.root.length - b.root.length
-  })
-  return found[0] || null
+  return methods.lookup(str, { isVerb: (inf) => isInfinitive(inf, lexicon), tenses: oneWord })
 }
 
 // is this a conjugated verb? - which one, and in which tense + person?
@@ -183,9 +143,13 @@ const parseFinite = function (term, prev, methods, lexicon) {
 }
 
 // 'gegessen' is never a conjugated verb, but 'verstanden' may be - 'wir verstanden'
-const isOnlyParticiple = function (term, methods) {
+const isOnlyParticiple = function (term, methods, lexicon) {
   const root = fromParticiple(term, methods)
-  return root !== null && findHits(term.normal, root, methods).length === 0
+  if (root === null || methods.findHits(term.normal, root, oneWord).length > 0) {
+    return false
+  }
+  // .. and 'gefällt' is the participle of 'fällen', but also 'es gefällt mir'
+  return !methods.lookup(term.normal, { isVerb: (inf) => isInfinitive(inf, lexicon), known: true, tenses: oneWord })
 }
 
 const hasVerb = (terms, start, end) => {
@@ -200,7 +164,7 @@ const hasVerb = (terms, start, end) => {
 // the first conjugated verb in this span
 const findFinite = function (terms, start, end, methods, lexicon) {
   for (let i = start; i < end; i += 1) {
-    if (!isOnlyParticiple(terms[i], methods)) {
+    if (!isOnlyParticiple(terms[i], methods, lexicon)) {
       const parsed = parseFinite(terms[i], terms[i - 1], methods, lexicon)
       if (parsed) {
         return { index: i, parsed }
@@ -213,6 +177,10 @@ const findFinite = function (terms, start, end, methods, lexicon) {
 // 'weinen und singen' - nothing here but infinitives
 const allInfinitives = function (terms, start, end, lexicon) {
   const verbs = terms.slice(start, end).filter((t) => t.tags.has('Verb'))
+  // 'Deutsch zu lernen' is a clause of its own
+  if (terms.slice(start, end).some((t) => t.normal === 'zu')) {
+    return false
+  }
   return verbs.length > 0 && verbs.every((t) => isInfinitive(t.normal, lexicon))
 }
 
@@ -268,13 +236,34 @@ const isInfinitiveList = function (terms, last, part, methods, lexicon) {
   return false
 }
 
+const isNoun = (term) => term.tags.has('Noun') && !term.tags.has('Pronoun')
+
+// 'zu' + infinitive is a clause of its own, even without a comma - 'ich fange an | zu verstehen'
+// - but only after the end of the verb before it: a prefix, an infinitive, or a participle
+const isBeforeZu = function (terms, start, i, methods, lexicon) {
+  const term = terms[i]
+  const zu = terms[i + 1]
+  const verb = terms[i + 2]
+  if (!zu || zu.normal !== 'zu' || !verb || !isInfinitive(verb.normal, lexicon) || i <= start) {
+    return false
+  }
+  if (isPrefix.has(term.normal) && !isNoun(term)) {
+    return true
+  }
+  if (isOnlyParticiple(term, methods, lexicon)) {
+    return true
+  }
+  // 'ich werde [anfangen] zu verstehen' - but not 'wir [versuchen] zu lernen'
+  return isInfinitive(term.normal, lexicon) && hasVerb(terms, start, i)
+}
+
 // split the sentence into clauses - each has (up to) one finite verb
 const getClauses = function (terms, methods, lexicon) {
   // first, split on punctuation
   let parts = []
   let start = 0
   terms.forEach((term, i) => {
-    if (/[,;:–—]/.test(term.post) || i === terms.length - 1) {
+    if (/[,;:–—]/.test(term.post) || i === terms.length - 1 || isBeforeZu(terms, start, i, methods, lexicon)) {
       parts.push([start, i + 1])
       start = i + 1
     }
@@ -284,7 +273,7 @@ const getClauses = function (terms, methods, lexicon) {
   parts.forEach((part) => {
     const last = merged[merged.length - 1]
     // .. nor is a part with only participles - 'er hat gelacht, geweint und gesungen'
-    const isList = last && !terms.slice(part[0], part[1]).some((t) => t.tags.has('Verb') && !isOnlyParticiple(t, methods))
+    const isList = last && !terms.slice(part[0], part[1]).some((t) => t.tags.has('Verb') && !isOnlyParticiple(t, methods, lexicon))
     // .. or only infinitives, after 'werden' - 'er wird lachen, weinen und singen'
     const isInfList = last && isInfinitiveList(terms, last, part, methods, lexicon)
     // .. but leave it, before a relative clause - 'der Mann, der hier wohnt, ..'
@@ -314,6 +303,10 @@ const getClauses = function (terms, methods, lexicon) {
 // find the finite verb of this clause
 const parseClause = function (terms, part, methods, lexicon) {
   const [start, end] = part
+  // a command has no tense - 'Gib mir das Buch!', 'Lass mich gehen!'
+  if (terms.slice(start, end).some((t) => t.tags.has('Imperative'))) {
+    return null
+  }
   // skip a leading conjunction - 'und [weil] ..'
   let first = start
   if (coordinators.has(terms[first].normal) && first + 1 < end) {
@@ -334,7 +327,7 @@ const parseClause = function (terms, part, methods, lexicon) {
     if (terms[i].tags.has('Verb') && isSubjunctive(terms[i].normal, methods)) {
       return null
     }
-    if (isOnlyParticiple(terms[i], methods)) {
+    if (isOnlyParticiple(terms[i], methods, lexicon)) {
       continue
     }
     const parsed = parseFinite(terms[i], terms[i - 1], methods, lexicon)
@@ -345,7 +338,6 @@ const parseClause = function (terms, part, methods, lexicon) {
   return null
 }
 
-const isNoun = (term) => term.tags.has('Noun') && !term.tags.has('Pronoun')
 
 // 'ging' is both first and third person - so look for the subject
 const choosePerson = function (hits, terms, clause, lastPerson) {
@@ -426,13 +418,22 @@ const getShared = function (terms, clause, other, toRoot) {
   // they are all before the auxiliary, in a subordinate clause - 'weil ich gegessen und getrunken habe'
   for (let i = isSub ? start : index + 1; i < other; i += 1) {
     const term = terms[i]
-    if (!term.tags.has('Verb')) {
+    const next = terms[i + 1]
+    // an adjective, misread as a verb - 'einen [langen] Brief'
+    if (!term.tags.has('Verb') || (next && isNoun(next) && !/,/.test(term.post))) {
       continue
     }
     const root = toRoot(term)
-    const next = terms[i + 1]
     // each one ends its own part - 'gegessen, getrunken und gelacht'
     const isJoined = /,/.test(term.post) || coordinators.has(next.normal)
+    // a word that is not one of these verbs - 'ich werde [lange] schlafen'
+    if (!root && !isJoined) {
+      continue
+    }
+    // the last two make one verb - 'wir werden [einkaufen] gehen'
+    if (root && !isJoined && i === other - 1) {
+      continue
+    }
     if (!root || !isJoined) {
       return null
     }
@@ -479,10 +480,10 @@ const getShape = function (terms, clause, methods, lexicon) {
     }
   }
   // 'ich werde nach Hause gehen'
-  if (root === 'werden' && isPresent && term.tags.has('Verb') && !isOnlyParticiple(term, methods)) {
+  if (root === 'werden' && isPresent && term.tags.has('Verb') && !isOnlyParticiple(term, methods, lexicon)) {
     const toRoot = (t) => {
       const isInf = isInfinitive(t.normal, lexicon) || (t.tags.has('Infinitive') && /n$/.test(t.normal))
-      return isInf && !isOnlyParticiple(t, methods) ? t.normal : null
+      return isInf && !isOnlyParticiple(t, methods, lexicon) ? t.normal : null
     }
     if (toRoot(term)) {
       // a modal has all of the others - 'ich werde lesen und schreiben können'
@@ -632,7 +633,7 @@ const convertClause = function (view, n, clause, want, state) {
     if (tenses.includes(want)) {
       return null
     }
-    edits = [[index, 'replace', getForms(shape.root, methods)[want][person]]]
+    edits = [[index, 'replace', methods.table(shape.root, [want])[want][person]]]
     tags = ['Verb', tenseTags[want], personTags[person]]
   } else {
     // the Perfekt is already in the past - 'ich habe gegessen'
@@ -641,7 +642,7 @@ const convertClause = function (view, n, clause, want, state) {
     }
     // collapse it to one verb - 'ich habe gegessen' -> 'ich esse', 'ich werde gehen' -> 'ich ging'
     const [prefix, base] = splitPrefix(shape.root, shape.participle, lexicon)
-    const str = getForms(base, methods)[want][person]
+    const str = methods.table(base, [want])[want][person]
     tags = ['Verb', tenseTags[want], personTags[person]]
     if (isSub) {
       // 'weil er mich angerufen hat' -> 'weil er mich anruft'
@@ -655,7 +656,7 @@ const convertClause = function (view, n, clause, want, state) {
     // each of the other verbs leads its own part - 'ich esse Brot und [trinke] Wasser'
     shape.extras.forEach((o) => {
       const [pre, inf] = splitPrefix(o.root, shape.kind === 'perfect' ? o.str : null, lexicon)
-      const form = getForms(inf, methods)[want][person]
+      const form = methods.table(inf, [want])[want][person]
       if (isSub) {
         // 'weil ich gegessen und getrunken habe' -> 'weil ich esse und trinke'
         edits.push([o.at, 'replace', pre + form, true])

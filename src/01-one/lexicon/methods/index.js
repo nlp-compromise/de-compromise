@@ -17,6 +17,7 @@ import {
   fromPresentParticiple,
   fromPastParticiple
 } from './verbs/toRoot.js'
+import { table, findHits, candidates, lookup } from './verbs/lookup.js'
 import inflectAdj from './adjectives/inflect.js'
 import adjToRoot from './adjectives/toRoot.js'
 import toPlural from './nouns/toPlural.js'
@@ -41,7 +42,11 @@ export default {
     fromSubjunctive2,
     fromImperative,
     fromPresentParticiple,
-    fromPastParticiple
+    fromPastParticiple,
+    table,
+    findHits,
+    candidates,
+    lookup
   },
   adjective: {
     inflect: inflectAdj,

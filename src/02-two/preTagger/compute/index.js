@@ -9,6 +9,7 @@ import fallback from './2nd-pass/fallback.js'
 import suffixCheck from './2nd-pass/suffix-lookup.js'
 import prefixCheck from './2nd-pass/prefix-lookup.js'
 import separable from './2nd-pass/separable.js'
+import lowercaseVerb from './2nd-pass/lowercase-verb.js'
 import numberWord from './2nd-pass/number-word.js'
 
 // these methods don't care about word-neighbours
@@ -26,6 +27,7 @@ const secondPass = function (terms, world) {
   for (let i = 0; i < terms.length; i += 1) {
     let found = acronym(terms, i, world)
     found = found || separable(terms, i, world)
+    found = found || lowercaseVerb(terms, i, world)
     found = found || numberWord(terms, i, world)
     found = found || suffixCheck(terms, i, world)
     found = found || prefixCheck(terms, i, world)

@@ -33,7 +33,7 @@ export default {
   ],
   "abfinden": [
     "abfinde",
-    "abfindt"
+    "abfindet"
   ],
   "abhetzen": [
     "abhetze",
@@ -77,7 +77,7 @@ export default {
   ],
   "anwenden": [
     "anwende",
-    "anwendt"
+    "anwendet"
   ],
   "aufdonnern": [
     "aufdonnere",
@@ -2105,7 +2105,7 @@ export default {
   ],
   "freihalten": [
     "freihalte",
-    "freihaltt"
+    "freihaltet"
   ],
   "freilassen": [
     "freilasse",
