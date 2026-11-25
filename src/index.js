@@ -1,5 +1,5 @@
 import nlp from './_lib.js'
-import { europeanNumbers } from 'compromise/shared'
+import { europeanNumbers, lazy, misc, clauses, topics, redact } from 'compromise/shared'
 import lexicon from './01-one/lexicon/plugin.js'
 import tagset from './01-one/tagset/plugin.js'
 import tokenizer from './01-one/tokenizer/plugin.js'
@@ -11,6 +11,7 @@ import verbs from './03-three/verbs/plugin.js'
 import adjectives from './03-three/adjectives/plugin.js'
 import nouns from './03-three/nouns/plugin.js'
 import version from './_version.js'
+import clauseRules from './03-three/clauses/plugin.js'
 
 nlp.plugin(tokenizer)
 nlp.plugin(tagset)
@@ -24,6 +25,14 @@ nlp.plugin(numbers)
 nlp.plugin(verbs)
 nlp.plugin(adjectives)
 nlp.plugin(nouns)
+
+// language-neutral plugins, shared with compromise
+nlp.plugin(lazy) // nlp.lazy() - only tags the sentences that may match
+nlp.plugin(misc) // .parentheses(), .quotations(), .acronyms(), .emails() ...
+nlp.plugin(clauses) // .clauses() - split on punctuation, and our rules below
+nlp.plugin(clauseRules)
+nlp.plugin(topics) // .people(), .places(), .organizations(), .topics()
+nlp.plugin(redact) // .redact()
 
 const de = function (txt, lex) {
   const dok = nlp(txt, lex)

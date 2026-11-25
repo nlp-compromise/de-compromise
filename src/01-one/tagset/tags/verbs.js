@@ -1,20 +1,18 @@
+// only our own tags, and what differs from the shared tagset - see ../plugin.js
 export default {
   Verb: {
-    not: ['Noun', 'Adjective', 'Adverb', 'Value', 'Expression'],
   },
   PresentTense: {
     aliases: [null, 'Präsens'],
-    is: 'Verb',
     not: ['PastTense'],
   },
   Infinitive: {
     aliases: [null, 'Infinitiv'],
-    is: 'PresentTense',
-    not: ['Gerund'],
   },
   Imperative: {
     aliases: [null, 'Imperativ'],
     is: 'Infinitive',
+    not: undefined,
   },
   Subjunctive: {
     aliases: [null, 'Konjunktiv'],
@@ -25,23 +23,16 @@ export default {
     is: 'Verb',
   },
   Gerund: {
-    is: 'PresentTense',
-    not: ['Copula'],
   },
-  // any past form - 'ging', and also 'gegangen'
   PastTense: {
     aliases: [null, 'Vergangenheit'],
-    is: 'Verb',
     not: ['PresentTense', 'Gerund'],
   },
   Copula: {
     aliases: [null, 'Kopula'],
-    is: 'Verb',
   },
   Modal: {
     aliases: [null, 'Modalverb'],
-    is: 'Verb',
-    not: ['Infinitive'],
   },
   PerfectTense: {
     aliases: [null, 'Perfekt'],
@@ -54,41 +45,35 @@ export default {
   },
   PhrasalVerb: {
     aliases: [null, 'Partikelverb'],
-    is: 'Verb',
   },
-  // a separable prefix - the 'an' in 'ich rufe dich an'
   Particle: {
     aliases: [null, 'Verbpartikel'],
-    is: 'PhrasalVerb',
-    not: ['PastTense', 'PresentTense', 'Copula', 'Gerund'],
   },
   Auxiliary: {
     aliases: [null, 'Hilfsverb'],
-    is: 'Verb',
-    not: ['PastTense', 'PresentTense', 'Gerund', 'Conjunction'],
   },
   FirstPerson: {
     aliases: [null, 'ErstePerson'],
-    is: 'Verb'
+    is: 'Verb',
   },
   SecondPerson: {
     aliases: [null, 'ZweitePerson'],
-    is: 'Verb'
+    is: 'Verb',
   },
   ThirdPerson: {
     aliases: [null, 'DrittePerson'],
-    is: 'Verb'
+    is: 'Verb',
   },
   FirstPersonPlural: {
     aliases: [null, 'ErstePersonPlural'],
-    is: 'Verb'
+    is: 'Verb',
   },
   SecondPersonPlural: {
     aliases: [null, 'ZweitePersonPlural'],
-    is: 'Verb'
+    is: 'Verb',
   },
   ThirdPersonPlural: {
     aliases: [null, 'DrittePersonPlural'],
-    is: 'Verb'
+    is: 'Verb',
   },
 }

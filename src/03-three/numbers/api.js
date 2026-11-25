@@ -2,6 +2,9 @@ import parse from './parse/index.js'
 import format from './format/index.js'
 import { toNum, replace, splitValues, asDigits, mutate, tagValue } from './lib.js'
 
+// floating-point noise - 0.1 + 0.2 - but a whole number is already exact
+const tidy = num => (Number.isInteger(num) ? num : Number(num.toPrecision(15)))
+
 // return the nth elem of a doc
 export const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc)
 
@@ -211,7 +214,7 @@ const api = function (View) {
         if (obj.num === null) {
           return val
         }
-        obj.num = Number((obj.num + n).toPrecision(15))
+        obj.num = tidy(obj.num + n)
         let fmt = val.has('#Ordinal') ? 'Ordinal' : 'Cardinal'
         const toDigits = obj.isText && !Number.isInteger(obj.num)
         if (obj.isText && !toDigits) {

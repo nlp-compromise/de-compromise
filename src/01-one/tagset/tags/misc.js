@@ -1,53 +1,43 @@
-const anything = ['Noun', 'Verb', 'Adjective', 'Adverb', 'Value', 'QuestionWord']
-
+// only our own tags, and what differs from the shared tagset - see ../plugin.js
 export default {
   Adjective: {
     aliases: [null, 'Adjektiv'],
-    not: ['Noun', 'Verb', 'Adverb', 'Value'],
   },
   Comparable: {
     aliases: [null, 'Steigerbar'],
-    is: 'Adjective',
   },
   Comparative: {
     aliases: [null, 'Komparativ'],
-    is: 'Adjective',
   },
   Superlative: {
     aliases: [null, 'Superlativ'],
-    is: 'Adjective',
-    not: ['Comparative'],
   },
   NumberRange: {
     aliases: [null, 'Zahlenbereich'],
   },
   Adverb: {
-    not: ['Noun', 'Verb', 'Adjective', 'Value'],
   },
-
   Determiner: {
     aliases: [null, 'Artikel', 'Determinativ'],
-    not: ['Noun', 'Verb', 'Adjective', 'Adverb', 'QuestionWord', 'Conjunction'], //allow 'a' to be a Determiner/Value
   },
   Conjunction: {
     aliases: [null, 'Konjunktion'],
-    not: anything,
+    is: undefined,
+    not: ['Noun', 'Verb', 'Adjective', 'Adverb', 'Value', 'QuestionWord'],
   },
   Preposition: {
     aliases: [null, 'Präposition'],
+    is: undefined,
     not: ['Noun', 'Verb', 'Adjective', 'Adverb', 'QuestionWord'],
   },
   QuestionWord: {
     aliases: [null, 'Fragewort'],
-    not: ['Determiner'],
   },
   Currency: {
     aliases: [null, 'Währung'],
-    is: 'Noun',
   },
   Expression: {
     aliases: [null, 'Interjektion'],
-    not: ['Noun', 'Adjective', 'Verb', 'Adverb'],
   },
   Abbreviation: {
     aliases: [null, 'Abkürzung'],
@@ -59,10 +49,10 @@ export default {
     aliases: [null, 'Telefonnummer'],
     not: ['HashTag', 'Verb', 'Adjective', 'Value', 'AtMention', 'Email'],
   },
-  HashTag: {},
+  HashTag: {
+  },
   AtMention: {
     aliases: [null, 'Erwähnung'],
-    is: 'Noun',
     not: ['HashTag', 'Email'],
   },
   Emoji: {
@@ -84,6 +74,6 @@ export default {
   },
   Condition: {
     aliases: [null, 'Bedingung'],
-    not: ['Verb', 'Adjective', 'Noun', 'Value'],
+    is: undefined,
   },
 }

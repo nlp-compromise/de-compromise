@@ -8,7 +8,7 @@ test('constructor methods:', function (t) {
   t.equal(typeof nlp.world(), 'object', here + 'world')
   t.equal(typeof nlp.model().one.lexicon, 'object', here + 'model')
   t.equal(typeof nlp.methods().one.tokenize, 'object', here + 'methods')
-  t.ok(nlp.hooks().includes('tagger'), here + 'hooks')
+  t.ok(nlp.hooks().includes('preTagger'), here + 'hooks')
   t.equal(nlp.verbose(false), nlp, here + 'verbose is chainable')
   t.equal(typeof nlp.extend, 'function', here + 'extend')
   t.end()

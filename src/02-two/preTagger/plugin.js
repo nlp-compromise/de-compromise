@@ -1,12 +1,12 @@
-import tagger from './compute/index.js'
+import preTagger from './compute/index.js'
 import model from './model/index.js'
 
 export default {
   compute: {
-    tagger
+    preTagger
   },
   model: {
     two: model
   },
-  hooks: ['tagger']
+  hooks: ['preTagger']
 }
