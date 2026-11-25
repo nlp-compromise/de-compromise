@@ -319,13 +319,7 @@ test('many clauses:', function (t) {
     ['Ich glaube, dass sie das Buch gelesen hat.', 'Ich glaube, dass sie das Buch liest.'],
     ['Er hat gesagt, dass er kommt.', 'Er sagt, dass er kommt.'],
   ], 'toPresentTense')
-  // two verbs that share an auxiliary are left alone
   run(t, [
-    ['ich habe gegessen und getrunken', 'ich habe gegessen und getrunken'],
-    ['ich werde Brot essen und Wasser trinken', 'ich werde Brot essen und Wasser trinken'],
-  ], 'toPresentTense')
-  run(t, [
-    ['ich habe gegessen und getrunken', 'ich habe gegessen und getrunken'],
     ['ich kann lesen und schreiben', 'ich konnte lesen und schreiben'],
   ], 'toPastTense')
   t.end()
@@ -534,5 +528,88 @@ test('nth verb only:', function (t) {
   const none = nlp('das rote Haus').match('foo').verbs()
   t.equal(none.toPastTense().found, false, here + 'empty toPastTense')
   t.equal(none.toFutureTense().length, 0, here + 'empty toFutureTense')
+  t.end()
+})
+
+test('verbs that share an auxiliary:', function (t) {
+  // already in the past
+  run(t, [
+    ['ich habe gegessen und getrunken', 'ich habe gegessen und getrunken'],
+    ['ich habe Brot gegessen und Wasser getrunken', 'ich habe Brot gegessen und Wasser getrunken'],
+    ['weil ich gegessen und getrunken habe', 'weil ich gegessen und getrunken habe'],
+  ], 'toPastTense')
+  // each participle becomes a verb, at the front of its own part
+  run(t, [
+    ['ich habe gegessen und getrunken', 'ich esse und trinke'],
+    ['er hat gelacht und geweint', 'er lacht und weint'],
+    ['er hat gelacht oder geweint', 'er lacht oder weint'],
+    ['er hat gelacht, geweint und gesungen', 'er lacht, weint und singt'],
+    ['ich habe Brot gegessen und Wasser getrunken', 'ich esse Brot und trinke Wasser'],
+    ['Ich habe Brot gegessen und Wasser getrunken.', 'Ich esse Brot und trinke Wasser.'],
+    ['wir sind gekommen und gegangen', 'wir kommen und gehen'],
+    // separable verbs
+    ['er hat gegessen und mich angerufen', 'er isst und ruft mich an'],
+    ['er hat mich angerufen und gelacht', 'er ruft mich an und lacht'],
+    // in a subordinate clause
+    ['weil ich gegessen und getrunken habe', 'weil ich esse und trinke'],
+    ['dass er gelacht und geweint hat', 'dass er lacht und weint'],
+  ], 'toPresentTense')
+  // each participle becomes an infinitive
+  run(t, [
+    ['ich habe gegessen und getrunken', 'ich werde essen und trinken'],
+    ['er hat gelacht, geweint und gesungen', 'er wird lachen, weinen und singen'],
+    ['ich habe Brot gegessen und Wasser getrunken', 'ich werde Brot essen und Wasser trinken'],
+    ['er hat gegessen und mich angerufen', 'er wird essen und mich anrufen'],
+    ['wir sind gekommen und gegangen', 'wir werden kommen und gehen'],
+    ['weil ich gegessen und getrunken habe', 'weil ich essen und trinken werde'],
+  ], 'toFutureTense')
+  // .. and back, from the future
+  run(t, [
+    ['ich werde essen und trinken', 'ich esse und trinke'],
+    ['ich werde Brot essen und Wasser trinken', 'ich esse Brot und trinke Wasser'],
+    ['er wird mich anrufen und lachen', 'er ruft mich an und lacht'],
+    ['weil ich essen und trinken werde', 'weil ich esse und trinke'],
+  ], 'toPresentTense')
+  run(t, [
+    ['ich werde essen und trinken', 'ich aß und trank'],
+    ['ich werde Brot essen und Wasser trinken', 'ich aß Brot und trank Wasser'],
+  ], 'toPastTense')
+  run(t, [
+    ['ich werde Brot essen und Wasser trinken', 'ich werde Brot essen und Wasser trinken'],
+  ], 'toFutureTense')
+  // a modal has both infinitives
+  run(t, [['ich werde lesen und schreiben können', 'ich kann lesen und schreiben']], 'toPresentTense')
+  // two clauses, each with its own auxiliary
+  run(t, [['ich habe gegessen, aber er hat geschlafen', 'ich esse, aber er schläft']], 'toPresentTense')
+
+  // every new verb is returned, and tagged
+  const doc = nlp('ich habe Brot gegessen und Wasser getrunken')
+  const m = doc.verbs().toPresentTense()
+  t.deepEqual(m.out('array'), ['esse', 'trinke'], here + 'shared return value')
+  t.equal(doc.match('trinke').has('#PresentTense'), true, here + 'second verb #PresentTense')
+  t.equal(doc.match('trinke').has('#FirstPerson'), true, here + 'second verb #FirstPerson')
+  m.toPastTense()
+  t.equal(doc.text(), 'ich aß Brot und trank Wasser', here + 'shared chained')
+  t.end()
+})
+
+test('joined separable verbs:', function (t) {
+  // 'anrufe' was a plural noun, 'mitkommt' was unknown
+  run(t, [
+    ['weil ich dich anrufe', 'weil ich dich anrief'],
+    ['ob er mitkommt', 'ob er mitkam'],
+    ['bevor er losfährt', 'bevor er losfuhr'],
+    ['dass er früh aufsteht', 'dass er früh aufstand'],
+  ], 'toPastTense')
+  run(t, [
+    ['weil ich dich anrufe', 'weil ich dich anrufen werde'],
+    ['ob er mitkommt', 'ob er mitkommen wird'],
+    ['bevor er losfährt', 'bevor er losfahren wird'],
+  ], 'toFutureTense')
+  run(t, [
+    ['weil ich dich anrief', 'weil ich dich anrufe'],
+    ['ob er mitkam', 'ob er mitkommt'],
+    ['weil ich dich anrufen werde', 'weil ich dich anrufe'],
+  ], 'toPresentTense')
   t.end()
 })

@@ -225,6 +225,13 @@ const isTwoClauses = function (terms, span, methods, lexicon) {
   if (takesInfinitive.has(left.parsed.root) && terms.slice(right.index, end).every((t) => isInfinitive(t.normal, lexicon))) {
     return false
   }
+  // .. and so is 'weil ich [essen] und [trinken] werde'
+  const last = parseFinite(terms[end - 1], terms[end - 2], methods, lexicon)
+  if (last && takesInfinitive.has(last.root) && left.index === i - 1 && right.index === end - 2) {
+    if (isInfinitive(terms[left.index].normal, lexicon) && isInfinitive(terms[right.index].normal, lexicon)) {
+      return false
+    }
+  }
   return true
 }
 
@@ -243,7 +250,8 @@ const getClauses = function (terms, methods, lexicon) {
   const merged = []
   parts.forEach((part) => {
     const last = merged[merged.length - 1]
-    const isList = last && !hasVerb(terms, part[0], part[1])
+    // .. nor is a part with only participles - 'er hat gelacht, geweint und gesungen'
+    const isList = last && !terms.slice(part[0], part[1]).some((t) => t.tags.has('Verb') && !isOnlyParticiple(t, methods))
     // .. but leave it, before a relative clause - 'der Mann, der hier wohnt, ..'
     const head = terms[part[0]].normal
     const isStart = last && !hasVerb(terms, last[0], last[1]) && !subordinators.has(head) && !relatives.has(head)
@@ -375,6 +383,37 @@ const matchCase = function (str, term) {
   return str
 }
 
+// the verbs that share one auxiliary - 'ich habe gegessen und getrunken'
+// returns null if the clause is not one that we can re-arrange
+const getShared = function (terms, clause, other, toRoot) {
+  const { start, index, isSub } = clause
+  const verbs = []
+  // they are all before the auxiliary, in a subordinate clause - 'weil ich gegessen und getrunken habe'
+  for (let i = isSub ? start : index + 1; i < other; i += 1) {
+    const term = terms[i]
+    if (!term.tags.has('Verb')) {
+      continue
+    }
+    const root = toRoot(term)
+    const next = terms[i + 1]
+    // each one ends its own part - 'gegessen, getrunken und gelacht'
+    const isJoined = /,/.test(term.post) || coordinators.has(next.normal)
+    if (!root || !isJoined) {
+      return null
+    }
+    verbs.push({ at: i, root, str: term.normal })
+  }
+  verbs.push({ at: other, root: toRoot(terms[other]), str: terms[other].normal })
+  // where each part begins - 'und [Wasser] getrunken'
+  verbs.forEach((o, k) => {
+    if (k > 0) {
+      const from = verbs[k - 1].at + 1
+      o.start = coordinators.has(terms[from].normal) ? from + 1 : from
+    }
+  })
+  return verbs
+}
+
 // what sort of verb-phrase is this clause?
 const getShape = function (terms, clause, methods, lexicon) {
   const { start, end, index, isSub, parsed } = clause
@@ -388,27 +427,39 @@ const getShape = function (terms, clause, methods, lexicon) {
   }
   const term = terms[other]
   const str = term.normal
-  // two verbs share this auxiliary - 'ich habe gegessen und getrunken'
-  const between = terms.slice(Math.min(index, other) + 1, Math.max(index, other))
-  const isShared = between.some((t) => coordinators.has(t.normal)) && between.some((t) => t.tags.has('Verb'))
   // 'ich habe einen Apfel gegessen', 'ich bin nach Hause gegangen'
   if (root === 'haben' || root === 'sein') {
-    const main = fromParticiple(term, methods)
-    if (main && (root === 'haben' || usesSein(main, lexicon))) {
-      if (isShared) {
+    const toRoot = (t) => {
+      const inf = fromParticiple(t, methods)
+      return inf && (root === 'haben' || usesSein(inf, lexicon)) ? inf : null
+    }
+    if (toRoot(term)) {
+      const verbs = getShared(terms, clause, other, toRoot)
+      if (!verbs) {
         return null
       }
-      return { kind: 'perfect', root: main, other, participle: str }
+      // the one whose place the new verb takes
+      const first = isSub ? verbs.pop() : verbs.shift()
+      return { kind: 'perfect', root: first.root, other: first.at, participle: first.str, extras: verbs }
     }
   }
   // 'ich werde nach Hause gehen'
   if (root === 'werden' && isPresent && term.tags.has('Verb') && !isOnlyParticiple(term, methods)) {
-    if (isInfinitive(str, lexicon) || (term.tags.has('Infinitive') && /n$/.test(str))) {
-      // .. but a modal has both of them - 'ich werde lesen und schreiben können'
-      if (isShared && !takesInfinitive.has(str)) {
+    const toRoot = (t) => {
+      const isInf = isInfinitive(t.normal, lexicon) || (t.tags.has('Infinitive') && /n$/.test(t.normal))
+      return isInf && !isOnlyParticiple(t, methods) ? t.normal : null
+    }
+    if (toRoot(term)) {
+      // a modal has all of the others - 'ich werde lesen und schreiben können'
+      if (takesInfinitive.has(str)) {
+        return { kind: 'future', root: str, other, participle: null, extras: [] }
+      }
+      const verbs = getShared(terms, clause, other, toRoot)
+      if (!verbs) {
         return null
       }
-      return { kind: 'future', root: str, other, participle: null }
+      const first = isSub ? verbs.pop() : verbs.shift()
+      return { kind: 'future', root: first.root, other: first.at, participle: null, extras: verbs }
     }
   }
   // 'ich rufe dich an'
@@ -419,7 +470,7 @@ const getShape = function (terms, clause, methods, lexicon) {
   return res
 }
 
-// change one clause, and return its new finite verb
+// change one clause, and return its new finite verbs
 const convertClause = function (view, n, clause, want, state) {
   const { methods, lexicon } = state
   const terms = view.document[n]
@@ -435,7 +486,7 @@ const convertClause = function (view, n, clause, want, state) {
   state.lastPerson = isSub ? null : person
   const werden = methods.toPresent('werden')[person]
   const at = (i, len) => view.update([[n, i, i + (len || 1)]])
-  // each edit, as [index, 'replace' | 'remove' | 'after', text]
+  // each edit, as [index, 'replace' | 'remove' | 'after' | 'before', text]
   let edits = []
   let tags = null
   if (want === 'future') {
@@ -446,6 +497,8 @@ const convertClause = function (view, n, clause, want, state) {
     if (shape.kind === 'perfect') {
       // 'ich habe gegessen' -> 'ich werde essen'
       edits = [[index, 'replace', werden], [shape.other, 'replace', shape.root]]
+      // 'ich habe gegessen und getrunken' -> 'ich werde essen und trinken'
+      shape.extras.forEach((o) => edits.push([o.at, 'replace', o.root]))
     } else if (isSub) {
       // 'weil ich gehe' -> 'weil ich gehen werde'
       edits = [[index, 'replace', shape.root + ' ' + werden]]
@@ -484,13 +537,29 @@ const convertClause = function (view, n, clause, want, state) {
     } else {
       edits = [[index, 'replace', str], [shape.other, 'remove']]
     }
+    // each of the other verbs leads its own part - 'ich esse Brot und [trinke] Wasser'
+    shape.extras.forEach((o) => {
+      const [pre, inf] = splitPrefix(o.root, shape.kind === 'perfect' ? o.str : null, lexicon)
+      const form = getForms(inf, methods)[want][person]
+      if (isSub) {
+        // 'weil ich gegessen und getrunken habe' -> 'weil ich esse und trinke'
+        edits.push([o.at, 'replace', pre + form, true])
+      } else if (o.start === o.at) {
+        edits.push([o.at, 'replace', pre ? form + ' ' + pre : form, true])
+      } else {
+        edits.push([o.at, pre ? 'replace' : 'remove', pre])
+        edits.push([o.start, 'before', form])
+      }
+    })
   }
   if (edits.some((e) => e[1] !== 'remove' && !e[2])) {
     return null
   }
   // go right-to-left, so that each index stays true
-  edits = edits.sort((a, b) => b[0] - a[0])
+  edits = edits.sort((a, b) => b[0] - a[0] || (a[1] === 'before' ? 1 : -1))
   let where = index
+  // any other finite verbs that we make
+  const made = []
   edits.forEach((edit) => {
     const [i, action, str] = edit
     if (action === 'remove') {
@@ -504,10 +573,19 @@ const convertClause = function (view, n, clause, want, state) {
     } else if (action === 'after') {
       at(i).insertAfter(str)
       at(i + 1).tag(['Verb', 'Infinitive'], 'to-' + want)
+    } else if (action === 'before') {
+      at(i).insertBefore(str)
+      at(i).tag(tags, 'to-' + want)
+      made.push(view.document[n][i])
     } else if (i === index) {
       at(i).replaceWith(matchCase(str, term))
     } else {
       at(i).replaceWith(str)
+      // a second finite verb - 'und [trinke]'
+      if (edit[3]) {
+        at(i).tag(tags, 'to-' + want)
+        made.push(view.document[n][i])
+      }
     }
   })
   // 'gehen [werde]'
@@ -515,7 +593,7 @@ const convertClause = function (view, n, clause, want, state) {
     where += 1
   }
   at(where).tag(tags, 'to-' + want)
-  return view.document[n][where]
+  return [view.document[n][where]].concat(made.reverse())
 }
 
 const convertTo = function (view, want) {
@@ -558,7 +636,7 @@ const convertTo = function (view, want) {
       terms.slice(part[0], part[1]).forEach((t) => state.seen.add(t))
       const res = convertClause(view, n, clause, want, state)
       if (res) {
-        phrase.terms[phrase.terms.indexOf(term)] = res
+        phrase.terms.splice(phrase.terms.indexOf(term), 1, ...res)
       }
     })
   })
@@ -567,9 +645,14 @@ const convertTo = function (view, want) {
   phrases.forEach((phrase) => {
     const terms = view.document[phrase.n]
     const found = phrase.terms.map((term) => terms.indexOf(term)).filter((i) => i !== -1)
-    if (found.length > 0) {
-      ptrs.push([phrase.n, Math.min(...found), Math.max(...found) + 1])
-    }
+    // one match for each run of words - 'ich [esse] Brot und [trinke] Wasser'
+    found.sort((x, y) => x - y).forEach((i, k) => {
+      if (k > 0 && found[k - 1] === i - 1) {
+        ptrs[ptrs.length - 1][2] = i + 1
+      } else {
+        ptrs.push([phrase.n, i, i + 1])
+      }
+    })
   })
   return view.update(ptrs)
 }
