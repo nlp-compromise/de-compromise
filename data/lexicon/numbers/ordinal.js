@@ -18,13 +18,13 @@ export default [
   'sechzehnte',// 16
   'siebzehnte',// 17
   'achtzehnte',// 18
-  'neunzehte',// 19
+  'neunzehnte',// 19
   'zwanzigste',// 20
   'dreißigste',// 30
   'vierzigste',// 40
   'fünfzigste',// 50
   'sechzigste',// 60
-  'ziebzigste',// 70
+  'siebzigste',// 70
   'achtzigste',// 80
   'neunzigste',// 90
   'hundertste',// 100
@@ -33,6 +33,7 @@ export default [
   'millionste',// 1e6
   'milliardste',// 1e9
   'billionste',// 1e12
+  'billiardste',// 1e15
 
   'siebente', //(alt)
 

@@ -20,7 +20,9 @@ const separable = function (terms, i, world) {
   const lexicon = world.model.one.lexicon
   const known = toArray(lexicon[str])
   // only an unknown word, or one that we know as a noun
-  if (term.tags.has('Verb') || known.some((tag) => tag !== 'Plural' && tag !== 'Noun' && !/Noun$/.test(tag))) {
+  // (an unknown word may have been guessed as a plain verb, already)
+  const isGuess = known.length === 0 && term.tags.size === 1
+  if ((term.tags.has('Verb') && !isGuess) || known.some((tag) => tag !== 'Plural' && tag !== 'Noun' && !/Noun$/.test(tag))) {
     return null
   }
   for (let k = 0; k < prefixes.length; k += 1) {
@@ -29,8 +31,10 @@ const separable = function (terms, i, world) {
       continue
     }
     const tags = toArray(lexicon[str.slice(prefix.length)])
-    // a conjugated verb, with a person - 'rufe', 'kommt'
-    if (tags.some((tag) => finite.includes(tag)) && tags.some((tag) => persons.includes(tag))) {
+    // an infinitive - 'sie werden mitkommen'
+    // or a conjugated verb, with a person - 'rufe', 'kommt'
+    const isVerb = tags.includes('Infinitive') || (tags.some((tag) => finite.includes(tag)) && tags.some((tag) => persons.includes(tag)))
+    if (isVerb) {
       term.tags.clear()
       world.methods.one.setTag([term], ['Verb'].concat(tags), world, false, '2-separable-verb')
       return true

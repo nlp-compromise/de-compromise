@@ -210,6 +210,12 @@ const findFinite = function (terms, start, end, methods, lexicon) {
   return null
 }
 
+// 'weinen und singen' - nothing here but infinitives
+const allInfinitives = function (terms, start, end, lexicon) {
+  const verbs = terms.slice(start, end).filter((t) => t.tags.has('Verb'))
+  return verbs.length > 0 && verbs.every((t) => isInfinitive(t.normal, lexicon))
+}
+
 // these verbs take an infinitive, at the end of the clause
 const takesInfinitive = new Set(['werden', 'können', 'müssen', 'wollen', 'sollen', 'dürfen', 'mögen'])
 
@@ -232,7 +238,34 @@ const isTwoClauses = function (terms, span, methods, lexicon) {
       return false
     }
   }
+  // .. and 'weil er lachen, weinen und singen wird'
+  const head = terms[start].normal
+  if (last && takesInfinitive.has(last.root) && (subordinators.has(head) || relatives.has(head))) {
+    if (allInfinitives(terms, start, end - 1, lexicon)) {
+      return false
+    }
+  }
   return true
+}
+
+// does this part carry on a list of infinitives, that all share one 'werden'?
+const isInfinitiveList = function (terms, last, part, methods, lexicon) {
+  const [start, end] = part
+  const head = terms[start].normal
+  if (subordinators.has(head) || relatives.has(head) || subjects.hasOwnProperty(head)) {
+    return false
+  }
+  // 'er wird lachen, [weinen und singen]'
+  const found = findFinite(terms, last[0], last[1], methods, lexicon)
+  if (found && takesInfinitive.has(found.parsed.root) && found.index < last[1] - 1) {
+    return allInfinitives(terms, found.index + 1, last[1], lexicon) && allInfinitives(terms, start, end, lexicon)
+  }
+  // 'weil er lachen, [weinen und singen wird]'
+  if (subordinators.has(terms[last[0]].normal) && end - start > 1 && isInfinitive(terms[last[1] - 1].normal, lexicon)) {
+    const final = parseFinite(terms[end - 1], terms[end - 2], methods, lexicon)
+    return Boolean(final) && takesInfinitive.has(final.root) && allInfinitives(terms, start, end - 1, lexicon)
+  }
+  return false
 }
 
 // split the sentence into clauses - each has (up to) one finite verb
@@ -252,10 +285,12 @@ const getClauses = function (terms, methods, lexicon) {
     const last = merged[merged.length - 1]
     // .. nor is a part with only participles - 'er hat gelacht, geweint und gesungen'
     const isList = last && !terms.slice(part[0], part[1]).some((t) => t.tags.has('Verb') && !isOnlyParticiple(t, methods))
+    // .. or only infinitives, after 'werden' - 'er wird lachen, weinen und singen'
+    const isInfList = last && isInfinitiveList(terms, last, part, methods, lexicon)
     // .. but leave it, before a relative clause - 'der Mann, der hier wohnt, ..'
     const head = terms[part[0]].normal
     const isStart = last && !hasVerb(terms, last[0], last[1]) && !subordinators.has(head) && !relatives.has(head)
-    if (isList || isStart) {
+    if (isList || isInfList || isStart) {
       last[1] = part[1]
     } else {
       merged.push(part)
@@ -470,6 +505,70 @@ const getShape = function (terms, clause, methods, lexicon) {
   return res
 }
 
+// a clause that begins with its verb takes the subject of the one before it - 'er lacht und [singt] ein Lied'
+const hasNoSubject = function (terms, clause) {
+  const { start, end, index, isSub } = clause
+  if (isSub || start === 0) {
+    return false
+  }
+  const first = ['und', 'oder'].includes(terms[start].normal) ? start + 1 : start
+  if (index !== first) {
+    return false
+  }
+  // 'und dann lacht [er]'
+  return !terms.slice(start, end).some((t) => ['ich', 'du', 'er', 'wir', 'ihr', 'man'].includes(t.normal))
+}
+
+// the last clause has a 'werden' already, so this one only needs its infinitive
+// 'er wird lachen und [singt ein Lied]' -> 'er wird lachen und [ein Lied singen]'
+const shareFuture = function (view, n, clause, shape) {
+  const { end, index } = clause
+  const at = (i) => view.update([[n, i, i + 1]])
+  const str = shape.particle + shape.root
+  let where = index
+  if (index === end - 1) {
+    at(index).replaceWith(str)
+  } else {
+    if (shape.particle) {
+      // 'und ruft mich an' -> 'und mich anrufen'
+      at(shape.other).replaceWith(str)
+    } else {
+      at(end - 1).insertAfter(str)
+    }
+    at(index).remove()
+    where = shape.particle ? shape.other - 1 : end - 1
+  }
+  at(where).tag(['Verb', 'Infinitive'], 'to-future')
+  return [view.document[n][where]]
+}
+
+// a verb-final part, after a subordinate clause, is more of the same clause - 'weil er lacht und [ein Lied singt]'
+const isContinued = function (terms, clause) {
+  const { start, end, index, isSub } = clause
+  if (isSub || start === 0 || index !== end - 1) {
+    return false
+  }
+  return !terms.slice(start, end).some((t) => subjects.hasOwnProperty(t.normal) && t.normal !== 'sie' && t.normal !== 'es')
+}
+
+// 'werden' goes to the very end of a subordinate clause
+// 'weil er lachen wird und [singt]' -> 'weil er lachen und [singen wird]'
+const moveWerden = function (view, n, clause, werden, root) {
+  const at = (i) => view.update([[n, i, i + 1]])
+  at(clause.index).replaceWith(root + ' ' + werden.normal)
+  at(clause.index).tag(['Verb', 'Infinitive'], 'to-future')
+  at(clause.index + 1).tag(['Verb', 'Auxiliary'].concat(Object.values(personTags).filter((tag) => werden.tags.has(tag))), 'to-future')
+  const found = view.document[n][clause.index + 1]
+  // drop the old one, but keep its punctuation
+  const i = view.document[n].indexOf(werden)
+  if (i > 0) {
+    const post = werden.post
+    at(i).remove()
+    view.document[n][i - 1].post = post
+  }
+  return found
+}
+
 // change one clause, and return its new finite verbs
 const convertClause = function (view, n, clause, want, state) {
   const { methods, lexicon } = state
@@ -482,8 +581,23 @@ const convertClause = function (view, n, clause, want, state) {
   const term = terms[index]
   const tenses = parsed.hits.map((o) => o.tense)
   const person = choosePerson(parsed.hits, terms, clause, state.lastPerson)
+  // is it one more verb for the 'werden' of the last clause? - 'er wird lachen und [singt]'
+  const isShared = want === 'future' && state.lastFuture && state.lastPerson === person && hasNoSubject(terms, clause)
   // a later clause may share this subject - 'er kam, sah und siegte'
   state.lastPerson = isSub ? null : person
+  state.lastFuture = false
+  if (isShared && shape.kind === 'simple') {
+    state.lastFuture = true
+    return shareFuture(view, n, clause, shape)
+  }
+  // .. or of a subordinate clause? - 'weil er lachen wird und [singt]'
+  const last = state.subWerden
+  state.subWerden = null
+  if (want === 'future' && last && last.person === person && shape.kind === 'simple' && isContinued(terms, clause)) {
+    const found = moveWerden(view, n, clause, last.term, shape.root)
+    state.subWerden = { term: found, person }
+    return [found]
+  }
   const werden = methods.toPresent('werden')[person]
   const at = (i, len) => view.update([[n, i, i + (len || 1)]])
   // each edit, as [index, 'replace' | 'remove' | 'after' | 'before', text]
@@ -491,6 +605,7 @@ const convertClause = function (view, n, clause, want, state) {
   let tags = null
   if (want === 'future') {
     tags = ['Verb', 'Auxiliary', personTags[person]]
+    state.lastFuture = !isSub
     if (shape.kind === 'future') {
       return null
     }
@@ -593,6 +708,10 @@ const convertClause = function (view, n, clause, want, state) {
     where += 1
   }
   at(where).tag(tags, 'to-' + want)
+  // more verbs may follow it - 'weil er lachen [wird], weint und singt'
+  if (want === 'future' && isSub && shape.kind === 'simple') {
+    state.subWerden = { term: view.document[n][where], person }
+  }
   return [view.document[n][where]].concat(made.reverse())
 }
 
@@ -601,6 +720,10 @@ const convertTo = function (view, want) {
     methods: view.methods.two.transform.verb,
     lexicon: view.model.one.lexicon,
     lastPerson: null,
+    // did the last clause get a 'werden'?
+    lastFuture: false,
+    // the 'werden' at the end of the last subordinate clause
+    subWerden: null,
     // every word of the clauses we have looked at
     seen: new Set(),
   }
@@ -617,6 +740,8 @@ const convertTo = function (view, want) {
     const { n } = phrase
     if (n !== sentence) {
       state.lastPerson = null
+      state.lastFuture = false
+      state.subWerden = null
       sentence = n
     }
     phrase.terms.slice().forEach((term) => {

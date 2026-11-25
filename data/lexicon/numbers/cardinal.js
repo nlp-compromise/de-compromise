@@ -32,5 +32,9 @@ export default [
   'million',// 1e6
   'millionen',// 1e6
   'milliarde',// 1e9
+  'milliarden',// 1e9
+  'billion',// 1e12
   'billionen',// 1e12
+  'billiarde',// 1e15
+  'billiarden',// 1e15
 ]

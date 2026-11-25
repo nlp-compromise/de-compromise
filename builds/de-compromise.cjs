@@ -2241,7 +2241,7 @@ er
   };
 
   // turn the words into terms, and put them where the contraction was
-  const expand$1 = function (words, view, document, n, i) {
+  const expand$2 = function (words, view, document, n, i) {
     contractionDebug(document[n][i], words);
     const doc = view.fromText(words.join(' '));
     doc.compute(['id', 'alias']);
@@ -2302,14 +2302,14 @@ er
         }
         // actually insert the new terms
         if (words) {
-          expand$1(words, view, document, n, i);
+          expand$2(words, view, document, n, i);
           continue
         }
         // '44-2' has special care
         if (numDash.test(terms[i].normal)) {
           words = numberRange(terms, i);
           if (words) {
-            words = expand$1(words, view, document, n, i);
+            words = expand$2(words, view, document, n, i);
             methods.one.setTag(words, 'NumberRange', world); //add custom tag
             // is it a time-range, like '5-9pm'
             if (words[2] && words[2].tags.has('Time')) {
@@ -2321,7 +2321,7 @@ er
         // split-apart '4km'
         words = numberUnit(terms, i, world);
         if (words) {
-          words = expand$1(words, view, document, n, i);
+          words = expand$2(words, view, document, n, i);
           methods.one.setTag([words[1]], 'Unit', world, null, 'contraction-unit');
         }
       }
@@ -2519,7 +2519,7 @@ er
   };
 
   // derive clever things from our lexicon key-value pairs
-  const expand = function (words) {
+  const expand$1 = function (words) {
     // const { methods, model } = world
     const lex = {};
     // console.log('start:', Object.keys(lex).length)
@@ -2549,7 +2549,7 @@ er
 
   var methods$f = {
     one: {
-      expandLexicon: expand,
+      expandLexicon: expand$1,
     }
   };
 
@@ -7054,7 +7054,7 @@ er
     }, false);
   };
 
-  const toArray$1 = function (json) {
+  const toArray$2 = function (json) {
     // The tag formatter only reads these graph-owned nodes.
     const nodes = byDepth(json);
     // should we show the root?
@@ -7087,7 +7087,7 @@ er
     // the graph's nodes, parents first
     toArray() {
       // fillDown changes properties, so the cached graph relationships still hold.
-      return toArray$1(this.json)
+      return toArray$2(this.json)
     }
   }
 
@@ -8443,7 +8443,7 @@ yb
   // dashed prefixes that are not independent words
   //  'mid-century', 'pre-history', 'out-lived', 'ex-wife'
   // (not counter, mid, non, over, post, semi, super, ultra, under, whole)
-  var prefixes$1 = toHash(toList(`
+  var prefixes$3 = toHash(toList(`
 anti
 bi
 co
@@ -8553,7 +8553,7 @@ designate
     one: {
       aliases,
       abbreviations,
-      prefixes: prefixes$1,
+      prefixes: prefixes$3,
       suffixes: suffixes$3,
       prePunctuation,
       postPunctuation,
@@ -9036,7 +9036,7 @@ designate
     });
   });
 
-  const prefixes = [
+  const prefixes$2 = [
     'dazwischen',
     'zusammen',
     'entgegen',
@@ -9373,8 +9373,8 @@ designate
     if (m && irregulars.hasOwnProperty(str.substring(m[0].length))) {
       return { base: irregulars[str.substring(m[0].length)], prefix: m[0], separable: false }
     }
-    for (let i = 0; i < prefixes.length; i += 1) {
-      const p = prefixes[i];
+    for (let i = 0; i < prefixes$2.length; i += 1) {
+      const p = prefixes$2[i];
       if (str.startsWith(p) && irregulars.hasOwnProperty(str.substring(p.length))) {
         return { base: irregulars[str.substring(p.length)], prefix: p, separable: true }
       }
@@ -9427,9 +9427,9 @@ designate
       return str
     }
     // put a 'ge' somewhere
-    for (let i = 0; i < prefixes.length; i += 1) {
-      if (str.startsWith(prefixes[i])) {
-        return prefixes[i] + 'ge' + str.substring(prefixes[i].length)
+    for (let i = 0; i < prefixes$2.length; i += 1) {
+      if (str.startsWith(prefixes$2[i])) {
+        return prefixes$2[i] + 'ge' + str.substring(prefixes$2[i].length)
       }
     }
     if (inseperable.test(str)) {
@@ -9552,9 +9552,9 @@ designate
 
   const doPrefix = function (str) {
     // remove 'ge-' off the front
-    for (let i = 0; i < prefixes.length; i += 1) {
-      if (str.startsWith(prefixes[i] + 'ge')) {
-        return prefixes[i] + str.substring(prefixes[i].length + 2)
+    for (let i = 0; i < prefixes$2.length; i += 1) {
+      if (str.startsWith(prefixes$2[i] + 'ge')) {
+        return prefixes$2[i] + str.substring(prefixes$2[i].length + 2)
       }
     }
     str = str.replace(/^ge/, '');
@@ -9952,7 +9952,7 @@ designate
     "Verb": "true¦:!1:#$%&()*+-./<=>?:re,eg,hcs,hc,ts,ei,rt,tne,sua,ie,na,ah,uz,üm,üw;0:1H;1:23;2:3E;b3Hd39e1Sf1Qg1K&ir(#1P.s,l)f,nKraw,s)w,t3;<,dHfar($ba,h9.zehporp,kr8mma(,n6r5s3;i3uel18;!ew;a5en1Xä1Vö(#z;alp18)dr1o3;rht,t2;ap0;c3öh#;a8i5u3;arb13s3;$,r1;er,l4rps3;r1+;g2F+fför1;d0m0rb0;/w$3äl;!/,=;at0e3ib,/g2#bo#03;b0Xd0Sff0Pg00&MiLknus0mJnHrEs8t3;a*,d/w,eb0früd,&a6l<0ob4r3t1Dztes,ß>,ät;ed1Hhüf;$3r1;!/;m,rb;e7s3;al$=,o3;%#,l%e3;b,g3;!ba,-;iw$k08w0;aw,o3äw;b0lr1rf3w2J;$nU#;)%,no3;g2w0;ak3han;!eb;es,%1T;arpsFiBo3saw0;r3(#;b7ps3;e4#3+;diw,v;b,g3;!.rf,/,-,=;$3#0F;!ba,fua,nemmasS-;lg4r(3w;$,#0C;!e3r1;b,g-;!+;aOn3ozWäl,öz;aBiAu4ärd3;=kJ;l0r5s0wz3;$3#;!fW;d$3$,ps#bü,#;!n3rJ;.;f,h;f$Dg3rd;e4#3+;!v;b,g3;!fNk7mu,n6r4-3;!rB;ed)n,ov3;!#h;a,erolr1.;cür3;=;fG/;l3*0;!%$r3;ov;a4o*e3;b,g;%0;)0Xn5r3;ow3uw,?;!$;a(,u3ü(;br1f0;ag,oh3ro(0;$f3#;ua;$;a4ni3u9;fpme,g;l3mr1;!r3;e3ov;tnu;a3)r,rN;*;b0Hd0Ef0Bg06hYir%,kTlOmmNnnök,rMsIt5u3ztis2;a3t;b,%;eEgiD&usr1lBmuär,nAr5t4ß3;uw,>;<,äh;e4hLä3;lkX;d4n3ßuä;niV;rof;alp,hel,.m,ot2rA;<,leLoD;ev;dnük,ez,tä(2;ib,t&ir2;&5s3;a3iw,>;l,p;aw;$.w,h7äw;aCok;e6h5lo4o3;h#deX;s,w;üf;d/h,if;c5n3rT;ed,i3;*,s;e3ür;(;c3öh8;am,i5s3uarb;n?,rr3;eh;er5lg3;öm3;#;!#;a6)l,i3näh;e4t3;&isba2ön2;(,z;lhL*2s;f4r3;üd;<Ioh;.4r3;ew,?;%t9;<,e3;g,ilb;)8i7n4r3ul;iw;a(3is;!$,t3;ne;es;%2;eb;)3ig;lb,rh3;cs",
     "Preposition": "true¦aHbFdDentBfürKge9hintJi8laut,m7n6ohne,se7u4vo2z0üb5;!u0wischB;!folge,m,r;m,n,r0;!m,s;mFnt0;erE;a7eb5;it;m,nB;gen0mäß;!üb8;geg0lang;en;ank,ur0;ch;ei0is;!m;!b,m,n2u0;f1s,ß0;er;!s",
     "LastName": "true¦!1:#$%&()*+-./<=>?@[]:an,in,ns,er,li,va,ng,to,ar,il,es,en,hi,ch,ss,is,rn,as;0:2Z;1:36;2:34;3:2A;4:2T;5:2V;a36b2Wc2Kd2Ae27f22g1Wh1Mi1Hj1Ck16l0Ym0Mn0Ho0Ep03rWsLtGvEwCxBy8zh6;a6ou,u;*,o;a6eun2Qos=da,un;ma6*;da,guc=,mo+,sh1YzaP;iao,u;a6eb0.(37o4right,u;gn0lk0*,t#abe;a6i)ldi;?.jev,zqu1;a9h8i#,o7r6sui,u[0;#,yn@I;ls+y,rr/,th;at>0omps2;kah0Unaka,ylor;aD>ulz,eC=mizu,iBmiAo9t7u6zabo;-1l(v#,zuD;a6e$0;l$,rm0;sa,u4;[3th;l),mmo%,*h;mjon3rr#o;i+,n7sa6+;ki;>1dL+s,z;amBeag#,i9o7u6;bio,iz,sD;b6dri1KgIj],meQosevelt,?i,ux;&ts,$s2;c6v&a;ci,h-ds2;ir1os;aEeAh8ic6ow1X;]6hl0;so;a6.(ps;m,n1R;d&s5et8r7t6;e0Mr3;ez,ry;&s;h1Yrk0t6vl3;el,te0I;baCg0A(veira,r6;t6w1L;ega,iz;a6e.s2guy5ix2owak,ym#;gy,ka7)r6;ro;ji6muV;ma;aEeCiBo8u6;ll0n6rray,?ol$i,ñ6;oz;l$a,oKr6z-t;al/,e6r@;au,no;hha.3ll0;rci0?i6y0;!&;eUmmad3r6tsu05;$6t$1;!o;aCe8i6op1uo;!n6u;coln,dholm;fe7n$,r6w@;oy;bv6v6;re;mmy,rs5u;aA<nedy,imu9le$,o7u6wok;m-,znets3;bay6)cs;]X;ra;hn,rl9+,ur,zl3;#?e%,<9ha4im<1o6u4;h6nXu4;#6%2;?2;k$s,s5;gl/i9ke8noue,s=k7+,v#o6;u,v;awa;da;];aBe8it>cock,o7u6;!a4b0ghNynh;a4ffm#n,r)t;m$gw7nde6rM;rs2;ay;%5rrPs7y6;]D/;#3=6;moI;a9.,o8r7u6;o,ti&r1;ay(4ub0;m1nzal1;nd6o,rcia;=;&9lor8o7uj6;ita;st0u[i0;/;n#d1;d7$steHsposi6)L;+;@2w-ds;aCeBi9om$8u6;bo6r#d;@;gu1;az,mitr3;ov;lgado,vi;nkula,rw7vi6;/,s;$;aFhBl-kAo6;h5l6op0rbyn,x;em7(6;%;#;!e;#8e7iu,o6r@te%5u4we;i,*,u4w,y;!n,on6u4;!g;mpb6rt0;ell;aBe8ha4l#co,oyko,r6y[e;ooks,y#t;*;ck7ethov5nnett;<;&,ham;>,h8.ey,[6;/,i0;&;k,*;dDl9nd6;&s6rA;<,s2;on;eks7iy8)r1;ez;ej6;ev;ams",
-    "Noun": "true¦!1:#$%&()*+./<=>?@[]^_`~:ch,en,er,nd,ge,st,de,te,ei,an,ig,ha,ng,ic,li,ra,ie,ne,rt,le,se;0:7W;1:7M;2:7V;3:79;4:76;5:74;6:7D;7:70;8:59;9:7E;A:7T;B:7R;C:75;D:49;a73b66c60d5Re5Ff4Ug45h3Oi3Jj3Fk31l2Pm24n1Yo1Xp1Ir15s0Ht09u05vTwJzFäEölvor5B;gypt$4N>s3rz3;aGeFuEw?39;(,kä19;c4hn3Lit06l3;c6Ggreb;aLeHiFo#$EäDö_2ür)2;!$C;d%sEnt1ss$49;a4Tp5G;(,hrpf@UiGnCrEs$4N;n1[t32tE;!e,papi6N;g1~;ff0hl0i(8lE;d$3Wes;ari/3eK]JoE;<t,lk,rE;ab1Kg7AsEwürfeA;#ußlorbe6Gitz$*Fta&sE;sp2Lv7;!r;l6Zr+ljahrhu&%t;^d<,rE;/two_l?9b[u4EdFgl.c4=Ekä0Olus3+id68;l4T&lu>)2P;acBäE;#ti(;lt$t2LmFnt%ErO;(b4Ks#ri3P;brü2sEwelt38;#uldu>s4Ftä&0;aI.8hyss0iHoCreFürE;!$;&Epp2u=&a5G;!w5;%e,g1;s2tFuE;be,s5;sac9;aZ#VeUiTka&2JpOtGuFynod2Jz4MüE;d0pp2;c4*t$*uts2mmeA;aJeIimme,rFud]Eädt2;n(bühr0r5;aFeE;et,ß;t58ß0;inkoh`ze2l`;atsEdt[t,rza3P;a02di5O;arHd GrE;ac4e#E;#ör0%;f[k3Hl4Nv7;%,+;cBgnal6Nnn;i6Kuc9;arpi>s,%e,in,n.d1rFwE;i%<0Käc4;.bt1QiEöd1;fts25tt;#Enkt,[jewo;$,s$-/5O;aPeIiHoGu4üE;ckEd53he;s14t5F;b%t,l`;tu1Rv1;#Hgi%u>sRisE);#,eF<=E;uf0;!nC;%2tE;e,saE;nwa6;c4hm$36;aOeLfKhänom3Lioni4UoIrE;eFoEä07; kopf 07g[mmv1Tjek3+s3;isEs~G;absp5Uv%fal8;@z.ErD;sp0U;$n<,l0M;itDrE;es,sE;onal,pek3U;lä)in$s%n,p]GrE;lam$tEol0+iv7;es,swahl0;re;b%fläc4f1P@v1pp$h.m1)slawon]1B;a#IeG]ForEä4;b%t,drh.n we)f11;r0tzD;a&%t0PgativtrEuk23;$d;bar,r08;aUcdonnTeQiKoJuIäHög@#GüE;lEn2;h.m kär@#,l1;k.t0;d2rk3;l0I~um;*ll#a[kt1nats5rd;#ae8eIlHnEt(f/g2F;*)Fi)%präEut0;sid$t0;.n2A;itär,@a3T;_,+;nFrE;kma`,rF;a#em,em,(,s#$re1E;ell;a)rQl1nGrktn43s#in$FßE;e,n2E;!pi)ol0;(8n;aKeIiHoka`s,uEä31;dEft;ew<,w<E;!s=f3N;cBs3;#,g5iEu4O;c9pz<;#1fontai^s,&E+iniD;eFg%E;?B;!sE;e18k14v7;aO%n,iMoIrFu_,öE;ln,n<4Ir3;a#,]gsEuD;$Cv%bE;re1A;h8l`kTmmun0nE;f@k3tE;ak3rolE;`;nEr2;ke8;bel,mpagn0rFss0ts#thEuf;al1;is#;ahrG%usalFuEürg0;g$d@#e3Sppé;em;!es5hu&%tw5taus$dw5zehnt;*Hmp%aGnFrEta@2W;/,$e;=6itiativeA;tiv;al0;aLeHoFu&%tEäf0Tö4;taus5;eEr);#),n0;broGn^,rEß;b),rn,sEzog;+ll1;n 0S;ftLlKnIuE;ptFs=ltE;!s)r.ts;urs2LvE;%/twor0A;*lsEs jo2;!ab0M;s,t;!a1N;a),eKipJläub32mbh,oIrEünt1;oßofGu&Föße,ünE;*,$;<;f$s31;lft1Ztt;fe8;b]3faT=6lRm.nCnQrMsGwE;a6%ks#aftE;$,sv7;#HeE?Bpräc9ta6;llEtze;s#aE;ft0;iEwor07;#3;i#tFäuD;sc4;!eE;!s;%a8f;d,s$kE;ir2;hr,>$eE;n,r;aXdp0GeViQlMoJrFühru>~E;b$e;aF.h.E;t@2;kEu0;tion1Q;l(,rE;meln,sE;#1;a09uFäc9ü#E;t@n(;cBg/gE;);@a`As#E;!%E;!.E;abE;komm0;ld,)g$ommE;$0;ll26mi@$/(höriU;bOiInHpoc4rFuE;`,ropä1;a#E*,folg,=6lö~,wa#s$e1R;t$s;*,t(6;m1nE;bHh.GnFzel=&e8;ls;ahm0;m10t0;rüc4;$eA;am0eKgbJiG[Fu10örfE;#0%;#;$)FnEvid5;(;e,mäd2; v7;fizi3`gi%t0utE;sc9;du HhEo6;a[kt%1Jef,iE;`,nabesu#E;es;lEv7;a&e0K;a04eVilUlutv%g]ß0oRrMuIüE;#1hGrg%E;!initiaE;tiv0;^;&esErs2;aF=us0GläEtagsab(ord^3v7;&%A;n)a6;/#eF]f,oEöt2;s#ür0t;!nE;!kollE;eg0;rcEusquN;heE;_;d,l;am3fr.u>)LhöKrIsGtrE;iEoffQ;eb;#äft<0Ru#eE;r,s;ekEg)eGi#t0R&;et;rd0;<1;dInGrriFsf,ueE;rn;%0;/0kE;dar`h0$;$1;a2b0Bgab,kbar,l06nYrUsQuE;fH(,sE;lä06sE;#ußv7?BprE;ac4;$tKsFtE;ritt;i#ts[tFtä&E;is2;sv7;orsiE;tz5;=6;c4ylsu#5;$C;*;he;b.tsGgum$3t$v]lE;fa6;+;plätz0we6;(IhHlag0sEwa6;?Bprüc9ta6;lt;heA;ä>1;hörEklagt0)ellP;i(E;!n,r;exaFt%natE;ive;&1;%;ar;$dJ(ord^HsE;?BpE;[2;ht;+A;!n;!e;#0;$",
+    "Noun": "true¦!1:#$%&()*+./<=>?@[]^_`~:ch,en,er,nd,ge,st,de,te,ei,an,ig,ha,ng,ic,li,ra,ie,ne,rt,le,se;0:7U;1:7K;2:7T;3:77;4:74;5:72;6:7B;7:58;8:7C;9:6Y;A:7R;B:7P;C:73;D:48;a71b65c5Zd5Qe5Ef4Tg44h3Ni3Ij3Ek30l2Om24n1Yo1Xp1Ir15s0Ht09u05vTwJzFäEölvor5A;gypt$4M>s3rz3;aGeFuEw?38;(,kä19;c4hn3Kit06l3;c6Fgreb;aLeHiFo#$EäDö_2ür)2;!$C;d%sEnt1ss$48;a4Sp5F;(,hrpf@UiGnCrEs$4M;n1[t31tE;!e,papi6L;g1~;ff0hl0i(7lE;d$3Ves;ari/3eK]JoE;<t,lk,rE;ab1Kg78sEwürfeA;#ußlorbe6Eitz$*Fta&sE;sp2Kv9;!r;l6Xr+ljahrhu&%t;^d<,rE;/two_l?8b[u4DdFgl.c4=Ekä0Olus3+id66;l4S&lu>)2O;acBäE;#ti(;lt$t2KmFnt%ErO;(b4Js#ri3O;brü2sEwelt37;#uldu>s4Etä&0;aI.7hyss0iHoCreFürE;!$;&Epp2u=&a5F;!w5;%e,g1;s2tFuE;be,s5;sac8;aZ#VeUiTka&2IpOtGuFynod2Iz4LüE;d0pp2;c4*t$*uts2mmeA;aJeIimme,rFud]Eädt2;n(bühr0r5;aFeE;et,ß;t57ß0;inkoh`ze2l`;atsEdt[t,rza3O;a02di5M;arHd GrE;ac4e#E;#ör0%;f[k3Gl4Mv9;%,+;cBgnal6Lnn;i6Iuc8;arpi>s,%e,in,n.d1rFwE;i%<0Käc4;.bt1PiEöd1;fts24tt;#Enkt,[jewo;$,s$-/5M;aPeIiHoGu4üE;ckEd51he;s13t5D;b%t,l`;tu1Qv1;#Hgi%u>sRisE);#,eF<=E;uf0;!nC;%2tE;e,saE;nwa6;c4hm$35;aOeLfKhänom3Kioni4SoIrE;eFoEä07; kopf 07g[mmv1Sjek3+s3;isEs~G;absp5Sv%fal7;@z.ErD;sp0T;$n<,l0L;itDrE;es,sE;onal,pek3T;lä)in$s%n,p]GrE;lam$tEol0+iv9;es,swahl0;re;b%fläc4f1O@v1pp$h.m1)slawon]1A;a#IeG]ForEä4;b%t,drh.n we)f10;r0tzD;a&%t0OgativtrEuk22;$d;bar,r07;aTcdonnSePiKoJuIäHög@#GüE;lEn2;h.m kär@#,l1;k.t0;d2rk3;l0H~um;*ll#a[kt1nats5rd;#ae7eH@tär,nEt(f/g2E;*)Fi)%präEut0;sid$t0;.n29;_,+;nFrE;kma`,rF;a#em,em,(,s#$re1E;ell;a)rQl1nGrktn42s#in$FßE;e,n2E;!pi)ol0;(7n;aKeIiHoka`s,uEä31;dEft;ew<,w<E;!s=f3M;cBs3;#,g5iEu4N;c8pz<;#1fontai^s,&E+iniD;eFg%E;?B;!sE;e18k14v9;aO%n,iMoIrFu_,öE;ln,n<4Hr3;a#,]gsEuD;$Cv%bE;re1A;h7l`kTmmun0nE;f@k3tE;ak3rolE;`;nEr2;ke7;bel,mpagn0rFss0ts#thEuf;al1;is#;ahrG%usalFuEürg0;g$d@#e3Rppé;em;!es5hu&%tw5taus$dw5zehnt;*Hmp%aGnFrEta@2V;/,$e;=6itiativeA;tiv;al0;aLeHoFu&%tEäf0Tö4;taus5;eEr);#),n0;broGn^,rEß;b),rn,sEzog;+ll1;n 0S;ftLlKnIuE;ptFs=ltE;!s)r.ts;urs2KvE;%/twor0A;*lsEs jo2;!ab0M;s,t;!a1N;a),eKipJläub31mbh,oIrEünt1;oßofGu&Föße,ünE;*,$;<;f$s30;lft1Ytt;fe7;b]3faT=6lRm.nCnQrMsGwE;a6%ks#aftE;$,sv9;#HeE?Bpräc8ta6;llEtze;s#aE;ft0;iEwor07;#3;i#tFäuD;sc4;!eE;!s;%a7f;d,s$kE;ir2;hr,>$eE;n,r;aXdp0GeViQlMoJrFühru>~E;b$e;aF.h.E;t@2;kEu0;tion1P;l(,rE;meln,sE;#1;a09uFäc8ü#E;t@n(;cBg/gE;);@a`As#E;!%E;!.E;abE;komm0;ld,)g$ommE;$0;ll25mi@$/(höriU;bOiInHpoc4rFuE;`,ropä1;a#E*,folg,=6lö~,wa#s$e1Q;t$s;*,t(6;m1nE;bHh.GnFzel=&e7;ls;ahm0;m0Zt0;rüc4;$eA;am0eKgbJiG[Fu0ZörfE;#0%;#;$)FnEvid5;(;e,mäd2; v9;fizi3`gi%t0utE;sc8;du HhEo6;a[kt%1Ief,iE;`,nabesu#E;es;lEv9;a&e0J;a03eVilUlutv%g]ß0oRrMuIüE;#1hGrg%E;!initiaE;tiv0;^;&esErs2;aF=us0FläEtagsab(ord^3v9;&%A;n)a6;/#eF]f,oEöt2;s#ür0t;!nE;!kollE;eg0;rcEusquN;heE;_;d,l;am3fr.u>)Khörd0rIsGtrE;iEoffP;eb;#äft<0Qu#eE;r,s;ekEg)eFi#t0Q&;et;<1;dInGrriFsf,ueE;rn;%0;/0kE;dar`h0$;$1;a2b0Bgab,kbar,l06nYrUsQuE;fH(,sE;lä06sE;#ußv9?BprE;ac4;$tKsFtE;ritt;i#ts[tFtä&E;is2;sv9;orsiE;tz5;=6;c4ylsu#5;$C;*;he;b.tsGgum$3t$v]lE;fa6;+;plätz0we6;(IhHlag0sEwa6;?Bprüc8ta6;lt;heA;ä>1;hörEklagt0)ellP;i(E;!n,r;exaFt%natE;ive;&1;%;ar;$dJ(ord^HsE;?BpE;[2;ht;+A;!n;!e;#0;$",
     "MaleName": "true¦!1:#$%&()*+-./<=>?@[]^_`~:an,ar,on,er,is,st,as,nd,ie,ri,en,in,ol,ce,ha,al,us,th,or,il,nt,le;0:CA;1:BK;2:BY;3:B4;4:9N;5:BV;6:AS;7:9V;8:BC;9:AW;A:AN;aB3bA8c97d87e7Gf6Yg6Hh5Xi5Jj4Mk4Cl3Sm2Qn2Fo29p23qu21r1Bs0Qt06u05v00wNxavi4yGzB;aB^0;cBhid,ne;hCkB;!$y;$52&y;*s2i,oCuB;sDuma;nEsD[B;oBsC;uf;ef;at0g;aJeHiCoByatt;lfg#g,odrow;lBn1P;bDey,frBHlB;$d,iB;am,e,s;&t,ur;i,+e7sB;!l6t1;de,lCrr5yB;l1ne;lBt4;a>,y;aE&n1iB;cC?0n>Brg_,va0;!`;/te,t^;l/t<4An>,ughn;lysses,sm0;aTeOhKiIoErCyB;!l4ro8s1;av(,eB(t0oy,um0;`9Iv^,y;bDd7XmBny;!*,mBoh$u;*o,-,y;i*,y;mBt9;!my,o]y;adDeoCiago,omB;!*;!d^e;!de9;dErB;/>,rB;#>,eBy;ll,n>;!dy;dgh,ichi,nn4req,ts46;aScotQeOhKiIoGp/c4tBuraj,ylve8Gzym1;#EeBu$t;f0phCvBw$t;e57-;#,/;!(law,l6;lom1nny,uB;~yma8ta;dBl*,m1;!n6;aDeB;lBrm0;d1t1;hid,ne,qu0Uun,wn,y8;aBba)i0kou,lim,rgio,],ymour;m9n;!tB;!-,y;lCmB`<o,qib,ul;!mAu3;ik,vat^e;aWeShett,iOoFuCyB;#,ou;b6KdCf9p&t,ssB;!elAD;=ph,y;#,bIcHdGel,geFh0l#dA4mEnDry,sCyB;!>;coe,s;!@d,nA;#,eo;lio,r;e4Pg4n6=fo,.go;co,ky;bA&to;cBl6;$do,c5MhCkBo;!ey,-,y;$d,-;gCid,ub5x,yBza;#sh,nS;g-,iB;n@d,s;chid,fa3lDmC+Bp?3s?d,ul,ym%d;@9T=ph,y;iro,%;f,ph;/t2<B;cy,t1;aFeDh_Ci&re,=,reB;)1;!ip,lip;dro,rcy,tB;$,e2V;blo,draig,t43ul;ctavio,m91rFsCtBum$,w5;(,to;aCc$,vB;@do;ma;i,l48vJ;a]JeHiDoB;aBel,l0ma0rm0;h,m;cCg3_o,kB;h_,=a;h=*,kB=*;!=*;@,d,_,ls1vB;_~;#By;!a3i3;aWeTiKoFuCyB;~s,r1;?mCrad,)aB;fa,p?;ed,mF;dibo,e,?mD(es,`CsB[sa;es,he;e,y;ad,ed,mB;ad,ed;cGgu3kElDnCtchB;!e7;ato,ik;ho[e,o03t1;e,=B;aj;ah,hBk6;a3eB;@,l;hClv2rB;~,.7v2;di,met;ck,hNlLmOnu3rHs1tDu.cCxB;!im_i#87we7;e,io;eo,hCi*,tB;!eo,hew,ia;eB(;[,w;cDio,ko,lCqu(,s?7tBv2;i2Gy;<,%;!el,oK[;achBc=m,ik;ai,y;amBdi,moud;adB;ou;aReNiMloyd,oIuCyB;~,+1;cEiDkB]4;aBe;!s;gi,s;*,iaB;no;g0nn-,r/DuBwe7;!iB;e,s;!zo;am,%3;a76evi,l#d,nDoB)4vi;!nB;!a5Yel;!ny;mCnBrry,ur4Rwr4R;>,d1;$,%t;aIeD?~d,iBr(t4Turt(,y~;&0p,rB;by,k,=los;/0iEnBrmit,v2;!dCnBt5B;e],y;a7.ck;r,];nata,rB]em;im,l;aYeQiOoDuB;#,liB)2;#,o,[;aqu2eJhnInGrEsB;eChBiah,ue;!ua;!ph;dBge;#,i,%;!aBny;h,s,]4W;!a]4V-,nA;!l,sBy;ph;#,e,mB;!mA;d,ffGrDsB;sB[;!e;@d,emCmai8oBry;me,nimo;iah,y;!&y,rB;ey,y;cHd5kGmFrDsCvi4yB;!d5s1;%,p4;ed,od,rBv(;ett,od;@,es,(1;e,ob,ub;k,ob,quB;es;aNbrahMchika,gKkeJlija,nuIrGsDtBv0;ai,sB;uki;aB?0iah,ma3sac;ac,iaB;h,s;a,v<Bw2;!g;k,nnguaq;!r;nacB^;io;im;<,n;aJeF<ata,oDuByd$;b&t,gBmb&to,sD;h,o;m4ra>,sBw$d;se2;aDctCitCnry,rB;b&t,m0;^;];bKlJmza,nIo,rDsCyB;ato,d5;#,s0;lE=d,rDuBv6;hito,ki,tB;a,o;(1y;#,ey;k,s;!im;ib;aPeLiKl/JoHrDuB;_l&B)avo;mo;aDegBov4;!g,^B;io,y;dy,?m,`;nzaBrd1;lo;!n;lb4Mno,ov#ni;ne,oDrB;aBry;ld,rd4Q;ffr6rge;b.3l5rBv2;l#d,r3D],y;aReNiLlJ^r0IrB;#DedBitz;!dAeB.ck;.ck;cDkB;!-,lB;<,yn;esJ(B;!co,zek;etch4oB;yd;d3lB%n;ip;d&iDliCng,rnB;#do;pe,x;co;bi0di;$ZdUfrTit0lNmGnFo2rC)eb0]0uge8vBym5zra;#,&ett;gi,iCnBr=,v2w2;e)41-;c07k;och,.que,zo;aG&FiCmB;aFett;lCrB;!h0;!io;s1y;nu3;b&t,d1iEliDmCt1viBwood;n,s;&,o;ot1Ts;!*,jah,sB;?;a2/;!dAg$,mEuCwB;a24<;$B;do;%d,u+;l,nB;e);aYeOiLoErDuCwByl0;ay8ight;a8dl6nc0)2;ag0ew;m<FnD.0ugCyB;~;!l*;!@d,nBov0;e7-,y;go,icB;!k;$muCeBll1%,rk;go;id;#Ij0lbeHmet.9nF%,rEsDvCwBxt4;ay8ey;/,<;?wn,m%d;ek,.ck;(,nBv4;(,y;rt;!dB;re;lKmInHrDvB;e,iB;!d;/,iDne7rByl;eB<,yl;l2Rn;n,o,[;!e,i3ny;iB%;#,/,%;e,lB;*;a06e04hVi$0lKoFrDurtCyrB;_,[;!(;aB(tob@;ig;dy,lEnCrB;ey,neli9y;^,rB;ad;by,e,<,l2t1;aGeDiByI;fB`;f^d,t1;meCt9velaB;+;`;rDuCyB;!t1;de;/B;>;aGeEr(CuB;ck;!tB;i0oph4;)4;&;d,rlBs;eB-;s,y;cBd.c,s$;_;lEm&1rB;ey,lCro7y;ll;!os,t1;eb,v2;$01eT_SlaRoOrCuByr1;ddy,rtI;aJeEiDuCyB;#,>,%;>,no;#,>;nCtB;!t;dCtB;!%;#,%;dB+1;!foBl6y;rd;bCrByd;(;!by;i8ke;@,lA;nFrBshoi;at,nCtB;!ram;aB-;rd0P;!edict,iCjam2nA;-,y;to;n6rBt;eBy;tt;ey;$0Ub0Kd0Ggu)2hm0Did5j#i,lZmXnPputsiOrFsaEuCveBya0ziz;ry;gu)9)2;[;hi;aIchHi3jun,maFnD%,tBy0;hBuro;ur;av,oB;ld;#,+07;el;-;ta;aq;dGgel02tB;hoEoB;i8nB;!iZy;ne;ny;reBy;!*,s,w;ir,mBos;$;#,bLd5eHfEi,l0%Dph%Gt1vB;aJ<;%;so,zo;%CrB;edN;so;c,jaCks#dBssaCx;$,&;+B;ro;&tH;ni;/;ad,eB;d,t;<;aC=fB.0vik;!o;mBn;!a;dFeEraCuB;!bakr,lfazl;hBm;am;!l;@lEel,oulaye,ulB;!lCrahm0;#;ah,o;ah;av,%",
     "Conjunction": "true¦aFbDdAentwedGfalls,in9nach9o6s4u3w0zumal;e0ohingegen,ähre2;dEil,nn0;!g5;nd;eit4o0;bald,dass,lange,ndern,wie;b0d9;!g0wohl;lei2;dem;a1enn,o0;ch;mit,ss,ß;e0zw;vor,ziehungsweise;b0ls;er",
     "Determiner": "true¦d2ein0;!e0;!m,n,r,s;as,e0ie;m,n,r,s",
@@ -9968,10 +9968,10 @@ designate
     "Person": "true¦!1:#$%&()*:er,in,an, ro, w,ss,ar;ashton kutchSbRcNdKeIgastMhG$ez,jEkDleCmBnettJoAp8r4s3t2v0;a0irg$ maG;lent$o&)i,n go3;h#esa may,ig#(oods,yra b%ks;addam hu)a$,c*lett joh%)Ilobod% milosevic,uB;ay&m%o,eese(ith#spoHo1ush limbau0;gh;d stew*t,nald0;$ho,o;a0ipJ;lmIris hiltC;prah($frFra;e)iaen,itt&mnEub*ek;bron james,e;%ye(est,ief# suth#l%d,obe bry%t;aime,eff#s7k&wli0;ng;alle b#0itlBulk hog%;ry;ff0m#il laga)e,zekiel;ie;a0enzel(ash$gt1ick(olf;lt0nte;on;*0ruz;d$al(ols1son0;! palm2;ey;*ack obama,rock;#",
     "Currency": "true¦cent2dollar2euro2frank1krone0rubel,y1;!n;en;!s",
     "Unit": "true¦ampere,bHgEheDk5litAm1quadrat6t0volt,w9zenti6;erFonneA;e1illi0;g9li4me4;ga0t6;bCw4;ilo2ubik0;me0;ter;!b8g3met1w0;att;er0;!n;ramm;ktar,rtz;ig1ra0;d,mm;ab0;yte",
+    "TextCardinal": "true¦achtDb9drei7e6fünfDhundert,m9n5s2tausend,vierDz0;eEw0;anz6ei,ölf;ech1ieb0;en,zA;s,z9;eun7ull;ins,lf;!ze7ß0;ig;illi0;arde1on0;!en;!n;!z0;e0ig;hn",
     "Modal": "true¦d9k7m2soll1w0;illBollt7;!st,t6;ag9och7u2ö1ü0;sst,ßt;ch5gt;ss0ß0;!t1;ann4onn2önnt0;!e2;arf2urf0ürft;te0;!n,st,t;!st",
     "Possessive": "true¦:e1me1ne1re1s0;er1n2rhi;n1r0;esnu,hi,ue;ie0;d,m,s",
-    "TextCardinal": "true¦achtBbillionen,drei9e8fünfBhundert,milli6n5s2tausend,vierBz0;eCw0;anz8ei,ölf;ech1ieb0;en,z8;s,z7;eun5ull;arde,on0;!en;ins,lf;!ze3ß0;ig;!z0;e0ig;hn",
-    "TextOrdinal": "true¦:et0;bKfGhEieJllun,n8rBs0tiC;d6gi3hCnoilli2re0t1;!t0;rednuh;b,m;z0ßie7;beiz,fnBh7n0r5t4;aCu8;nesuat,raillim;ebBhez0u6;!bAfn7h3ie2r1t0;hca;eiv;rd;ces;ca,eznu0;en;l1n0;üf;e,ö0;wz;eis"
+    "TextOrdinal": "true¦achtEbBdr9e8fünf7hundert6mBn5s2tausenDvier7z0;eGw0;anziEeiGölfG;ech1ieb0;enEte,zB;sDzA;eun1ullC;ersBsB;te,z7;lf9rs9;ei0it8;ze6ßi5;illi0;ar0ons5;ds4;e,z0;e1i0;gs1;hn0;te"
   };
 
   /* eslint-disable no-empty */
@@ -10117,7 +10117,7 @@ designate
     })
   };
 
-  const toArray = function (trie) {
+  const toArray$1 = function (trie) {
     const nodes = parseNodes(trie);
     const all = [];
     const stack = [{ index: 0, pref: '', edge: -1 }];
@@ -10158,7 +10158,7 @@ designate
     if (str.match(':')) {
       symbols(trie);
     }
-    return toArray(trie)
+    return toArray$1(trie)
   };
 
   const unpack = function (str) {
@@ -10382,18 +10382,67 @@ designate
     });
   });
 
+  // the conjugation models are keyed by these names
+  const forms = {
+    FirstPerson: 'first',
+    SecondPerson: 'second',
+    ThirdPerson: 'third',
+    FirstPersonPlural: 'firstPlural',
+    SecondPersonPlural: 'secondPlural',
+    ThirdPersonPlural: 'thirdPlural',
+  };
+  const persons$2 = Object.values(forms);
+
   const verbForm = function (term) {
-    const want = [
-      'FirstPerson',
-      'SecondPerson',
-      'ThirdPerson',
-      'FirstPersonPlural',
-      'SecondPersonPlural',
-      'ThirdPersonPlural',
-    ];
-    return want.find(tag => term.tags.has(tag))
+    const tag = Object.keys(forms).find(k => term.tags.has(k));
+    return tag ? forms[tag] : null
   };
 
+  // each tense, and how to get to + from it
+  const tenses = [
+    { tag: 'PresentTense', from: 'fromPresent', to: 'toPresent' },
+    { tag: 'PastTense', from: 'fromPast', to: 'toPast' },
+    { tag: 'Subjunctive1', from: 'fromSubjunctive1', to: 'toSubjunctive1' },
+    { tag: 'Subjunctive2', from: 'fromSubjunctive2', to: 'toSubjunctive2' },
+  ];
+
+  const isInfinitive$1 = function (str, lexicon) {
+    if (!lexicon.hasOwnProperty(str)) {
+      return false
+    }
+    const tags = lexicon[str];
+    return tags === 'Infinitive' || (Array.isArray(tags) && tags.includes('Infinitive'))
+  };
+
+  // find the infinitive of a conjugated verb - 'sprichst' -> 'sprechen'
+  // the tagger's guess at the tense + person is often wrong, so try them all,
+  // and only keep an infinitive that conjugates back into our word
+  const getVerbRoot = function (term, str, world) {
+    const verb = world.methods.two.transform.verb;
+    const lexicon = world.model.one.lexicon;
+    const form = verbForm(term);
+    // the tagged tense + person go first
+    const order = tenses.filter(o => term.tags.has(o.tag)).concat(tenses.filter(o => !term.tags.has(o.tag)));
+    const people = persons$2.filter(p => p === form).concat(persons$2.filter(p => p !== form));
+    let guess = null;
+    for (let i = 0; i < order.length; i += 1) {
+      for (let k = 0; k < people.length; k += 1) {
+        // 'rad fahren' -> 'fahren'
+        const inf = (verb[order[i].from](str, people[k]) || '').split(' ').pop();
+        if (!inf || inf === str || verb[order[i].to](inf)[people[k]] !== str) {
+          continue
+        }
+        // prefer a real verb - 'sagte' is 'sagen', not 'sagten'
+        if (isInfinitive$1(inf, lexicon)) {
+          return inf
+        }
+        guess = guess || inf;
+      }
+    }
+    // without a tense, the tagger is not sure about this verb - so neither are we
+    const hasTense = tenses.some(o => term.tags.has(o.tag));
+    return hasTense ? guess : null
+  };
 
   const root = function (view) {
 
@@ -10403,23 +10452,25 @@ designate
         const str = term.implicit || term.normal || term.text;
         // get infinitive form of the verb
         if (term.tags.has('Verb')) {
-          const form = verbForm(term);
           // look at past + present participles, first
           if (term.tags.has('Participle') && term.tags.has('PresentTense')) {
-            term.root = verb.fromPresentParticiple(str, form);
+            term.root = verb.fromPresentParticiple(str);
           } else if (term.tags.has('Participle') && term.tags.has('PastTense')) {
-            term.root = verb.fromPastParticiple(str, form);
-          } else if (term.tags.has('PresentTense')) {
-            term.root = verb.fromPresent(str, form);
-          } else if (term.tags.has('PastTense')) {
-            term.root = verb.fromPast(str, form);
-          } else if (term.tags.has('Subjunctive1')) {
-            term.root = verb.fromSubjunctive1(str, form);
-          } else if (term.tags.has('Subjunctive2')) {
-            term.root = verb.fromSubjunctive2(str, form);
-          } else if (term.tags.has('Imperative')) {
-            term.root = verb.fromImperative(str, form);
-          } else ;
+            term.root = verb.fromPastParticiple(str);
+          } else if (term.tags.has('Particle')) ; else if (isInfinitive$1(str, view.world.model.one.lexicon)) {
+            // 'wir [wohnen] hier'
+            term.root = str;
+          } else {
+            const inf = getVerbRoot(term, str, view.world);
+            if (inf) {
+              term.root = inf;
+            } else if (term.tags.has('Imperative')) {
+              term.root = verb.fromImperative(str, verbForm(term));
+            } else if (term.tags.has('PresentTense') || term.tags.has('PastTense')) {
+              // no luck
+              term.root = str;
+            }
+          }
         }
         if (term.tags.has('Adjective')) {
           term.root = adjective.toRoot(str);
@@ -11218,6 +11269,8 @@ designate
     return /^[A-ZÄÖÜ][a-z'\u00C0-\u00FF]/.test(str) || /^[A-ZÄÖÜ]$/.test(str)
   };
 
+  const isBigNumber = /^(million|milliarde|billion|billiarde)(n|en)?$/;
+
   // add a noun to any non-0 index titlecased word, with no existing tag
   const titleCaseNoun = function (terms, i, world) {
     const setTag = world.methods.one.setTag;
@@ -11228,6 +11281,10 @@ designate
     // }
     // skip first-word, for now
     if (i === 0) {
+      return
+    }
+    // these are written as nouns, but they are numbers - 'zwei Millionen'
+    if (term.tags.has('TextCardinal') && isBigNumber.test(term.normal)) {
       return
     }
     if (isTitleCase$1(term.text)) {
@@ -11473,6 +11530,94 @@ designate
     return null
   };
 
+  // a separable verb is written as one word, at the end of a subordinate clause
+  // 'weil ich dich anrufe', 'ob er mitkommt'
+  // - we may only know 'rufe' and 'kommt', so look for the verb behind the prefix
+  const prefixes$1 = [
+    'zusammen', 'zurück', 'weiter', 'vorbei', 'heraus', 'herein', 'hinaus', 'hinein', 'herum', 'fort', 'fest',
+    'nach', 'teil', 'weg', 'vor', 'mit', 'los', 'her', 'hin', 'ein', 'bei', 'aus', 'auf', 'ab', 'an', 'zu',
+  ];
+  const finite = ['PresentTense', 'PastTense'];
+  const persons$1 = ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'FirstPersonPlural', 'SecondPersonPlural', 'ThirdPersonPlural'];
+
+  const toArray = (tags) => (typeof tags === 'string' ? [tags] : tags || []);
+
+  const separable = function (terms, i, world) {
+    const term = terms[i];
+    const str = term.normal;
+    // german nouns are capitalized, so a lower-case word is something else
+    if (i === 0 || !term.text || term.text[0] !== term.text[0].toLowerCase()) {
+      return null
+    }
+    const lexicon = world.model.one.lexicon;
+    const known = toArray(lexicon[str]);
+    // only an unknown word, or one that we know as a noun
+    // (an unknown word may have been guessed as a plain verb, already)
+    const isGuess = known.length === 0 && term.tags.size === 1;
+    if ((term.tags.has('Verb') && !isGuess) || known.some((tag) => tag !== 'Plural' && tag !== 'Noun' && !/Noun$/.test(tag))) {
+      return null
+    }
+    for (let k = 0; k < prefixes$1.length; k += 1) {
+      const prefix = prefixes$1[k];
+      if (!str.startsWith(prefix) || str.length < prefix.length + 3) {
+        continue
+      }
+      const tags = toArray(lexicon[str.slice(prefix.length)]);
+      // an infinitive - 'sie werden mitkommen'
+      // or a conjugated verb, with a person - 'rufe', 'kommt'
+      const isVerb = tags.includes('Infinitive') || (tags.some((tag) => finite.includes(tag)) && tags.some((tag) => persons$1.includes(tag)));
+      if (isVerb) {
+        term.tags.clear();
+        world.methods.one.setTag([term], ['Verb'].concat(tags), world, false, '2-separable-verb');
+        return true
+      }
+    }
+    return null
+  };
+
+  // these join number-words together
+  const glue = new Set(['und', 'ein', 'minus']);
+  // an inflected ordinal - 'einhundertzweiten'
+  const isEnding = /^[nrsm]$/;
+
+  const getTag = function (str, lex) {
+    if (str === 'hunderttausend') {
+      return 'TextCardinal'
+    }
+    const tag = lex.hasOwnProperty(str) ? lex[str] : null;
+    return tag === 'TextCardinal' || tag === 'TextOrdinal' ? tag : null
+  };
+
+  // a word made only of number-words is a number - 'einhundertzweite', 'dreitausendvier'
+  const numberWord = function (terms, i, world) {
+    const term = terms[i];
+    if (term.tags.size !== 0) {
+      return null
+    }
+    const lex = world.model.one.lexicon;
+    const values = world.model.one.splitter.values;
+    const parts = findSplits(term.normal, values);
+    if (parts.length < 2) {
+      return null
+    }
+    let hasEnding = false;
+    if (parts.length > 2 && isEnding.test(parts[parts.length - 1])) {
+      parts.pop();
+      hasEnding = true;
+    }
+    if (!parts.every(str => glue.has(str) || getTag(str, lex))) {
+      return null
+    }
+    // the last word decides it - 'einhundert[zweite]'
+    const tag = getTag(parts[parts.length - 1], lex);
+    if (!tag || (hasEnding && tag !== 'TextOrdinal')) {
+      return null
+    }
+    world.methods.one.setTag([term], tag, world, false, '2-number-word');
+    term.confidence = 0.8;
+    return true
+  };
+
   // 1st pass
 
   // these methods don't care about word-neighbours
@@ -11489,6 +11634,8 @@ designate
   const secondPass = function (terms, world) {
     for (let i = 0; i < terms.length; i += 1) {
       let found = isAcronym(terms, i, world);
+      found = found || separable(terms, i, world);
+      found = found || numberWord(terms, i, world);
       found = found || suffixCheck(terms, i, world);
       found = found || checkPrefix(terms, i, world);
       // found = found || neighbours(terms, i, world)
@@ -11855,6 +12002,8 @@ designate
   const postTagger$1 = function (doc) {
     // eine as 1 or the
     doc.match('eine #Value').tag('TextValue', 'eine-value');
+    // 'mit einer Million Menschen'
+    doc.match('[einer] (million|milliarde|billion|billiarde)', 0).tag('TextValue', 'einer-million');
     // 6.30 Uhr
     doc.match('#Value uhr').tag('Time', 'time-Uhr');
     // a value before a currency is money - '12,5 Euro'
@@ -11957,6 +12106,17 @@ designate
       [1000000, 'million', 'millionste'],
     ]
   };
+  // these are their own, capitalised nouns - 'zwei Millionen dreihunderttausend'
+  // [value, singular, plural, ordinal]
+  const bigNumbers = [
+    [1e6, 'Million', 'Millionen', 'millionste'],
+    [1e9, 'Milliarde', 'Milliarden', 'milliardste'],
+    [1e12, 'Billion', 'Billionen', 'billionste'],
+    [1e15, 'Billiarde', 'Billiarden', 'billiardste'],
+  ];
+  // 'millionen' → 1000000
+  const scales = {};
+
   const toCardinal = {};
   const toOrdinal = {};
   const toNumber = {};
@@ -11970,7 +12130,14 @@ designate
     });
   });
 
-  const isMultiple = new Set(data.multiples.map(a => a[1]));
+  bigNumbers.forEach(a => {
+    const [num, sing, plur, ord] = a;
+    scales[sing.toLowerCase()] = num;
+    scales[plur.toLowerCase()] = num;
+    toCardinal[ord] = sing.toLowerCase();
+  });
+
+  new Set(data.multiples.map(a => a[1]));
 
   // misc
   toNumber.null = 0;
@@ -11982,54 +12149,82 @@ designate
   toCardinal.hunderterste = 'hunderteins';
   toOrdinal.hunderteins = 'hunderterste';
 
+  // words that the splitter leaves in one piece
+  const expand = {
+    hunderttausend: ['hundert', 'tausend'],
+    hunderteins: ['hundert', 'eins'],
+    hunderterste: ['hundert', 'erste'],
+  };
+
+  // a multiplier in digits - '2,5 Millionen'
+  const fromDigits = function (str) {
+    str = str.replace(/\./g, '').replace(/,/, '.');
+    return /^[0-9]+(\.[0-9]+)?$/.test(str) ? Number(str) : 0
+  };
+
+  // avoid float-noise - 1,1 Millionen
+  const round = n => Math.round(n * 1000) / 1000;
+
+  // a number is built in three levels -
+  // [zwei Millionen] [einhundertdreiundzwanzig tausend] [vierhundertsechsundfünfzig]
   const parseNumbers = function (terms = []) {
-    let sum = 0;
-    let carry = 0;
+    let total = 0; // millions, and up
+    let thousands = 0;
+    let carry = 0; // under one-thousand
     let minus = false;
 
-    // a leading 'minus' is its own term - 'minus fünf'
-    if (terms.length > 1 && terms[0].normal === 'minus') {
-      minus = true;
-      terms = terms.slice(1);
-    }
-    const words = terms[0].splits || [];
-    // console.log(words)
-    const tags = terms[0].tags;
-    for (let i = 0; i < words.length; i += 1) {
-      let w = words[i];
-
+    const addWord = function (w) {
+      if (expand.hasOwnProperty(w)) {
+        expand[w].forEach(addWord);
+        return
+      }
       if (w === 'minus') {
         minus = true;
-        continue
+        return
       }
       // ...  [ein][und][zwanzig]
       if (w === 'und') {
-        continue
+        return
       }
-      // 'huitieme'
-      if (tags.has('Ordinal')) {
-        w = toCardinal[w] || w;
+      // 'zweite' → 'zwei'
+      if (!toNumber.hasOwnProperty(w) && toCardinal.hasOwnProperty(w)) {
+        w = toCardinal[w];
       }
-      // 'hundert'
-      if (isMultiple.has(w)) {
-        const mult = toNumber[w] || 1;
-        if (carry === 0) {
-          carry = 1;
-        }
-        sum += mult * carry;
+      // 'millionen' multiplies everything said so far
+      if (scales.hasOwnProperty(w)) {
+        total += round((thousands + carry || 1) * scales[w]);
+        thousands = 0;
         carry = 0;
-        continue
+        return
+      }
+      // 'tausend' multiplies the hundreds - [einhundertdreiundzwanzig][tausend]
+      if (w === 'tausend') {
+        thousands += (carry || 1) * 1000;
+        carry = 0;
+        return
+      }
+      // 'hundert' multiplies the one before it - [zwei][hundert]
+      if (w === 'hundert') {
+        carry = (carry || 1) * 100;
+        return
       }
       // 'fünf'
       if (toNumber.hasOwnProperty(w)) {
         carry += toNumber[w];
-        // console.log(w, carry)
       }
-    }
-    // include any remaining
-    if (carry !== 0) {
-      sum += carry;
-    }
+    };
+
+    // very-large numbers are several terms - 'zwei Millionen dreihunderttausend'
+    terms.forEach(term => {
+      if (term.tags.has('NumericValue')) {
+        carry += fromDigits(term.text);
+        return
+      }
+      const words = term.splits || [term.normal];
+      words.forEach(addWord);
+    });
+
+    let sum = total + thousands + carry;
     // make it all negative
     if (minus === true) {
       sum *= -1;
@@ -12120,97 +12315,61 @@ designate
     }
   };
 
-  const tens = data.tens.reverse();
-  const teens = data.teens.reverse();
-  const ones = data.ones.reverse();
-  const hundreds = data.hundreds.reverse();
-
-
-  const doThousands = function (num) {
-    const words = [];
-    // hunderttausend
-    if (num >= 100000) {
-      for (let i = 0; i < ones.length; i += 1) {
-        if (num >= ones[i][0] * 100000) {
-          const found = ones[i][0] === 1 ? 'ein' : ones[i][1];
-          words.push(found);
-          words.push('hunderttausend');
-          num -= teens[i][0] * 100000;
-        }
-      }
-    }
-    // eleven-thousand...
-    if (num >= 10000) {
-      for (let i = 0; i < teens.length; i += 1) {
-        if (num >= teens[i][0] * 1000) {
-          words.push(teens[i][1]);
-          words.push('tausend');
-          num -= teens[i][0] * 1000;
-        }
-      }
-    }
-    // dreitausend, viertausend...
-    for (let i = 0; i < ones.length; i += 1) {
-      if (num >= ones[i][0] * 1000) {
-        const found = ones[i][0] === 1 ? 'ein' : ones[i][1];
-        return [found, 'tausend']
-      }
-    }
-    return words
-  };
-
-  const doHundreds = function (num) {
-    const words = [];
-    for (let i = 0; i < hundreds.length; i += 1) {
-      if (num >= hundreds[i][0]) {
-        words.push(hundreds[i][1]);
-        num -= hundreds[i][0];
-        break
-      }
-    }
-    return words
-  };
+  // 7 → 'sieben', 30 → 'dreißig'
+  const byNum = {};
+  data.ones.concat(data.teens, data.tens).forEach(a => {
+    byNum[a[0]] = a[1];
+  });
+  // largest first
+  const bigFirst = bigNumbers.slice().reverse();
 
   // 23 -> '[drei][und][zwanzig]'
-  const twoDigit = function (num) {
-    const words = [];
-    // ninety, eighty ...
-    for (let i = 0; i < tens.length; i += 1) {
-      if (num >= tens[i][0]) {
-        words.push(tens[i][1]);
-        num -= tens[i][0];
-      }
+  // 'eins' is only said at the very end - 'einhunderteins', but 'eintausend'
+  const twoDigit = function (num, isLast) {
+    if (num === 0) {
+      return []
     }
-    // found nothing? look for teens
-    if (words.length === 0) {
-      for (let i = 0; i < teens.length; i += 1) {
-        if (num === teens[i][0]) {
-          return [teens[i][1]] //these don't combine
-        }
-      }
+    if (num === 1) {
+      return [isLast ? 'eins' : 'ein']
     }
-    // look for ones to add on
-    for (let i = 0; i < ones.length; i += 1) {
-      if (num === ones[i][0]) {
-        // drei und zwanzig
-        if (words.length === 1) {
-          // use '[ein][und][zwanzig]', not 'eins..'
-          const found = ones[i][0] === 1 ? 'ein' : ones[i][1];
-          return [found, 'und', words[0]]
-        }
-        // just 'drei'
-        if (words.length === 0) {
-          return [ones[i][1]]
-        }
-      }
+    // these don't combine
+    if (num < 20) {
+      return [byNum[num]]
     }
-    return words
+    const one = num % 10;
+    const ten = byNum[num - one];
+    if (one === 0) {
+      return [ten]
+    }
+    // use '[ein][und][zwanzig]', not 'eins..'
+    return [one === 1 ? 'ein' : byNum[one], 'und', ten]
   };
 
+  // 230 -> '[zweihundert][dreißig]'
+  const threeDigit = function (num, isLast) {
+    const words = [];
+    const hundred = Math.floor(num / 100);
+    if (hundred > 0) {
+      words.push((hundred === 1 ? 'ein' : byNum[hundred]) + 'hundert');
+    }
+    return words.concat(twoDigit(num % 100, isLast))
+  };
 
-  // turn 130 into '[ein][hundert][dreißig]'
-  const toText = function (num) {
+  // everything under a million is one word - '[einhundert][drei][und][zwanzig][tausend][vierhundert]..'
+  const sixDigit = function (num, isLast) {
     let words = [];
+    const thousand = Math.floor(num / 1000);
+    if (thousand > 0) {
+      words = threeDigit(thousand, false);
+      words.push('tausend');
+    }
+    return words.concat(threeDigit(num % 1000, isLast))
+  };
+
+  // turn 130 into '[einhundert][dreißig]'
+  // and 2300000 into '[zwei][Millionen][dreihundert][tausend]'
+  const toText = function (num) {
+    const words = [];
     if (num === 0) {
       return ['null']
     }
@@ -12218,24 +12377,38 @@ designate
       words.push('minus');
       num = Math.abs(num);
     }
-    // do '[sieben][tausend]'
-    if (num >= 1000) {
-      const res = doThousands(num);
-      words = words.concat(res);
-      num %= 1000;
+    // no decimals
+    num = Math.floor(num);
+    // too big to count
+    if (!Number.isSafeInteger(num)) {
+      return []
     }
-    // do '[zwei][hundert]'
-    if (num >= 100) {
-      const res = doHundreds(num);
-      words = words.concat(res);
-      num %= 100;
-    }
-    // do '[drei][und][zwanzig]'
-    if (num > 0) {
-      words = words.concat(twoDigit(num));
-    }
-    return words
+    // do '[zwei][Millionen]'
+    bigFirst.forEach(a => {
+      const [scale, singular, plural] = a;
+      const n = Math.floor(num / scale);
+      if (n === 0) {
+        return
+      }
+      // 'eine Million', 'zwei Millionen'
+      if (n === 1) {
+        words.push('eine', singular);
+      } else {
+        words.push(...sixDigit(n, true), plural);
+      }
+      num %= scale;
+    });
+    // do '[sieben][tausend][zweihundert][drei][und][zwanzig]'
+    return words.concat(sixDigit(num, true))
   };
+
+  // 'Millionen' → 'millionste'
+  const bigOrdinal = {};
+  bigNumbers.forEach(a => {
+    bigOrdinal[a[1]] = a[3];
+    bigOrdinal[a[2]] = a[3];
+  });
+
 
   // german format - '.' groups thousands, ',' marks the decimal
   const toNumeric = function (num, grouped) {
@@ -12253,23 +12426,46 @@ designate
   };
 
   // 'minus' is its own word - 'minus fünf'
+  // and so are the big ones - 'zwei Millionen dreihunderttausend'
   const joinWords = function (words) {
-    if (words[0] === 'minus') {
-      // nothing to say - don't leave a bare 'minus'
-      if (words.length === 1) {
-        return ''
-      }
-      return 'minus ' + words.slice(1).join('')
+    // nothing to say - don't leave a bare 'minus'
+    if (words.length === 1 && words[0] === 'minus') {
+      return ''
     }
-    return words.join('')
+    let str = '';
+    words.forEach(w => {
+      if (w === 'minus') {
+        str += 'minus ';
+      } else if (bigOrdinal.hasOwnProperty(w)) {
+        str += ' ' + w + ' ';
+      } else {
+        str += w;
+      }
+    });
+    return str.trim()
+  };
+
+  // an ordinal is always one word - 'zweimillionste', 'zweimillionenerste'
+  const toOrdinalWords = function (words) {
+    if (words.length === 0) {
+      return words
+    }
+    const last = words.length - 1;
+    return words.map((w, i) => {
+      if (bigOrdinal.hasOwnProperty(w)) {
+        return i === last ? bigOrdinal[w] : w.toLowerCase()
+      }
+      // 'eine Million' → 'einmillionste'
+      if (w === 'eine') {
+        return 'ein'
+      }
+      return i === last ? toOrdinal[w] : w
+    })
   };
 
   const formatNumber = function (parsed, fmt) {
     if (fmt === 'TextOrdinal') {
-      const words = toText(parsed.num);
-      const last = words[words.length - 1];
-      words[words.length - 1] = toOrdinal[last];
-      return joinWords(words)
+      return joinWords(toOrdinalWords(toText(parsed.num)))
     }
     if (fmt === 'TextCardinal') {
       return joinWords(toText(parsed.num))
@@ -12345,6 +12541,49 @@ designate
         Object.defineProperty(term, 'grouped', { value: true, enumerable: false, writable: true, configurable: true });
       });
     }
+  };
+
+  // 'millionen', 'milliarde'
+  const isBig = term => scales.hasOwnProperty(term.normal);
+  // 'zwei' in 'zwei Millionen' - a cardinal in words or digits, or 'eine'
+  const canMultiply = term => !isBig(term) && !term.tags.has('Ordinal');
+  // 'dreihunderttausend' in 'zwei Millionen dreihunderttausend'
+  const isTextCardinal = term => !isBig(term) && term.tags.has('TextValue') && !term.tags.has('Ordinal');
+
+  // most numbers are 1-term
+  // but very-large numbers are several - 'zwei Millionen dreihunderttausend'
+  const splitValues = function (m) {
+    const ptrs = [];
+    m.fullPointer.forEach(ptr => {
+      const [n, start, end] = ptr;
+      const terms = m.document[n];
+      let i = start;
+      while (i < end) {
+        let j = i;
+        let last = Infinity;
+        // [zwei Milliarden] [drei Millionen]
+        while (j + 1 < end && canMultiply(terms[j]) && isBig(terms[j + 1]) && scales[terms[j + 1].normal] < last) {
+          // only the first multiplier may be digits - '5 Millionen'
+          if (j > i && !isTextCardinal(terms[j])) {
+            break
+          }
+          last = scales[terms[j + 1].normal];
+          j += 2;
+        }
+        if (j > i) {
+          // ... [dreihunderttausend]
+          const isNext = j + 1 < end && isBig(terms[j + 1]);
+          if (j < end && isTextCardinal(terms[j]) && !isNext) {
+            j += 1;
+          }
+        } else {
+          j = i + 1;
+        }
+        ptrs.push([n, i, j]);
+        i = j;
+      }
+    });
+    return m.update(ptrs)
   };
 
   // tag the number-words, but not the sign - 'minus fünf'
@@ -12429,7 +12668,8 @@ designate
       /** convert to numeric form like 'eight' or 'eighth' */
       toText() {
         const res = mutate(this, val => {
-          if (val.has('#TextValue')) {
+          // already in words - but not '5 Millionen'
+          if (val.has('#TextValue') && !val.has('#NumericValue')) {
             return val
           }
           const obj = parseNumber(val);
@@ -12600,12 +12840,7 @@ designate
     Numbers.prototype.equals = Numbers.prototype.isEqual;
 
     View.prototype.numbers = function (n) {
-      let m = this.match('#Value+');
-      // most numbers are 1-term
-      // but very-large numbers get broken up 'zwei Millionen eins'
-      if (!m.has('(million|millionen|milliarde)')) {
-        m = m.terms();
-      }
+      let m = splitValues(this.match('#Value+'));
       // a written-out sign belongs to its number - 'minus fünf Grad'
       // (but 'zehn minus fünf' is a subtraction)
       if (this.has('minus')) {
@@ -12628,6 +12863,790 @@ designate
 
   var numbers = {
     api: api$3
+  };
+
+  // re-conjugate each clause into another tense, in-place
+  // 'ich gehe' -> 'ich ging' -> 'ich werde gehen'
+  //
+  // german spreads its verb across the clause - 'ich [habe] einen Apfel [gegessen]'
+  // so we work on the whole clause that each finite verb belongs to.
+  //
+  // - the past-tense is the Präteritum, which is a one-word substitution.
+  //   (the Perfekt is already in the past, and is left alone)
+  // - the future-tense is 'werden' + an infinitive at the end of the clause.
+
+  const persons = ['first', 'second', 'third', 'firstPlural', 'secondPlural', 'thirdPlural'];
+
+  const personTags = {
+    first: 'FirstPerson',
+    second: 'SecondPerson',
+    third: 'ThirdPerson',
+    firstPlural: 'FirstPersonPlural',
+    secondPlural: 'SecondPersonPlural',
+    thirdPlural: 'ThirdPersonPlural',
+  };
+  const tenseTags = {
+    present: 'PresentTense',
+    past: 'PastTense',
+  };
+
+  // nominative pronouns, and the persons they may be
+  const subjects = {
+    ich: ['first'],
+    du: ['second'],
+    er: ['third'],
+    es: ['third'],
+    man: ['third'],
+    sie: ['third', 'thirdPlural'],
+    wir: ['firstPlural'],
+    ihr: ['secondPlural'],
+  };
+
+  // these send the finite verb to the end of the clause - 'weil ich nach Hause [gehe]'
+  const subordinators = new Set([
+    'dass', 'daß', 'weil', 'wenn', 'ob', 'als', 'obwohl', 'während', 'bevor', 'nachdem', 'damit', 'falls',
+    'sobald', 'solange', 'bis', 'da', 'seit', 'seitdem', 'indem', 'sodass', 'obgleich', 'ehe', 'sofern',
+  ]);
+  // relative pronouns + question-words do too, after a comma - 'der Mann, der hier [wohnt]'
+  const relatives = new Set([
+    'der', 'die', 'das', 'den', 'dem', 'dessen', 'deren', 'denen', 'was', 'wer', 'wen', 'wem', 'wo', 'wie',
+    'warum', 'wann', 'wohin', 'woher', 'welche', 'welcher', 'welches', 'welchen', 'welchem',
+  ]);
+  const coordinators = new Set(['und', 'oder', 'aber', 'denn', 'sondern', 'doch']);
+
+  // separable prefixes - 'ich rufe dich [an]'
+  const prefixes = [
+    'zusammen', 'zurück', 'weiter', 'vorbei', 'heraus', 'herein', 'hinaus', 'hinein', 'herum', 'empor', 'fort',
+    'fest', 'frei', 'hoch', 'nach', 'teil', 'statt', 'weg', 'vor', 'mit', 'los', 'her', 'hin', 'ein', 'bei',
+    'aus', 'auf', 'ab', 'an', 'zu', 'um',
+  ];
+  const isPrefix = new Set(prefixes);
+
+  // verbs that build their Perfekt with 'sein' - 'ich bin gegangen'
+  // (any other participle after 'sein' is a state - 'die Tür ist geschlossen')
+  const seinVerbs = new Set([
+    'sein', 'werden', 'bleiben', 'gehen', 'kommen', 'fahren', 'laufen', 'fliegen', 'fallen', 'steigen', 'sterben',
+    'wachsen', 'reisen', 'rennen', 'springen', 'schwimmen', 'passieren', 'geschehen', 'folgen', 'begegnen',
+    'gelingen', 'misslingen', 'erscheinen', 'verschwinden', 'entstehen', 'wandern', 'landen', 'fliehen',
+    'kriechen', 'klettern', 'sinken', 'stürzen', 'rutschen', 'eilen', 'reiten', 'schleichen', 'gelangen',
+    'scheitern', 'erwachen', 'ertrinken', 'verreisen', 'aufstehen', 'einschlafen', 'aufwachen', 'umziehen',
+    'einziehen', 'ausziehen', 'aufwachsen', 'auswandern', 'einwandern',
+  ]);
+  // .. and anything built from these - 'ankommen', 'abfahren', 'einsteigen'
+  const seinBases = new Set(['gehen', 'kommen', 'fahren', 'laufen', 'fliegen', 'fallen', 'steigen', 'reisen', 'rennen', 'springen', 'bleiben']);
+
+  const isInfinitive = function (str, lexicon) {
+    if (!lexicon.hasOwnProperty(str)) {
+      return false
+    }
+    const tags = lexicon[str];
+    return tags === 'Infinitive' || (Array.isArray(tags) && tags.includes('Infinitive'))
+  };
+
+  // the two indicative tenses that are one word
+  const getForms = function (root, methods) {
+    return {
+      present: methods.toPresent(root),
+      past: methods.toPast(root),
+    }
+  };
+
+  // find the word in the conjugation table of this infinitive
+  const findHits = function (str, root, methods) {
+    const forms = getForms(root, methods);
+    const hits = [];
+    Object.keys(forms).forEach((tense) => {
+      persons.forEach((person) => {
+        if (forms[tense][person] === str) {
+          hits.push({ tense, person });
+        }
+      });
+    });
+    return hits
+  };
+
+  // the infinitive of 'gegessen', if it is one
+  const fromParticiple = function (term, methods) {
+    const str = term.normal;
+    if (!str || !term.tags.has('Verb')) {
+      return null
+    }
+    const root = (methods.fromPastParticiple(str) || '').split(' ').pop();
+    if (root && root !== str && methods.toPastParticiple(root) === str) {
+      return root
+    }
+    return null
+  };
+
+  // the Konjunktiv of the auxiliary + modal verbs is a mood, not a tense - 'würde', 'wäre', 'könnte'
+  let subjunctives = null;
+  const isSubjunctive = function (str, methods) {
+    if (subjunctives === null) {
+      subjunctives = new Set(['möchte', 'möchtest', 'möchten', 'möchtet']);
+      const roots = ['sein', 'haben', 'werden', 'können', 'müssen', 'dürfen', 'mögen', 'wissen', 'sollen', 'wollen'];
+      roots.forEach((root) => {
+        const indicative = new Set(Object.values(methods.toPresent(root)).concat(Object.values(methods.toPast(root))));
+        const forms = Object.values(methods.toSubjunctive1(root)).concat(Object.values(methods.toSubjunctive2(root)));
+        forms.filter((w) => w && !indicative.has(w)).forEach((w) => subjunctives.add(w));
+      });
+    }
+    return subjunctives.has(str)
+  };
+
+  // find an infinitive that conjugates back into our word
+  const findRoot = function (str, methods, lexicon) {
+    let roots = [str];
+    persons.forEach((person) => {
+      roots.push(methods.fromPresent(str, person));
+      roots.push(methods.fromPast(str, person));
+    });
+    // 'rad fahren' -> 'fahren'
+    roots = roots.filter((s) => s).map((s) => s.split(' ').pop());
+    roots = roots.filter((s, i) => roots.indexOf(s) === i);
+    let found = [];
+    roots.forEach((root) => {
+      const hits = findHits(str, root, methods);
+      if (hits.length > 0) {
+        found.push({ root, hits });
+      }
+    });
+    // prefer a real verb - 'sagte' is 'sagen', not 'sagten'
+    found = found.sort((a, b) => {
+      const known = Number(isInfinitive(b.root, lexicon)) - Number(isInfinitive(a.root, lexicon));
+      return known || a.root.length - b.root.length
+    });
+    return found[0] || null
+  };
+
+  // is this a conjugated verb? - which one, and in which tense + person?
+  // every tense is tried, to find an infinitive that conjugates back into our word
+  const parseFinite = function (term, prev, methods, lexicon) {
+    const str = term.normal;
+    if (!str || !term.text || !term.tags.has('Verb') || term.tags.has('Particle')) {
+      return null
+    }
+    // 'um zu [gehen]'
+    if (prev && prev.normal === 'zu') {
+      return null
+    }
+    if (isSubjunctive(str, methods)) {
+      return null
+    }
+    const found = findRoot(str, methods, lexicon);
+    if (found && isInfinitive(found.root, lexicon)) {
+      return found
+    }
+    // a separable verb, joined in a subordinate clause - 'weil ich dich [anrufe]'
+    for (let k = 0; k < prefixes.length; k += 1) {
+      const prefix = prefixes[k];
+      if (str.startsWith(prefix) && str.length > prefix.length + 2) {
+        const rest = findRoot(str.slice(prefix.length), methods, lexicon);
+        if (rest && isInfinitive(rest.root, lexicon)) {
+          return { root: prefix + rest.root, hits: rest.hits }
+        }
+      }
+    }
+    return found
+  };
+
+  // 'gegessen' is never a conjugated verb, but 'verstanden' may be - 'wir verstanden'
+  const isOnlyParticiple = function (term, methods) {
+    const root = fromParticiple(term, methods);
+    return root !== null && findHits(term.normal, root, methods).length === 0
+  };
+
+  const hasVerb = (terms, start, end) => {
+    for (let i = start; i < end; i += 1) {
+      if (terms[i].tags.has('Verb')) {
+        return true
+      }
+    }
+    return false
+  };
+
+  // the first conjugated verb in this span
+  const findFinite = function (terms, start, end, methods, lexicon) {
+    for (let i = start; i < end; i += 1) {
+      if (!isOnlyParticiple(terms[i], methods)) {
+        const parsed = parseFinite(terms[i], terms[i - 1], methods, lexicon);
+        if (parsed) {
+          return { index: i, parsed }
+        }
+      }
+    }
+    return null
+  };
+
+  // 'weinen und singen' - nothing here but infinitives
+  const allInfinitives = function (terms, start, end, lexicon) {
+    const verbs = terms.slice(start, end).filter((t) => t.tags.has('Verb'));
+    return verbs.length > 0 && verbs.every((t) => isInfinitive(t.normal, lexicon))
+  };
+
+  // these verbs take an infinitive, at the end of the clause
+  const takesInfinitive = new Set(['werden', 'können', 'müssen', 'wollen', 'sollen', 'dürfen', 'mögen']);
+
+  // is there a clause on both sides of this conjunction?
+  const isTwoClauses = function (terms, span, methods, lexicon) {
+    const [start, i, end] = span;
+    const left = findFinite(terms, start, i, methods, lexicon);
+    const right = findFinite(terms, i + 1, end, methods, lexicon);
+    if (!left || !right) {
+      return false
+    }
+    // 'ich werde Brot und Käse [essen]' is one clause, and 'ich werde lesen und [schreiben können]'
+    if (takesInfinitive.has(left.parsed.root) && terms.slice(right.index, end).every((t) => isInfinitive(t.normal, lexicon))) {
+      return false
+    }
+    // .. and so is 'weil ich [essen] und [trinken] werde'
+    const last = parseFinite(terms[end - 1], terms[end - 2], methods, lexicon);
+    if (last && takesInfinitive.has(last.root) && left.index === i - 1 && right.index === end - 2) {
+      if (isInfinitive(terms[left.index].normal, lexicon) && isInfinitive(terms[right.index].normal, lexicon)) {
+        return false
+      }
+    }
+    // .. and 'weil er lachen, weinen und singen wird'
+    const head = terms[start].normal;
+    if (last && takesInfinitive.has(last.root) && (subordinators.has(head) || relatives.has(head))) {
+      if (allInfinitives(terms, start, end - 1, lexicon)) {
+        return false
+      }
+    }
+    return true
+  };
+
+  // does this part carry on a list of infinitives, that all share one 'werden'?
+  const isInfinitiveList = function (terms, last, part, methods, lexicon) {
+    const [start, end] = part;
+    const head = terms[start].normal;
+    if (subordinators.has(head) || relatives.has(head) || subjects.hasOwnProperty(head)) {
+      return false
+    }
+    // 'er wird lachen, [weinen und singen]'
+    const found = findFinite(terms, last[0], last[1], methods, lexicon);
+    if (found && takesInfinitive.has(found.parsed.root) && found.index < last[1] - 1) {
+      return allInfinitives(terms, found.index + 1, last[1], lexicon) && allInfinitives(terms, start, end, lexicon)
+    }
+    // 'weil er lachen, [weinen und singen wird]'
+    if (subordinators.has(terms[last[0]].normal) && end - start > 1 && isInfinitive(terms[last[1] - 1].normal, lexicon)) {
+      const final = parseFinite(terms[end - 1], terms[end - 2], methods, lexicon);
+      return Boolean(final) && takesInfinitive.has(final.root) && allInfinitives(terms, start, end - 1, lexicon)
+    }
+    return false
+  };
+
+  // split the sentence into clauses - each has (up to) one finite verb
+  const getClauses = function (terms, methods, lexicon) {
+    // first, split on punctuation
+    let parts = [];
+    let start = 0;
+    terms.forEach((term, i) => {
+      if (/[,;:–—]/.test(term.post) || i === terms.length - 1) {
+        parts.push([start, i + 1]);
+        start = i + 1;
+      }
+    });
+    // a part without a verb is not a clause - 'Brot, Käse und Wein'
+    const merged = [];
+    parts.forEach((part) => {
+      const last = merged[merged.length - 1];
+      // .. nor is a part with only participles - 'er hat gelacht, geweint und gesungen'
+      const isList = last && !terms.slice(part[0], part[1]).some((t) => t.tags.has('Verb') && !isOnlyParticiple(t, methods));
+      // .. or only infinitives, after 'werden' - 'er wird lachen, weinen und singen'
+      const isInfList = last && isInfinitiveList(terms, last, part, methods, lexicon);
+      // .. but leave it, before a relative clause - 'der Mann, der hier wohnt, ..'
+      const head = terms[part[0]].normal;
+      const isStart = last && !hasVerb(terms, last[0], last[1]) && !subordinators.has(head) && !relatives.has(head);
+      if (isList || isInfList || isStart) {
+        last[1] = part[1];
+      } else {
+        merged.push(part);
+      }
+    });
+    // then split on a conjunction, when there is a verb on both sides - 'ich esse und er trinkt'
+    parts = [];
+    merged.forEach((part) => {
+      let from = part[0];
+      for (let i = part[0] + 1; i < part[1] - 1; i += 1) {
+        if (coordinators.has(terms[i].normal) && isTwoClauses(terms, [from, i, part[1]], methods, lexicon)) {
+          parts.push([from, i]);
+          from = i;
+        }
+      }
+      parts.push([from, part[1]]);
+    });
+    return parts
+  };
+
+  // find the finite verb of this clause
+  const parseClause = function (terms, part, methods, lexicon) {
+    const [start, end] = part;
+    // skip a leading conjunction - 'und [weil] ..'
+    let first = start;
+    if (coordinators.has(terms[first].normal) && first + 1 < end) {
+      first += 1;
+    }
+    const head = terms[first].normal;
+    const isSub = subordinators.has(head) || (start > 0 && relatives.has(head));
+    // in a subordinate clause, the finite verb is the last word
+    if (isSub && end - 1 > first) {
+      const parsed = parseFinite(terms[end - 1], terms[end - 2], methods, lexicon);
+      if (parsed) {
+        return { start, end, index: end - 1, isSub: true, parsed }
+      }
+    }
+    // otherwise, it is the first verb
+    for (let i = start; i < end; i += 1) {
+      // the Konjunktiv is not a tense - 'ich würde gehen'
+      if (terms[i].tags.has('Verb') && isSubjunctive(terms[i].normal, methods)) {
+        return null
+      }
+      if (isOnlyParticiple(terms[i], methods)) {
+        continue
+      }
+      const parsed = parseFinite(terms[i], terms[i - 1], methods, lexicon);
+      if (parsed) {
+        return { start, end, index: i, isSub: false, parsed }
+      }
+    }
+    return null
+  };
+
+  const isNoun = (term) => term.tags.has('Noun') && !term.tags.has('Pronoun');
+
+  // 'ging' is both first and third person - so look for the subject
+  const choosePerson = function (hits, terms, clause, lastPerson) {
+    const found = hits.map((o) => o.person).filter((p, k, arr) => arr.indexOf(p) === k);
+    if (found.length === 1) {
+      return found[0]
+    }
+    const { start, end, index } = clause;
+    // nearest-first, looking backward and then forward
+    const order = [];
+    for (let i = index - 1; i >= start; i -= 1) {
+      order.push(terms[i]);
+    }
+    for (let i = index + 1; i < end; i += 1) {
+      order.push(terms[i]);
+    }
+    // a subject-pronoun - 'heute gehe [ich]'
+    for (let i = 0; i < order.length; i += 1) {
+      const list = subjects[order[i].normal] || [];
+      const person = list.find((p) => found.includes(p));
+      if (person) {
+        return person
+      }
+    }
+    // any other subject is in the third person - 'der Hund schläft'
+    const third = ['third', 'thirdPlural'].find((p) => found.includes(p));
+    if (third && terms.slice(start, index).some(isNoun)) {
+      return third
+    }
+    // the subject of the last clause - 'er kam, sah und [siegte]'
+    if (lastPerson && found.includes(lastPerson)) {
+      return lastPerson
+    }
+    return third || found[0]
+  };
+
+  // 'anrufen' -> ['an', 'rufen']
+  const splitPrefix = function (root, participle, lexicon) {
+    for (let i = 0; i < prefixes.length; i += 1) {
+      const prefix = prefixes[i];
+      if (!root.startsWith(prefix) || root.length < prefix.length + 3) {
+        continue
+      }
+      const rest = root.slice(prefix.length);
+      // 'an-ge-rufen' can only be a separable verb
+      if (participle && participle.startsWith(prefix + 'ge') && !rest.startsWith('ge')) {
+        return [prefix, rest]
+      }
+      // 'um' is often inseparable - 'umarmen', 'umgeben'
+      if (prefix !== 'um' && isInfinitive(rest, lexicon)) {
+        return [prefix, rest]
+      }
+    }
+    return ['', root]
+  };
+
+  const usesSein = function (root, lexicon) {
+    return seinVerbs.has(root) || seinBases.has(splitPrefix(root, null, lexicon)[1])
+  };
+
+  // 'Gehe' -> 'Ging'
+  const matchCase$1 = function (str, term) {
+    const orig = term.text || '';
+    if (orig.length > 1 && orig === orig.toUpperCase() && orig !== orig.toLowerCase()) {
+      return str.toUpperCase()
+    }
+    if (orig && orig[0] !== orig[0].toLowerCase()) {
+      return str[0].toUpperCase() + str.slice(1)
+    }
+    return str
+  };
+
+  // the verbs that share one auxiliary - 'ich habe gegessen und getrunken'
+  // returns null if the clause is not one that we can re-arrange
+  const getShared = function (terms, clause, other, toRoot) {
+    const { start, index, isSub } = clause;
+    const verbs = [];
+    // they are all before the auxiliary, in a subordinate clause - 'weil ich gegessen und getrunken habe'
+    for (let i = isSub ? start : index + 1; i < other; i += 1) {
+      const term = terms[i];
+      if (!term.tags.has('Verb')) {
+        continue
+      }
+      const root = toRoot(term);
+      const next = terms[i + 1];
+      // each one ends its own part - 'gegessen, getrunken und gelacht'
+      const isJoined = /,/.test(term.post) || coordinators.has(next.normal);
+      if (!root || !isJoined) {
+        return null
+      }
+      verbs.push({ at: i, root, str: term.normal });
+    }
+    verbs.push({ at: other, root: toRoot(terms[other]), str: terms[other].normal });
+    // where each part begins - 'und [Wasser] getrunken'
+    verbs.forEach((o, k) => {
+      if (k > 0) {
+        const from = verbs[k - 1].at + 1;
+        o.start = coordinators.has(terms[from].normal) ? from + 1 : from;
+      }
+    });
+    return verbs
+  };
+
+  // what sort of verb-phrase is this clause?
+  const getShape = function (terms, clause, methods, lexicon) {
+    const { start, end, index, isSub, parsed } = clause;
+    const root = parsed.root;
+    const isPresent = parsed.hits.some((o) => o.tense === 'present');
+    // where the rest of the verb is found
+    const other = isSub ? index - 1 : end - 1;
+    const res = { kind: 'simple', root, other: null, particle: '' };
+    if (other < start || other === index) {
+      return res
+    }
+    const term = terms[other];
+    const str = term.normal;
+    // 'ich habe einen Apfel gegessen', 'ich bin nach Hause gegangen'
+    if (root === 'haben' || root === 'sein') {
+      const toRoot = (t) => {
+        const inf = fromParticiple(t, methods);
+        return inf && (root === 'haben' || usesSein(inf, lexicon)) ? inf : null
+      };
+      if (toRoot(term)) {
+        const verbs = getShared(terms, clause, other, toRoot);
+        if (!verbs) {
+          return null
+        }
+        // the one whose place the new verb takes
+        const first = isSub ? verbs.pop() : verbs.shift();
+        return { kind: 'perfect', root: first.root, other: first.at, participle: first.str, extras: verbs }
+      }
+    }
+    // 'ich werde nach Hause gehen'
+    if (root === 'werden' && isPresent && term.tags.has('Verb') && !isOnlyParticiple(term, methods)) {
+      const toRoot = (t) => {
+        const isInf = isInfinitive(t.normal, lexicon) || (t.tags.has('Infinitive') && /n$/.test(t.normal));
+        return isInf && !isOnlyParticiple(t, methods) ? t.normal : null
+      };
+      if (toRoot(term)) {
+        // a modal has all of the others - 'ich werde lesen und schreiben können'
+        if (takesInfinitive.has(str)) {
+          return { kind: 'future', root: str, other, participle: null, extras: [] }
+        }
+        const verbs = getShared(terms, clause, other, toRoot);
+        if (!verbs) {
+          return null
+        }
+        const first = isSub ? verbs.pop() : verbs.shift();
+        return { kind: 'future', root: first.root, other: first.at, participle: null, extras: verbs }
+      }
+    }
+    // 'ich rufe dich an'
+    if (!isSub && isPrefix.has(str) && !isNoun(term) && (term.tags.has('Particle') || isInfinitive(str + root, lexicon))) {
+      res.other = other;
+      res.particle = str;
+    }
+    return res
+  };
+
+  // a clause that begins with its verb takes the subject of the one before it - 'er lacht und [singt] ein Lied'
+  const hasNoSubject = function (terms, clause) {
+    const { start, end, index, isSub } = clause;
+    if (isSub || start === 0) {
+      return false
+    }
+    const first = ['und', 'oder'].includes(terms[start].normal) ? start + 1 : start;
+    if (index !== first) {
+      return false
+    }
+    // 'und dann lacht [er]'
+    return !terms.slice(start, end).some((t) => ['ich', 'du', 'er', 'wir', 'ihr', 'man'].includes(t.normal))
+  };
+
+  // the last clause has a 'werden' already, so this one only needs its infinitive
+  // 'er wird lachen und [singt ein Lied]' -> 'er wird lachen und [ein Lied singen]'
+  const shareFuture = function (view, n, clause, shape) {
+    const { end, index } = clause;
+    const at = (i) => view.update([[n, i, i + 1]]);
+    const str = shape.particle + shape.root;
+    let where = index;
+    if (index === end - 1) {
+      at(index).replaceWith(str);
+    } else {
+      if (shape.particle) {
+        // 'und ruft mich an' -> 'und mich anrufen'
+        at(shape.other).replaceWith(str);
+      } else {
+        at(end - 1).insertAfter(str);
+      }
+      at(index).remove();
+      where = shape.particle ? shape.other - 1 : end - 1;
+    }
+    at(where).tag(['Verb', 'Infinitive'], 'to-future');
+    return [view.document[n][where]]
+  };
+
+  // a verb-final part, after a subordinate clause, is more of the same clause - 'weil er lacht und [ein Lied singt]'
+  const isContinued = function (terms, clause) {
+    const { start, end, index, isSub } = clause;
+    if (isSub || start === 0 || index !== end - 1) {
+      return false
+    }
+    return !terms.slice(start, end).some((t) => subjects.hasOwnProperty(t.normal) && t.normal !== 'sie' && t.normal !== 'es')
+  };
+
+  // 'werden' goes to the very end of a subordinate clause
+  // 'weil er lachen wird und [singt]' -> 'weil er lachen und [singen wird]'
+  const moveWerden = function (view, n, clause, werden, root) {
+    const at = (i) => view.update([[n, i, i + 1]]);
+    at(clause.index).replaceWith(root + ' ' + werden.normal);
+    at(clause.index).tag(['Verb', 'Infinitive'], 'to-future');
+    at(clause.index + 1).tag(['Verb', 'Auxiliary'].concat(Object.values(personTags).filter((tag) => werden.tags.has(tag))), 'to-future');
+    const found = view.document[n][clause.index + 1];
+    // drop the old one, but keep its punctuation
+    const i = view.document[n].indexOf(werden);
+    if (i > 0) {
+      const post = werden.post;
+      at(i).remove();
+      view.document[n][i - 1].post = post;
+    }
+    return found
+  };
+
+  // change one clause, and return its new finite verbs
+  const convertClause = function (view, n, clause, want, state) {
+    const { methods, lexicon } = state;
+    const terms = view.document[n];
+    const { end, index, isSub, parsed } = clause;
+    const shape = getShape(terms, clause, methods, lexicon);
+    if (!shape) {
+      return null
+    }
+    const term = terms[index];
+    const tenses = parsed.hits.map((o) => o.tense);
+    const person = choosePerson(parsed.hits, terms, clause, state.lastPerson);
+    // is it one more verb for the 'werden' of the last clause? - 'er wird lachen und [singt]'
+    const isShared = want === 'future' && state.lastFuture && state.lastPerson === person && hasNoSubject(terms, clause);
+    // a later clause may share this subject - 'er kam, sah und siegte'
+    state.lastPerson = isSub ? null : person;
+    state.lastFuture = false;
+    if (isShared && shape.kind === 'simple') {
+      state.lastFuture = true;
+      return shareFuture(view, n, clause, shape)
+    }
+    // .. or of a subordinate clause? - 'weil er lachen wird und [singt]'
+    const last = state.subWerden;
+    state.subWerden = null;
+    if (want === 'future' && last && last.person === person && shape.kind === 'simple' && isContinued(terms, clause)) {
+      const found = moveWerden(view, n, clause, last.term, shape.root);
+      state.subWerden = { term: found, person };
+      return [found]
+    }
+    const werden = methods.toPresent('werden')[person];
+    const at = (i, len) => view.update([[n, i, i + (1)]]);
+    // each edit, as [index, 'replace' | 'remove' | 'after' | 'before', text]
+    let edits = [];
+    let tags = null;
+    if (want === 'future') {
+      tags = ['Verb', 'Auxiliary', personTags[person]];
+      state.lastFuture = !isSub;
+      if (shape.kind === 'future') {
+        return null
+      }
+      if (shape.kind === 'perfect') {
+        // 'ich habe gegessen' -> 'ich werde essen'
+        edits = [[index, 'replace', werden], [shape.other, 'replace', shape.root]];
+        // 'ich habe gegessen und getrunken' -> 'ich werde essen und trinken'
+        shape.extras.forEach((o) => edits.push([o.at, 'replace', o.root]));
+      } else if (isSub) {
+        // 'weil ich gehe' -> 'weil ich gehen werde'
+        edits = [[index, 'replace', shape.root + ' ' + werden]];
+      } else if (shape.particle) {
+        // 'ich rufe dich an' -> 'ich werde dich anrufen'
+        edits = [[index, 'replace', werden], [shape.other, 'replace', shape.particle + shape.root]];
+      } else if (index === end - 1) {
+        // 'ich schlafe' -> 'ich werde schlafen'
+        edits = [[index, 'replace', werden + ' ' + shape.root]];
+      } else {
+        // 'ich gehe nach Hause' -> 'ich werde nach Hause gehen'
+        edits = [[index, 'replace', werden], [end - 1, 'after', shape.root]];
+      }
+    } else if (shape.kind === 'simple') {
+      // 'ich gehe' <-> 'ich ging'
+      if (tenses.includes(want)) {
+        return null
+      }
+      edits = [[index, 'replace', getForms(shape.root, methods)[want][person]]];
+      tags = ['Verb', tenseTags[want], personTags[person]];
+    } else {
+      // the Perfekt is already in the past - 'ich habe gegessen'
+      if (shape.kind === 'perfect' && want === 'past') {
+        return null
+      }
+      // collapse it to one verb - 'ich habe gegessen' -> 'ich esse', 'ich werde gehen' -> 'ich ging'
+      const [prefix, base] = splitPrefix(shape.root, shape.participle, lexicon);
+      const str = getForms(base, methods)[want][person];
+      tags = ['Verb', tenseTags[want], personTags[person]];
+      if (isSub) {
+        // 'weil er mich angerufen hat' -> 'weil er mich anruft'
+        edits = [[index, 'replace', prefix + str], [shape.other, 'remove']];
+      } else if (prefix) {
+        // 'er hat mich angerufen' -> 'er ruft mich an'
+        edits = [[index, 'replace', str], [shape.other, 'replace', prefix]];
+      } else {
+        edits = [[index, 'replace', str], [shape.other, 'remove']];
+      }
+      // each of the other verbs leads its own part - 'ich esse Brot und [trinke] Wasser'
+      shape.extras.forEach((o) => {
+        const [pre, inf] = splitPrefix(o.root, shape.kind === 'perfect' ? o.str : null, lexicon);
+        const form = getForms(inf, methods)[want][person];
+        if (isSub) {
+          // 'weil ich gegessen und getrunken habe' -> 'weil ich esse und trinke'
+          edits.push([o.at, 'replace', pre + form, true]);
+        } else if (o.start === o.at) {
+          edits.push([o.at, 'replace', pre ? form + ' ' + pre : form, true]);
+        } else {
+          edits.push([o.at, pre ? 'replace' : 'remove', pre]);
+          edits.push([o.start, 'before', form]);
+        }
+      });
+    }
+    if (edits.some((e) => e[1] !== 'remove' && !e[2])) {
+      return null
+    }
+    // go right-to-left, so that each index stays true
+    edits = edits.sort((a, b) => b[0] - a[0] || (a[1] === 'before' ? 1 : -1));
+    let where = index;
+    // any other finite verbs that we make
+    const made = [];
+    edits.forEach((edit) => {
+      const [i, action, str] = edit;
+      if (action === 'remove') {
+        // keep any punctuation after it - 'ich habe gegessen, und ..'
+        const post = view.document[n][i].post;
+        at(i).remove();
+        if (i > 0) {
+          view.document[n][i - 1].post = post;
+        }
+        where -= i < index ? 1 : 0;
+      } else if (action === 'after') {
+        at(i).insertAfter(str);
+        at(i + 1).tag(['Verb', 'Infinitive'], 'to-' + want);
+      } else if (action === 'before') {
+        at(i).insertBefore(str);
+        at(i).tag(tags, 'to-' + want);
+        made.push(view.document[n][i]);
+      } else if (i === index) {
+        at(i).replaceWith(matchCase$1(str, term));
+      } else {
+        at(i).replaceWith(str);
+        // a second finite verb - 'und [trinke]'
+        if (edit[3]) {
+          at(i).tag(tags, 'to-' + want);
+          made.push(view.document[n][i]);
+        }
+      }
+    });
+    // 'gehen [werde]'
+    if (want === 'future' && isSub && shape.kind !== 'perfect') {
+      where += 1;
+    }
+    at(where).tag(tags, 'to-' + want);
+    // more verbs may follow it - 'weil er lachen [wird], weint und singt'
+    if (want === 'future' && isSub && shape.kind === 'simple') {
+      state.subWerden = { term: view.document[n][where], person };
+    }
+    return [view.document[n][where]].concat(made.reverse())
+  };
+
+  const convertTo = function (view, want) {
+    const state = {
+      methods: view.methods.two.transform.verb,
+      lexicon: view.model.one.lexicon,
+      lastPerson: null,
+      // did the last clause get a 'werden'?
+      lastFuture: false,
+      // the 'werden' at the end of the last subordinate clause
+      subWerden: null,
+      // every word of the clauses we have looked at
+      seen: new Set(),
+    };
+    // pointers go stale as we add + remove words, so hold onto the terms themselves
+    const phrases = [];
+    view.forEach((vb) => {
+      const ptr = vb.fullPointer[0];
+      if (ptr) {
+        phrases.push({ n: ptr[0], terms: (vb.docs[0] || []).slice() });
+      }
+    });
+    let sentence = null;
+    phrases.forEach((phrase) => {
+      const { n } = phrase;
+      if (n !== sentence) {
+        state.lastPerson = null;
+        state.lastFuture = false;
+        state.subWerden = null;
+        sentence = n;
+      }
+      phrase.terms.slice().forEach((term) => {
+        const terms = view.document[n];
+        const i = terms.indexOf(term);
+        // was it removed already?
+        if (i === -1) {
+          return
+        }
+        const part = getClauses(terms, state.methods, state.lexicon).find((p) => p[0] <= i && i < p[1]);
+        const clause = part ? parseClause(terms, part, state.methods, state.lexicon) : null;
+        // only change a clause when its finite verb was selected
+        if (!clause || terms[clause.index] !== term || state.seen.has(term)) {
+          return
+        }
+        // .. and only once - a new infinitive can look like a second clause
+        terms.slice(part[0], part[1]).forEach((t) => state.seen.add(t));
+        const res = convertClause(view, n, clause, want, state);
+        if (res) {
+          phrase.terms.splice(phrase.terms.indexOf(term), 1, ...res);
+        }
+      });
+    });
+    // return what is left of each verb-phrase
+    const ptrs = [];
+    phrases.forEach((phrase) => {
+      const terms = view.document[phrase.n];
+      const found = phrase.terms.map((term) => terms.indexOf(term)).filter((i) => i !== -1);
+      // one match for each run of words - 'ich [esse] Brot und [trinke] Wasser'
+      found.sort((x, y) => x - y).forEach((i, k) => {
+        if (k > 0 && found[k - 1] === i - 1) {
+          ptrs[ptrs.length - 1][2] = i + 1;
+        } else {
+          ptrs.push([phrase.n, i, i + 1]);
+        }
+      });
+    });
+    return view.update(ptrs)
   };
 
   const getNth$2 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
@@ -12661,6 +13680,24 @@ designate
             presentParticiple: toPresentParticiple(str)
           }
         }, [])
+      }
+      /** 'ich gehe' -> 'ich ging' (Präteritum) */
+      toPastTense(n) {
+        return convertTo(getNth$2(this, n), 'past')
+      }
+      /** 'ich ging' -> 'ich gehe' */
+      toPresentTense(n) {
+        return convertTo(getNth$2(this, n), 'present')
+      }
+      /** 'ich gehe' -> 'ich werde gehen' */
+      toFutureTense(n) {
+        return convertTo(getNth$2(this, n), 'future')
+      }
+      // overloaded - keep Verb class
+      update(pointer) {
+        const m = new Verbs(this.document, pointer);
+        m._cache = this._cache;
+        return m
       }
     }
 

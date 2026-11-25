@@ -148,6 +148,10 @@ test('joined separable verbs:', function (t) {
     ['bevor er losfährt', 'er (#Verb && #PresentTense)', '{losfahren}'],
     ['dass er früh aufsteht', 'früh #Verb', '{aufstehen}'],
     ['als er ankam', 'er #PastTense', '{ankommen}'],
+    // the infinitive, too
+    ['ob sie mitkommen', 'sie #Infinitive', '{mitkommen}'],
+    ['sie werden mitkommen', '#Auxiliary #Infinitive', '{mitkommen}'],
+    ['wir wollen mitmachen', '#Verb #Infinitive', '{mitmachen}'],
   ]
   arr.forEach(function (a) {
     const [str, match, root] = a

@@ -300,7 +300,7 @@ test('many clauses:', function (t) {
     ['ich aß Brot und trank Wasser', 'ich esse Brot und trinke Wasser'],
   ], 'toPresentTense')
   run(t, [
-    ['ich esse Brot und trinke Wasser', 'ich werde Brot essen und werde Wasser trinken'],
+    ['ich esse Brot und trinke Wasser', 'ich werde Brot essen und Wasser trinken'],
     ['ich sehe ihn und er sieht mich', 'ich werde ihn sehen und er wird mich sehen'],
     ['er hat Hunger und sie hat Durst', 'er wird Hunger haben und sie wird Durst haben'],
     ['Ich gehe nach Hause. Er kommt, und sie bleibt.', 'Ich werde nach Hause gehen. Er wird kommen, und sie wird bleiben.'],
@@ -611,5 +611,81 @@ test('joined separable verbs:', function (t) {
     ['ob er mitkam', 'ob er mitkommt'],
     ['weil ich dich anrufen werde', 'weil ich dich anrufe'],
   ], 'toPresentTense')
+  t.end()
+})
+
+test('a list of verbs shares one werden:', function (t) {
+  // in the main clause, each verb goes to the end of its own part
+  run(t, [
+    ['er lacht, weint und singt', 'er wird lachen, weinen und singen'],
+    ['Er lachte, weinte und sang.', 'Er wird lachen, weinen und singen.'],
+    ['er kam, sah und siegte', 'er wird kommen, sehen und siegen'],
+    ['wir singen und tanzen', 'wir werden singen und tanzen'],
+    ['ich kaufe Brot, hole Wasser und koche Suppe.', 'ich werde Brot kaufen, Wasser holen und Suppe kochen.'],
+    ['er kommt und ruft mich an', 'er wird kommen und mich anrufen'],
+    ['er wird lachen und singt', 'er wird lachen und singen'],
+    ['Ich gehe nach Hause und schlafe. Er bleibt hier und arbeitet.', 'Ich werde nach Hause gehen und schlafen. Er wird hier bleiben und arbeiten.'],
+    // a new subject needs its own
+    ['ich esse und er trinkt', 'ich werde essen und er wird trinken'],
+    ['ich esse und dann schlafe ich', 'ich werde essen und dann werde ich schlafen'],
+    ['er lacht, und sie weint', 'er wird lachen, und sie wird weinen'],
+    ['sie isst einen Apfel oder trinkt Saft, aber er schläft', 'sie wird einen Apfel essen oder Saft trinken, aber er wird schlafen'],
+    // in a subordinate clause, it goes to the very end
+    ['weil er lacht, weint und singt', 'weil er lachen, weinen und singen wird'],
+    ['weil ich Brot esse und Wasser trinke', 'weil ich Brot essen und Wasser trinken werde'],
+    ['Ich weiß, dass er kommt und bleibt.', 'Ich werde wissen, dass er kommen und bleiben wird.'],
+    ['weil er aß und trank', 'weil er essen und trinken wird'],
+    // .. but the main clause after it is its own
+    ['wenn er kommt, gehe ich', 'wenn er kommen wird, werde ich gehen'],
+    ['wenn er kommt, geht Maria', 'wenn er kommen wird, wird Maria gehen'],
+    ['weil er lacht, weint sie', 'weil er lachen wird, wird sie weinen'],
+    ['obwohl sie arbeitet und lernt, schläft sie gut', 'obwohl sie arbeiten und lernen wird, wird sie gut schlafen'],
+  ], 'toFutureTense')
+  // .. and back again
+  run(t, [
+    ['er wird lachen, weinen und singen', 'er lacht, weint und singt'],
+    ['Er wird lachen, weinen und singen.', 'Er lacht, weint und singt.'],
+    ['ich werde Brot kaufen, Wasser holen und Suppe kochen', 'ich kaufe Brot, hole Wasser und koche Suppe'],
+    ['er wird kommen und mich anrufen', 'er kommt und ruft mich an'],
+    ['weil er lachen, weinen und singen wird', 'weil er lacht, weint und singt'],
+    ['weil ich Brot essen und Wasser trinken werde', 'weil ich Brot esse und Wasser trinke'],
+    ['er wird lachen, sie wird weinen', 'er lacht, sie weint'],
+    // these are not infinitives
+    ['wir lachen, weinen und singen', 'wir lachen, weinen und singen'],
+  ], 'toPresentTense')
+  run(t, [
+    ['er wird lachen, weinen und singen', 'er lachte, weinte und sang'],
+    ['ich werde Brot kaufen, Wasser holen und Suppe kochen', 'ich kaufte Brot, holte Wasser und kochte Suppe'],
+    ['weil er lachen, weinen und singen wird', 'weil er lachte, weinte und sang'],
+    ['wir lachen, weinen und singen', 'wir lachten, weinten und sangen'],
+    ['weil wir lachen, weinen sie', 'weil wir lachten, weinten sie'],
+  ], 'toPastTense')
+  // the new verbs are returned
+  const doc = nlp('er lacht, weint und singt')
+  const res = doc.verbs().toFutureTense()
+  t.deepEqual(res.out('array'), ['wird', 'weinen', 'singen'], here + 'returns each new verb')
+  t.end()
+})
+
+test('joined separable infinitives:', function (t) {
+  run(t, [
+    ['sie werden mitkommen', 'sie kommen mit'],
+    ['ich werde dich anrufen', 'ich rufe dich an'],
+    ['ob sie mitkommen werden', 'ob sie mitkommen'],
+    ['wir müssen einkaufen', 'wir müssen einkaufen'],
+  ], 'toPresentTense')
+  run(t, [
+    ['sie werden mitkommen', 'sie kamen mit'],
+    ['ob sie mitkommen', 'ob sie mitkamen'],
+    ['ich weiß nicht, ob sie mitkommen', 'ich wusste nicht, ob sie mitkamen'],
+    ['wir wollen mitkommen', 'wir wollten mitkommen'],
+    ['er will nicht mitmachen', 'er wollte nicht mitmachen'],
+  ], 'toPastTense')
+  run(t, [
+    ['sie werden mitkommen', 'sie werden mitkommen'],
+    ['ob sie mitkommen', 'ob sie mitkommen werden'],
+    ['sie kommen mit', 'sie werden mitkommen'],
+    ['wir wollen mitkommen', 'wir werden mitkommen wollen'],
+  ], 'toFutureTense')
   t.end()
 })

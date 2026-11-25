@@ -1,95 +1,60 @@
-import { data } from '../data.js'
-const tens = data.tens.reverse()
-const teens = data.teens.reverse()
-const ones = data.ones.reverse()
-const hundreds = data.hundreds.reverse()
+import { data, bigNumbers } from '../data.js'
 
-
-const doThousands = function (num) {
-  const words = []
-  // hunderttausend
-  if (num >= 100000) {
-    for (let i = 0; i < ones.length; i += 1) {
-      if (num >= ones[i][0] * 100000) {
-        const found = ones[i][0] === 1 ? 'ein' : ones[i][1]
-        words.push(found)
-        words.push('hunderttausend')
-        num -= teens[i][0] * 100000
-      }
-    }
-  }
-  // eleven-thousand...
-  if (num >= 10000) {
-    for (let i = 0; i < teens.length; i += 1) {
-      if (num >= teens[i][0] * 1000) {
-        words.push(teens[i][1])
-        words.push('tausend')
-        num -= teens[i][0] * 1000
-      }
-    }
-  }
-  // dreitausend, viertausend...
-  for (let i = 0; i < ones.length; i += 1) {
-    if (num >= ones[i][0] * 1000) {
-      const found = ones[i][0] === 1 ? 'ein' : ones[i][1]
-      return [found, 'tausend']
-    }
-  }
-  return words
-}
-
-const doHundreds = function (num) {
-  const words = []
-  for (let i = 0; i < hundreds.length; i += 1) {
-    if (num >= hundreds[i][0]) {
-      words.push(hundreds[i][1])
-      num -= hundreds[i][0]
-      break
-    }
-  }
-  return words
-}
+// 7 → 'sieben', 30 → 'dreißig'
+const byNum = {}
+data.ones.concat(data.teens, data.tens).forEach(a => {
+  byNum[a[0]] = a[1]
+})
+// largest first
+const bigFirst = bigNumbers.slice().reverse()
 
 // 23 -> '[drei][und][zwanzig]'
-const twoDigit = function (num) {
-  const words = []
-  // ninety, eighty ...
-  for (let i = 0; i < tens.length; i += 1) {
-    if (num >= tens[i][0]) {
-      words.push(tens[i][1])
-      num -= tens[i][0]
-    }
+// 'eins' is only said at the very end - 'einhunderteins', but 'eintausend'
+const twoDigit = function (num, isLast) {
+  if (num === 0) {
+    return []
   }
-  // found nothing? look for teens
-  if (words.length === 0) {
-    for (let i = 0; i < teens.length; i += 1) {
-      if (num === teens[i][0]) {
-        return [teens[i][1]] //these don't combine
-      }
-    }
+  if (num === 1) {
+    return [isLast ? 'eins' : 'ein']
   }
-  // look for ones to add on
-  for (let i = 0; i < ones.length; i += 1) {
-    if (num === ones[i][0]) {
-      // drei und zwanzig
-      if (words.length === 1) {
-        // use '[ein][und][zwanzig]', not 'eins..'
-        const found = ones[i][0] === 1 ? 'ein' : ones[i][1]
-        return [found, 'und', words[0]]
-      }
-      // just 'drei'
-      if (words.length === 0) {
-        return [ones[i][1]]
-      }
-    }
+  // these don't combine
+  if (num < 20) {
+    return [byNum[num]]
   }
-  return words
+  const one = num % 10
+  const ten = byNum[num - one]
+  if (one === 0) {
+    return [ten]
+  }
+  // use '[ein][und][zwanzig]', not 'eins..'
+  return [one === 1 ? 'ein' : byNum[one], 'und', ten]
 }
 
+// 230 -> '[zweihundert][dreißig]'
+const threeDigit = function (num, isLast) {
+  const words = []
+  const hundred = Math.floor(num / 100)
+  if (hundred > 0) {
+    words.push((hundred === 1 ? 'ein' : byNum[hundred]) + 'hundert')
+  }
+  return words.concat(twoDigit(num % 100, isLast))
+}
 
-// turn 130 into '[ein][hundert][dreißig]'
-const toText = function (num) {
+// everything under a million is one word - '[einhundert][drei][und][zwanzig][tausend][vierhundert]..'
+const sixDigit = function (num, isLast) {
   let words = []
+  const thousand = Math.floor(num / 1000)
+  if (thousand > 0) {
+    words = threeDigit(thousand, false)
+    words.push('tausend')
+  }
+  return words.concat(threeDigit(num % 1000, isLast))
+}
+
+// turn 130 into '[einhundert][dreißig]'
+// and 2300000 into '[zwei][Millionen][dreihundert][tausend]'
+const toText = function (num) {
+  const words = []
   if (num === 0) {
     return ['null']
   }
@@ -97,22 +62,28 @@ const toText = function (num) {
     words.push('minus')
     num = Math.abs(num)
   }
-  // do '[sieben][tausend]'
-  if (num >= 1000) {
-    const res = doThousands(num)
-    words = words.concat(res)
-    num %= 1000
+  // no decimals
+  num = Math.floor(num)
+  // too big to count
+  if (!Number.isSafeInteger(num)) {
+    return []
   }
-  // do '[zwei][hundert]'
-  if (num >= 100) {
-    const res = doHundreds(num)
-    words = words.concat(res)
-    num %= 100
-  }
-  // do '[drei][und][zwanzig]'
-  if (num > 0) {
-    words = words.concat(twoDigit(num))
-  }
-  return words
+  // do '[zwei][Millionen]'
+  bigFirst.forEach(a => {
+    const [scale, singular, plural] = a
+    const n = Math.floor(num / scale)
+    if (n === 0) {
+      return
+    }
+    // 'eine Million', 'zwei Millionen'
+    if (n === 1) {
+      words.push('eine', singular)
+    } else {
+      words.push(...sixDigit(n, true), plural)
+    }
+    num %= scale
+  })
+  // do '[sieben][tausend][zweihundert][drei][und][zwanzig]'
+  return words.concat(sixDigit(num, true))
 }
 export default toText

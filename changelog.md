@@ -12,6 +12,9 @@
 - **[fix]** - negative numbers with the sign outside the term - '-1.234', '-12,5', '(-5)' - keep it through `.add()` and `.toText()`
 - **[fix]** - thousands grouping '1.234' is kept by `.add()`, `.subtract()`, `.toOrdinal()`, `.toCardinal()` and restored after `.toText()` → `.toNumber()`
 - **[fix]** - 'null' is the number 0 - `.get()`, `.set('null')`, 'nullte'
+- **[fix]** - large numbers - `.numbers().toText()` is right from 20.000 up to the Billionen - 'zwanzigtausend', 'zwei Millionen dreihunderttausend', 'eine Milliarde' - and they parse back as one number
+- **[fix]** - 'Million', 'Milliarde', 'Billion' are numbers, not nouns - 'eine Million Menschen', '2,5 Millionen Euro'
+- **[fix]** - compound ordinals are read in full - 'einhundertzweite' is 102
 - **[change]** - minimum node version is 18
 - **[update]** - tests moved to `tests/unit`, `tests/types`, `tests/_hmm` and `tests/_backlog`
 - **[update]** - suffix-thumb 6.1.0

@@ -51,4 +51,5 @@ const splitter = function (view) {
     })
   })
 }
+export { findSplits }
 export default { splitter }

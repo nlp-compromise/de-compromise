@@ -3,6 +3,8 @@ const separablePrefixes = '(ab|an|auf|aus|bei|ein|fest|fort|her|heraus|hervor|hi
 const postTagger = function (doc) {
   // eine as 1 or the
   doc.match('eine #Value').tag('TextValue', 'eine-value')
+  // 'mit einer Million Menschen'
+  doc.match('[einer] (million|milliarde|billion|billiarde)', 0).tag('TextValue', 'einer-million')
   // 6.30 Uhr
   doc.match('#Value uhr').tag('Time', 'time-Uhr')
   // a value before a currency is money - '12,5 Euro'

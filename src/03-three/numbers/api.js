@@ -1,5 +1,6 @@
 import parse from './parse/index.js'
 import format from './format/index.js'
+import { scales } from './data.js'
 
 // return the nth elem of a doc
 export const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc)
@@ -60,6 +61,49 @@ const replace = function (val, str, grouped) {
       Object.defineProperty(term, 'grouped', { value: true, enumerable: false, writable: true, configurable: true })
     })
   }
+}
+
+// 'millionen', 'milliarde'
+const isBig = term => scales.hasOwnProperty(term.normal)
+// 'zwei' in 'zwei Millionen' - a cardinal in words or digits, or 'eine'
+const canMultiply = term => !isBig(term) && !term.tags.has('Ordinal')
+// 'dreihunderttausend' in 'zwei Millionen dreihunderttausend'
+const isTextCardinal = term => !isBig(term) && term.tags.has('TextValue') && !term.tags.has('Ordinal')
+
+// most numbers are 1-term
+// but very-large numbers are several - 'zwei Millionen dreihunderttausend'
+const splitValues = function (m) {
+  const ptrs = []
+  m.fullPointer.forEach(ptr => {
+    const [n, start, end] = ptr
+    const terms = m.document[n]
+    let i = start
+    while (i < end) {
+      let j = i
+      let last = Infinity
+      // [zwei Milliarden] [drei Millionen]
+      while (j + 1 < end && canMultiply(terms[j]) && isBig(terms[j + 1]) && scales[terms[j + 1].normal] < last) {
+        // only the first multiplier may be digits - '5 Millionen'
+        if (j > i && !isTextCardinal(terms[j])) {
+          break
+        }
+        last = scales[terms[j + 1].normal]
+        j += 2
+      }
+      if (j > i) {
+        // ... [dreihunderttausend]
+        const isNext = j + 1 < end && isBig(terms[j + 1])
+        if (j < end && isTextCardinal(terms[j]) && !isNext) {
+          j += 1
+        }
+      } else {
+        j = i + 1
+      }
+      ptrs.push([n, i, j])
+      i = j
+    }
+  })
+  return m.update(ptrs)
 }
 
 // tag the number-words, but not the sign - 'minus fünf'
@@ -144,7 +188,8 @@ const api = function (View) {
     /** convert to numeric form like 'eight' or 'eighth' */
     toText() {
       const res = mutate(this, val => {
-        if (val.has('#TextValue')) {
+        // already in words - but not '5 Millionen'
+        if (val.has('#TextValue') && !val.has('#NumericValue')) {
           return val
         }
         const obj = parse(val)
@@ -315,12 +360,7 @@ const api = function (View) {
   Numbers.prototype.equals = Numbers.prototype.isEqual
 
   View.prototype.numbers = function (n) {
-    let m = this.match('#Value+')
-    // most numbers are 1-term
-    // but very-large numbers get broken up 'zwei Millionen eins'
-    if (!m.has('(million|millionen|milliarde)')) {
-      m = m.terms()
-    }
+    let m = splitValues(this.match('#Value+'))
     // a written-out sign belongs to its number - 'minus fünf Grad'
     // (but 'zehn minus fünf' is a subtraction)
     if (this.has('minus')) {

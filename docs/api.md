@@ -186,14 +186,14 @@ Sie werden für jede Sprache eigens geschrieben. Die hier verfügbaren sind desh
 
 ### `.numbers()`
 
-- **`.numbers()`** — gibt die Zahlen zurück, in Ziffern oder in Worten geschrieben; ein ausgeschriebenes Vorzeichen gehört zur Zahl (`minus fünf`)
+- **`.numbers()`** — gibt die Zahlen zurück, in Ziffern oder in Worten geschrieben; ein ausgeschriebenes Vorzeichen gehört zur Zahl (`minus fünf`); eine große Zahl aus mehreren Wörtern ist eine einzige Zahl (`zwei Millionen dreihunderttausend`, `5 Millionen`)
 - **`.values()`** — Alias für .numbers()
 - **`.numbers().get()`** — gibt den Zahlenwert jeder Zahl als Array zurück (`[]`, wenn es keine Zahlen gibt); `null` ist 0, `minus fünf` ist -5
 - **`.numbers().parse()`** — gibt die geparsten Angaben jeder Zahl als Array zurück
 - **`.numbers().json(n?)`** — gibt JSON mit den geparsten Zahlendaten zurück; eine Zahl n wählt nur den n-ten Treffer, ein Objekt oder String wird als Option weitergereicht
 - **`.numbers().units()`** — gibt die Einheit zurück, die auf jede Zahl folgt
 - **`.numbers().toNumber()`** — schreibt die Zahlen in Ziffern (`40`, `-5`)
-- **`.numbers().toText()`** — schreibt die Zahlen in Worten (`vierzig`, `minus fünf`)
+- **`.numbers().toText()`** — schreibt die Zahlen in Worten (`vierzig`, `minus fünf`, `zwei Millionen dreihunderttausend`); Nachkommastellen werden nicht ausgeschrieben
 - **`.numbers().toCardinal()`** — macht daraus eine Kardinalzahl (`vierzig`)
 - **`.numbers().toOrdinal()`** — macht daraus eine Ordinalzahl (`vierzigste`)
 - **`.numbers().isCardinal()`** — gibt nur die Kardinalzahlen zurück

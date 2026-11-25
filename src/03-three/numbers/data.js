@@ -51,6 +51,17 @@ const data = {
     [1000000, 'million', 'millionste'],
   ]
 }
+// these are their own, capitalised nouns - 'zwei Millionen dreihunderttausend'
+// [value, singular, plural, ordinal]
+const bigNumbers = [
+  [1e6, 'Million', 'Millionen', 'millionste'],
+  [1e9, 'Milliarde', 'Milliarden', 'milliardste'],
+  [1e12, 'Billion', 'Billionen', 'billionste'],
+  [1e15, 'Billiarde', 'Billiarden', 'billiardste'],
+]
+// 'millionen' → 1000000
+const scales = {}
+
 const toCardinal = {}
 const toOrdinal = {}
 const toNumber = {}
@@ -62,6 +73,13 @@ Object.keys(data).forEach(k => {
     toOrdinal[w] = ord
     toNumber[w] = num
   })
+})
+
+bigNumbers.forEach(a => {
+  const [num, sing, plur, ord] = a
+  scales[sing.toLowerCase()] = num
+  scales[plur.toLowerCase()] = num
+  toCardinal[ord] = sing.toLowerCase()
 })
 
 const isMultiple = new Set(data.multiples.map(a => a[1]))
@@ -77,4 +95,4 @@ toCardinal.hunderterste = 'hunderteins'
 toOrdinal.hunderteins = 'hunderterste'
 
 
-export { data, toCardinal, toOrdinal, toNumber, isMultiple }
+export { data, bigNumbers, scales, toCardinal, toOrdinal, toNumber, isMultiple }
